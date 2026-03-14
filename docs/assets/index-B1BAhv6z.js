@@ -49498,11 +49498,12 @@ const tabMeta = {
   }
 };
 const collapseWhitespace = (value) => value.replace(/\s+/g, " ").trim();
+const normalizeMarkdownStructure = (markdown) => markdown.replace(/\r/g, "").replace(/([^\n])\s+---\s+(#{1,4}\s+)/g, "$1\n\n$2").replace(/([^\n])\s+(#{1,4}\s+)/g, "$1\n\n$2").replace(/^(#{1,4})\s+\*\*([^*]+?)\*\*:?\s*$/gm, "$1 $2").replace(/^(#{1,4})\s+(.+?):\s*$/gm, "$1 $2").replace(/^\*\*([^*]+)\*\*:\s*$/gm, "### $1").replace(/^([A-Z][A-Za-z /()-]{2,}):\s*$/gm, "### $1").replace(/\n{3,}/g, "\n\n");
 const stripMarkdown$1 = (value) => collapseWhitespace(
   value.replace(/`([^`]+)`/g, "$1").replace(/\*\*([^*]+)\*\*/g, "$1").replace(/\*([^*]+)\*/g, "$1").replace(/\[([^\]]+)\]\(([^)]+)\)/g, "$1")
 );
 const debrandContent = (markdown) => markdown.replace(/Other Relevant Thrombosis Canada Clinical Guides/gi, "Related Clinical Guides").replace(/Relevant Thrombosis Canada Clinical Tool/gi, "Related Clinical Tool").replace(/Thrombosis Canada Clinical Guides/gi, "Clinical Guide Collection").replace(/Thrombosis Canada Clinical Guide/gi, "Clinical Guide").replace(/Thrombosis Canada website/gi, "clinical workspace").replace(/Thrombosis Canada Perioperative Management Clinical Guides/gi, "perioperative management clinical guides").replace(/Thrombosis Canada/gi, "").replace(/\s{2,}/g, " ");
-const sanitizeMarkdown = (markdown) => markdown.split("\n").filter((line) => {
+const sanitizeMarkdown = (markdown) => normalizeMarkdownStructure(markdown).split("\n").filter((line) => {
   const trimmed = line.trim();
   if (!trimmed) {
     return true;
@@ -49549,8 +49550,16 @@ const splitSections = (markdown) => {
   const sections = [];
   const lines = markdown.split("\n");
   let current2 = null;
+  let hasSeenPrimaryTitle = false;
   for (const line of lines) {
-    if (line.startsWith("## ")) {
+    const headingMatch = line.match(/^(#{1,4})\s+(.+)$/);
+    if (headingMatch) {
+      const level = headingMatch[1].length;
+      const headingTitle = headingMatch[2].trim();
+      if (level === 1 && !hasSeenPrimaryTitle) {
+        hasSeenPrimaryTitle = true;
+        continue;
+      }
       if (current2) {
         sections.push({
           ...current2,
@@ -49558,7 +49567,7 @@ const splitSections = (markdown) => {
         });
       }
       current2 = {
-        title: line.replace(/^##\s+/, "").trim(),
+        title: headingTitle,
         content: []
       };
       continue;
@@ -49629,14 +49638,14 @@ const parseFence = (lines, startIndex) => {
   };
 };
 const parseList = (lines, startIndex, kind) => {
-  const pattern = kind === "ordered" ? /^\d+\.\s+/ : /^-\s+/;
+  const pattern = kind === "ordered" ? /^\d+\.\s+/ : /^[-*]\s+/;
   if (!pattern.test(lines[startIndex])) {
     return null;
   }
   const items = [];
   let cursor = startIndex;
   while (cursor < lines.length && pattern.test(lines[cursor])) {
-    items.push(lines[cursor].replace(pattern, "").trim());
+    items.push(lines[cursor].replace(pattern, "").replace(/^\d+\.\s*/, "").trim());
     cursor += 1;
   }
   return {
@@ -49648,14 +49657,25 @@ const parseList = (lines, startIndex, kind) => {
   };
 };
 const parseFact = (line) => {
-  const match = line.match(/^\*\*([^*]+)\*\*:\s*(.+)$/);
+  const match = line.match(/^(?:\*\*([^*]+)\*\*|([A-Z][A-Za-z /()-]{2,})):\s*(.+)$/);
   if (!match) {
     return null;
   }
+  const label = collapseWhitespace(match[1] ?? match[2]);
+  const value = collapseWhitespace(match[3]);
+  const calloutLabel = label.toLowerCase();
+  if (["note", "important", "warning", "caution", "clinical pearl", "key point"].includes(calloutLabel)) {
+    return {
+      type: "callout",
+      tone: calloutLabel === "warning" || calloutLabel === "caution" ? "warning" : "note",
+      label,
+      value
+    };
+  }
   return {
     type: "fact",
-    label: collapseWhitespace(match[1]),
-    value: collapseWhitespace(match[2])
+    label,
+    value
   };
 };
 const parseBlocks = (content) => {
@@ -49666,6 +49686,24 @@ const parseBlocks = (content) => {
     const rawLine = lines[index];
     const line = rawLine.trim();
     if (!line || line === "---") {
+      index += 1;
+      continue;
+    }
+    if (line.startsWith("# ")) {
+      blocks.push({
+        type: "subheading",
+        level: 1,
+        text: line.replace(/^#\s+/, "").trim()
+      });
+      index += 1;
+      continue;
+    }
+    if (line.startsWith("## ")) {
+      blocks.push({
+        type: "subheading",
+        level: 2,
+        text: line.replace(/^##\s+/, "").trim()
+      });
       index += 1;
       continue;
     }
@@ -49721,7 +49759,7 @@ const parseBlocks = (content) => {
     index += 1;
     while (index < lines.length) {
       const next = lines[index].trim();
-      if (!next || next === "---" || next.startsWith("### ") || next.startsWith("#### ") || next.startsWith("```") || /^-\s+/.test(next) || /^\d+\.\s+/.test(next) || parseFact(next) || parseTable(lines, index)) {
+      if (!next || next === "---" || next.startsWith("# ") || next.startsWith("## ") || next.startsWith("### ") || next.startsWith("#### ") || next.startsWith("```") || /^[-*]\s+/.test(next) || /^\d+\.\s+/.test(next) || parseFact(next) || parseTable(lines, index)) {
         break;
       }
       paragraph.push(next);
@@ -51610,6 +51648,16 @@ function ContentBlock({ block }) {
   if (block.type === "subheading") {
     return /* @__PURE__ */ jsxRuntimeExports.jsx("h5", { className: "content-subheading", children: renderInlineContent(block.text) });
   }
+  if (block.type === "callout") {
+    const Icon = block.tone === "warning" ? CircleAlert : BadgeCheck;
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `content-callout ${block.tone === "warning" ? "warning" : "note"}`, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "content-callout-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { size: 16 }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: renderInlineContent(block.label) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: renderInlineContent(block.value) })
+      ] })
+    ] });
+  }
   if (block.type === "fact") {
     return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "fact-row", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: renderInlineContent(block.label) }),
@@ -51708,7 +51756,7 @@ function sanitizeDisplayText(value) {
   if (!value) {
     return "";
   }
-  return value.replace(/\\\(/g, "").replace(/\\\)/g, "").replace(/\\\[/g, "").replace(/\\\]/g, "").replace(/\$\$([^$]+)\$\$/g, "$1").replace(/\$([^$]+)\$/g, "$1").replace(/\\([_%#&])/g, "$1").replace(/\s{2,}/g, " ").trim();
+  return value.replace(/^#{1,4}\s+/gm, "").replace(/\*\*([^*]+)\*\*/g, "$1").replace(/^>\s+/gm, "").replace(/^"\s*/gm, "").replace(/\\\(/g, "").replace(/\\\)/g, "").replace(/\\\[/g, "").replace(/\\\]/g, "").replace(/\$\$([^$]+)\$\$/g, "$1").replace(/\$([^$]+)\$/g, "$1").replace(/\\([_%#&])/g, "$1").replace(/(^|\s)---(\s|$)/g, " ").replace(/\s{2,}/g, " ").trim();
 }
 ReactDOM.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(App, {}) })
