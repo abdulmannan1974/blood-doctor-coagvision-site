@@ -300,29 +300,6 @@ function AppLayout() {
     [searchableTools]
   );
 
-  const algorithmGroups = useMemo(
-    () => [
-      {
-        id: "algorithms",
-        label: "Interactive algorithms",
-        tools: algorithmTools,
-      },
-    ].filter((group) => group.tools.length),
-    [algorithmTools]
-  );
-
-  const scoreGroups = useMemo(
-    () =>
-      toolCategories
-        .filter((category) => category.id === "score" || category.id === "renal")
-        .map((category) => ({
-          ...category,
-          tools: scoreTools.filter((tool) => tool.category === category.id),
-        }))
-        .filter((group) => group.tools.length),
-    [scoreTools]
-  );
-
   const filteredGuides = useMemo(
     () =>
       guideLibrary.filter((guide) => {
@@ -619,11 +596,10 @@ function AppLayout() {
         activeToolId={activeToolId}
         activeGuideId={activeGuideId}
         activePdfId={activePdfId}
-        algorithmItems={tools.filter((tool) => tool.category === "algorithm")}
-        scoreItems={tools.filter((tool) => tool.category === "score" || tool.category === "renal")}
-        guideItems={guideLibrary}
-        vaultItems={vaultLibrary}
-        stats={stats}
+        algorithmItems={algorithmTools}
+        scoreItems={scoreTools}
+        guideItems={filteredGuides}
+        vaultItems={filteredVaultEntries}
         siteName={siteName}
       />
 
@@ -910,66 +886,7 @@ function AppLayout() {
             title={pageCopy[currentPage].title}
             description={pageCopy[currentPage].description}
           />
-          <section className="workspace-grid">
-            <div className="panel explorer-panel">
-              <div className="section-card-header">
-                <div>
-                  <span className="eyebrow">
-                    {currentPage === "algorithms" ? "Interactive algorithms" : "Scoring calculators"}
-                  </span>
-                  <h3>
-                    {currentPage === "algorithms" ? "Algorithm workspace" : "Scoring workspace"}
-                  </h3>
-                </div>
-                <Activity size={17} />
-              </div>
-
-              <p className="section-copy">
-                {currentPage === "algorithms"
-                  ? "Work through the decision algorithms from the clinical tools index."
-                  : "Use the scoring and renal calculators from the clinical tools index with the reference stack beside the output."}
-              </p>
-
-              <div className="tool-group-list">
-                {(currentPage === "algorithms" ? algorithmGroups : scoreGroups).length ? (
-                  (currentPage === "algorithms" ? algorithmGroups : scoreGroups).map((group) => (
-                  <section key={group.id} className="tool-group-card">
-                    <div className="tool-group-header">
-                      <h4>{group.label}</h4>
-                      <span>{group.tools.length}</span>
-                    </div>
-
-                    <div className="tool-button-list">
-                      {group.tools.map((tool) => (
-                        <button
-                          key={tool.id}
-                          type="button"
-                          className={tool.id === activeTool?.id ? "tool-rail-card active" : "tool-rail-card"}
-                          onClick={() => {
-                            setActiveToolId(tool.id);
-                            setSidebarOpen(false);
-                          }}
-                        >
-                          <div className="tool-rail-top">
-                            <span className="badge">{tool.badge}</span>
-                            <span className="tool-rail-category">{tool.category}</span>
-                          </div>
-                          <strong>{tool.shortTitle}</strong>
-                          <p>{tool.blurb}</p>
-                        </button>
-                      ))}
-                    </div>
-                  </section>
-                  ))
-                ) : (
-                  <div className="empty-state left-aligned">
-                    <CircleAlert size={24} />
-                    <h4>No tools matched the current search.</h4>
-                  </div>
-                )}
-              </div>
-            </div>
-
+          <section className="focus-layout">
             <div className="studio-stack">
               <section className="panel active-tool-panel">
                 {activeTool ? (
@@ -1039,7 +956,12 @@ function AppLayout() {
                         ))}
                     </div>
                   </>
-                ) : null}
+                ) : (
+                  <div className="empty-state left-aligned">
+                    <CircleAlert size={24} />
+                    <h4>No tools matched the current search.</h4>
+                  </div>
+                )}
               </section>
 
               <div className="insight-grid">
@@ -1084,47 +1006,7 @@ function AppLayout() {
             title={pageCopy.guides.title}
             description={pageCopy.guides.description}
           />
-          <section className="library-grid">
-            <div className="panel library-list-panel">
-              <div className="section-card-header">
-                <div>
-                  <span className="eyebrow">Guide library</span>
-                  <h3>Markdown knowledge base</h3>
-                </div>
-                <BookOpenText size={17} />
-              </div>
-
-              <p className="section-copy">
-                Every local markdown guide is indexed into a clean card library with topic labels,
-                evidence references, and one-click handoff into the companion clinical vault.
-              </p>
-
-              <div className="guide-list">
-                {filteredGuides.map((guide) => (
-                  <button
-                    key={guide.id}
-                    type="button"
-                    className={guide.id === activeGuide?.id ? "guide-card active" : "guide-card"}
-                    onClick={() => {
-                      setActiveGuideId(guide.id);
-                      if (guide.pdfId) {
-                        setActivePdfId(guide.pdfId);
-                      }
-                    }}
-                  >
-                    <div className="guide-card-top">
-                      <span className="badge soft">{guide.category}</span>
-                    </div>
-                    <h4>{guide.title}</h4>
-                    <p>{guide.excerpt}</p>
-                    {guide.pdfId ? (
-                      <span className="card-link-label">Vault companion available</span>
-                    ) : null}
-                  </button>
-                ))}
-              </div>
-            </div>
-
+          <section className="focus-layout">
             <div className="panel guide-detail-panel">
               {activeGuide ? (
                 <>
@@ -1241,7 +1123,12 @@ function AppLayout() {
                     </div>
                   ) : null}
                 </>
-              ) : null}
+              ) : (
+                <div className="empty-state left-aligned">
+                  <CircleAlert size={24} />
+                  <h4>No guides matched the current search.</h4>
+                </div>
+              )}
             </div>
           </section>
           </>
@@ -1254,41 +1141,7 @@ function AppLayout() {
             title={pageCopy.pdfs.title}
             description={pageCopy.pdfs.description}
           />
-          <section className="pdf-grid">
-            <div className="panel pdf-list-panel">
-              <div className="section-card-header">
-                <div>
-                  <span className="eyebrow">Clinical vault</span>
-                  <h3>Companion archive</h3>
-                </div>
-                <FolderOpen size={17} />
-              </div>
-
-              <p className="section-copy">
-                Vault entries are organized as clean companion records linked to the guide library, so navigation stays internal and the main reading flow remains on structured markdown pages.
-              </p>
-
-              <div className="pdf-list">
-                {filteredVaultEntries.map((guide) => (
-                  <button
-                    key={guide.id}
-                    type="button"
-                    className={guide.pdfId === activePdf?.id ? "pdf-card active" : "pdf-card"}
-                    onClick={() => {
-                      setActivePdfId(guide.pdfId);
-                      setActiveGuideId(guide.id);
-                    }}
-                  >
-                    <div className="pdf-card-top">
-                      <span className="badge soft">{guide.category}</span>
-                      <span>Vault entry</span>
-                    </div>
-                    <strong>{guide.title}</strong>
-                  </button>
-                ))}
-              </div>
-            </div>
-
+          <section className="focus-layout">
             <div className="panel pdf-viewer-panel">
               {activeVaultEntry ? (
                 <>

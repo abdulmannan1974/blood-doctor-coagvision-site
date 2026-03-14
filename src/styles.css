@@ -228,6 +228,32 @@ a {
   color: var(--foreground);
 }
 
+.sidebar-tree-node {
+  display: grid;
+  gap: 0.18rem;
+}
+
+.sidebar-folder-button,
+.sidebar-leaf-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+}
+
+.sidebar-folder-button.depth-0 {
+  font-weight: 700;
+  color: var(--foreground);
+}
+
+.sidebar-leaf-button.depth-1 {
+  padding-left: 0.85rem;
+}
+
+.sidebar-submenu.nested {
+  padding-left: 0.9rem;
+}
+
 .sidebar-quick-grid {
   gap: 0.5rem;
 }
@@ -885,6 +911,11 @@ a {
 .workspace-grid {
   grid-template-columns: 280px minmax(0, 1fr);
   align-items: start;
+}
+
+.focus-layout {
+  display: grid;
+  gap: 1rem;
 }
 
 .studio-stack,

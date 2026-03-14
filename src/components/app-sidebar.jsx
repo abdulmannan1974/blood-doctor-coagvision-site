@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
 import {
-  Activity,
   BookOpenText,
   BrainCircuit,
   Calculator,
@@ -14,7 +13,6 @@ import {
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -27,6 +25,24 @@ import {
   SidebarSubmenuButton,
   useSidebar,
 } from "@/components/ui/sidebar";
+
+const toNodeId = (...values) =>
+  values
+    .filter(Boolean)
+    .join("-")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+const groupByLabel = (items, getGroupLabel) =>
+  items.reduce((accumulator, item) => {
+    const label = getGroupLabel(item) || "General";
+    if (!accumulator[label]) {
+      accumulator[label] = [];
+    }
+    accumulator[label].push(item);
+    return accumulator;
+  }, {});
 
 const pageIconById = {
   dashboard: LayoutDashboard,
@@ -49,18 +65,31 @@ export function AppSidebar({
   scoreItems,
   guideItems,
   vaultItems,
-  stats,
   siteName,
 }) {
   const { setOpen } = useSidebar();
   const [expandedSection, setExpandedSection] = useState(currentPage);
+  const [expandedFolders, setExpandedFolders] = useState({});
 
   useEffect(() => {
     setExpandedSection(currentPage);
   }, [currentPage]);
 
+  const handleNavigate = (pageId) => {
+    onNavigate(pageId);
+    setOpen(false);
+  };
+
   const sidebarSections = useMemo(
-    () => ({
+    () => {
+      const scoreBuckets = {
+        "Scoring tools": scoreItems.filter((tool) => tool.category === "score"),
+        "Renal tools": scoreItems.filter((tool) => tool.category === "renal"),
+      };
+      const guideBuckets = groupByLabel(guideItems, (guide) => guide.category);
+      const vaultBuckets = groupByLabel(vaultItems, (entry) => entry.category);
+
+      return {
       dashboard: [
         {
           id: "dashboard-overview",
@@ -69,43 +98,64 @@ export function AppSidebar({
           active: currentPage === "dashboard",
         },
       ],
-      algorithms: algorithmItems.map((tool) => ({
-        id: tool.id,
-        label: tool.shortTitle,
-        action: () => {
-          onSelectTool(tool.id);
-          setOpen(false);
+      algorithms: [
+        {
+          id: "algorithms-decision-pathways",
+          label: "Decision pathways",
+          children: algorithmItems.map((tool) => ({
+            id: tool.id,
+            label: tool.shortTitle,
+            action: () => {
+              onSelectTool(tool.id);
+              setOpen(false);
+            },
+            active: activeToolId === tool.id && currentPage === "algorithms",
+          })),
         },
-        active: activeToolId === tool.id && currentPage === "algorithms",
+      ],
+      scores: Object.entries(scoreBuckets)
+        .filter(([, toolsInBucket]) => toolsInBucket.length)
+        .map(([label, toolsInBucket]) => ({
+          id: toNodeId("scores", label),
+          label,
+          children: toolsInBucket.map((tool) => ({
+            id: tool.id,
+            label: tool.shortTitle,
+            action: () => {
+              onSelectTool(tool.id);
+              setOpen(false);
+            },
+            active: activeToolId === tool.id && currentPage === "scores",
+          })),
+        })),
+      guides: Object.entries(guideBuckets).map(([label, guidesInBucket]) => ({
+        id: toNodeId("guides", label),
+        label,
+        children: guidesInBucket.map((guide) => ({
+          id: guide.id,
+          label: guide.title,
+          action: () => {
+            onSelectGuide(guide.id);
+            setOpen(false);
+          },
+          active: activeGuideId === guide.id,
+        })),
       })),
-      scores: scoreItems.map((tool) => ({
-        id: tool.id,
-        label: tool.shortTitle,
-        action: () => {
-          onSelectTool(tool.id);
-          setOpen(false);
-        },
-        active: activeToolId === tool.id && currentPage === "scores",
+      pdfs: Object.entries(vaultBuckets).map(([label, vaultInBucket]) => ({
+        id: toNodeId("pdfs", label),
+        label,
+        children: vaultInBucket.map((guide) => ({
+          id: guide.pdfId,
+          label: guide.title,
+          action: () => {
+            onSelectVault(guide.pdfId, guide.id);
+            setOpen(false);
+          },
+          active: activePdfId === guide.pdfId,
+        })),
       })),
-      guides: guideItems.slice(0, 8).map((guide) => ({
-        id: guide.id,
-        label: guide.title,
-        action: () => {
-          onSelectGuide(guide.id);
-          setOpen(false);
-        },
-        active: activeGuideId === guide.id,
-      })),
-      pdfs: vaultItems.slice(0, 8).map((guide) => ({
-        id: guide.pdfId,
-        label: guide.title,
-        action: () => {
-          onSelectVault(guide.pdfId, guide.id);
-          setOpen(false);
-        },
-        active: activePdfId === guide.pdfId,
-      })),
-    }),
+    };
+    },
     [
       activeGuideId,
       activePdfId,
@@ -122,15 +172,68 @@ export function AppSidebar({
     ]
   );
 
-  const handleNavigate = (pageId) => {
-    onNavigate(pageId);
-    setOpen(false);
-  };
+  useEffect(() => {
+    const nextExpandedFolders = {};
+    const currentNodes = sidebarSections[currentPage] ?? [];
+
+    currentNodes.forEach((node) => {
+      if (node.children?.some((child) => child.active)) {
+        nextExpandedFolders[node.id] = true;
+      }
+    });
+
+    setExpandedFolders((current) => ({
+      ...current,
+      ...nextExpandedFolders,
+    }));
+  }, [currentPage, sidebarSections]);
 
   const handlePagePress = (pageId) => {
     setExpandedSection(pageId);
     onNavigate(pageId);
   };
+
+  const toggleFolder = (folderId) => {
+    setExpandedFolders((current) => ({
+      ...current,
+      [folderId]: !current[folderId],
+    }));
+  };
+
+  const renderSidebarNodes = (pageId, nodes, depth = 0) =>
+    nodes.map((node) => {
+      const isFolder = Array.isArray(node.children) && node.children.length > 0;
+      const isExpanded = expandedFolders[node.id] ?? depth === 0;
+
+      if (isFolder) {
+        return (
+          <div key={`${pageId}-${node.id}`} className="sidebar-tree-node">
+            <SidebarSubmenuButton
+              className={`sidebar-folder-button depth-${depth}`}
+              active={node.children.some((child) => child.active)}
+              onClick={() => toggleFolder(node.id)}
+            >
+              <span>{node.label}</span>
+              {isExpanded ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+            </SidebarSubmenuButton>
+            <SidebarSubmenu className={`nested ${isExpanded ? "open" : "closed"}`}>
+              {renderSidebarNodes(pageId, node.children, depth + 1)}
+            </SidebarSubmenu>
+          </div>
+        );
+      }
+
+      return (
+        <SidebarSubmenuButton
+          key={`${pageId}-${node.id}`}
+          className={`sidebar-leaf-button depth-${depth}`}
+          active={node.active ?? false}
+          onClick={node.action ?? (() => handleNavigate(pageId))}
+        >
+          {node.label}
+        </SidebarSubmenuButton>
+      );
+    });
 
   return (
     <Sidebar>
@@ -181,15 +284,7 @@ export function AppSidebar({
                       </SidebarMenuMeta>
                     </SidebarMenuButton>
                     <SidebarSubmenu className={isExpanded ? "open" : "closed"}>
-                      {children.map((child) => (
-                        <SidebarSubmenuButton
-                          key={`${page.id}-${child.id}`}
-                          active={child.active ?? currentPage === page.id}
-                          onClick={child.action ?? (() => handleNavigate(page.id))}
-                        >
-                          {child.label}
-                        </SidebarSubmenuButton>
-                      ))}
+                      {renderSidebarNodes(page.id, children)}
                     </SidebarSubmenu>
                   </SidebarMenuItem>
                 );
@@ -198,31 +293,6 @@ export function AppSidebar({
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-
-      <SidebarFooter>
-        <SidebarGroup className="sidebar-summary-group">
-          <SidebarGroupLabel>
-            <Activity size={14} />
-            Workspace summary
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <div className="sidebar-summary-card">
-              <div className="sidebar-summary-row">
-                <span>Live calculators</span>
-                <strong>{stats.tools}</strong>
-              </div>
-              <div className="sidebar-summary-row">
-                <span>Guides indexed</span>
-                <strong>{stats.guides}</strong>
-              </div>
-              <div className="sidebar-summary-row">
-                <span>Vault entries</span>
-                <strong>{stats.pdfs}</strong>
-              </div>
-            </div>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarFooter>
     </Sidebar>
   );
 }
