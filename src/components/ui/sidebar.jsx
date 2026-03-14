@@ -1,7 +1,53 @@
-const cn = (...values) => values.filter(Boolean).join(" ");
+import { createContext, useContext, useMemo, useState } from "react";
+import { PanelLeft } from "lucide-react";
 
-export function Sidebar({ className = "", open = false, children }) {
+const cn = (...values) => values.filter(Boolean).join(" ");
+const SidebarContext = createContext(null);
+
+export function SidebarProvider({ children, defaultOpen = false }) {
+  const [open, setOpen] = useState(defaultOpen);
+
+  const value = useMemo(
+    () => ({
+      open,
+      setOpen,
+      toggleSidebar: () => setOpen((current) => !current),
+    }),
+    [open]
+  );
+
+  return <SidebarContext.Provider value={value}>{children}</SidebarContext.Provider>;
+}
+
+export function useSidebar() {
+  const context = useContext(SidebarContext);
+
+  if (!context) {
+    throw new Error("useSidebar must be used inside SidebarProvider");
+  }
+
+  return context;
+}
+
+export function Sidebar({ className = "", children }) {
+  const { open } = useSidebar();
   return <aside className={cn("bd-sidebar sidebar-root", open && "open", className)}>{children}</aside>;
+}
+
+export function SidebarTrigger({ className = "", ...props }) {
+  const { toggleSidebar } = useSidebar();
+
+  return (
+    <button
+      type="button"
+      className={cn("icon-button sidebar-trigger", className)}
+      onClick={toggleSidebar}
+      aria-label="Toggle sidebar"
+      {...props}
+    >
+      <PanelLeft size={18} />
+    </button>
+  );
 }
 
 export function SidebarHeader({ children, className = "" }) {

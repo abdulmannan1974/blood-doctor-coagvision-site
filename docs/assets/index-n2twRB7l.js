@@ -12582,7 +12582,7 @@ const createLucideIcon = (iconName, iconNode) => {
   Component.displayName = toPascalCase(iconName);
   return Component;
 };
-const __iconNode$l = [
+const __iconNode$m = [
   [
     "path",
     {
@@ -12591,13 +12591,13 @@ const __iconNode$l = [
     }
   ]
 ];
-const Activity = createLucideIcon("activity", __iconNode$l);
-const __iconNode$k = [
+const Activity = createLucideIcon("activity", __iconNode$m);
+const __iconNode$l = [
   ["path", { d: "M7 7h10v10", key: "1tivn9" }],
   ["path", { d: "M7 17 17 7", key: "1vkiza" }]
 ];
-const ArrowUpRight = createLucideIcon("arrow-up-right", __iconNode$k);
-const __iconNode$j = [
+const ArrowUpRight = createLucideIcon("arrow-up-right", __iconNode$l);
+const __iconNode$k = [
   [
     "path",
     {
@@ -12607,8 +12607,8 @@ const __iconNode$j = [
   ],
   ["path", { d: "m9 12 2 2 4-4", key: "dzmm74" }]
 ];
-const BadgeCheck = createLucideIcon("badge-check", __iconNode$j);
-const __iconNode$i = [
+const BadgeCheck = createLucideIcon("badge-check", __iconNode$k);
+const __iconNode$j = [
   ["path", { d: "M12 7v14", key: "1akyts" }],
   ["path", { d: "M16 12h2", key: "7q9ll5" }],
   ["path", { d: "M16 8h2", key: "msurwy" }],
@@ -12622,8 +12622,8 @@ const __iconNode$i = [
   ["path", { d: "M6 12h2", key: "32wvfc" }],
   ["path", { d: "M6 8h2", key: "30oboj" }]
 ];
-const BookOpenText = createLucideIcon("book-open-text", __iconNode$i);
-const __iconNode$h = [
+const BookOpenText = createLucideIcon("book-open-text", __iconNode$j);
+const __iconNode$i = [
   [
     "path",
     {
@@ -12644,8 +12644,8 @@ const __iconNode$h = [
   ["circle", { cx: "20", cy: "21", r: ".5", key: "yhc1fs" }],
   ["circle", { cx: "20", cy: "8", r: ".5", key: "1e43v0" }]
 ];
-const BrainCircuit = createLucideIcon("brain-circuit", __iconNode$h);
-const __iconNode$g = [
+const BrainCircuit = createLucideIcon("brain-circuit", __iconNode$i);
+const __iconNode$h = [
   ["rect", { width: "16", height: "20", x: "4", y: "2", rx: "2", key: "1nb95v" }],
   ["line", { x1: "8", x2: "16", y1: "6", y2: "6", key: "x4nwl0" }],
   ["line", { x1: "16", x2: "16", y1: "14", y2: "18", key: "wjye3r" }],
@@ -12657,25 +12657,25 @@ const __iconNode$g = [
   ["path", { d: "M12 18h.01", key: "mhygvu" }],
   ["path", { d: "M8 18h.01", key: "lrp35t" }]
 ];
-const Calculator = createLucideIcon("calculator", __iconNode$g);
-const __iconNode$f = [
+const Calculator = createLucideIcon("calculator", __iconNode$h);
+const __iconNode$g = [
   ["path", { d: "M3 3v16a2 2 0 0 0 2 2h16", key: "c24i48" }],
   ["rect", { x: "15", y: "5", width: "4", height: "12", rx: "1", key: "q8uenq" }],
   ["rect", { x: "7", y: "8", width: "4", height: "9", rx: "1", key: "sr5ea" }]
 ];
-const ChartColumnBig = createLucideIcon("chart-column-big", __iconNode$f);
-const __iconNode$e = [
+const ChartColumnBig = createLucideIcon("chart-column-big", __iconNode$g);
+const __iconNode$f = [
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
   ["line", { x1: "12", x2: "12", y1: "8", y2: "12", key: "1pkeuh" }],
   ["line", { x1: "12", x2: "12.01", y1: "16", y2: "16", key: "4dfq90" }]
 ];
-const CircleAlert = createLucideIcon("circle-alert", __iconNode$e);
-const __iconNode$d = [
+const CircleAlert = createLucideIcon("circle-alert", __iconNode$f);
+const __iconNode$e = [
   ["path", { d: "M21.801 10A10 10 0 1 1 17 3.335", key: "yps3ct" }],
   ["path", { d: "m9 11 3 3L22 4", key: "1pflzl" }]
 ];
-const CircleCheckBig = createLucideIcon("circle-check-big", __iconNode$d);
-const __iconNode$c = [
+const CircleCheckBig = createLucideIcon("circle-check-big", __iconNode$e);
+const __iconNode$d = [
   [
     "path",
     {
@@ -12691,8 +12691,8 @@ const __iconNode$c = [
     }
   ]
 ];
-const Droplets = createLucideIcon("droplets", __iconNode$c);
-const __iconNode$b = [
+const Droplets = createLucideIcon("droplets", __iconNode$d);
+const __iconNode$c = [
   [
     "path",
     {
@@ -12702,8 +12702,8 @@ const __iconNode$b = [
   ],
   ["circle", { cx: "12", cy: "12", r: "3", key: "1v7zrd" }]
 ];
-const Eye = createLucideIcon("eye", __iconNode$b);
-const __iconNode$a = [
+const Eye = createLucideIcon("eye", __iconNode$c);
+const __iconNode$b = [
   [
     "path",
     {
@@ -12715,7 +12715,19 @@ const __iconNode$a = [
   ["circle", { cx: "11.5", cy: "14.5", r: "2.5", key: "1bq0ko" }],
   ["path", { d: "M13.3 16.3 15 18", key: "2quom7" }]
 ];
-const FileSearch = createLucideIcon("file-search", __iconNode$a);
+const FileSearch = createLucideIcon("file-search", __iconNode$b);
+const __iconNode$a = [
+  ["path", { d: "M11 21a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1", key: "likhh7" }],
+  ["path", { d: "M16 16a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1", key: "17ky3x" }],
+  [
+    "path",
+    {
+      d: "M21 6a2 2 0 0 0-.586-1.414l-2-2A2 2 0 0 0 17 2h-3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1z",
+      key: "1hyeo0"
+    }
+  ]
+];
+const FileStack = createLucideIcon("file-stack", __iconNode$a);
 const __iconNode$9 = [
   [
     "path",
@@ -12730,37 +12742,27 @@ const __iconNode$8 = [
   [
     "path",
     {
-      d: "M10 20a1 1 0 0 0 .553.895l2 1A1 1 0 0 0 14 21v-7a2 2 0 0 1 .517-1.341L21.74 4.67A1 1 0 0 0 21 3H3a1 1 0 0 0-.742 1.67l7.225 7.989A2 2 0 0 1 10 14z",
-      key: "sc7q7i"
-    }
-  ]
-];
-const Funnel = createLucideIcon("funnel", __iconNode$8);
-const __iconNode$7 = [
-  [
-    "path",
-    {
       d: "M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5",
       key: "mvr1a0"
     }
   ],
   ["path", { d: "M3.22 13H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27", key: "auskq0" }]
 ];
-const HeartPulse = createLucideIcon("heart-pulse", __iconNode$7);
-const __iconNode$6 = [
+const HeartPulse = createLucideIcon("heart-pulse", __iconNode$8);
+const __iconNode$7 = [
   ["rect", { width: "7", height: "9", x: "3", y: "3", rx: "1", key: "10lvy0" }],
   ["rect", { width: "7", height: "5", x: "14", y: "3", rx: "1", key: "16une8" }],
   ["rect", { width: "7", height: "9", x: "14", y: "12", rx: "1", key: "1hutg5" }],
   ["rect", { width: "7", height: "5", x: "3", y: "16", rx: "1", key: "ldoo1y" }]
 ];
-const LayoutDashboard = createLucideIcon("layout-dashboard", __iconNode$6);
-const __iconNode$5 = [
+const LayoutDashboard = createLucideIcon("layout-dashboard", __iconNode$7);
+const __iconNode$6 = [
   ["path", { d: "M4 5h16", key: "1tepv9" }],
   ["path", { d: "M4 12h16", key: "1lakjw" }],
   ["path", { d: "M4 19h16", key: "1djgab" }]
 ];
-const Menu = createLucideIcon("menu", __iconNode$5);
-const __iconNode$4 = [
+const Menu = createLucideIcon("menu", __iconNode$6);
+const __iconNode$5 = [
   ["path", { d: "M6 18h8", key: "1borvv" }],
   ["path", { d: "M3 22h18", key: "8prr45" }],
   ["path", { d: "M14 22a7 7 0 1 0 0-14h-1", key: "1jwaiy" }],
@@ -12768,21 +12770,21 @@ const __iconNode$4 = [
   ["path", { d: "M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z", key: "1bmzmy" }],
   ["path", { d: "M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3", key: "1drr47" }]
 ];
-const Microscope = createLucideIcon("microscope", __iconNode$4);
-const __iconNode$3 = [
+const Microscope = createLucideIcon("microscope", __iconNode$5);
+const __iconNode$4 = [
   [
     "path",
     { d: "m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z", key: "wa1lgi" }
   ],
   ["path", { d: "m8.5 8.5 7 7", key: "rvfmvr" }]
 ];
-const Pill = createLucideIcon("pill", __iconNode$3);
-const __iconNode$2 = [
+const Pill = createLucideIcon("pill", __iconNode$4);
+const __iconNode$3 = [
   ["path", { d: "m21 21-4.34-4.34", key: "14j7rj" }],
   ["circle", { cx: "11", cy: "11", r: "8", key: "4ej97u" }]
 ];
-const Search = createLucideIcon("search", __iconNode$2);
-const __iconNode$1 = [
+const Search = createLucideIcon("search", __iconNode$3);
+const __iconNode$2 = [
   [
     "path",
     {
@@ -12793,7 +12795,20 @@ const __iconNode$1 = [
   ["path", { d: "M12 8v4", key: "1got3b" }],
   ["path", { d: "M12 16h.01", key: "1drbdi" }]
 ];
-const ShieldAlert = createLucideIcon("shield-alert", __iconNode$1);
+const ShieldAlert = createLucideIcon("shield-alert", __iconNode$2);
+const __iconNode$1 = [
+  [
+    "path",
+    {
+      d: "M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z",
+      key: "1s2grr"
+    }
+  ],
+  ["path", { d: "M20 2v4", key: "1rf3ol" }],
+  ["path", { d: "M22 4h-4", key: "gwowj6" }],
+  ["circle", { cx: "4", cy: "20", r: "2", key: "6kqj1y" }]
+];
+const Sparkles = createLucideIcon("sparkles", __iconNode$1);
 const __iconNode = [
   [
     "path",
@@ -50133,6 +50148,214 @@ const resolveMarkdownTarget = (target) => {
   }
   return null;
 };
+const cn = (...values) => values.filter(Boolean).join(" ");
+function Sidebar({ className = "", open = false, children }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("aside", { className: cn("bd-sidebar sidebar-root", open && "open", className), children });
+}
+function SidebarHeader({ children, className = "" }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: cn("sidebar-header", className), children });
+}
+function SidebarContent({ children, className = "" }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: cn("sidebar-content", className), children });
+}
+function SidebarFooter({ children, className = "" }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: cn("sidebar-footer", className), children });
+}
+function SidebarGroup({ children, className = "" }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: cn("sidebar-group", className), children });
+}
+function SidebarGroupLabel({ children, className = "" }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: cn("sidebar-group-label", className), children });
+}
+function SidebarGroupContent({ children, className = "" }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: cn("sidebar-group-content", className), children });
+}
+function SidebarMenu({ children, className = "" }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: cn("sidebar-menu", className), children });
+}
+function SidebarMenuItem({ children, className = "" }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: cn("sidebar-menu-item", className), children });
+}
+function SidebarMenuButton({
+  children,
+  className = "",
+  active = false,
+  ...props
+}) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    "button",
+    {
+      type: "button",
+      className: cn("sidebar-menu-button", active && "active", className),
+      ...props,
+      children
+    }
+  );
+}
+function SidebarMenuMeta({ children, className = "" }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: cn("sidebar-menu-meta", className), children });
+}
+function SidebarSubmenu({ children, className = "" }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: cn("sidebar-submenu", className), children });
+}
+function SidebarSubmenuButton({
+  children,
+  className = "",
+  active = false,
+  ...props
+}) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    "button",
+    {
+      type: "button",
+      className: cn("sidebar-submenu-button", active && "active", className),
+      ...props,
+      children
+    }
+  );
+}
+const sidebarChildren = {
+  dashboard: [
+    { id: "overview", label: "Overview" },
+    { id: "analytics", label: "Analytics" }
+  ],
+  algorithms: [
+    { id: "perioperative", label: "Perioperative" },
+    { id: "vitt", label: "VITT" }
+  ],
+  scores: [
+    { id: "wells", label: "Wells" },
+    { id: "stroke", label: "Stroke risk" }
+  ],
+  guides: [
+    { id: "library", label: "Library" },
+    { id: "references", label: "References" }
+  ],
+  pdfs: [
+    { id: "vault", label: "Companion vault" },
+    { id: "linked", label: "Linked records" }
+  ]
+};
+const quickActions = [
+  {
+    id: "algorithms",
+    label: "Open algorithms",
+    caption: "Decision pathways",
+    icon: BrainCircuit
+  },
+  {
+    id: "guides",
+    label: "Browse guides",
+    caption: "Markdown subpages",
+    icon: BookOpenText
+  },
+  {
+    id: "pdfs",
+    label: "Review vault",
+    caption: "Companion records",
+    icon: FolderOpen
+  }
+];
+const pageIconById = {
+  dashboard: LayoutDashboard,
+  algorithms: BrainCircuit,
+  scores: Calculator,
+  guides: BookOpenText,
+  pdfs: FolderOpen
+};
+function AppSidebar({ currentPage, onNavigate, sidebarOpen, stats, siteName: siteName2 }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(Sidebar, { open: sidebarOpen, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarHeader, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "sidebar-brand sidebar-brand-card", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "sidebar-logo", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Droplets, {}) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Blood Doctor" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { children: siteName2 }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Clinical navigation, calculators, markdown guides, and a cleaner linked vault." })
+      ] })
+    ] }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(SidebarContent, { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(SidebarGroup, { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(SidebarGroupLabel, { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Sparkles, { size: 14 }),
+          "Primary navigation"
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarGroupContent, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarMenu, { children: [
+          { id: "dashboard", label: "Dashboard", meta: "Overview" },
+          { id: "algorithms", label: "Interactive Algorithms", meta: "Decision tools" },
+          { id: "scores", label: "Scoring Calculators", meta: "Risk scoring" },
+          { id: "guides", label: "Clinical Guides", meta: "Markdown library" },
+          { id: "pdfs", label: "Clinical Vault", meta: "Linked records" }
+        ].map((page) => {
+          const Icon2 = pageIconById[page.id];
+          const children = sidebarChildren[page.id] ?? [];
+          return /* @__PURE__ */ jsxRuntimeExports.jsxs(SidebarMenuItem, { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(SidebarMenuButton, { active: currentPage === page.id, onClick: () => onNavigate(page.id), children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "sidebar-menu-leading", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(Icon2, { size: 16 }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: page.label })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarMenuMeta, { children: page.meta })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarSubmenu, { children: children.map((child) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+              SidebarSubmenuButton,
+              {
+                active: currentPage === page.id,
+                onClick: () => onNavigate(page.id),
+                children: child.label
+              },
+              `${page.id}-${child.id}`
+            )) })
+          ] }, page.id);
+        }) }) })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(SidebarGroup, { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(SidebarGroupLabel, { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Microscope, { size: 14 }),
+          "Quick actions"
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarGroupContent, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarMenu, { className: "sidebar-quick-grid", children: quickActions.map((action) => {
+          const Icon2 = action.icon;
+          return /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarMenuItem, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs(SidebarMenuButton, { className: "sidebar-action-button", onClick: () => onNavigate(action.id), children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "sidebar-menu-leading", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Icon2, { size: 16 }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: action.label })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarMenuMeta, { children: action.caption })
+          ] }) }, action.id);
+        }) }) })
+      ] })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(SidebarFooter, { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(SidebarGroup, { className: "sidebar-summary-group", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(SidebarGroupLabel, { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Activity, { size: 14 }),
+          "Workspace summary"
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarGroupContent, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "sidebar-summary-card", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "sidebar-summary-row", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Live calculators" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: stats.tools })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "sidebar-summary-row", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Guides indexed" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: stats.guides })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "sidebar-summary-row", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Vault entries" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: stats.pdfs })
+          ] })
+        ] }) })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarGroup, { className: "sidebar-footer-note", children: /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarGroupContent, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "sidebar-footer-card", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(FileStack, { size: 15 }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Cleaner reading flow" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Use the guide pages for main reading, then jump into linked vault records only when needed." })
+        ] })
+      ] }) }) })
+    ] })
+  ] });
+}
 const siteName = "Blood Doctor CoagVision";
 const toneMeta = {
   success: {
@@ -50550,56 +50773,16 @@ function App() {
         "aria-label": "Close navigation"
       }
     ),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("aside", { className: sidebarOpen ? "bd-sidebar open" : "bd-sidebar", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "sidebar-brand", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "sidebar-logo", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Droplets, {}) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Blood🩸Doctor" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { children: siteName }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Action-ready anticoagulation dashboards, calculators, markdown guides, and a clean clinical vault." })
-        ] })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("nav", { className: "sidebar-nav", children: pageDefinitions.map((page) => {
-        const Icon2 = page.icon;
-        return /* @__PURE__ */ jsxRuntimeExports.jsxs(
-          "button",
-          {
-            type: "button",
-            className: currentPage === page.id ? "nav-link active" : "nav-link",
-            onClick: () => navigateToPage(page.id),
-            children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx(Icon2, { size: 17 }),
-              page.label
-            ]
-          },
-          page.id
-        );
-      }) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "sidebar-card", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "section-card-header", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Index" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: "Content pages" })
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Funnel, { size: 16 })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "pill-grid", children: pageDefinitions.map((page) => /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: currentPage === page.id ? "pill active" : "pill", children: page.shortLabel }, page.id)) })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "sidebar-card compact", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "sidebar-mini-stat", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Live calculators" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: stats.tools })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "sidebar-mini-stat", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Guides indexed" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: stats.guides })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "sidebar-mini-stat", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Vault entries" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: stats.pdfs })
-        ] })
-      ] })
-    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      AppSidebar,
+      {
+        currentPage,
+        onNavigate: navigateToPage,
+        sidebarOpen,
+        stats,
+        siteName
+      }
+    ),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bd-main", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("header", { className: "topbar", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "topbar-left", children: [

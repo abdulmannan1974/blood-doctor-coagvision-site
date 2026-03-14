@@ -14,7 +14,6 @@ import {
   FolderOpen,
   HeartPulse,
   LayoutDashboard,
-  Menu,
   Microscope,
   Pill,
   Search,
@@ -42,6 +41,7 @@ import { toolCategories, tools } from "./data/tools";
 import { clinicalContentByToolId } from "./data/markdownContent";
 import { guideLibrary, pdfLibrary, resolveMarkdownTarget, vaultLibrary } from "./data/library";
 import { AppSidebar } from "@/components/app-sidebar";
+import { SidebarProvider, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 
 const siteName = "Blood Doctor CoagVision";
 
@@ -186,6 +186,14 @@ const getRelatedGuides = (tool) => {
 };
 
 function App() {
+  return (
+    <SidebarProvider>
+      <AppLayout />
+    </SidebarProvider>
+  );
+}
+
+function AppLayout() {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(getPageFromHash);
   const [activeToolId, setActiveToolId] = useState(tools[0]?.id ?? "");
@@ -194,7 +202,7 @@ function App() {
   const [activeGuideId, setActiveGuideId] = useState(guideLibrary[0]?.id ?? "");
   const [activeGuideTab, setActiveGuideTab] = useState("overview");
   const [activePdfId, setActivePdfId] = useState(pdfLibrary[0]?.id ?? "");
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { open: sidebarOpen, setOpen: setSidebarOpen } = useSidebar();
 
   const toolSearch = searchTerm.trim().toLowerCase();
   const currentPageMeta = pageDefinitions.find((page) => page.id === currentPage) ?? pageDefinitions[0];
@@ -586,20 +594,12 @@ function App() {
         aria-label="Close navigation"
       />
 
-      <AppSidebar
-        currentPage={currentPage}
-        onNavigate={navigateToPage}
-        sidebarOpen={sidebarOpen}
-        stats={stats}
-        siteName={siteName}
-      />
+      <AppSidebar currentPage={currentPage} onNavigate={navigateToPage} stats={stats} siteName={siteName} />
 
       <div className="bd-main">
         <header className="topbar">
           <div className="topbar-left">
-            <button type="button" className="icon-button mobile-only" onClick={() => setSidebarOpen(true)}>
-              <Menu size={18} />
-            </button>
+            <SidebarTrigger className="mobile-only" />
 
             <div>
               <div className="breadcrumb-row">

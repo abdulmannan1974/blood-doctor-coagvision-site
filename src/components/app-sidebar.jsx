@@ -24,6 +24,7 @@ import {
   SidebarMenuMeta,
   SidebarSubmenu,
   SidebarSubmenuButton,
+  useSidebar,
 } from "@/components/ui/sidebar";
 
 const sidebarChildren = {
@@ -78,9 +79,15 @@ const pageIconById = {
   pdfs: FolderOpen,
 };
 
-export function AppSidebar({ currentPage, onNavigate, sidebarOpen, stats, siteName }) {
+export function AppSidebar({ currentPage, onNavigate, stats, siteName }) {
+  const { setOpen } = useSidebar();
+  const handleNavigate = (pageId) => {
+    onNavigate(pageId);
+    setOpen(false);
+  };
+
   return (
-    <Sidebar open={sidebarOpen}>
+    <Sidebar>
       <SidebarHeader>
         <div className="sidebar-brand sidebar-brand-card">
           <div className="sidebar-logo">
@@ -114,7 +121,7 @@ export function AppSidebar({ currentPage, onNavigate, sidebarOpen, stats, siteNa
 
                 return (
                   <SidebarMenuItem key={page.id}>
-                    <SidebarMenuButton active={currentPage === page.id} onClick={() => onNavigate(page.id)}>
+                    <SidebarMenuButton active={currentPage === page.id} onClick={() => handleNavigate(page.id)}>
                       <span className="sidebar-menu-leading">
                         <Icon size={16} />
                         <span>{page.label}</span>
@@ -126,7 +133,7 @@ export function AppSidebar({ currentPage, onNavigate, sidebarOpen, stats, siteNa
                         <SidebarSubmenuButton
                           key={`${page.id}-${child.id}`}
                           active={currentPage === page.id}
-                          onClick={() => onNavigate(page.id)}
+                          onClick={() => handleNavigate(page.id)}
                         >
                           {child.label}
                         </SidebarSubmenuButton>
@@ -150,7 +157,7 @@ export function AppSidebar({ currentPage, onNavigate, sidebarOpen, stats, siteNa
                 const Icon = action.icon;
                 return (
                   <SidebarMenuItem key={action.id}>
-                    <SidebarMenuButton className="sidebar-action-button" onClick={() => onNavigate(action.id)}>
+                    <SidebarMenuButton className="sidebar-action-button" onClick={() => handleNavigate(action.id)}>
                       <span className="sidebar-menu-leading">
                         <Icon size={16} />
                         <span>{action.label}</span>
