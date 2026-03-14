@@ -7,10 +7,8 @@ import {
   ChevronDown,
   ChevronRight,
   Droplets,
-  FileStack,
   FolderOpen,
   LayoutDashboard,
-  Microscope,
   Sparkles,
 } from "lucide-react";
 import {
@@ -29,50 +27,6 @@ import {
   SidebarSubmenuButton,
   useSidebar,
 } from "@/components/ui/sidebar";
-
-const sidebarChildren = {
-  dashboard: [
-    { id: "overview", label: "Overview" },
-    { id: "analytics", label: "Analytics" },
-  ],
-  algorithms: [
-    { id: "perioperative", label: "Perioperative" },
-    { id: "vitt", label: "VITT" },
-  ],
-  scores: [
-    { id: "wells", label: "Wells" },
-    { id: "stroke", label: "Stroke risk" },
-  ],
-  guides: [
-    { id: "library", label: "Library" },
-    { id: "references", label: "References" },
-  ],
-  pdfs: [
-    { id: "vault", label: "Companion vault" },
-    { id: "linked", label: "Linked records" },
-  ],
-};
-
-const quickActions = [
-  {
-    id: "algorithms",
-    label: "Open algorithms",
-    caption: "Decision pathways",
-    icon: BrainCircuit,
-  },
-  {
-    id: "guides",
-    label: "Browse guides",
-    caption: "Markdown subpages",
-    icon: BookOpenText,
-  },
-  {
-    id: "pdfs",
-    label: "Review vault",
-    caption: "Companion records",
-    icon: FolderOpen,
-  },
-];
 
 const pageIconById = {
   dashboard: LayoutDashboard,
@@ -99,24 +53,22 @@ export function AppSidebar({
   siteName,
 }) {
   const { setOpen } = useSidebar();
-  const [expandedSections, setExpandedSections] = useState({
-    dashboard: true,
-    algorithms: currentPage === "algorithms",
-    scores: currentPage === "scores",
-    guides: currentPage === "guides",
-    pdfs: currentPage === "pdfs",
-  });
+  const [expandedSection, setExpandedSection] = useState(currentPage);
 
   useEffect(() => {
-    setExpandedSections((current) => ({
-      ...current,
-      [currentPage]: true,
-    }));
+    setExpandedSection(currentPage);
   }, [currentPage]);
 
   const sidebarSections = useMemo(
     () => ({
-      dashboard: sidebarChildren.dashboard,
+      dashboard: [
+        {
+          id: "dashboard-overview",
+          label: "Command center",
+          action: () => handleNavigate("dashboard"),
+          active: currentPage === "dashboard",
+        },
+      ],
       algorithms: algorithmItems.map((tool) => ({
         id: tool.id,
         label: tool.shortTitle,
@@ -176,10 +128,7 @@ export function AppSidebar({
   };
 
   const handlePagePress = (pageId) => {
-    setExpandedSections((current) => ({
-      ...current,
-      [pageId]: !current[pageId],
-    }));
+    setExpandedSection(pageId);
     onNavigate(pageId);
   };
 
@@ -215,7 +164,7 @@ export function AppSidebar({
               ].map((page) => {
                 const Icon = pageIconById[page.id];
                 const children = sidebarSections[page.id] ?? [];
-                const isExpanded = expandedSections[page.id];
+                const isExpanded = expandedSection === page.id;
 
                 return (
                   <SidebarMenuItem key={page.id}>
@@ -248,31 +197,6 @@ export function AppSidebar({
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-
-        <SidebarGroup>
-          <SidebarGroupLabel>
-            <Microscope size={14} />
-            Quick actions
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu className="sidebar-quick-grid">
-              {quickActions.map((action) => {
-                const Icon = action.icon;
-                return (
-                  <SidebarMenuItem key={action.id}>
-                    <SidebarMenuButton className="sidebar-action-button" onClick={() => handleNavigate(action.id)}>
-                      <span className="sidebar-menu-leading">
-                        <Icon size={16} />
-                        <span>{action.label}</span>
-                      </span>
-                      <SidebarMenuMeta>{action.caption}</SidebarMenuMeta>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                );
-              })}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
       </SidebarContent>
 
       <SidebarFooter>
@@ -294,18 +218,6 @@ export function AppSidebar({
               <div className="sidebar-summary-row">
                 <span>Vault entries</span>
                 <strong>{stats.pdfs}</strong>
-              </div>
-            </div>
-          </SidebarGroupContent>
-        </SidebarGroup>
-
-        <SidebarGroup className="sidebar-footer-note">
-          <SidebarGroupContent>
-            <div className="sidebar-footer-card">
-              <FileStack size={15} />
-              <div>
-                <strong>Cleaner reading flow</strong>
-                <p>Use the guide pages for main reading, then jump into linked vault records only when needed.</p>
               </div>
             </div>
           </SidebarGroupContent>
