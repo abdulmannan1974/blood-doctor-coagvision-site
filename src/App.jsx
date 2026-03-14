@@ -594,7 +594,38 @@ function AppLayout() {
         aria-label="Close navigation"
       />
 
-      <AppSidebar currentPage={currentPage} onNavigate={navigateToPage} stats={stats} siteName={siteName} />
+      <AppSidebar
+        currentPage={currentPage}
+        onNavigate={navigateToPage}
+        onSelectTool={(toolId) => {
+          setActiveToolId(toolId);
+          navigateToPage(getPageForToolId(toolId));
+        }}
+        onSelectGuide={(guideId) => {
+          setActiveGuideId(guideId);
+          const guide = guideLibrary.find((entry) => entry.id === guideId);
+          if (guide?.pdfId) {
+            setActivePdfId(guide.pdfId);
+          }
+          navigateToPage("guides");
+        }}
+        onSelectVault={(pdfId, guideId) => {
+          setActivePdfId(pdfId);
+          if (guideId) {
+            setActiveGuideId(guideId);
+          }
+          navigateToPage("pdfs");
+        }}
+        activeToolId={activeToolId}
+        activeGuideId={activeGuideId}
+        activePdfId={activePdfId}
+        algorithmItems={tools.filter((tool) => tool.category === "algorithm")}
+        scoreItems={tools.filter((tool) => tool.category === "score" || tool.category === "renal")}
+        guideItems={guideLibrary}
+        vaultItems={vaultLibrary}
+        stats={stats}
+        siteName={siteName}
+      />
 
       <div className="bd-main">
         <header className="topbar">

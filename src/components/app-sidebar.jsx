@@ -1,8 +1,11 @@
+import { useEffect, useMemo, useState } from "react";
 import {
   Activity,
   BookOpenText,
   BrainCircuit,
   Calculator,
+  ChevronDown,
+  ChevronRight,
   Droplets,
   FileStack,
   FolderOpen,
@@ -79,11 +82,105 @@ const pageIconById = {
   pdfs: FolderOpen,
 };
 
-export function AppSidebar({ currentPage, onNavigate, stats, siteName }) {
+export function AppSidebar({
+  currentPage,
+  onNavigate,
+  onSelectTool,
+  onSelectGuide,
+  onSelectVault,
+  activeToolId,
+  activeGuideId,
+  activePdfId,
+  algorithmItems,
+  scoreItems,
+  guideItems,
+  vaultItems,
+  stats,
+  siteName,
+}) {
   const { setOpen } = useSidebar();
+  const [expandedSections, setExpandedSections] = useState({
+    dashboard: true,
+    algorithms: currentPage === "algorithms",
+    scores: currentPage === "scores",
+    guides: currentPage === "guides",
+    pdfs: currentPage === "pdfs",
+  });
+
+  useEffect(() => {
+    setExpandedSections((current) => ({
+      ...current,
+      [currentPage]: true,
+    }));
+  }, [currentPage]);
+
+  const sidebarSections = useMemo(
+    () => ({
+      dashboard: sidebarChildren.dashboard,
+      algorithms: algorithmItems.map((tool) => ({
+        id: tool.id,
+        label: tool.shortTitle,
+        action: () => {
+          onSelectTool(tool.id);
+          setOpen(false);
+        },
+        active: activeToolId === tool.id && currentPage === "algorithms",
+      })),
+      scores: scoreItems.map((tool) => ({
+        id: tool.id,
+        label: tool.shortTitle,
+        action: () => {
+          onSelectTool(tool.id);
+          setOpen(false);
+        },
+        active: activeToolId === tool.id && currentPage === "scores",
+      })),
+      guides: guideItems.slice(0, 8).map((guide) => ({
+        id: guide.id,
+        label: guide.title,
+        action: () => {
+          onSelectGuide(guide.id);
+          setOpen(false);
+        },
+        active: activeGuideId === guide.id,
+      })),
+      pdfs: vaultItems.slice(0, 8).map((guide) => ({
+        id: guide.pdfId,
+        label: guide.title,
+        action: () => {
+          onSelectVault(guide.pdfId, guide.id);
+          setOpen(false);
+        },
+        active: activePdfId === guide.pdfId,
+      })),
+    }),
+    [
+      activeGuideId,
+      activePdfId,
+      activeToolId,
+      algorithmItems,
+      currentPage,
+      guideItems,
+      onSelectGuide,
+      onSelectTool,
+      onSelectVault,
+      scoreItems,
+      setOpen,
+      vaultItems,
+    ]
+  );
+
   const handleNavigate = (pageId) => {
     onNavigate(pageId);
     setOpen(false);
+  };
+
+  const handlePagePress = (pageId) => {
+    setExpandedSections((current) => ({
+      ...current,
+      [pageId]: !current[pageId],
+    }));
+    onNavigate(pageId);
   };
 
   return (
@@ -117,23 +214,29 @@ export function AppSidebar({ currentPage, onNavigate, stats, siteName }) {
                 { id: "pdfs", label: "Clinical Vault", meta: "Linked records" },
               ].map((page) => {
                 const Icon = pageIconById[page.id];
-                const children = sidebarChildren[page.id] ?? [];
+                const children = sidebarSections[page.id] ?? [];
+                const isExpanded = expandedSections[page.id];
 
                 return (
                   <SidebarMenuItem key={page.id}>
-                    <SidebarMenuButton active={currentPage === page.id} onClick={() => handleNavigate(page.id)}>
+                    <SidebarMenuButton active={currentPage === page.id} onClick={() => handlePagePress(page.id)}>
                       <span className="sidebar-menu-leading">
                         <Icon size={16} />
                         <span>{page.label}</span>
                       </span>
-                      <SidebarMenuMeta>{page.meta}</SidebarMenuMeta>
+                      <SidebarMenuMeta>
+                        <span className="sidebar-menu-trailing">
+                          <span>{page.meta}</span>
+                          {isExpanded ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                        </span>
+                      </SidebarMenuMeta>
                     </SidebarMenuButton>
-                    <SidebarSubmenu>
+                    <SidebarSubmenu className={isExpanded ? "open" : "closed"}>
                       {children.map((child) => (
                         <SidebarSubmenuButton
                           key={`${page.id}-${child.id}`}
-                          active={currentPage === page.id}
-                          onClick={() => handleNavigate(page.id)}
+                          active={child.active ?? currentPage === page.id}
+                          onClick={child.action ?? (() => handleNavigate(page.id))}
                         >
                           {child.label}
                         </SidebarSubmenuButton>

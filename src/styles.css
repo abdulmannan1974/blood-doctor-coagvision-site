@@ -188,9 +188,30 @@ a {
   white-space: nowrap;
 }
 
+.sidebar-menu-trailing {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
 .sidebar-submenu {
   gap: 0.18rem;
   padding: 0 0.35rem 0 2.45rem;
+  overflow: hidden;
+  max-height: 24rem;
+  opacity: 1;
+  transition:
+    max-height 180ms ease,
+    opacity 180ms ease,
+    padding-top 180ms ease,
+    padding-bottom 180ms ease;
+}
+
+.sidebar-submenu.closed {
+  max-height: 0;
+  opacity: 0;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .sidebar-submenu-button {
@@ -627,6 +648,10 @@ a {
   background: var(--card);
   border: 1px solid var(--border);
   color: var(--foreground);
+}
+
+.sidebar-trigger {
+  flex-shrink: 0;
 }
 
 .link-button {
