@@ -1,0 +1,22 @@
+{
+  "name": "thrombopilot-blood-doctor",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build --minify false && python3 scripts/publish_site.py",
+    "preview": "vite preview",
+    "sanitize:pdfs": "python3 scripts/sanitize_pdfs.py"
+  },
+  "dependencies": {
+    "lucide-react": "^0.577.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "recharts": "^3.8.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^5.0.0",
+    "vite": "^7.0.0"
+  }
+}
