@@ -881,12 +881,7 @@ function AppLayout() {
 
           {currentPage === "algorithms" || currentPage === "scores" ? (
           <>
-          <PageLead
-            eyebrow={pageCopy[currentPage].eyebrow}
-            title={pageCopy[currentPage].title}
-            description={pageCopy[currentPage].description}
-          />
-          <section className="focus-layout">
+          <section className="focus-layout focus-layout-tight">
             <div className="studio-stack">
               <section key={`tool-panel-${activeTool?.id ?? "empty"}`} className="panel active-tool-panel spotlight-panel">
                 {activeTool ? (
