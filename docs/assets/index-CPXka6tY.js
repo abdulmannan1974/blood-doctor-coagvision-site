@@ -50313,6 +50313,29 @@ const pageIconById = {
   guides: BookOpenText,
   pdfs: FolderOpen
 };
+const pageMetaById = {
+  dashboard: {
+    subtitle: "Overview and key workspace signals"
+  },
+  algorithms: {
+    subtitle: "Decision pathways and treatment flowcharts"
+  },
+  scores: {
+    subtitle: "Risk scores and renal dosing tools"
+  },
+  guides: {
+    subtitle: "Structured clinical guide library"
+  },
+  pdfs: {
+    subtitle: "Linked vault records and companion views"
+  }
+};
+const countLeaves = (nodes) => nodes.reduce((total, node) => {
+  if (node.children?.length) {
+    return total + countLeaves(node.children);
+  }
+  return total + 1;
+}, 0);
 function AppSidebar({
   currentPage,
   onNavigate,
@@ -50461,7 +50484,10 @@ function AppSidebar({
             active: node.children.some((child) => child.active),
             onClick: () => toggleFolder(node.id),
             children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "sidebar-label-text", children: node.label }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "sidebar-folder-content", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "sidebar-label-text", children: node.label }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "sidebar-folder-meta", children: countLeaves(node.children) })
+              ] }),
               isExpanded ? /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronDown, { size: 14 }) : /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronRight, { size: 14 })
             ]
           }
@@ -50502,15 +50528,23 @@ function AppSidebar({
         { id: "pdfs", label: "Clinical Vault" }
       ].map((page) => {
         const Icon2 = pageIconById[page.id];
+        const meta = pageMetaById[page.id];
         const children = sidebarSections[page.id] ?? [];
         const isExpanded = expandedSection === page.id;
+        const itemCount = countLeaves(children);
         return /* @__PURE__ */ jsxRuntimeExports.jsxs(SidebarMenuItem, { children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs(SidebarMenuButton, { active: currentPage === page.id, onClick: () => handlePagePress(page.id), children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(SidebarMenuButton, { className: isExpanded ? "section-open" : "", active: currentPage === page.id, onClick: () => handlePagePress(page.id), children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "sidebar-menu-leading", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx(Icon2, { size: 16 }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: page.label })
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "sidebar-menu-icon-shell", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Icon2, { size: 16 }) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "sidebar-section-copy", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "sidebar-section-title", children: page.label }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "sidebar-section-subtitle", children: meta.subtitle })
+              ] })
             ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarMenuMeta, { children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "sidebar-menu-trailing", children: isExpanded ? /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronDown, { size: 14 }) : /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronRight, { size: 14 }) }) })
+            /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarMenuMeta, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "sidebar-menu-trailing", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "sidebar-count-badge", children: itemCount }),
+              isExpanded ? /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronDown, { size: 14 }) : /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronRight, { size: 14 })
+            ] }) })
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarSubmenu, { className: isExpanded ? "open" : "closed", children: renderSidebarNodes(page.id, children) })
         ] }, page.id);

@@ -172,16 +172,48 @@ a {
   background: var(--accent);
 }
 
-.sidebar-menu-leading {
-  display: inline-flex;
-  align-items: flex-start;
-  gap: 0.8rem;
-  min-width: 0;
-  font-weight: 600;
+.sidebar-menu-button.section-open {
+  background: linear-gradient(180deg, #fff 0%, #fcf8fa 100%);
 }
 
-.sidebar-menu-leading span:last-child {
-  line-height: 1.42;
+.sidebar-menu-leading {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: flex-start;
+  gap: 0.9rem;
+  min-width: 0;
+  width: 100%;
+}
+
+.sidebar-menu-icon-shell {
+  width: 2rem;
+  height: 2rem;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: rgba(127, 29, 63, 0.08);
+  color: var(--primary);
+  border: 1px solid rgba(127, 29, 63, 0.12);
+}
+
+.sidebar-section-copy {
+  min-width: 0;
+  display: grid;
+  gap: 0.28rem;
+}
+
+.sidebar-section-title {
+  display: block;
+  font-size: 0.99rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.sidebar-section-subtitle {
+  display: block;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.45;
 }
 
 .sidebar-menu-meta {
@@ -192,7 +224,23 @@ a {
 .sidebar-menu-trailing {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: 0.55rem;
+  color: var(--muted);
+}
+
+.sidebar-count-badge,
+.sidebar-folder-meta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.85rem;
+  padding: 0.18rem 0.45rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
 }
 
 .sidebar-submenu {
@@ -231,6 +279,7 @@ a {
   background: rgba(127, 29, 63, 0.08);
   color: var(--foreground);
   border-color: rgba(127, 29, 63, 0.18);
+  box-shadow: inset 0 0 0 1px rgba(127, 29, 63, 0.08);
 }
 
 .sidebar-tree-node {
@@ -248,11 +297,19 @@ a {
   height: auto;
 }
 
+.sidebar-folder-content {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.75rem;
+  align-items: start;
+}
+
 .sidebar-folder-button.depth-0 {
   font-weight: 700;
   color: var(--foreground);
-  background: #faf7f8;
-  border: 1px solid var(--border);
+  background: linear-gradient(180deg, #fdf9fa 0%, #fbf7f8 100%);
+  border: 1px solid rgba(127, 29, 63, 0.12);
 }
 
 .sidebar-leaf-button.depth-1 {
@@ -269,6 +326,11 @@ a {
   display: block;
   line-height: 1.62;
   overflow-wrap: anywhere;
+}
+
+.sidebar-leaf-button.active .sidebar-label-text,
+.sidebar-folder-button.active .sidebar-label-text {
+  font-weight: 700;
 }
 
 .sidebar-quick-grid {
