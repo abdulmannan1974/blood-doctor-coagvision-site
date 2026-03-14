@@ -50370,7 +50370,7 @@ function AppSidebar({
     const nextExpandedFolders = {};
     const currentNodes = sidebarSections[currentPage] ?? [];
     currentNodes.forEach((node) => {
-      if (node.children?.some((child) => child.active)) {
+      if (node.children?.length) {
         nextExpandedFolders[node.id] = true;
       }
     });
@@ -50424,9 +50424,9 @@ function AppSidebar({
     /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarHeader, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "sidebar-brand sidebar-brand-card", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "sidebar-logo", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Droplets, {}) }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Blood Doctor" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Blood🩸Doctor" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { children: siteName2 }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Clinical navigation, calculators, markdown guides, and a cleaner linked vault." })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Clear clinical navigation with actionable calculators, guide folders, and linked vault records." })
       ] })
     ] }) }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarContent, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs(SidebarGroup, { children: [
@@ -50435,11 +50435,11 @@ function AppSidebar({
         "Primary navigation"
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarGroupContent, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarMenu, { children: [
-        { id: "dashboard", label: "Dashboard", meta: "Overview" },
-        { id: "algorithms", label: "Interactive Algorithms", meta: "Decision tools" },
-        { id: "scores", label: "Scoring Calculators", meta: "Risk scoring" },
-        { id: "guides", label: "Clinical Guides", meta: "Markdown library" },
-        { id: "pdfs", label: "Clinical Vault", meta: "Linked records" }
+        { id: "dashboard", label: "Dashboard" },
+        { id: "algorithms", label: "Interactive Algorithms" },
+        { id: "scores", label: "Scoring Calculators" },
+        { id: "guides", label: "Clinical Guides" },
+        { id: "pdfs", label: "Clinical Vault" }
       ].map((page) => {
         const Icon2 = pageIconById[page.id];
         const children = sidebarSections[page.id] ?? [];
@@ -50450,10 +50450,7 @@ function AppSidebar({
               /* @__PURE__ */ jsxRuntimeExports.jsx(Icon2, { size: 16 }),
               /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: page.label })
             ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarMenuMeta, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "sidebar-menu-trailing", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: page.meta }),
-              isExpanded ? /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronDown, { size: 14 }) : /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronRight, { size: 14 })
-            ] }) })
+            /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarMenuMeta, { children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "sidebar-menu-trailing", children: isExpanded ? /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronDown, { size: 14 }) : /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronRight, { size: 14 }) }) })
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarSubmenu, { className: isExpanded ? "open" : "closed", children: renderSidebarNodes(page.id, children) })
         ] }, page.id);
@@ -50461,7 +50458,7 @@ function AppSidebar({
     ] }) })
   ] });
 }
-const siteName = "Blood Doctor CoagVision";
+const siteName = "Blood🩸Doctor CoagVision";
 const toneMeta = {
   success: {
     label: "Low-friction",
@@ -51156,7 +51153,7 @@ function AppLayout() {
             }
           ),
           /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "focus-layout", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "studio-stack", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "panel active-tool-panel", children: activeTool ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "panel active-tool-panel spotlight-panel", children: activeTool ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
               /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "section-card-header", children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
                   /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Current calculator" }),
@@ -51211,7 +51208,7 @@ function AppLayout() {
             ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "empty-state left-aligned", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx(CircleAlert, { size: 24 }),
               /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: "No tools matched the current search." })
-            ] }) }),
+            ] }) }, `tool-panel-${activeTool?.id ?? "empty"}`),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "insight-grid", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx(ResultPanel, { result }),
               /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -51257,7 +51254,7 @@ function AppLayout() {
               description: pageCopy.guides.description
             }
           ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "focus-layout", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "panel guide-detail-panel", children: activeGuide ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "focus-layout", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "panel guide-detail-panel spotlight-panel", children: activeGuide ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "section-card-header", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Selected guide" }),
@@ -51359,7 +51356,7 @@ function AppLayout() {
           ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "empty-state left-aligned", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(CircleAlert, { size: 24 }),
             /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: "No guides matched the current search." })
-          ] }) }) })
+          ] }) }, `guide-panel-${activeGuide?.id ?? "empty"}`) })
         ] }) : null,
         currentPage === "pdfs" ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -51370,7 +51367,7 @@ function AppLayout() {
               description: pageCopy.pdfs.description
             }
           ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "focus-layout", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "panel pdf-viewer-panel", children: activeVaultEntry ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "focus-layout", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "panel pdf-viewer-panel spotlight-panel", children: activeVaultEntry ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "section-card-header", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Vault record" }),
@@ -51424,7 +51421,7 @@ function AppLayout() {
           ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "empty-state", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(FolderOpen, { size: 28 }),
             /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: "No vault entries matched the current search" })
-          ] }) }) })
+          ] }) }, `vault-panel-${activeVaultEntry?.id ?? "empty"}`) })
         ] }) : null
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("footer", { className: "footer", children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Dr Abdul Mannan FRCPath FCPS I Blood🩸Doctor I blooddoctor.co@gmail.com" }) })
@@ -51655,13 +51652,14 @@ function ContentBlock({ block }) {
   return null;
 }
 function renderInlineContent(text) {
+  const safeText = sanitizeDisplayText(text);
   const tokens = [];
   const pattern = /(\[([^\]]+)\]\(([^)]+)\)|\*\*([^*]+)\*\*|`([^`]+)`|\*([^*]+)\*)/g;
   let lastIndex = 0;
-  let match = pattern.exec(text);
+  let match = pattern.exec(safeText);
   while (match) {
     if (match.index > lastIndex) {
-      tokens.push(text.slice(lastIndex, match.index));
+      tokens.push(safeText.slice(lastIndex, match.index));
     }
     if (match[2] && match[3]) {
       const resolvedTarget = resolveMarkdownTarget(match[3]);
@@ -51716,8 +51714,8 @@ function renderInlineContent(text) {
     lastIndex = pattern.lastIndex;
     match = pattern.exec(text);
   }
-  if (lastIndex < text.length) {
-    tokens.push(text.slice(lastIndex));
+  if (lastIndex < safeText.length) {
+    tokens.push(safeText.slice(lastIndex));
   }
   return tokens.map((token, index) => {
     if (typeof token === "string") {
@@ -51725,6 +51723,12 @@ function renderInlineContent(text) {
     }
     return token;
   });
+}
+function sanitizeDisplayText(value) {
+  if (!value) {
+    return "";
+  }
+  return value.replace(/\\\(/g, "").replace(/\\\)/g, "").replace(/\\\[/g, "").replace(/\\\]/g, "").replace(/\$\$([^$]+)\$\$/g, "$1").replace(/\$([^$]+)\$/g, "$1").replace(/\\([_%#&])/g, "$1").replace(/\s{2,}/g, " ").trim();
 }
 ReactDOM.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(App, {}) })
