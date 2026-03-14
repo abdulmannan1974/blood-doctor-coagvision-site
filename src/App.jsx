@@ -1502,6 +1502,21 @@ function ContentBlock({ block }) {
     );
   }
 
+  if (block.type === "callout") {
+    const Icon = block.tone === "warning" ? CircleAlert : BadgeCheck;
+    return (
+      <div className={`content-callout ${block.tone === "warning" ? "warning" : "note"}`}>
+        <div className="content-callout-icon">
+          <Icon size={16} />
+        </div>
+        <div>
+          <strong>{renderInlineContent(block.label)}</strong>
+          <p>{renderInlineContent(block.value)}</p>
+        </div>
+      </div>
+    );
+  }
+
   if (block.type === "bullet-list" || block.type === "ordered-list") {
     const ListTag = block.type === "ordered-list" ? "ol" : "ul";
     return (

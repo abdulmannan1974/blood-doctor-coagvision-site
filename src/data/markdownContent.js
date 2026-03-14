@@ -79,6 +79,15 @@ const tabMeta = {
 
 const collapseWhitespace = (value) => value.replace(/\s+/g, " ").trim();
 
+const normalizeMarkdownStructure = (markdown) =>
+  markdown
+    .replace(/\r/g, "")
+    .replace(/([^\n])\s+---\s+(#{1,4}\s+)/g, "$1\n\n$2")
+    .replace(/([^\n])\s+(#{1,4}\s+)/g, "$1\n\n$2")
+    .replace(/^(#{1,4})\s+\*\*([^*]+?)\*\*:?\s*$/gm, "$1 $2")
+    .replace(/^(#{1,4})\s+(.+?):\s*$/gm, "$1 $2")
+    .replace(/\n{3,}/g, "\n\n");
+
 const stripMarkdown = (value) =>
   collapseWhitespace(
     value
@@ -100,7 +109,7 @@ const debrandContent = (markdown) =>
     .replace(/\s{2,}/g, " ");
 
 export const sanitizeMarkdown = (markdown) =>
-  markdown
+  normalizeMarkdownStructure(markdown)
     .split("\n")
     .filter((line) => {
       const trimmed = line.trim();
@@ -172,9 +181,20 @@ const splitSections = (markdown) => {
   const sections = [];
   const lines = markdown.split("\n");
   let current = null;
+  let hasSeenPrimaryTitle = false;
 
   for (const line of lines) {
-    if (line.startsWith("## ")) {
+    const headingMatch = line.match(/^(#{1,4})\s+(.+)$/);
+
+    if (headingMatch) {
+      const level = headingMatch[1].length;
+      const headingTitle = headingMatch[2].trim();
+
+      if (level === 1 && !hasSeenPrimaryTitle) {
+        hasSeenPrimaryTitle = true;
+        continue;
+      }
+
       if (current) {
         sections.push({
           ...current,
@@ -183,7 +203,7 @@ const splitSections = (markdown) => {
       }
 
       current = {
-        title: line.replace(/^##\s+/, "").trim(),
+        title: headingTitle,
         content: [],
       };
       continue;
@@ -286,7 +306,7 @@ const parseFence = (lines, startIndex) => {
 };
 
 const parseList = (lines, startIndex, kind) => {
-  const pattern = kind === "ordered" ? /^\d+\.\s+/ : /^-\s+/;
+  const pattern = kind === "ordered" ? /^\d+\.\s+/ : /^[-*]\s+/;
   if (!pattern.test(lines[startIndex])) {
     return null;
   }
@@ -295,7 +315,7 @@ const parseList = (lines, startIndex, kind) => {
   let cursor = startIndex;
 
   while (cursor < lines.length && pattern.test(lines[cursor])) {
-    items.push(lines[cursor].replace(pattern, "").trim());
+    items.push(lines[cursor].replace(pattern, "").replace(/^\d+\.\s*/, "").trim());
     cursor += 1;
   }
 
@@ -314,10 +334,23 @@ const parseFact = (line) => {
     return null;
   }
 
+  const label = collapseWhitespace(match[1]);
+  const value = collapseWhitespace(match[2]);
+  const calloutLabel = label.toLowerCase();
+
+  if (["note", "important", "warning", "caution", "clinical pearl", "key point"].includes(calloutLabel)) {
+    return {
+      type: "callout",
+      tone: calloutLabel === "warning" || calloutLabel === "caution" ? "warning" : "note",
+      label,
+      value,
+    };
+  }
+
   return {
     type: "fact",
-    label: collapseWhitespace(match[1]),
-    value: collapseWhitespace(match[2]),
+    label,
+    value,
   };
 };
 
@@ -401,7 +434,7 @@ const parseBlocks = (content) => {
         next.startsWith("### ") ||
         next.startsWith("#### ") ||
         next.startsWith("```") ||
-        /^-\s+/.test(next) ||
+        /^[-*]\s+/.test(next) ||
         /^\d+\.\s+/.test(next) ||
         parseFact(next) ||
         parseTable(lines, index)

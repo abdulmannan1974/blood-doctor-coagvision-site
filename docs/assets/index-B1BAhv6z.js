@@ -50495,16 +50495,6 @@ const getPageFromHash = () => {
   return pageIds.has(hashValue) ? hashValue : "dashboard";
 };
 const pageCopy = {
-  algorithms: {
-    eyebrow: "Clinical tools index",
-    title: "Interactive algorithms",
-    description: "Decision pathways from the local clinical tools index, kept in a cleaner two-panel workspace with the active calculator and its reference stack side by side."
-  },
-  scores: {
-    eyebrow: "Clinical tools index",
-    title: "Scoring calculators",
-    description: "Risk scores and renal dosing tools grouped into a calmer calculation workspace with faster switching and less visual clutter."
-  },
   guides: {
     eyebrow: "Clinical guides index",
     title: "Guide library",
@@ -51143,108 +51133,98 @@ function AppLayout() {
             )
           ] })
         ] }) : null,
-        currentPage === "algorithms" || currentPage === "scores" ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            PageLead,
-            {
-              eyebrow: pageCopy[currentPage].eyebrow,
-              title: pageCopy[currentPage].title,
-              description: pageCopy[currentPage].description
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "focus-layout", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "studio-stack", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "panel active-tool-panel spotlight-panel", children: activeTool ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "section-card-header", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Current calculator" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: activeTool.title })
-                ] }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx(
-                  "button",
-                  {
-                    type: "button",
-                    className: "ghost-button",
-                    onClick: () => setToolValues((current2) => ({
-                      ...current2,
-                      [activeTool.id]: getInitialValues(activeTool)
-                    })),
-                    children: "Reset"
-                  }
-                )
+        currentPage === "algorithms" || currentPage === "scores" ? /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "focus-layout focus-layout-tight", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "studio-stack", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "panel active-tool-panel spotlight-panel", children: activeTool ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "section-card-header", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Current calculator" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: activeTool.title })
               ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tool-hero", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: activeTool.blurb }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "tag-row", children: activeTool.tags.map((tag) => /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "tag", children: tag }, tag)) })
-                ] }),
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "progress-card", children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Input completion" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsxs("strong", { children: [
-                    completion.percent,
-                    "%"
-                  ] }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "progress-bar", children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { width: `${completion.percent}%` } }) }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { children: [
-                    completion.completed,
-                    " of ",
-                    completion.total,
-                    " visible inputs populated."
-                  ] })
-                ] })
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "tool-notes-grid", children: activeTool.notes.map((note) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "note-chip", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx(Pill, { size: 15 }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: note })
-              ] }, note)) }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "form-grid", children: activeTool.inputs.filter((input) => input.type !== "hidden").map((input) => /* @__PURE__ */ jsxRuntimeExports.jsx(
-                FieldRenderer,
-                {
-                  input,
-                  value: activeValues[input.id],
-                  onChange: (value) => updateValue(activeTool.id, input.id, value)
-                },
-                input.id
-              )) })
-            ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "empty-state left-aligned", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx(CircleAlert, { size: 24 }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: "No tools matched the current search." })
-            ] }) }, `tool-panel-${activeTool?.id ?? "empty"}`),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "insight-grid", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx(ResultPanel, { result }),
               /* @__PURE__ */ jsxRuntimeExports.jsx(
-                ChartCard,
+                "button",
                 {
-                  title: "Calculator richness",
-                  description: "A quick visual read of how much structure supports the active decision tool.",
-                  icon: BrainCircuit,
-                  children: /* @__PURE__ */ jsxRuntimeExports.jsx(ResponsiveContainer, { width: "100%", height: 260, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(RadarChart, { data: activeToolRadarData, children: [
-                    /* @__PURE__ */ jsxRuntimeExports.jsx(PolarGrid, { stroke: "#e7e5e4" }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx(PolarAngleAxis, { dataKey: "subject", tick: { fontSize: 12, fill: "#475569" } }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx(PolarRadiusAxis, { angle: 30, domain: [0, "dataMax"], tick: false, axisLine: false }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx(
-                      Radar,
-                      {
-                        dataKey: "value",
-                        stroke: "#8b1e3f",
-                        fill: "#8b1e3f",
-                        fillOpacity: 0.32
-                      }
-                    )
-                  ] }) })
+                  type: "button",
+                  className: "ghost-button",
+                  onClick: () => setToolValues((current2) => ({
+                    ...current2,
+                    [activeTool.id]: getInitialValues(activeTool)
+                  })),
+                  children: "Reset"
                 }
               )
             ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              ClinicalReference,
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tool-hero", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: activeTool.blurb }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "tag-row", children: activeTool.tags.map((tag) => /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "tag", children: tag }, tag)) })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "progress-card", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Input completion" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("strong", { children: [
+                  completion.percent,
+                  "%"
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "progress-bar", children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { width: `${completion.percent}%` } }) }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { children: [
+                  completion.completed,
+                  " of ",
+                  completion.total,
+                  " visible inputs populated."
+                ] })
+              ] })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "tool-notes-grid", children: activeTool.notes.map((note) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "note-chip", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Pill, { size: 15 }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: note })
+            ] }, note)) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "form-grid", children: activeTool.inputs.filter((input) => input.type !== "hidden").map((input) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+              FieldRenderer,
               {
-                title: activeTool?.title,
-                content: activeClinicalContent,
-                activeTab: activeClinicalTab,
-                onTabChange: setActiveClinicalTab
+                input,
+                value: activeValues[input.id],
+                onChange: (value) => updateValue(activeTool.id, input.id, value)
+              },
+              input.id
+            )) })
+          ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "empty-state left-aligned", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(CircleAlert, { size: 24 }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: "No tools matched the current search." })
+          ] }) }, `tool-panel-${activeTool?.id ?? "empty"}`),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "insight-grid", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(ResultPanel, { result }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              ChartCard,
+              {
+                title: "Calculator richness",
+                description: "A quick visual read of how much structure supports the active decision tool.",
+                icon: BrainCircuit,
+                children: /* @__PURE__ */ jsxRuntimeExports.jsx(ResponsiveContainer, { width: "100%", height: 260, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(RadarChart, { data: activeToolRadarData, children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(PolarGrid, { stroke: "#e7e5e4" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(PolarAngleAxis, { dataKey: "subject", tick: { fontSize: 12, fill: "#475569" } }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(PolarRadiusAxis, { angle: 30, domain: [0, "dataMax"], tick: false, axisLine: false }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    Radar,
+                    {
+                      dataKey: "value",
+                      stroke: "#8b1e3f",
+                      fill: "#8b1e3f",
+                      fillOpacity: 0.32
+                    }
+                  )
+                ] }) })
               }
             )
-          ] }) })
-        ] }) : null,
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            ClinicalReference,
+            {
+              title: activeTool?.title,
+              content: activeClinicalContent,
+              activeTab: activeClinicalTab,
+              onTabChange: setActiveClinicalTab
+            }
+          )
+        ] }) }) }) : null,
         currentPage === "guides" ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             PageLead,
