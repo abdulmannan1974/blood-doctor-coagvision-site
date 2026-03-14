@@ -177,7 +177,7 @@ export function AppSidebar({
     const currentNodes = sidebarSections[currentPage] ?? [];
 
     currentNodes.forEach((node) => {
-      if (node.children?.some((child) => child.active)) {
+      if (node.children?.length) {
         nextExpandedFolders[node.id] = true;
       }
     });
@@ -243,9 +243,9 @@ export function AppSidebar({
             <Droplets />
           </div>
           <div>
-            <span className="eyebrow">Blood Doctor</span>
+            <span className="eyebrow">Blood🩸Doctor</span>
             <h1>{siteName}</h1>
-            <p>Clinical navigation, calculators, markdown guides, and a cleaner linked vault.</p>
+            <p>Clear clinical navigation with actionable calculators, guide folders, and linked vault records.</p>
           </div>
         </div>
       </SidebarHeader>
@@ -259,11 +259,11 @@ export function AppSidebar({
           <SidebarGroupContent>
             <SidebarMenu>
               {[
-                { id: "dashboard", label: "Dashboard", meta: "Overview" },
-                { id: "algorithms", label: "Interactive Algorithms", meta: "Decision tools" },
-                { id: "scores", label: "Scoring Calculators", meta: "Risk scoring" },
-                { id: "guides", label: "Clinical Guides", meta: "Markdown library" },
-                { id: "pdfs", label: "Clinical Vault", meta: "Linked records" },
+                { id: "dashboard", label: "Dashboard" },
+                { id: "algorithms", label: "Interactive Algorithms" },
+                { id: "scores", label: "Scoring Calculators" },
+                { id: "guides", label: "Clinical Guides" },
+                { id: "pdfs", label: "Clinical Vault" },
               ].map((page) => {
                 const Icon = pageIconById[page.id];
                 const children = sidebarSections[page.id] ?? [];
@@ -278,7 +278,6 @@ export function AppSidebar({
                       </span>
                       <SidebarMenuMeta>
                         <span className="sidebar-menu-trailing">
-                          <span>{page.meta}</span>
                           {isExpanded ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
                         </span>
                       </SidebarMenuMeta>

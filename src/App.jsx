@@ -43,7 +43,7 @@ import { guideLibrary, pdfLibrary, resolveMarkdownTarget, vaultLibrary } from ".
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarProvider, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 
-const siteName = "Blood Doctor CoagVision";
+const siteName = "Blood🩸Doctor CoagVision";
 
 const toneMeta = {
   success: {
@@ -888,7 +888,7 @@ function AppLayout() {
           />
           <section className="focus-layout">
             <div className="studio-stack">
-              <section className="panel active-tool-panel">
+              <section key={`tool-panel-${activeTool?.id ?? "empty"}`} className="panel active-tool-panel spotlight-panel">
                 {activeTool ? (
                   <>
                     <div className="section-card-header">
@@ -1007,7 +1007,7 @@ function AppLayout() {
             description={pageCopy.guides.description}
           />
           <section className="focus-layout">
-            <div className="panel guide-detail-panel">
+            <div key={`guide-panel-${activeGuide?.id ?? "empty"}`} className="panel guide-detail-panel spotlight-panel">
               {activeGuide ? (
                 <>
                   <div className="section-card-header">
@@ -1142,7 +1142,7 @@ function AppLayout() {
             description={pageCopy.pdfs.description}
           />
           <section className="focus-layout">
-            <div className="panel pdf-viewer-panel">
+            <div key={`vault-panel-${activeVaultEntry?.id ?? "empty"}`} className="panel pdf-viewer-panel spotlight-panel">
               {activeVaultEntry ? (
                 <>
                   <div className="section-card-header">
@@ -1555,14 +1555,15 @@ function ContentBlock({ block }) {
 }
 
 function renderInlineContent(text) {
+  const safeText = sanitizeDisplayText(text);
   const tokens = [];
   const pattern = /(\[([^\]]+)\]\(([^)]+)\)|\*\*([^*]+)\*\*|`([^`]+)`|\*([^*]+)\*)/g;
   let lastIndex = 0;
-  let match = pattern.exec(text);
+  let match = pattern.exec(safeText);
 
   while (match) {
     if (match.index > lastIndex) {
-      tokens.push(text.slice(lastIndex, match.index));
+      tokens.push(safeText.slice(lastIndex, match.index));
     }
 
     if (match[2] && match[3]) {
@@ -1618,8 +1619,8 @@ function renderInlineContent(text) {
     match = pattern.exec(text);
   }
 
-  if (lastIndex < text.length) {
-    tokens.push(text.slice(lastIndex));
+  if (lastIndex < safeText.length) {
+    tokens.push(safeText.slice(lastIndex));
   }
 
   return tokens.map((token, index) => {
@@ -1629,6 +1630,23 @@ function renderInlineContent(text) {
 
     return token;
   });
+}
+
+function sanitizeDisplayText(value) {
+  if (!value) {
+    return "";
+  }
+
+  return value
+    .replace(/\\\(/g, "")
+    .replace(/\\\)/g, "")
+    .replace(/\\\[/g, "")
+    .replace(/\\\]/g, "")
+    .replace(/\$\$([^$]+)\$\$/g, "$1")
+    .replace(/\$([^$]+)\$/g, "$1")
+    .replace(/\\([_%#&])/g, "$1")
+    .replace(/\s{2,}/g, " ")
+    .trim();
 }
 
 export default App;
