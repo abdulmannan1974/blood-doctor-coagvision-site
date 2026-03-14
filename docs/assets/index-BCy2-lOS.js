@@ -12582,7 +12582,7 @@ const createLucideIcon = (iconName, iconNode) => {
   Component.displayName = toPascalCase(iconName);
   return Component;
 };
-const __iconNode$m = [
+const __iconNode$n = [
   [
     "path",
     {
@@ -12591,13 +12591,13 @@ const __iconNode$m = [
     }
   ]
 ];
-const Activity = createLucideIcon("activity", __iconNode$m);
-const __iconNode$l = [
+const Activity = createLucideIcon("activity", __iconNode$n);
+const __iconNode$m = [
   ["path", { d: "M7 7h10v10", key: "1tivn9" }],
   ["path", { d: "M7 17 17 7", key: "1vkiza" }]
 ];
-const ArrowUpRight = createLucideIcon("arrow-up-right", __iconNode$l);
-const __iconNode$k = [
+const ArrowUpRight = createLucideIcon("arrow-up-right", __iconNode$m);
+const __iconNode$l = [
   [
     "path",
     {
@@ -12607,8 +12607,8 @@ const __iconNode$k = [
   ],
   ["path", { d: "m9 12 2 2 4-4", key: "dzmm74" }]
 ];
-const BadgeCheck = createLucideIcon("badge-check", __iconNode$k);
-const __iconNode$j = [
+const BadgeCheck = createLucideIcon("badge-check", __iconNode$l);
+const __iconNode$k = [
   ["path", { d: "M12 7v14", key: "1akyts" }],
   ["path", { d: "M16 12h2", key: "7q9ll5" }],
   ["path", { d: "M16 8h2", key: "msurwy" }],
@@ -12622,8 +12622,8 @@ const __iconNode$j = [
   ["path", { d: "M6 12h2", key: "32wvfc" }],
   ["path", { d: "M6 8h2", key: "30oboj" }]
 ];
-const BookOpenText = createLucideIcon("book-open-text", __iconNode$j);
-const __iconNode$i = [
+const BookOpenText = createLucideIcon("book-open-text", __iconNode$k);
+const __iconNode$j = [
   [
     "path",
     {
@@ -12644,8 +12644,8 @@ const __iconNode$i = [
   ["circle", { cx: "20", cy: "21", r: ".5", key: "yhc1fs" }],
   ["circle", { cx: "20", cy: "8", r: ".5", key: "1e43v0" }]
 ];
-const BrainCircuit = createLucideIcon("brain-circuit", __iconNode$i);
-const __iconNode$h = [
+const BrainCircuit = createLucideIcon("brain-circuit", __iconNode$j);
+const __iconNode$i = [
   ["rect", { width: "16", height: "20", x: "4", y: "2", rx: "2", key: "1nb95v" }],
   ["line", { x1: "8", x2: "16", y1: "6", y2: "6", key: "x4nwl0" }],
   ["line", { x1: "16", x2: "16", y1: "14", y2: "18", key: "wjye3r" }],
@@ -12657,25 +12657,29 @@ const __iconNode$h = [
   ["path", { d: "M12 18h.01", key: "mhygvu" }],
   ["path", { d: "M8 18h.01", key: "lrp35t" }]
 ];
-const Calculator = createLucideIcon("calculator", __iconNode$h);
-const __iconNode$g = [
+const Calculator = createLucideIcon("calculator", __iconNode$i);
+const __iconNode$h = [
   ["path", { d: "M3 3v16a2 2 0 0 0 2 2h16", key: "c24i48" }],
   ["rect", { x: "15", y: "5", width: "4", height: "12", rx: "1", key: "q8uenq" }],
   ["rect", { x: "7", y: "8", width: "4", height: "9", rx: "1", key: "sr5ea" }]
 ];
-const ChartColumnBig = createLucideIcon("chart-column-big", __iconNode$g);
-const __iconNode$f = [
+const ChartColumnBig = createLucideIcon("chart-column-big", __iconNode$h);
+const __iconNode$g = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
+const ChevronDown = createLucideIcon("chevron-down", __iconNode$g);
+const __iconNode$f = [["path", { d: "m9 18 6-6-6-6", key: "mthhwq" }]];
+const ChevronRight = createLucideIcon("chevron-right", __iconNode$f);
+const __iconNode$e = [
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
   ["line", { x1: "12", x2: "12", y1: "8", y2: "12", key: "1pkeuh" }],
   ["line", { x1: "12", x2: "12.01", y1: "16", y2: "16", key: "4dfq90" }]
 ];
-const CircleAlert = createLucideIcon("circle-alert", __iconNode$f);
-const __iconNode$e = [
+const CircleAlert = createLucideIcon("circle-alert", __iconNode$e);
+const __iconNode$d = [
   ["path", { d: "M21.801 10A10 10 0 1 1 17 3.335", key: "yps3ct" }],
   ["path", { d: "m9 11 3 3L22 4", key: "1pflzl" }]
 ];
-const CircleCheckBig = createLucideIcon("circle-check-big", __iconNode$e);
-const __iconNode$d = [
+const CircleCheckBig = createLucideIcon("circle-check-big", __iconNode$d);
+const __iconNode$c = [
   [
     "path",
     {
@@ -12691,8 +12695,8 @@ const __iconNode$d = [
     }
   ]
 ];
-const Droplets = createLucideIcon("droplets", __iconNode$d);
-const __iconNode$c = [
+const Droplets = createLucideIcon("droplets", __iconNode$c);
+const __iconNode$b = [
   [
     "path",
     {
@@ -12702,8 +12706,8 @@ const __iconNode$c = [
   ],
   ["circle", { cx: "12", cy: "12", r: "3", key: "1v7zrd" }]
 ];
-const Eye = createLucideIcon("eye", __iconNode$c);
-const __iconNode$b = [
+const Eye = createLucideIcon("eye", __iconNode$b);
+const __iconNode$a = [
   [
     "path",
     {
@@ -12715,19 +12719,7 @@ const __iconNode$b = [
   ["circle", { cx: "11.5", cy: "14.5", r: "2.5", key: "1bq0ko" }],
   ["path", { d: "M13.3 16.3 15 18", key: "2quom7" }]
 ];
-const FileSearch = createLucideIcon("file-search", __iconNode$b);
-const __iconNode$a = [
-  ["path", { d: "M11 21a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1", key: "likhh7" }],
-  ["path", { d: "M16 16a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1", key: "17ky3x" }],
-  [
-    "path",
-    {
-      d: "M21 6a2 2 0 0 0-.586-1.414l-2-2A2 2 0 0 0 17 2h-3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1z",
-      key: "1hyeo0"
-    }
-  ]
-];
-const FileStack = createLucideIcon("file-stack", __iconNode$a);
+const FileSearch = createLucideIcon("file-search", __iconNode$a);
 const __iconNode$9 = [
   [
     "path",
@@ -12757,12 +12749,6 @@ const __iconNode$7 = [
 ];
 const LayoutDashboard = createLucideIcon("layout-dashboard", __iconNode$7);
 const __iconNode$6 = [
-  ["path", { d: "M4 5h16", key: "1tepv9" }],
-  ["path", { d: "M4 12h16", key: "1lakjw" }],
-  ["path", { d: "M4 19h16", key: "1djgab" }]
-];
-const Menu = createLucideIcon("menu", __iconNode$6);
-const __iconNode$5 = [
   ["path", { d: "M6 18h8", key: "1borvv" }],
   ["path", { d: "M3 22h18", key: "8prr45" }],
   ["path", { d: "M14 22a7 7 0 1 0 0-14h-1", key: "1jwaiy" }],
@@ -12770,7 +12756,12 @@ const __iconNode$5 = [
   ["path", { d: "M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z", key: "1bmzmy" }],
   ["path", { d: "M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3", key: "1drr47" }]
 ];
-const Microscope = createLucideIcon("microscope", __iconNode$5);
+const Microscope = createLucideIcon("microscope", __iconNode$6);
+const __iconNode$5 = [
+  ["rect", { width: "18", height: "18", x: "3", y: "3", rx: "2", key: "afitv7" }],
+  ["path", { d: "M9 3v18", key: "fh3hqa" }]
+];
+const PanelLeft = createLucideIcon("panel-left", __iconNode$5);
 const __iconNode$4 = [
   [
     "path",
@@ -50149,17 +50140,49 @@ const resolveMarkdownTarget = (target) => {
   return null;
 };
 const cn = (...values) => values.filter(Boolean).join(" ");
-function Sidebar({ className = "", open = false, children }) {
+const SidebarContext = reactExports.createContext(null);
+function SidebarProvider({ children, defaultOpen = false }) {
+  const [open, setOpen] = reactExports.useState(defaultOpen);
+  const value = reactExports.useMemo(
+    () => ({
+      open,
+      setOpen,
+      toggleSidebar: () => setOpen((current2) => !current2)
+    }),
+    [open]
+  );
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarContext.Provider, { value, children });
+}
+function useSidebar() {
+  const context = reactExports.useContext(SidebarContext);
+  if (!context) {
+    throw new Error("useSidebar must be used inside SidebarProvider");
+  }
+  return context;
+}
+function Sidebar({ className = "", children }) {
+  const { open } = useSidebar();
   return /* @__PURE__ */ jsxRuntimeExports.jsx("aside", { className: cn("bd-sidebar sidebar-root", open && "open", className), children });
+}
+function SidebarTrigger({ className = "", ...props }) {
+  const { toggleSidebar } = useSidebar();
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    "button",
+    {
+      type: "button",
+      className: cn("icon-button sidebar-trigger", className),
+      onClick: toggleSidebar,
+      "aria-label": "Toggle sidebar",
+      ...props,
+      children: /* @__PURE__ */ jsxRuntimeExports.jsx(PanelLeft, { size: 18 })
+    }
+  );
 }
 function SidebarHeader({ children, className = "" }) {
   return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: cn("sidebar-header", className), children });
 }
 function SidebarContent({ children, className = "" }) {
   return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: cn("sidebar-content", className), children });
-}
-function SidebarFooter({ children, className = "" }) {
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: cn("sidebar-footer", className), children });
 }
 function SidebarGroup({ children, className = "" }) {
   return /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: cn("sidebar-group", className), children });
@@ -50214,48 +50237,15 @@ function SidebarSubmenuButton({
     }
   );
 }
-const sidebarChildren = {
-  dashboard: [
-    { id: "overview", label: "Overview" },
-    { id: "analytics", label: "Analytics" }
-  ],
-  algorithms: [
-    { id: "perioperative", label: "Perioperative" },
-    { id: "vitt", label: "VITT" }
-  ],
-  scores: [
-    { id: "wells", label: "Wells" },
-    { id: "stroke", label: "Stroke risk" }
-  ],
-  guides: [
-    { id: "library", label: "Library" },
-    { id: "references", label: "References" }
-  ],
-  pdfs: [
-    { id: "vault", label: "Companion vault" },
-    { id: "linked", label: "Linked records" }
-  ]
-};
-const quickActions = [
-  {
-    id: "algorithms",
-    label: "Open algorithms",
-    caption: "Decision pathways",
-    icon: BrainCircuit
-  },
-  {
-    id: "guides",
-    label: "Browse guides",
-    caption: "Markdown subpages",
-    icon: BookOpenText
-  },
-  {
-    id: "pdfs",
-    label: "Review vault",
-    caption: "Companion records",
-    icon: FolderOpen
+const toNodeId = (...values) => values.filter(Boolean).join("-").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+const groupByLabel = (items, getGroupLabel) => items.reduce((accumulator, item) => {
+  const label = getGroupLabel(item) || "General";
+  if (!accumulator[label]) {
+    accumulator[label] = [];
   }
-];
+  accumulator[label].push(item);
+  return accumulator;
+}, {});
 const pageIconById = {
   dashboard: LayoutDashboard,
   algorithms: BrainCircuit,
@@ -50263,8 +50253,174 @@ const pageIconById = {
   guides: BookOpenText,
   pdfs: FolderOpen
 };
-function AppSidebar({ currentPage, onNavigate, sidebarOpen, stats, siteName: siteName2 }) {
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs(Sidebar, { open: sidebarOpen, children: [
+function AppSidebar({
+  currentPage,
+  onNavigate,
+  onSelectTool,
+  onSelectGuide,
+  onSelectVault,
+  activeToolId,
+  activeGuideId,
+  activePdfId,
+  algorithmItems,
+  scoreItems,
+  guideItems,
+  vaultItems,
+  siteName: siteName2
+}) {
+  const { setOpen } = useSidebar();
+  const [expandedSection, setExpandedSection] = reactExports.useState(currentPage);
+  const [expandedFolders, setExpandedFolders] = reactExports.useState({});
+  reactExports.useEffect(() => {
+    setExpandedSection(currentPage);
+  }, [currentPage]);
+  const handleNavigate = (pageId) => {
+    onNavigate(pageId);
+    setOpen(false);
+  };
+  const sidebarSections = reactExports.useMemo(
+    () => {
+      const scoreBuckets = {
+        "Scoring tools": scoreItems.filter((tool) => tool.category === "score"),
+        "Renal tools": scoreItems.filter((tool) => tool.category === "renal")
+      };
+      const guideBuckets = groupByLabel(guideItems, (guide) => guide.category);
+      const vaultBuckets = groupByLabel(vaultItems, (entry) => entry.category);
+      return {
+        dashboard: [
+          {
+            id: "dashboard-overview",
+            label: "Command center",
+            action: () => handleNavigate("dashboard"),
+            active: currentPage === "dashboard"
+          }
+        ],
+        algorithms: [
+          {
+            id: "algorithms-decision-pathways",
+            label: "Decision pathways",
+            children: algorithmItems.map((tool) => ({
+              id: tool.id,
+              label: tool.shortTitle,
+              action: () => {
+                onSelectTool(tool.id);
+                setOpen(false);
+              },
+              active: activeToolId === tool.id && currentPage === "algorithms"
+            }))
+          }
+        ],
+        scores: Object.entries(scoreBuckets).filter(([, toolsInBucket]) => toolsInBucket.length).map(([label, toolsInBucket]) => ({
+          id: toNodeId("scores", label),
+          label,
+          children: toolsInBucket.map((tool) => ({
+            id: tool.id,
+            label: tool.shortTitle,
+            action: () => {
+              onSelectTool(tool.id);
+              setOpen(false);
+            },
+            active: activeToolId === tool.id && currentPage === "scores"
+          }))
+        })),
+        guides: Object.entries(guideBuckets).map(([label, guidesInBucket]) => ({
+          id: toNodeId("guides", label),
+          label,
+          children: guidesInBucket.map((guide) => ({
+            id: guide.id,
+            label: guide.title,
+            action: () => {
+              onSelectGuide(guide.id);
+              setOpen(false);
+            },
+            active: activeGuideId === guide.id
+          }))
+        })),
+        pdfs: Object.entries(vaultBuckets).map(([label, vaultInBucket]) => ({
+          id: toNodeId("pdfs", label),
+          label,
+          children: vaultInBucket.map((guide) => ({
+            id: guide.pdfId,
+            label: guide.title,
+            action: () => {
+              onSelectVault(guide.pdfId, guide.id);
+              setOpen(false);
+            },
+            active: activePdfId === guide.pdfId
+          }))
+        }))
+      };
+    },
+    [
+      activeGuideId,
+      activePdfId,
+      activeToolId,
+      algorithmItems,
+      currentPage,
+      guideItems,
+      onSelectGuide,
+      onSelectTool,
+      onSelectVault,
+      scoreItems,
+      setOpen,
+      vaultItems
+    ]
+  );
+  reactExports.useEffect(() => {
+    const nextExpandedFolders = {};
+    const currentNodes = sidebarSections[currentPage] ?? [];
+    currentNodes.forEach((node) => {
+      if (node.children?.some((child) => child.active)) {
+        nextExpandedFolders[node.id] = true;
+      }
+    });
+    setExpandedFolders((current2) => ({
+      ...current2,
+      ...nextExpandedFolders
+    }));
+  }, [currentPage, sidebarSections]);
+  const handlePagePress = (pageId) => {
+    setExpandedSection(pageId);
+    onNavigate(pageId);
+  };
+  const toggleFolder = (folderId) => {
+    setExpandedFolders((current2) => ({
+      ...current2,
+      [folderId]: !current2[folderId]
+    }));
+  };
+  const renderSidebarNodes = (pageId, nodes, depth = 0) => nodes.map((node) => {
+    const isFolder = Array.isArray(node.children) && node.children.length > 0;
+    const isExpanded = expandedFolders[node.id] ?? depth === 0;
+    if (isFolder) {
+      return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "sidebar-tree-node", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          SidebarSubmenuButton,
+          {
+            className: `sidebar-folder-button depth-${depth}`,
+            active: node.children.some((child) => child.active),
+            onClick: () => toggleFolder(node.id),
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: node.label }),
+              isExpanded ? /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronDown, { size: 14 }) : /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronRight, { size: 14 })
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarSubmenu, { className: `nested ${isExpanded ? "open" : "closed"}`, children: renderSidebarNodes(pageId, node.children, depth + 1) })
+      ] }, `${pageId}-${node.id}`);
+    }
+    return /* @__PURE__ */ jsxRuntimeExports.jsx(
+      SidebarSubmenuButton,
+      {
+        className: `sidebar-leaf-button depth-${depth}`,
+        active: node.active ?? false,
+        onClick: node.action ?? (() => handleNavigate(pageId)),
+        children: node.label
+      },
+      `${pageId}-${node.id}`
+    );
+  });
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(Sidebar, { children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarHeader, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "sidebar-brand sidebar-brand-card", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "sidebar-logo", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Droplets, {}) }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
@@ -50273,87 +50429,36 @@ function AppSidebar({ currentPage, onNavigate, sidebarOpen, stats, siteName: sit
         /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Clinical navigation, calculators, markdown guides, and a cleaner linked vault." })
       ] })
     ] }) }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs(SidebarContent, { children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs(SidebarGroup, { children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs(SidebarGroupLabel, { children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Sparkles, { size: 14 }),
-          "Primary navigation"
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarGroupContent, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarMenu, { children: [
-          { id: "dashboard", label: "Dashboard", meta: "Overview" },
-          { id: "algorithms", label: "Interactive Algorithms", meta: "Decision tools" },
-          { id: "scores", label: "Scoring Calculators", meta: "Risk scoring" },
-          { id: "guides", label: "Clinical Guides", meta: "Markdown library" },
-          { id: "pdfs", label: "Clinical Vault", meta: "Linked records" }
-        ].map((page) => {
-          const Icon2 = pageIconById[page.id];
-          const children = sidebarChildren[page.id] ?? [];
-          return /* @__PURE__ */ jsxRuntimeExports.jsxs(SidebarMenuItem, { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs(SidebarMenuButton, { active: currentPage === page.id, onClick: () => onNavigate(page.id), children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "sidebar-menu-leading", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx(Icon2, { size: 16 }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: page.label })
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarMenuMeta, { children: page.meta })
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarSubmenu, { children: children.map((child) => /* @__PURE__ */ jsxRuntimeExports.jsx(
-              SidebarSubmenuButton,
-              {
-                active: currentPage === page.id,
-                onClick: () => onNavigate(page.id),
-                children: child.label
-              },
-              `${page.id}-${child.id}`
-            )) })
-          ] }, page.id);
-        }) }) })
+    /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarContent, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs(SidebarGroup, { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(SidebarGroupLabel, { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Sparkles, { size: 14 }),
+        "Primary navigation"
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs(SidebarGroup, { children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs(SidebarGroupLabel, { children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Microscope, { size: 14 }),
-          "Quick actions"
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarGroupContent, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarMenu, { className: "sidebar-quick-grid", children: quickActions.map((action) => {
-          const Icon2 = action.icon;
-          return /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarMenuItem, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs(SidebarMenuButton, { className: "sidebar-action-button", onClick: () => onNavigate(action.id), children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarGroupContent, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarMenu, { children: [
+        { id: "dashboard", label: "Dashboard", meta: "Overview" },
+        { id: "algorithms", label: "Interactive Algorithms", meta: "Decision tools" },
+        { id: "scores", label: "Scoring Calculators", meta: "Risk scoring" },
+        { id: "guides", label: "Clinical Guides", meta: "Markdown library" },
+        { id: "pdfs", label: "Clinical Vault", meta: "Linked records" }
+      ].map((page) => {
+        const Icon2 = pageIconById[page.id];
+        const children = sidebarSections[page.id] ?? [];
+        const isExpanded = expandedSection === page.id;
+        return /* @__PURE__ */ jsxRuntimeExports.jsxs(SidebarMenuItem, { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(SidebarMenuButton, { active: currentPage === page.id, onClick: () => handlePagePress(page.id), children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "sidebar-menu-leading", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx(Icon2, { size: 16 }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: action.label })
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: page.label })
             ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarMenuMeta, { children: action.caption })
-          ] }) }, action.id);
-        }) }) })
-      ] })
-    ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs(SidebarFooter, { children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs(SidebarGroup, { className: "sidebar-summary-group", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs(SidebarGroupLabel, { children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Activity, { size: 14 }),
-          "Workspace summary"
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarGroupContent, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "sidebar-summary-card", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "sidebar-summary-row", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Live calculators" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: stats.tools })
+            /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarMenuMeta, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "sidebar-menu-trailing", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: page.meta }),
+              isExpanded ? /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronDown, { size: 14 }) : /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronRight, { size: 14 })
+            ] }) })
           ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "sidebar-summary-row", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Guides indexed" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: stats.guides })
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "sidebar-summary-row", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Vault entries" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: stats.pdfs })
-          ] })
-        ] }) })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarGroup, { className: "sidebar-footer-note", children: /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarGroupContent, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "sidebar-footer-card", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(FileStack, { size: 15 }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Cleaner reading flow" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Use the guide pages for main reading, then jump into linked vault records only when needed." })
-        ] })
-      ] }) }) })
-    ] })
+          /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarSubmenu, { className: isExpanded ? "open" : "closed", children: renderSidebarNodes(page.id, children) })
+        ] }, page.id);
+      }) }) })
+    ] }) })
   ] });
 }
 const siteName = "Blood Doctor CoagVision";
@@ -50466,6 +50571,9 @@ const getRelatedGuides = (tool) => {
   }).filter((guide) => guide.matchScore > 0).sort((left, right) => right.matchScore - left.matchScore || left.title.localeCompare(right.title)).slice(0, 6);
 };
 function App() {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarProvider, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(AppLayout, {}) });
+}
+function AppLayout() {
   const [searchTerm, setSearchTerm] = reactExports.useState("");
   const [currentPage, setCurrentPage] = reactExports.useState(getPageFromHash);
   const [activeToolId, setActiveToolId] = reactExports.useState(tools[0]?.id ?? "");
@@ -50474,7 +50582,7 @@ function App() {
   const [activeGuideId, setActiveGuideId] = reactExports.useState(guideLibrary[0]?.id ?? "");
   const [activeGuideTab, setActiveGuideTab] = reactExports.useState("overview");
   const [activePdfId, setActivePdfId] = reactExports.useState(pdfLibrary[0]?.id ?? "");
-  const [sidebarOpen, setSidebarOpen] = reactExports.useState(false);
+  const { open: sidebarOpen, setOpen: setSidebarOpen } = useSidebar();
   const toolSearch = searchTerm.trim().toLowerCase();
   const currentPageMeta = pageDefinitions.find((page) => page.id === currentPage) ?? pageDefinitions[0];
   reactExports.useEffect(() => {
@@ -50551,23 +50659,6 @@ function App() {
     () => searchableTools.filter((tool) => tool.category === "score" || tool.category === "renal"),
     [searchableTools]
   );
-  const algorithmGroups = reactExports.useMemo(
-    () => [
-      {
-        id: "algorithms",
-        label: "Interactive algorithms",
-        tools: algorithmTools
-      }
-    ].filter((group) => group.tools.length),
-    [algorithmTools]
-  );
-  const scoreGroups = reactExports.useMemo(
-    () => toolCategories.filter((category) => category.id === "score" || category.id === "renal").map((category) => ({
-      ...category,
-      tools: scoreTools.filter((tool) => tool.category === category.id)
-    })).filter((group) => group.tools.length),
-    [scoreTools]
-  );
   const filteredGuides = reactExports.useMemo(
     () => guideLibrary.filter((guide) => {
       if (!toolSearch) {
@@ -50610,7 +50701,7 @@ function App() {
   const relatedGuides = activeTool ? getRelatedGuides(activeTool) : [];
   const activeGuide = filteredGuides.find((guide) => guide.id === activeGuideId) ?? guideLibrary.find((guide) => guide.id === activeGuideId) ?? filteredGuides[0] ?? null;
   const activeVaultEntry = filteredVaultEntries.find((guide) => guide.pdfId === activePdfId) ?? vaultLibrary.find((guide) => guide.pdfId === activePdfId) ?? filteredVaultEntries[0] ?? null;
-  const activePdf = activeVaultEntry ? pdfLibrary.find((pdf) => pdf.id === activeVaultEntry.pdfId) ?? null : null;
+  activeVaultEntry ? pdfLibrary.find((pdf) => pdf.id === activeVaultEntry.pdfId) ?? null : null;
   reactExports.useEffect(() => {
     const firstTabId = activeClinicalContent.tabs[0]?.id ?? "overview";
     setActiveClinicalTab(firstTabId);
@@ -50778,15 +50869,39 @@ function App() {
       {
         currentPage,
         onNavigate: navigateToPage,
-        sidebarOpen,
-        stats,
+        onSelectTool: (toolId) => {
+          setActiveToolId(toolId);
+          navigateToPage(getPageForToolId(toolId));
+        },
+        onSelectGuide: (guideId) => {
+          setActiveGuideId(guideId);
+          const guide = guideLibrary.find((entry) => entry.id === guideId);
+          if (guide?.pdfId) {
+            setActivePdfId(guide.pdfId);
+          }
+          navigateToPage("guides");
+        },
+        onSelectVault: (pdfId, guideId) => {
+          setActivePdfId(pdfId);
+          if (guideId) {
+            setActiveGuideId(guideId);
+          }
+          navigateToPage("pdfs");
+        },
+        activeToolId,
+        activeGuideId,
+        activePdfId,
+        algorithmItems: algorithmTools,
+        scoreItems: scoreTools,
+        guideItems: filteredGuides,
+        vaultItems: filteredVaultEntries,
         siteName
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bd-main", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("header", { className: "topbar", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "topbar-left", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "button", className: "icon-button mobile-only", onClick: () => setSidebarOpen(true), children: /* @__PURE__ */ jsxRuntimeExports.jsx(Menu, { size: 18 }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarTrigger, { className: "mobile-only" }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "breadcrumb-row", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Blood Doctor" }),
@@ -51040,136 +51155,98 @@ function App() {
               description: pageCopy[currentPage].description
             }
           ),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "workspace-grid", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "panel explorer-panel", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "focus-layout", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "studio-stack", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "panel active-tool-panel", children: activeTool ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
               /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "section-card-header", children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: currentPage === "algorithms" ? "Interactive algorithms" : "Scoring calculators" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: currentPage === "algorithms" ? "Algorithm workspace" : "Scoring workspace" })
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Current calculator" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: activeTool.title })
                 ] }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx(Activity, { size: 17 })
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "section-copy", children: currentPage === "algorithms" ? "Work through the decision algorithms from the clinical tools index." : "Use the scoring and renal calculators from the clinical tools index with the reference stack beside the output." }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "tool-group-list", children: (currentPage === "algorithms" ? algorithmGroups : scoreGroups).length ? (currentPage === "algorithms" ? algorithmGroups : scoreGroups).map((group) => /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "tool-group-card", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tool-group-header", children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: group.label }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: group.tools.length })
-                ] }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "tool-button-list", children: group.tools.map((tool) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
                   "button",
                   {
                     type: "button",
-                    className: tool.id === activeTool?.id ? "tool-rail-card active" : "tool-rail-card",
-                    onClick: () => {
-                      setActiveToolId(tool.id);
-                      setSidebarOpen(false);
-                    },
-                    children: [
-                      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tool-rail-top", children: [
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "badge", children: tool.badge }),
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "tool-rail-category", children: tool.category })
-                      ] }),
-                      /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: tool.shortTitle }),
-                      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: tool.blurb })
-                    ]
-                  },
-                  tool.id
-                )) })
-              ] }, group.id)) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "empty-state left-aligned", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx(CircleAlert, { size: 24 }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: "No tools matched the current search." })
-              ] }) })
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "studio-stack", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "panel active-tool-panel", children: activeTool ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "section-card-header", children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Current calculator" }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: activeTool.title })
-                  ] }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    "button",
-                    {
-                      type: "button",
-                      className: "ghost-button",
-                      onClick: () => setToolValues((current2) => ({
-                        ...current2,
-                        [activeTool.id]: getInitialValues(activeTool)
-                      })),
-                      children: "Reset"
-                    }
-                  )
-                ] }),
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tool-hero", children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: activeTool.blurb }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "tag-row", children: activeTool.tags.map((tag) => /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "tag", children: tag }, tag)) })
-                  ] }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "progress-card", children: [
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Input completion" }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsxs("strong", { children: [
-                      completion.percent,
-                      "%"
-                    ] }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "progress-bar", children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { width: `${completion.percent}%` } }) }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { children: [
-                      completion.completed,
-                      " of ",
-                      completion.total,
-                      " visible inputs populated."
-                    ] })
-                  ] })
-                ] }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "tool-notes-grid", children: activeTool.notes.map((note) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "note-chip", children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(Pill, { size: 15 }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: note })
-                ] }, note)) }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "form-grid", children: activeTool.inputs.filter((input) => input.type !== "hidden").map((input) => /* @__PURE__ */ jsxRuntimeExports.jsx(
-                  FieldRenderer,
-                  {
-                    input,
-                    value: activeValues[input.id],
-                    onChange: (value) => updateValue(activeTool.id, input.id, value)
-                  },
-                  input.id
-                )) })
-              ] }) : null }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "insight-grid", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx(ResultPanel, { result }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx(
-                  ChartCard,
-                  {
-                    title: "Calculator richness",
-                    description: "A quick visual read of how much structure supports the active decision tool.",
-                    icon: BrainCircuit,
-                    children: /* @__PURE__ */ jsxRuntimeExports.jsx(ResponsiveContainer, { width: "100%", height: 260, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(RadarChart, { data: activeToolRadarData, children: [
-                      /* @__PURE__ */ jsxRuntimeExports.jsx(PolarGrid, { stroke: "#e7e5e4" }),
-                      /* @__PURE__ */ jsxRuntimeExports.jsx(PolarAngleAxis, { dataKey: "subject", tick: { fontSize: 12, fill: "#475569" } }),
-                      /* @__PURE__ */ jsxRuntimeExports.jsx(PolarRadiusAxis, { angle: 30, domain: [0, "dataMax"], tick: false, axisLine: false }),
-                      /* @__PURE__ */ jsxRuntimeExports.jsx(
-                        Radar,
-                        {
-                          dataKey: "value",
-                          stroke: "#8b1e3f",
-                          fill: "#8b1e3f",
-                          fillOpacity: 0.32
-                        }
-                      )
-                    ] }) })
+                    className: "ghost-button",
+                    onClick: () => setToolValues((current2) => ({
+                      ...current2,
+                      [activeTool.id]: getInitialValues(activeTool)
+                    })),
+                    children: "Reset"
                   }
                 )
               ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                ClinicalReference,
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tool-hero", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: activeTool.blurb }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "tag-row", children: activeTool.tags.map((tag) => /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "tag", children: tag }, tag)) })
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "progress-card", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Input completion" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("strong", { children: [
+                    completion.percent,
+                    "%"
+                  ] }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "progress-bar", children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { width: `${completion.percent}%` } }) }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { children: [
+                    completion.completed,
+                    " of ",
+                    completion.total,
+                    " visible inputs populated."
+                  ] })
+                ] })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "tool-notes-grid", children: activeTool.notes.map((note) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "note-chip", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(Pill, { size: 15 }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: note })
+              ] }, note)) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "form-grid", children: activeTool.inputs.filter((input) => input.type !== "hidden").map((input) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+                FieldRenderer,
                 {
-                  title: activeTool?.title,
-                  content: activeClinicalContent,
-                  activeTab: activeClinicalTab,
-                  onTabChange: setActiveClinicalTab
+                  input,
+                  value: activeValues[input.id],
+                  onChange: (value) => updateValue(activeTool.id, input.id, value)
+                },
+                input.id
+              )) })
+            ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "empty-state left-aligned", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(CircleAlert, { size: 24 }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: "No tools matched the current search." })
+            ] }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "insight-grid", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(ResultPanel, { result }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                ChartCard,
+                {
+                  title: "Calculator richness",
+                  description: "A quick visual read of how much structure supports the active decision tool.",
+                  icon: BrainCircuit,
+                  children: /* @__PURE__ */ jsxRuntimeExports.jsx(ResponsiveContainer, { width: "100%", height: 260, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(RadarChart, { data: activeToolRadarData, children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(PolarGrid, { stroke: "#e7e5e4" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(PolarAngleAxis, { dataKey: "subject", tick: { fontSize: 12, fill: "#475569" } }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(PolarRadiusAxis, { angle: 30, domain: [0, "dataMax"], tick: false, axisLine: false }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      Radar,
+                      {
+                        dataKey: "value",
+                        stroke: "#8b1e3f",
+                        fill: "#8b1e3f",
+                        fillOpacity: 0.32
+                      }
+                    )
+                  ] }) })
                 }
               )
-            ] })
-          ] })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              ClinicalReference,
+              {
+                title: activeTool?.title,
+                content: activeClinicalContent,
+                activeTab: activeClinicalTab,
+                onTabChange: setActiveClinicalTab
+              }
+            )
+          ] }) })
         ] }) : null,
         currentPage === "guides" ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -51180,138 +51257,109 @@ function App() {
               description: pageCopy.guides.description
             }
           ),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "library-grid", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "panel library-list-panel", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "section-card-header", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Guide library" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: "Markdown knowledge base" })
-                ] }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx(BookOpenText, { size: 17 })
+          /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "focus-layout", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "panel guide-detail-panel", children: activeGuide ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "section-card-header", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Selected guide" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: activeGuide.title })
               ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "section-copy", children: "Every local markdown guide is indexed into a clean card library with topic labels, evidence references, and one-click handoff into the companion clinical vault." }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "guide-list", children: filteredGuides.map((guide) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              activeGuide.pdfId ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "button-cluster", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
                 "button",
                 {
                   type: "button",
-                  className: guide.id === activeGuide?.id ? "guide-card active" : "guide-card",
+                  className: "primary-button",
                   onClick: () => {
-                    setActiveGuideId(guide.id);
-                    if (guide.pdfId) {
-                      setActivePdfId(guide.pdfId);
-                    }
+                    setActivePdfId(activeGuide.pdfId);
+                    navigateToPage("pdfs");
                   },
                   children: [
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "guide-card-top", children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "badge soft", children: guide.category }) }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: guide.title }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: guide.excerpt }),
-                    guide.pdfId ? /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "card-link-label", children: "Vault companion available" }) : null
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(Eye, { size: 16 }),
+                    "Open in clinical vault"
                   ]
-                },
-                guide.id
-              )) })
+                }
+              ) }) : null
             ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "panel guide-detail-panel", children: activeGuide ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "section-card-header", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Selected guide" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: activeGuide.title })
-                ] }),
-                activeGuide.pdfId ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "button-cluster", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "guide-meta-row", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mini-stat", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Category" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: activeGuide.category })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mini-stat", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Updated" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: activeGuide.versionDate || activeGuide.updatedAt || "Current" })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mini-stat", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "References" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: activeGuide.content.tabs.find((tab) => tab.id === "references")?.cards.length ?? 0 })
+              ] })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "guide-story-card", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: activeGuide.objective || activeGuide.excerpt }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "guide-heading-grid", children: activeGuide.headings.slice(0, 8).map((heading) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "guide-heading-chip", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowUpRight, { size: 14 }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: heading })
+              ] }, heading)) })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              ClinicalReference,
+              {
+                eyebrow: "Guide dossier",
+                title: activeGuide.title,
+                content: activeGuide.content,
+                activeTab: activeGuideTab,
+                onTabChange: setActiveGuideTab,
+                emptyMessage: "No guide sections are available for this entry yet."
+              }
+            ),
+            activeGuide.linkedGuideIds.length || activeGuide.linkedToolIds.length ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "related-panel", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "section-card-header slim", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Connected navigation" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: "Linked guides and calculators" })
+              ] }) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "related-guide-list", children: [
+                guideLibrary.filter((guide) => activeGuide.linkedGuideIds.includes(guide.id)).map((guide) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
                   "button",
                   {
                     type: "button",
-                    className: "primary-button",
+                    className: "related-guide-card",
                     onClick: () => {
-                      setActivePdfId(activeGuide.pdfId);
-                      navigateToPage("pdfs");
+                      setActiveGuideId(guide.id);
                     },
                     children: [
-                      /* @__PURE__ */ jsxRuntimeExports.jsx(Eye, { size: 16 }),
-                      "Open in clinical vault"
+                      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                        /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: guide.title }),
+                        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: guide.category })
+                      ] }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowUpRight, { size: 15 })
                     ]
-                  }
-                ) }) : null
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "guide-meta-row", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mini-stat", children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Category" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: activeGuide.category })
-                ] }),
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mini-stat", children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Updated" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: activeGuide.versionDate || activeGuide.updatedAt || "Current" })
-                ] }),
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mini-stat", children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "References" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: activeGuide.content.tabs.find((tab) => tab.id === "references")?.cards.length ?? 0 })
-                ] })
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "guide-story-card", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: activeGuide.objective || activeGuide.excerpt }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "guide-heading-grid", children: activeGuide.headings.slice(0, 8).map((heading) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "guide-heading-chip", children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowUpRight, { size: 14 }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: heading })
-                ] }, heading)) })
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                ClinicalReference,
-                {
-                  eyebrow: "Guide dossier",
-                  title: activeGuide.title,
-                  content: activeGuide.content,
-                  activeTab: activeGuideTab,
-                  onTabChange: setActiveGuideTab,
-                  emptyMessage: "No guide sections are available for this entry yet."
-                }
-              ),
-              activeGuide.linkedGuideIds.length || activeGuide.linkedToolIds.length ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "related-panel", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "section-card-header slim", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Connected navigation" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: "Linked guides and calculators" })
-                ] }) }),
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "related-guide-list", children: [
-                  guideLibrary.filter((guide) => activeGuide.linkedGuideIds.includes(guide.id)).map((guide) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-                    "button",
-                    {
-                      type: "button",
-                      className: "related-guide-card",
-                      onClick: () => {
-                        setActiveGuideId(guide.id);
-                      },
-                      children: [
-                        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                          /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: guide.title }),
-                          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: guide.category })
-                        ] }),
-                        /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowUpRight, { size: 15 })
-                      ]
+                  },
+                  `guide-link-${guide.id}`
+                )),
+                tools.filter((tool) => activeGuide.linkedToolIds.includes(tool.id)).map((tool) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "button",
+                  {
+                    type: "button",
+                    className: "related-guide-card",
+                    onClick: () => {
+                      setActiveToolId(tool.id);
+                      navigateToPage(getPageForToolId(tool.id));
                     },
-                    `guide-link-${guide.id}`
-                  )),
-                  tools.filter((tool) => activeGuide.linkedToolIds.includes(tool.id)).map((tool) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-                    "button",
-                    {
-                      type: "button",
-                      className: "related-guide-card",
-                      onClick: () => {
-                        setActiveToolId(tool.id);
-                        navigateToPage(getPageForToolId(tool.id));
-                      },
-                      children: [
-                        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                          /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: tool.title }),
-                          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: tool.badge })
-                        ] }),
-                        /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowUpRight, { size: 15 })
-                      ]
-                    },
-                    `tool-link-${tool.id}`
-                  ))
-                ] })
-              ] }) : null
-            ] }) : null })
-          ] })
+                    children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                        /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: tool.title }),
+                        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: tool.badge })
+                      ] }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowUpRight, { size: 15 })
+                    ]
+                  },
+                  `tool-link-${tool.id}`
+                ))
+              ] })
+            ] }) : null
+          ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "empty-state left-aligned", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(CircleAlert, { size: 24 }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: "No guides matched the current search." })
+          ] }) }) })
         ] }) : null,
         currentPage === "pdfs" ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -51322,92 +51370,61 @@ function App() {
               description: pageCopy.pdfs.description
             }
           ),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "pdf-grid", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "panel pdf-list-panel", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "section-card-header", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Clinical vault" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: "Companion archive" })
-                ] }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx(FolderOpen, { size: 17 })
+          /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "focus-layout", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "panel pdf-viewer-panel", children: activeVaultEntry ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "section-card-header", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Vault record" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: activeVaultEntry.title })
               ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "section-copy", children: "Vault entries are organized as clean companion records linked to the guide library, so navigation stays internal and the main reading flow remains on structured markdown pages." }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "pdf-list", children: filteredVaultEntries.map((guide) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "button",
                 {
                   type: "button",
-                  className: guide.pdfId === activePdf?.id ? "pdf-card active" : "pdf-card",
+                  className: "ghost-button",
                   onClick: () => {
-                    setActivePdfId(guide.pdfId);
-                    setActiveGuideId(guide.id);
+                    setActiveGuideId(activeVaultEntry.id);
+                    navigateToPage("guides");
                   },
-                  children: [
-                    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "pdf-card-top", children: [
-                      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "badge soft", children: guide.category }),
-                      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Vault entry" })
-                    ] }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: guide.title })
-                  ]
-                },
-                guide.id
-              )) })
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "panel pdf-viewer-panel", children: activeVaultEntry ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "section-card-header", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Vault record" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: activeVaultEntry.title })
-                ] }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx(
-                  "button",
-                  {
-                    type: "button",
-                    className: "ghost-button",
-                    onClick: () => {
-                      setActiveGuideId(activeVaultEntry.id);
-                      navigateToPage("guides");
-                    },
-                    children: "Open guide page"
-                  }
-                )
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "pdf-meta-strip", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mini-stat", children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Topic" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: activeVaultEntry.category })
-                ] }),
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mini-stat", children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Guide sections" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: activeVaultEntry.headings.length })
-                ] }),
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mini-stat", children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "References" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: activeVaultEntry.content.tabs.find((tab) => tab.id === "references")?.cards.length ?? 0 })
-                ] })
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "guide-story-card", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: activeVaultEntry.objective || activeVaultEntry.excerpt }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "guide-heading-grid", children: activeVaultEntry.headings.slice(0, 6).map((heading) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "guide-heading-chip", children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowUpRight, { size: 14 }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: heading })
-                ] }, heading)) })
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                ClinicalReference,
-                {
-                  eyebrow: "Vault summary",
-                  title: activeVaultEntry.title,
-                  content: activeVaultEntry.content,
-                  activeTab: activeGuideTab,
-                  onTabChange: setActiveGuideTab,
-                  emptyMessage: "No structured vault summary is available for this entry yet."
+                  children: "Open guide page"
                 }
               )
-            ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "empty-state", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx(FolderOpen, { size: 28 }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: "No vault entries matched the current search" })
-            ] }) })
-          ] })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "pdf-meta-strip", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mini-stat", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Topic" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: activeVaultEntry.category })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mini-stat", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Guide sections" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: activeVaultEntry.headings.length })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mini-stat", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "References" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: activeVaultEntry.content.tabs.find((tab) => tab.id === "references")?.cards.length ?? 0 })
+              ] })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "guide-story-card", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: activeVaultEntry.objective || activeVaultEntry.excerpt }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "guide-heading-grid", children: activeVaultEntry.headings.slice(0, 6).map((heading) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "guide-heading-chip", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowUpRight, { size: 14 }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: heading })
+              ] }, heading)) })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              ClinicalReference,
+              {
+                eyebrow: "Vault summary",
+                title: activeVaultEntry.title,
+                content: activeVaultEntry.content,
+                activeTab: activeGuideTab,
+                onTabChange: setActiveGuideTab,
+                emptyMessage: "No structured vault summary is available for this entry yet."
+              }
+            )
+          ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "empty-state", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(FolderOpen, { size: 28 }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: "No vault entries matched the current search" })
+          ] }) }) })
         ] }) : null
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("footer", { className: "footer", children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Dr Abdul Mannan FRCPath FCPS I Blood🩸Doctor I blooddoctor.co@gmail.com" }) })
