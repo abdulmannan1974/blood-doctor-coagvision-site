@@ -49,7 +49,7 @@ const toneMeta = {
 const globalToolDisclaimer = {
   text:
     "These general recommendations do not replace clinical judgement. Physicians must consider relative risks and benefits for each individual patient and consult with appropriate specialists.",
-  source: "Version 22",
+  source: "",
 };
 
 const normalizeValue = (value) => value.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();

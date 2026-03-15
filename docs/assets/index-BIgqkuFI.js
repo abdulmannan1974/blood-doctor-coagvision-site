@@ -13419,7 +13419,7 @@ const tools = [
     tags: ["AF", "DOAC", "stroke prevention", "renal"],
     notes: [
       "Designed for atrial fibrillation with explicit warfarin-only exceptions.",
-      "Outputs follow the Version 22 recommendation structure with drug-specific renal notes and reassessment prompts."
+      "Outputs focus on drug-specific renal notes, contraindications, and reassessment prompts."
     ],
     inputs: [
       { id: "age", label: "Age", type: "number", min: 18, step: 1 },
@@ -23670,8 +23670,7 @@ const toneMeta = {
   }
 };
 const globalToolDisclaimer = {
-  text: "These general recommendations do not replace clinical judgement. Physicians must consider relative risks and benefits for each individual patient and consult with appropriate specialists.",
-  source: "Version 22"
+  text: "These general recommendations do not replace clinical judgement. Physicians must consider relative risks and benefits for each individual patient and consult with appropriate specialists."
 };
 const normalizeValue = (value) => value.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
 const getPageForToolId = (toolId) => tools.find((tool) => tool.id === toolId)?.category === "algorithm" ? "algorithms" : "scores";
@@ -24586,7 +24585,7 @@ function ResultPanel({ result }) {
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tool-disclaimer", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Clinical disclaimer" }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: globalToolDisclaimer.text }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("small", { children: globalToolDisclaimer.source })
+      null
     ] })
   ] });
 }

@@ -896,7 +896,7 @@ export const tools = [
     tags: ["AF", "DOAC", "stroke prevention", "renal"],
     notes: [
       "Designed for atrial fibrillation with explicit warfarin-only exceptions.",
-      "Outputs follow the Version 22 recommendation structure with drug-specific renal notes and reassessment prompts.",
+      "Outputs focus on drug-specific renal notes, contraindications, and reassessment prompts.",
     ],
     inputs: [
       { id: "age", label: "Age", type: "number", min: 18, step: 1 },
