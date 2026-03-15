@@ -24,14 +24,14 @@ export const calculateCrCl = ({
   const patientWeight = asNumber(weight);
   const creatinine = asNumber(serumCreatinine);
 
-  if (!patientAge || !patientWeight || !creatinine) {
+  if (patientAge === null || patientWeight === null || creatinine === null || creatinine <= 0) {
     return null;
   }
 
   const rawValue =
     creatinineUnit === "mgdl"
       ? ((140 - patientAge) * patientWeight) / (72 * creatinine)
-      : ((140 - patientAge) * patientWeight) / (creatinine * 0.815);
+      : ((140 - patientAge) * patientWeight) / (creatinine * 0.814);
 
   const adjusted = sex === "female" ? rawValue * 0.85 : rawValue;
   return Math.round(adjusted * 10) / 10;
@@ -180,6 +180,305 @@ const getRestartWindow = (bleedingRisk, anticoagulant) => {
   return "Restart after 48 to 72 hours once bleeding risk is controlled";
 };
 
+const formatMetricValue = (value, suffix = "") => {
+  if (!Number.isFinite(value)) {
+    return "Not available";
+  }
+
+  return `${Number.isInteger(value) ? value : value.toFixed(1)}${suffix}`;
+};
+
+const sentenceCase = (value) =>
+  value
+    .replace(/_/g, " ")
+    .replace(/\b\w/g, (character) => character.toUpperCase());
+
+const buildTable = (title, headers, rows) => ({ title, headers, rows });
+
+const getDoacRestartWindow = (bleedingRisk) => {
+  if (bleedingRisk === "low_dental") {
+    return "Resume later the same day or the following morning once local hemostasis is secure.";
+  }
+
+  if (bleedingRisk === "low_non_dental") {
+    return "Resume about 24 hours after the procedure if hemostasis is secure.";
+  }
+
+  if (bleedingRisk === "moderate") {
+    return "Resume after 48 hours if hemostasis is stable.";
+  }
+
+  return "Resume after 48 to 72 hours once bleeding risk is controlled and no active bleeding remains.";
+};
+
+const getElectiveDoacHoldPlan = (drug, bleedingRisk, crcl) => {
+  if (!Number.isFinite(crcl)) {
+    return {
+      hold: "Renal function is required to determine the interruption interval.",
+      leadDays: null,
+      rationale: "Use Cockcroft-Gault creatinine clearance before finalizing DOAC timing.",
+    };
+  }
+
+  if (bleedingRisk === "low_dental") {
+    return {
+      hold: "Usually omit the morning dose only; local hemostatic measures are often sufficient.",
+      leadDays: 0,
+      rationale: "Low-risk dental procedures usually need minimal interruption.",
+    };
+  }
+
+  if (drug === "dabigatran") {
+    if (crcl < 30) {
+      return {
+        hold: "Use specialist advice because dabigatran interruption becomes prolonged when CrCl is below 30 mL/min.",
+        leadDays: 4,
+        rationale: "Renal clearance strongly affects dabigatran persistence.",
+      };
+    }
+
+    if (crcl >= 80) {
+      return bleedingRisk === "low_non_dental"
+        ? {
+            hold: "Hold 24 hours before surgery.",
+            leadDays: 1,
+            rationale: "Good renal clearance allows a short interruption for low-risk procedures.",
+          }
+        : {
+            hold: "Hold 48 hours before surgery.",
+            leadDays: 2,
+            rationale: "Higher bleeding-risk procedures need a longer washout.",
+          };
+    }
+
+    if (crcl >= 50) {
+      return bleedingRisk === "low_non_dental"
+        ? {
+            hold: "Hold 48 hours before surgery.",
+            leadDays: 2,
+            rationale: "Moderately reduced renal clearance prolongs dabigatran effect.",
+          }
+        : {
+            hold: "Hold 72 hours before surgery.",
+            leadDays: 3,
+            rationale: "High or moderate bleeding-risk procedures need a longer interruption.",
+          };
+    }
+
+    return bleedingRisk === "low_non_dental"
+      ? {
+          hold: "Hold 72 hours before surgery.",
+          leadDays: 3,
+          rationale: "Renal impairment prolongs dabigatran exposure.",
+        }
+      : {
+          hold: "Hold 96 hours before surgery.",
+          leadDays: 4,
+          rationale: "This provides a safer washout for higher-risk procedures.",
+        };
+  }
+
+  if (["apixaban", "rivaroxaban", "edoxaban"].includes(drug)) {
+    if (crcl < 30) {
+      return bleedingRisk === "low_non_dental"
+        ? {
+            hold: "Hold 48 hours before surgery.",
+            leadDays: 2,
+            rationale: "Reduced renal clearance supports a longer interruption.",
+          }
+        : {
+            hold: "Hold 72 hours before surgery.",
+            leadDays: 3,
+            rationale: "Higher bleeding-risk procedures need a longer safety window when renal function is reduced.",
+          };
+    }
+
+    return bleedingRisk === "low_non_dental"
+      ? {
+          hold: "Hold 24 hours before surgery.",
+          leadDays: 1,
+          rationale: "Standard interruption for low-bleeding-risk elective procedures.",
+        }
+      : {
+          hold: "Hold 48 hours before surgery.",
+          leadDays: 2,
+          rationale: "Higher bleeding-risk procedures need a longer interruption.",
+        };
+  }
+
+  return {
+    hold: "Use specialist advice for this anticoagulant.",
+    leadDays: null,
+    rationale: "Standard interruption guidance is unavailable.",
+  };
+};
+
+const getAfThromboembolicRisk = (values) => {
+  const chads2 = asNumber(values.chads2) ?? 0;
+
+  if (chads2 >= 5 || values.strokeTiaWithin3Months || values.rheumaticMitralStenosis) {
+    return {
+      level: "High",
+      rationale: "AF thromboembolic risk is high because of CHADS2 5 to 6, very recent stroke/TIA, or rheumatic mitral stenosis.",
+    };
+  }
+
+  if (chads2 >= 3) {
+    return {
+      level: "Moderate",
+      rationale: "AF thromboembolic risk is moderate because CHADS2 is 3 to 4.",
+    };
+  }
+
+  return {
+    level: "Low",
+    rationale: "AF thromboembolic risk is low because CHADS2 is 0 to 2 and no very high-risk feature was selected.",
+  };
+};
+
+const getVteThromboembolicRisk = (values) => {
+  if (values.vteTiming === "within_3_months" || values.severeThrombophilia) {
+    return {
+      level: "High",
+      rationale: "VTE thromboembolic risk is high because the event was within 3 months or severe thrombophilia is present.",
+    };
+  }
+
+  if (
+    values.vteTiming === "between_3_and_12_months" ||
+    values.recurrentVte ||
+    values.activeCancer
+  ) {
+    return {
+      level: "Moderate",
+      rationale: "VTE thromboembolic risk is moderate because of event timing between 3 and 12 months, recurrent VTE, or active cancer.",
+    };
+  }
+
+  return {
+    level: "Low",
+    rationale: "VTE thromboembolic risk is low because there was a single VTE more than 12 months ago.",
+  };
+};
+
+const getMechanicalValveRisk = (values) => {
+  if (
+    values.valvePosition === "mitral" ||
+    values.valveType === "caged_ball" ||
+    values.valveType === "tilting_disc" ||
+    values.strokeTiaWithin6Months
+  ) {
+    return {
+      level: "High",
+      rationale: "Mechanical valve thromboembolic risk is high because of mitral position, older high-risk prosthesis type, or stroke/TIA within 6 months.",
+    };
+  }
+
+  if (values.valveAtrialFibrillation || values.valveChadsAtLeastOne) {
+    return {
+      level: "Moderate",
+      rationale: "Mechanical valve thromboembolic risk is moderate because of bileaflet aortic valve plus AF or CHADS at least 1.",
+    };
+  }
+
+  return {
+    level: "Low",
+    rationale: "Mechanical valve thromboembolic risk is low because this is a bileaflet aortic valve without AF and CHADS equals 0.",
+  };
+};
+
+const getPerioperativeRiskProfile = (values) => {
+  if (values.indication === "atrial_fibrillation") {
+    return getAfThromboembolicRisk(values);
+  }
+
+  if (values.indication === "dvt_pe") {
+    return getVteThromboembolicRisk(values);
+  }
+
+  return getMechanicalValveRisk(values);
+};
+
+const buildWarfarinElectiveSchedule = ({ bridging, bleedingRisk, inr }) => [
+  ["Day -5", "Stop warfarin."],
+  [
+    "Day -3 to -1",
+    bridging
+      ? "Start therapeutic LMWH bridging once INR falls below the therapeutic range; continue until 24 hours before surgery."
+      : "No routine bridging is required.",
+  ],
+  [
+    "Day -1",
+    Number.isFinite(inr) && inr > 1.5
+      ? "Repeat INR before surgery; if still above 1.5, use local reversal policy."
+      : "Check INR before surgery and confirm the target has been met.",
+  ],
+  [
+    "Day 0",
+    bleedingRisk === "high"
+      ? "Proceed only when INR is 1.5 or lower and hemostatic planning is complete."
+      : "Proceed when INR is 1.5 or lower.",
+  ],
+  ["Day 0 evening", "Restart warfarin if hemostasis is secure."],
+  [
+    "Day +1 onward",
+    bridging
+      ? "Restart LMWH 24 to 72 hours after surgery depending on bleeding risk, and continue until INR is therapeutic."
+      : "Monitor hemostasis and resume routine anticoagulation follow-up.",
+  ],
+];
+
+const buildDoacSchedule = ({ holdPlan, restartWindow, surgeryType }) => {
+  if (surgeryType !== "elective") {
+    return [
+      ["Now", "Stop the DOAC, document the last dose time, and check coagulation support tests."],
+      ["Before procedure", "Use calibrated assay if available; if significant drug effect is likely, follow the reversal pathway."],
+      ["After hemostasis", restartWindow],
+    ];
+  }
+
+  const rows = [];
+
+  if (Number.isFinite(holdPlan.leadDays) && holdPlan.leadDays > 1) {
+    rows.push([`Day -${holdPlan.leadDays}`, holdPlan.hold]);
+  } else if (holdPlan.leadDays === 1) {
+    rows.push(["Day -1", holdPlan.hold]);
+  } else {
+    rows.push(["Day 0 morning", holdPlan.hold]);
+  }
+
+  rows.push(["Day 0", "Proceed to surgery once the planned interruption interval has elapsed."]);
+  rows.push(["Postoperative", restartWindow]);
+  return rows;
+};
+
+const getStrokeRiskInterpretation = (cha2ds2Vasc, sex) => {
+  if (sex === "female" && cha2ds2Vasc === 1) {
+    return "Female sex alone does not justify anticoagulation.";
+  }
+
+  if ((sex === "male" && cha2ds2Vasc === 0) || (sex === "female" && cha2ds2Vasc <= 1)) {
+    return "Low stroke risk: anticoagulation is not routinely indicated by score alone.";
+  }
+
+  if ((sex === "male" && cha2ds2Vasc === 1) || (sex === "female" && cha2ds2Vasc === 2)) {
+    return "Intermediate stroke risk: shared decision-making is appropriate.";
+  }
+
+  return "Stroke prevention with anticoagulation is generally recommended.";
+};
+
+const getChads2Score = (values) => {
+  const age = asNumber(values.age) ?? 0;
+  return sum([
+    values.chf ? 1 : 0,
+    values.hypertension ? 1 : 0,
+    age >= 75 ? 1 : 0,
+    values.diabetes ? 1 : 0,
+    values.priorStroke ? 2 : 0,
+  ]);
+};
+
 export const toolCategories = [
   { id: "all", label: "All tools" },
   { id: "algorithm", label: "Algorithms" },
@@ -200,7 +499,7 @@ export const tools = [
     tags: ["DOAC", "warfarin", "surgery", "bleeding"],
     notes: [
       "Use with local anesthesia, reversal stock, and perioperative policy.",
-      "Bridging is usually unnecessary outside clearly high thromboembolic risk states.",
+      "This version focuses on interruption timing, reversal, bridging, and restart planning rather than scraped reference fragments.",
     ],
     inputs: [
       {
@@ -216,15 +515,15 @@ export const tools = [
       },
       {
         id: "bleedingRisk",
-        label: "Bleeding risk",
+        label: "Procedural bleeding risk",
         type: "select",
         options: [
-          { value: "low", label: "Low non-dental" },
-          { value: "lowDental", label: "Low dental" },
+          { value: "low_non_dental", label: "Low non-dental" },
+          { value: "low_dental", label: "Low dental" },
           { value: "moderate", label: "Moderate" },
           { value: "high", label: "High" },
         ],
-        defaultValue: "low",
+        defaultValue: "low_non_dental",
       },
       {
         id: "anticoagulant",
@@ -239,6 +538,19 @@ export const tools = [
         ],
         defaultValue: "apixaban",
       },
+      { id: "inr", label: "INR", type: "number", min: 0.8, step: 0.1 },
+      {
+        id: "drugLevelStatus",
+        label: "Drug level assay",
+        type: "radio",
+        options: [
+          { value: "available", label: "Drug level available" },
+          { value: "not_available", label: "Drug level not available" },
+        ],
+        defaultValue: "not_available",
+      },
+      { id: "drugLevel", label: "Drug level (ng/mL)", type: "number", min: 0, step: 1 },
+      { id: "hoursSinceLastDose", label: "Hours since last dose", type: "number", min: 0, step: 1 },
       { id: "age", label: "Age", type: "number", min: 18, step: 1 },
       { id: "weight", label: "Weight (kg)", type: "number", min: 20, step: 0.1 },
       {
@@ -269,101 +581,271 @@ export const tools = [
         defaultValue: "male",
       },
       {
-        id: "highThromboembolicRisk",
-        label: "High thromboembolic risk / bridging candidate",
+        id: "indication",
+        label: "Indication for anticoagulation",
+        type: "radio",
+        options: [
+          { value: "atrial_fibrillation", label: "Atrial fibrillation" },
+          { value: "dvt_pe", label: "DVT or PE" },
+          { value: "mechanical_valve", label: "Mechanical valve" },
+        ],
+        defaultValue: "atrial_fibrillation",
+      },
+      { id: "chads2", label: "CHADS2 score", type: "number", min: 0, max: 6, step: 1 },
+      { id: "strokeTiaWithin3Months", label: "Stroke or TIA within 3 months", type: "checkbox" },
+      { id: "rheumaticMitralStenosis", label: "Rheumatic mitral stenosis", type: "checkbox" },
+      {
+        id: "vteTiming",
+        label: "Most recent DVT or PE timing",
+        type: "select",
+        options: [
+          { value: "within_3_months", label: "Within 3 months" },
+          { value: "between_3_and_12_months", label: "Between 3 and 12 months" },
+          { value: "over_12_months", label: "Single VTE more than 12 months ago" },
+        ],
+        defaultValue: "over_12_months",
+      },
+      { id: "recurrentVte", label: "Recurrent VTE", type: "checkbox" },
+      { id: "activeCancer", label: "Active cancer", type: "checkbox" },
+      { id: "severeThrombophilia", label: "Known severe thrombophilia", type: "checkbox" },
+      {
+        id: "valvePosition",
+        label: "Mechanical valve position",
+        type: "radio",
+        options: [
+          { value: "aortic", label: "Aortic" },
+          { value: "mitral", label: "Mitral" },
+        ],
+        defaultValue: "aortic",
+      },
+      {
+        id: "valveType",
+        label: "Mechanical valve prosthesis type",
+        type: "select",
+        options: [
+          { value: "bileaflet", label: "Bileaflet" },
+          { value: "caged_ball", label: "Caged ball" },
+          { value: "tilting_disc", label: "Tilting disc" },
+        ],
+        defaultValue: "bileaflet",
+      },
+      { id: "valveAtrialFibrillation", label: "Mechanical valve plus atrial fibrillation", type: "checkbox" },
+      { id: "valveChadsAtLeastOne", label: "Mechanical valve plus CHADS at least 1", type: "checkbox" },
+      { id: "strokeTiaWithin6Months", label: "Stroke or TIA within 6 months", type: "checkbox" },
+      {
+        id: "immediateReversal",
+        label: "Immediate reversal is needed now",
         type: "checkbox",
       },
     ],
     calculate: (values) => {
       const surgeryType = values.surgeryType ?? "elective";
       const drug = values.anticoagulant ?? "apixaban";
-      const bleedingRisk = values.bleedingRisk ?? "low";
+      const bleedingRisk = values.bleedingRisk ?? "low_non_dental";
+      const inr = asNumber(values.inr);
+      const drugLevel = asNumber(values.drugLevel);
       const crcl = drug === "warfarin" ? null : calculateCrCl(values);
+      const thromboembolicRisk = getPerioperativeRiskProfile(values);
+      const bridgingNeeded = drug === "warfarin" && thromboembolicRisk.level === "High";
+      const doacRestart = getDoacRestartWindow(bleedingRisk);
 
-      if (surgeryType === "emergency") {
-        const reversalMap = {
-          warfarin: "Vitamin K 2.5 to 5 mg IV plus 4-factor PCC if rapid reversal is needed.",
-          dabigatran: "Proceed urgently and consider idarucizumab 5 g IV if clinically indicated.",
-          apixaban:
-            "Proceed urgently; consider 4-factor PCC when bleeding is life-threatening or uncontrolled.",
-          rivaroxaban:
-            "Proceed urgently; consider 4-factor PCC when bleeding is life-threatening or uncontrolled.",
-          edoxaban:
-            "Proceed urgently; consider 4-factor PCC when bleeding is life-threatening or uncontrolled.",
-        };
+      if (surgeryType !== "elective") {
+        const immediateActions = [
+          "Refer urgently for procedural or surgical intervention.",
+          "Check hemoglobin concentration and platelet count to guide transfusion support.",
+          "Give red cell transfusion for symptomatic anemia.",
+          "Give platelet transfusion for thrombocytopenia below 50 x10⁹/L or when antiplatelet therapy materially affects hemostasis.",
+          "Discontinue the anticoagulant immediately.",
+        ];
+
+        if (drug === "warfarin") {
+          const needsPcc = values.immediateReversal || (Number.isFinite(inr) && inr > 1.5);
+          return {
+            tone: tone.danger,
+            headline: `${sentenceCase(surgeryType)} surgery on warfarin`,
+            summary:
+              "Stabilize the patient, stop warfarin, and move rapidly through INR-guided reversal before surgery whenever time allows.",
+            action:
+              "Give vitamin K 10 mg IV and repeat the INR. If the INR remains above 1.5 or immediate reversal is needed, use 4-factor PCC unless contraindicated.",
+            metrics: buildMetrics([
+              { label: "Urgency", value: sentenceCase(surgeryType) },
+              { label: "Anticoagulant", value: "Warfarin" },
+              { label: "INR", value: Number.isFinite(inr) ? formatScore(inr) : "Enter INR" },
+              { label: "Thromboembolic risk", value: thromboembolicRisk.level },
+            ]),
+            recommendations: [
+              { label: "Immediate hold", value: "Stop warfarin now." },
+              { label: "Vitamin K", value: "10 mg IV; repeat INR before surgery." },
+              {
+                label: "PCC strategy",
+                value: needsPcc
+                  ? "Use 4-factor PCC based on INR and weight. If INR or weight is unknown, give PCC 2000 units IV."
+                  : "No PCC is needed if INR is already 1.5 or lower.",
+              },
+              {
+                label: "Fallback",
+                value: "If PCC is unavailable or contraindicated, use FFP 10 to 15 mL/kg, about 3 to 4 units.",
+              },
+              { label: "Post-op restart", value: "Restart warfarin the evening of surgery if hemostasis is secure." },
+            ],
+            tables: [
+              buildTable("Immediate management", ["Step", "Recommendation"], immediateActions.map((item, index) => [`${index + 1}`, item])),
+              buildTable("Warfarin reversal", ["Decision point", "Recommendation"], [
+                ["INR 1.5 or lower after vitamin K", "No further reversal is required; proceed to surgery."],
+                ["INR remains above 1.5", "Consider PCC and repeat INR 15 minutes after infusion; target INR is 1.5 or lower."],
+                ["PCC administration", "OCTAPLEX: 1 mL/min then maximum 2 to 3 mL/min. BERIPLEX: 1 mL/min then maximum 8 mL/min."],
+              ]),
+            ],
+            supporting: [
+              "PCC is contraindicated in heparin-induced thrombocytopenia.",
+              "Explain the small but real thrombotic risk of PCC, generally below 2 percent.",
+              thromboembolicRisk.rationale,
+            ],
+          };
+        }
+
+        if (drug === "dabigatran") {
+          const significantLevel =
+            values.drugLevelStatus === "available" && Number.isFinite(drugLevel) && drugLevel >= 30;
+          return {
+            tone: tone.danger,
+            headline: `${sentenceCase(surgeryType)} surgery on dabigatran`,
+            summary:
+              "Use a dilute thrombin time or Hemoclot assay if available. Significant dabigatran effect should be actively reversed before surgery whenever possible.",
+            action:
+              significantLevel || values.drugLevelStatus === "not_available"
+                ? "Give idarucizumab 2.5 g IV bolus, then repeat 2.5 g IV within 15 minutes for a total of 5 g."
+                : "No reversal is needed if the dabigatran level is below 30 to 50 ng/mL and the clinical picture is reassuring.",
+            metrics: buildMetrics([
+              { label: "Urgency", value: sentenceCase(surgeryType) },
+              { label: "Anticoagulant", value: "Dabigatran" },
+              { label: "CrCl", value: formatMetricValue(crcl, " mL/min") },
+              { label: "Drug level", value: Number.isFinite(drugLevel) ? `${drugLevel} ng/mL` : "Not available" },
+            ]),
+            recommendations: [
+              { label: "Immediate hold", value: "Stop dabigatran now." },
+              {
+                label: "Primary reversal",
+                value: "Idarucizumab 5 g IV total when level is 30 to 50 ng/mL or higher, or when assay data are unavailable but significant drug levels are suspected.",
+              },
+              { label: "Fallback", value: "If idarucizumab is unavailable, use PCC 50 units/kg with a maximum of 3000 units, or FEIBA 2000 units." },
+              { label: "Adjunct", value: "Consider hemodialysis if feasible; about 65 percent of dabigatran can be removed over 4 hours." },
+              { label: "Post-op restart", value: doacRestart },
+            ],
+            tables: [
+              buildTable("Immediate management", ["Step", "Recommendation"], immediateActions.map((item, index) => [`${index + 1}`, item])),
+              buildTable("Dabigatran reversal", ["Situation", "Recommendation"], [
+                ["Level below 30 to 50 ng/mL", "No reversal is usually required."],
+                ["Level 30 to 50 ng/mL or higher", "Give idarucizumab 5 g IV total."],
+                ["Assay unavailable", "Estimate from last dose, timing, and CrCl; reverse if significant residual drug is likely."],
+              ]),
+            ],
+            supporting: [thromboembolicRisk.rationale],
+          };
+        }
 
         return {
           tone: tone.danger,
-          headline: "Do not delay emergency surgery",
-          summary: reversalMap[drug],
-          action: "Move to definitive procedure planning with hematology and anesthesia support.",
+          headline: `${sentenceCase(surgeryType)} surgery on factor Xa inhibitor`,
+          summary:
+            "Use a calibrated anti-Xa assay if available. If clinically significant apixaban, rivaroxaban, or edoxaban exposure is suspected, proceed with non-specific reversal.",
+          action:
+            "Stop the anticoagulant now. If clinically significant residual drug is suspected, use PCC 50 units/kg up to a maximum of 3000 units.",
           metrics: buildMetrics([
-            { label: "Urgency", value: "Emergency" },
-            { label: "Anticoagulant", value: drug },
+            { label: "Urgency", value: sentenceCase(surgeryType) },
+            { label: "Anticoagulant", value: sentenceCase(drug) },
+            { label: "CrCl", value: formatMetricValue(crcl, " mL/min") },
+            { label: "Drug level", value: Number.isFinite(drugLevel) ? `${drugLevel} ng/mL` : "Not available" },
           ]),
+          recommendations: [
+            { label: "Immediate hold", value: `Stop ${sentenceCase(drug)} now.` },
+            { label: "Assay", value: `Use a ${sentenceCase(drug)}-calibrated anti-Xa assay if it is available.` },
+            { label: "Reversal", value: "Use PCC 50 units/kg up to 3000 units when significant residual drug is suspected." },
+            { label: "Post-op restart", value: doacRestart },
+          ],
+          tables: [
+            buildTable("Immediate management", ["Step", "Recommendation"], immediateActions.map((item, index) => [`${index + 1}`, item])),
+            buildTable("Factor Xa inhibitor reversal", ["Situation", "Recommendation"], [
+              ["Assay available", "Use the calibrated anti-Xa result to estimate residual drug effect."],
+              ["Assay unavailable", "Estimate from dose timing, regimen, and creatinine clearance."],
+              ["Significant level suspected", "Use PCC 50 units/kg up to 3000 units."],
+            ]),
+          ],
           supporting: [
-            "Prioritize airway, hemodynamics, and source control.",
-            `Postoperative restart: ${getRestartWindow(bleedingRisk, drug)}`,
+            "No specific reversal agent is included in this protocol for apixaban, rivaroxaban, or edoxaban.",
+            thromboembolicRisk.rationale,
           ],
         };
       }
 
       if (drug === "warfarin") {
-        const inrTarget = bleedingRisk === "high" ? "<= 1.2" : "<= 1.5";
+        const inrTargetMet = Number.isFinite(inr) && inr <= 1.5;
+        const schedule = buildWarfarinElectiveSchedule({
+          bridging: bridgingNeeded,
+          bleedingRisk,
+          inr,
+        });
 
         return {
-          tone: surgeryType === "urgent" ? tone.warning : tone.neutral,
-          headline:
-            surgeryType === "urgent"
-              ? "Hold warfarin and assess reversal needs now"
-              : "Stop warfarin 5 days before the procedure",
-          summary: `Check INR on the day of the procedure and aim for ${inrTarget}.`,
-          action: values.highThromboembolicRisk
-            ? "Consider LMWH bridging if thromboembolic risk is genuinely high."
-            : "Most patients do not need bridging.",
+          tone: bleedingRisk === "high" || bridgingNeeded ? tone.warning : tone.success,
+          headline: "Elective warfarin interruption plan",
+          summary:
+            bleedingRisk === "high"
+              ? "Use a full preoperative interruption plan and confirm INR is 1.5 or lower before surgery."
+              : "Stop warfarin 5 days before surgery and check INR before the procedure.",
+          action: bridgingNeeded
+            ? "Use LMWH bridging because thromboembolic risk is high."
+            : "Bridging is not routinely needed.",
           metrics: buildMetrics([
-            { label: "Drug", value: "Warfarin" },
-            { label: "INR target", value: inrTarget },
-            { label: "Restart", value: "Evening of procedure" },
+            { label: "Anticoagulant", value: "Warfarin" },
+            { label: "Bleeding risk", value: sentenceCase(bleedingRisk) },
+            { label: "Thromboembolic risk", value: thromboembolicRisk.level },
+            { label: "INR", value: Number.isFinite(inr) ? formatScore(inr) : "Enter INR" },
           ]),
-          supporting: [
-            "Bridging is most relevant for mechanical mitral valve or recent stroke/TIA.",
-            "Coordinate timing with anesthesia if neuraxial procedures are planned.",
+          recommendations: [
+            { label: "Pre-op hold", value: "Stop warfarin 5 days before surgery." },
+            {
+              label: "Bridging",
+              value: bridgingNeeded
+                ? "Therapeutic LMWH bridging is recommended."
+                : "No LMWH bridging is recommended.",
+            },
+            {
+              label: "INR checkpoint",
+              value: inrTargetMet
+                ? "INR is already 1.5 or lower."
+                : "Repeat INR before surgery; if it remains above 1.5, use local reversal policy.",
+            },
+            { label: "Post-op restart", value: "Restart warfarin the evening of surgery if hemostasis is secure." },
           ],
+          tables: [buildTable("Perioperative schedule", ["Day", "Instructions"], schedule)],
+          supporting: [thromboembolicRisk.rationale],
         };
       }
 
-      if (!Number.isFinite(crcl)) {
-        return {
-          tone: tone.warning,
-          headline: "Renal assessment needed",
-          summary: "Age, weight, sex, and serum creatinine are required to estimate DOAC hold timing.",
-          action: "Enter renal variables or use the creatinine clearance tool first.",
-          metrics: [{ label: "Drug", value: drug }],
-          supporting: ["Cockcroft-Gault remains the dosing standard for DOAC pathways."],
-        };
-      }
-
-      const holdWindow = mapPerioperativeHold(drug, bleedingRisk, crcl);
-      const restartWindow = getRestartWindow(bleedingRisk, drug);
+      const holdPlan = getElectiveDoacHoldPlan(drug, bleedingRisk, crcl);
+      const restartWindow = getDoacRestartWindow(bleedingRisk);
 
       return {
-        tone:
-          surgeryType === "urgent" || bleedingRisk === "high" ? tone.warning : tone.success,
-        headline: holdWindow ?? "Review timing with specialist support",
-        summary:
-          surgeryType === "urgent"
-            ? "Urgent procedure: hold the DOAC now, confirm the last dose time, and plan reversal only if clinically necessary."
-            : "Elective planning can usually follow standard interruption windows.",
+        tone: bleedingRisk === "high" ? tone.warning : tone.success,
+        headline: "Elective DOAC interruption plan",
+        summary: holdPlan.rationale,
         action: restartWindow,
         metrics: buildMetrics([
-          { label: "Drug", value: drug },
-          { label: "CrCl", value: `${crcl} mL/min` },
-          { label: "Pre-op hold", value: holdWindow },
+          { label: "Anticoagulant", value: sentenceCase(drug) },
+          { label: "CrCl", value: formatMetricValue(crcl, " mL/min") },
+          { label: "Bleeding risk", value: sentenceCase(bleedingRisk) },
+          { label: "Thromboembolic risk", value: thromboembolicRisk.level },
         ]),
+        recommendations: [
+          { label: "Pre-op hold", value: holdPlan.hold },
+          { label: "Bridging", value: "LMWH bridging is not routinely recommended for DOAC interruption." },
+          { label: "Post-op restart", value: restartWindow },
+        ],
+        tables: [buildTable("Perioperative schedule", ["Day", "Instructions"], buildDoacSchedule({ holdPlan, restartWindow, surgeryType }))],
         supporting: [
-          `Bleeding risk selected: ${bleedingRisk}.`,
-          "Secure hemostasis before resuming treatment.",
+          "If assay data are unavailable, estimate residual DOAC effect from dosing schedule, timing of the last dose, and creatinine clearance.",
+          thromboembolicRisk.rationale,
         ],
       };
     },
@@ -379,8 +861,8 @@ export const tools = [
       "Estimate stroke risk, identify warfarin-only states, and review renal-adjusted oral anticoagulant options.",
     tags: ["AF", "DOAC", "stroke prevention", "renal"],
     notes: [
-      "Designed for non-valvular atrial fibrillation unless a warfarin-only condition is present.",
-      "Dose outputs support review; final prescribing should still align with monographs and local policy.",
+      "Designed for atrial fibrillation with explicit warfarin-only exceptions.",
+      "This version outputs structured dose and contraindication tables rather than loose narrative text.",
     ],
     inputs: [
       { id: "age", label: "Age", type: "number", min: 18, step: 1 },
@@ -412,122 +894,131 @@ export const tools = [
         ],
         defaultValue: "male",
       },
-      { id: "femaleSex", label: "Female sex category counts for CHA2DS2-VASc", type: "hidden" },
-      { id: "chf", label: "Heart failure history", type: "checkbox" },
+      { id: "chf", label: "Congestive heart failure history", type: "checkbox" },
       { id: "hypertension", label: "Hypertension history", type: "checkbox" },
       { id: "diabetes", label: "Diabetes mellitus", type: "checkbox" },
-      { id: "priorStroke", label: "Previous stroke / TIA / systemic embolism", type: "checkbox" },
-      { id: "vascularDisease", label: "Vascular disease / previous MI / PAD / aortic plaque", type: "checkbox" },
-      { id: "mechanicalValve", label: "Mechanical valve", type: "checkbox" },
-      { id: "lvThrombus", label: "Left ventricular thrombus", type: "checkbox" },
-      { id: "rheumaticValveDisease", label: "Rheumatic valvular disease", type: "checkbox" },
-      { id: "mitralStenosis", label: "Moderate to severe mitral stenosis", type: "checkbox" },
-      { id: "highBleedingRisk", label: "High bleeding risk / HAS-BLED >= 3", type: "checkbox" },
-      { id: "verapamil", label: "Concomitant verapamil", type: "checkbox" },
-      { id: "amiodarone", label: "Concomitant amiodarone", type: "checkbox" },
-      { id: "dronedarone", label: "Concomitant dronedarone", type: "checkbox" },
-      { id: "pGpInhibitor", label: "Other strong P-gp inhibitor", type: "checkbox" },
+      { id: "priorStroke", label: "Previous stroke or TIA", type: "checkbox" },
+      { id: "vascularDisease", label: "Macrovascular disease: coronary, aortic, or peripheral", type: "checkbox" },
+      { id: "warfarinOnlyIndication", label: "Another indication for warfarin is present", type: "checkbox" },
+      { id: "pGpInhibitor", label: "Concomitant P-gp inhibitor except amiodarone or verapamil", type: "checkbox" },
     ],
     calculate: (values) => {
-      const mergedValues = {
-        ...values,
-        femaleSex: values.sex === "female",
-      };
-      const score = getChadsVascScore(mergedValues);
-      const femaleOnly = values.sex === "female" && score === 1;
-      const recommendation = getChadsRecommendation(score, femaleOnly);
+      const mergedValues = { ...values, femaleSex: values.sex === "female" };
+      const cha2ds2Vasc = getChadsVascScore(mergedValues);
+      const chads2 = getChads2Score(values);
       const crcl = calculateCrCl(values);
       const age = asNumber(values.age) ?? 0;
-      const ageBucket = getAgeBucket(age);
-
-      const warfarinOnly =
-        values.mechanicalValve ||
-        values.lvThrombus ||
-        values.rheumaticValveDisease ||
-        values.mitralStenosis;
+      const serumCreatinine = asNumber(values.serumCreatinine) ?? 0;
+      const weight = asNumber(values.weight) ?? 0;
+      const strokeInterpretation = getStrokeRiskInterpretation(cha2ds2Vasc, values.sex);
+      const warfarinOnly = Boolean(values.warfarinOnlyIndication);
 
       const apixabanReductionCount = sum([
         age >= 80 ? 1 : 0,
-        (asNumber(values.weight) ?? Infinity) <= 60 ? 1 : 0,
+        weight > 0 && weight <= 60 ? 1 : 0,
         values.creatinineUnit === "umol"
-          ? (asNumber(values.serumCreatinine) ?? 0) >= 133
+          ? serumCreatinine >= 133
             ? 1
             : 0
-          : (asNumber(values.serumCreatinine) ?? 0) >= 1.5
+          : serumCreatinine >= 1.5
             ? 1
             : 0,
       ]);
 
-      const apixabanDose =
-        crcl === null || crcl < 15
-          ? "Avoid / insufficient renal function"
-          : apixabanReductionCount >= 2
-            ? "2.5 mg twice daily"
-            : "5 mg twice daily";
+      const recommendedRows = [];
+      const restrictedRows = [];
 
-      const dabigatranReduce =
-        ageBucket === "80plus" ||
-        crcl === null ||
-        (crcl >= 30 && crcl <= 49) ||
-        values.verapamil ||
-        values.highBleedingRisk ||
-        ageBucket === "75to79";
-      const dabigatranDose =
-        crcl === null || crcl < 30
-          ? "Avoid when CrCl < 30 mL/min"
-          : dabigatranReduce
-            ? "110 mg twice daily"
-            : "150 mg twice daily";
+      const pushRecommended = (drugName, dose, note) => {
+        recommendedRows.push([drugName, dose, note]);
+      };
 
-      const rivaroxabanDose =
-        crcl === null || crcl < 15
-          ? "Avoid when CrCl < 15 mL/min"
-          : crcl <= 49
-            ? "15 mg once daily with food"
-            : "20 mg once daily with food";
+      const pushRestricted = (drugName, status, reason) => {
+        restrictedRows.push([drugName, status, reason]);
+      };
 
-      const edoxabanReduce =
-        values.pGpInhibitor ||
-        values.dronedarone ||
-        (asNumber(values.weight) ?? Infinity) <= 60 ||
-        (crcl !== null && crcl >= 15 && crcl <= 50);
-      const edoxabanDose =
-        crcl === null || crcl < 15
-          ? "Avoid when CrCl < 15 mL/min"
-          : crcl > 95
-            ? "Not preferred when CrCl > 95 mL/min"
-            : edoxabanReduce
-              ? "30 mg once daily"
-              : "60 mg once daily";
+      if (warfarinOnly) {
+        pushRecommended("Warfarin", "INR 2 to 3", "Use warfarin because another indication such as a mechanical valve or LV thrombus is present.");
+        pushRestricted("Apixaban", "Generally not recommended", "Another indication for warfarin is present.");
+        pushRestricted("Dabigatran", "Generally not recommended", "Another indication for warfarin is present.");
+        pushRestricted("Rivaroxaban", "Generally not recommended", "Another indication for warfarin is present.");
+        pushRestricted("Edoxaban", "Generally not recommended", "Another indication for warfarin is present.");
+      } else if (crcl === null) {
+        pushRestricted("All agents", "Cannot dose yet", "Age, weight, sex, and serum creatinine are required to calculate Cockcroft-Gault creatinine clearance.");
+      } else if (crcl < 15) {
+        pushRecommended("Warfarin", "INR 2 to 3", "Supported option when creatinine clearance is below 15 mL/min.");
+        pushRestricted("Dabigatran", "Contraindicated", "CrCl is below 15 mL/min.");
+        pushRestricted("Apixaban", "Not recommended", "Insufficient clinical data when CrCl is below 15 mL/min.");
+        pushRestricted("Edoxaban", "Not recommended", "CrCl is below 15 mL/min.");
+        pushRestricted("Rivaroxaban", "Not recommended", "CrCl is below 15 mL/min.");
+      } else if (crcl <= 24) {
+        pushRecommended("Warfarin", "INR 2 to 3", "Supported option for severe renal impairment.");
+        pushRestricted("Dabigatran", "Contraindicated", "CrCl is 15 to 24 mL/min.");
+        pushRestricted("Apixaban", "No dosing recommendation", "Insufficient clinical data at this creatinine clearance.");
+        pushRestricted("Edoxaban", "Not recommended", "CrCl is 15 to 24 mL/min.");
+        pushRestricted("Rivaroxaban", "Not recommended", "CrCl is 15 to 24 mL/min.");
+      } else {
+        pushRecommended(
+          "Apixaban",
+          apixabanReductionCount >= 2 ? "2.5 mg twice daily" : "5 mg twice daily",
+          apixabanReductionCount >= 2
+            ? "Dose reduction because at least two of the following are present: age 80 or more, weight 60 kg or less, serum creatinine 133 µmol/L or more."
+            : "Standard dose."
+        );
+
+        if (crcl < 30) {
+          pushRestricted("Dabigatran", "Contraindicated", "CrCl is below 30 mL/min.");
+        } else {
+          pushRecommended(
+            "Dabigatran",
+            age >= 80 || values.pGpInhibitor ? "110 mg twice daily" : "150 mg twice daily",
+            age >= 80 || values.pGpInhibitor
+              ? "Use 110 mg twice daily because age is at least 80 years or a relevant P-gp inhibitor is present."
+              : "150 mg twice daily is standard; 110 mg twice daily can be considered if bleeding risk is higher."
+          );
+        }
+
+        pushRecommended(
+          "Rivaroxaban",
+          crcl >= 50 ? "20 mg once daily" : "15 mg once daily",
+          crcl >= 50 ? "Standard once-daily dose." : "Renal-adjusted dose."
+        );
+
+        const edoxabanReduced = crcl <= 50 || weight <= 60 || values.pGpInhibitor;
+        pushRecommended(
+          "Edoxaban",
+          edoxabanReduced ? "30 mg once daily" : "60 mg once daily",
+          edoxabanReduced
+            ? "Dose reduction because of creatinine clearance 50 mL/min or lower, weight 60 kg or less, or P-gp inhibitor use."
+            : "Standard once-daily dose."
+        );
+
+        pushRecommended("Warfarin", "INR 2 to 3", "Use when DOACs are unsuitable or patient preference favors INR-based therapy.");
+      }
 
       return {
-        tone: warfarinOnly ? tone.warning : recommendation.tone,
-        headline: warfarinOnly
-          ? "Warfarin-only clinical context"
-          : recommendation.headline,
-        summary: warfarinOnly
-          ? "Mechanical valve disease, LV thrombus, rheumatic valve disease, or moderate-severe mitral stenosis should steer therapy away from DOACs."
-          : recommendation.summary,
+        tone: warfarinOnly ? tone.warning : cha2ds2Vasc >= 2 ? tone.warning : tone.success,
+        headline: warfarinOnly ? "Warfarin-led strategy" : "Atrial fibrillation dosing summary",
+        summary: strokeInterpretation,
         action: warfarinOnly
-          ? "Use warfarin with INR 2.0 to 3.0 unless a specialist pathway indicates otherwise."
-          : recommendation.preference,
+          ? "Prescribe warfarin rather than a DOAC unless a specialist pathway says otherwise."
+          : "Choose from the structured dose options below after balancing stroke prevention against bleeding risk and patient preference.",
         metrics: buildMetrics([
-          { label: "CHA2DS2-VASc", value: `${score}` },
-          { label: "CrCl", value: crcl !== null ? `${crcl} mL/min` : "Need renal data" },
-          { label: "Preferred route", value: warfarinOnly ? "Warfarin" : recommendation.preference },
+          { label: "CrCl", value: formatMetricValue(crcl, " mL/min") },
+          { label: "CHA2DS2-VASc", value: `${cha2ds2Vasc}` },
+          { label: "CHADS2", value: `${chads2}` },
+          { label: "Preferred route", value: warfarinOnly ? "Warfarin" : "DOAC or warfarin" },
         ]),
-        supporting: [
-          femaleOnly
-            ? "Female sex alone is not treated as a standalone anticoagulation trigger."
-            : "Review bleeding risk, frailty, and patient preference before prescribing.",
-          "Renal estimates use Cockcroft-Gault because that matches pivotal DOAC studies.",
-        ],
         recommendations: [
-          { label: "Apixaban", value: apixabanDose },
-          { label: "Dabigatran", value: dabigatranDose },
-          { label: "Rivaroxaban", value: rivaroxabanDose },
-          { label: "Edoxaban", value: edoxabanDose },
-          { label: "Warfarin", value: "Target INR 2.0 to 3.0; time in range goal > 65%" },
+          { label: "Stroke interpretation", value: strokeInterpretation },
+          { label: "Primary recommendation", value: warfarinOnly ? "Warfarin" : recommendedRows[0]?.[0] ?? "Enter renal data" },
+        ],
+        tables: [
+          buildTable("Recommended anticoagulants", ["Drug", "Dose", "Clinical note"], recommendedRows),
+          buildTable("Contraindicated or not recommended", ["Drug", "Status", "Reason"], restrictedRows.length ? restrictedRows : [["None", "None", "No additional contraindication was triggered by the current inputs."]]),
+        ],
+        supporting: [
+          "Creatinine clearance uses Cockcroft-Gault, which is the renal estimate used in major DOAC trials.",
+          "If another warfarin indication exists, DOACs are generally not recommended in this tool.",
         ],
       };
     },
@@ -543,10 +1034,15 @@ export const tools = [
       "Decide when testing is worth doing, when it is low-value, and when timing makes results unreliable.",
     tags: ["VTE", "testing", "family history", "unusual site"],
     notes: [
-      "Testing is useful only if results could change management, counseling, or family planning.",
-      "Avoid clot-based thrombophilia workups during acute thrombosis or active anticoagulation when possible.",
+      "Only consider thrombophilia testing if the result could change management.",
+      "The output now emphasizes targeted testing, interruption timing, and acquired thrombophilia prompts.",
     ],
     inputs: [
+      { id: "concomitantArterialDisease", label: "Concomitant arterial disease", type: "checkbox" },
+      { id: "ageUnder50", label: "Young age under 50 years", type: "checkbox" },
+      { id: "strongFamilyHistory", label: "Strong family history in first-degree relatives before 50 years", type: "checkbox" },
+      { id: "cbcAbnormalities", label: "CBC abnormalities: anemia, thrombocytopenia, thrombocytosis, or polycythemia", type: "checkbox" },
+      { id: "autoimmuneDisease", label: "Autoimmune disease", type: "checkbox" },
       {
         id: "firstVte",
         label: "Is this the first VTE?",
@@ -558,7 +1054,7 @@ export const tools = [
         defaultValue: "yes",
       },
       {
-        id: "site",
+        id: "vteSite",
         label: "VTE location",
         type: "radio",
         options: [
@@ -568,92 +1064,135 @@ export const tools = [
         defaultValue: "usual",
       },
       {
-        id: "provokingFactor",
-        label: "Provoking context",
-        type: "select",
+        id: "provocation",
+        label: "Provoked or unprovoked?",
+        type: "radio",
         options: [
+          { value: "provoked", label: "Provoked" },
           { value: "unprovoked", label: "Unprovoked" },
-          { value: "minor", label: "Minor / weak transient factor" },
-          { value: "major", label: "Major transient factor" },
         ],
         defaultValue: "unprovoked",
       },
-      { id: "ageUnder50", label: "Age under 50 at first event", type: "checkbox" },
-      { id: "familyHistory", label: "First-degree relative with VTE", type: "checkbox" },
-      { id: "pregnancyPlanning", label: "Pregnancy-related questions or future pregnancy planning", type: "checkbox" },
-      { id: "wouldChangeManagement", label: "Results would change management or counseling", type: "checkbox" },
-      { id: "acutePhase", label: "Currently in the acute VTE phase", type: "checkbox" },
-      { id: "onAnticoagulation", label: "Currently receiving anticoagulation", type: "checkbox" },
+      { id: "onAnticoagulation", label: "Currently on anticoagulants", type: "checkbox" },
+      {
+        id: "anticoagulantClass",
+        label: "Current anticoagulant class",
+        type: "select",
+        options: [
+          { value: "none", label: "None" },
+          { value: "warfarin", label: "Warfarin" },
+          { value: "doac", label: "DOAC" },
+          { value: "ufh_lmwh", label: "UFH or LMWH" },
+        ],
+        defaultValue: "none",
+      },
+      { id: "recurrentUnprovokedVte", label: "Recurrent unprovoked VTE", type: "checkbox" },
+      { id: "recurrentDespiteAnticoagulation", label: "Recurrent VTE despite adequate anticoagulation", type: "checkbox" },
+      { id: "recurrentPregnancyLoss", label: "Recurrent pregnancy loss", type: "checkbox" },
+      { id: "hemolysis", label: "Evidence of hemolysis", type: "checkbox" },
+      { id: "leucopenia", label: "Leucopenia", type: "checkbox" },
+      { id: "recentHeparinExposure", label: "Recent heparin exposure within 5 to 10 days", type: "checkbox" },
+      { id: "plateletFallFiftyPercent", label: "Platelet count has fallen by more than 50 percent", type: "checkbox" },
+      { id: "confirmedThrombosis", label: "Confirmed thrombosis or high thrombosis risk", type: "checkbox" },
+      { id: "noAlternativeCause", label: "No alternative cause for thrombocytopenia", type: "checkbox" },
+      { id: "managementWouldChange", label: "Testing would change management", type: "checkbox" },
     ],
     calculate: (values) => {
-      if (values.firstVte === "no") {
-        return {
-          tone: tone.success,
-          headline: "Routine thrombophilia testing is usually low-value",
-          summary: "Recurrent VTE already pushes many patients toward long-term secondary prevention.",
-          action: "Avoid routine hereditary thrombophilia panels unless a very specific management question remains.",
-          metrics: [{ label: "Context", value: "Recurrent VTE" }],
-          supporting: ["Focus on duration, provoking context, and anticoagulation tolerance."],
-        };
-      }
-
-      if (values.provokingFactor === "major") {
-        return {
-          tone: tone.success,
-          headline: "Testing is generally not recommended",
-          summary: "Major transient provoking factors already explain the event well.",
-          action: "Reserve testing for exceptional situations where management would genuinely change.",
-          metrics: [{ label: "Provoking factor", value: "Major transient" }],
-          supporting: ["Examples include major surgery, prolonged hospitalization, or major trauma."],
-        };
-      }
-
-      if (values.acutePhase || values.onAnticoagulation) {
-        return {
-          tone: tone.warning,
-          headline: "Delay clot-based thrombophilia tests",
-          summary: "Protein C, protein S, antithrombin, and lupus anticoagulant results can be misleading during acute thrombosis or active anticoagulation.",
-          action: "If safe, test after the acute period and ideally after anticoagulation has been held for an appropriate interval.",
-          metrics: buildMetrics([
-            { label: "Acute phase", value: values.acutePhase ? "Yes" : "No" },
-            { label: "On anticoagulation", value: values.onAnticoagulation ? "Yes" : "No" },
-          ]),
-          supporting: ["Genetic tests such as factor V Leiden and prothrombin mutation remain stable."],
-        };
-      }
-
-      const indications = [
-        values.provokingFactor === "unprovoked" && values.ageUnder50,
-        values.site === "unusual",
-        values.provokingFactor === "minor" && values.ageUnder50,
-        values.familyHistory,
-        values.pregnancyPlanning,
-        values.wouldChangeManagement,
+      const triggerCount = [
+        values.concomitantArterialDisease,
+        values.ageUnder50,
+        values.strongFamilyHistory,
+        values.cbcAbnormalities,
+        values.autoimmuneDisease,
+        values.vteSite === "unusual",
       ].filter(Boolean).length;
 
-      if (indications === 0) {
+      const apsSuggested =
+        values.recurrentUnprovokedVte ||
+        values.recurrentDespiteAnticoagulation ||
+        values.autoimmuneDisease ||
+        values.recurrentPregnancyLoss;
+      const mpnSuggested = values.cbcAbnormalities;
+      const pnhSuggested =
+        values.ageUnder50 && (values.vteSite === "unusual" || values.recurrentUnprovokedVte) &&
+        (values.hemolysis || values.cbcAbnormalities || values.leucopenia);
+      const hitSuggested =
+        values.recentHeparinExposure &&
+        values.plateletFallFiftyPercent &&
+        values.confirmedThrombosis &&
+        values.noAlternativeCause;
+
+      const interruptionRows = [
+        ["Warfarin", "Interrupt for at least 1 week before clot-based testing."],
+        ["DOAC", "Interrupt for at least 2 days; use 4 days for dabigatran if CrCl is below 50 mL/min."],
+        ["UFH or LMWH", "Interrupt for at least 24 hours before clot-based testing."],
+      ];
+
+      if (!values.managementWouldChange) {
         return {
-          tone: tone.neutral,
-          headline: "Selective testing only",
-          summary: "The current history does not strongly support broad thrombophilia testing.",
-          action: "Consider avoiding routine panels unless a new management question emerges.",
-          metrics: [{ label: "Indication count", value: "0" }],
-          supporting: ["Testing asymptomatic relatives or older patients with clear provoking factors rarely changes care."],
+          tone: tone.success,
+          headline: "Do not test routinely",
+          summary: "Only consider thrombophilia testing if the result will change management, counseling, or future pregnancy planning.",
+          action: "Avoid ordering broad panels when the result would not change treatment decisions.",
+          metrics: buildMetrics([
+            { label: "Specialist triggers", value: `${triggerCount}` },
+            { label: "On anticoagulation", value: values.onAnticoagulation ? "Yes" : "No" },
+          ]),
+          tables: [
+            buildTable("Tests that can be done during anticoagulation", ["Test", "Comment"], [
+              ["Factor V Leiden mutation", "DNA-based test; anticoagulants do not interfere."],
+              ["Prothrombin gene mutation", "DNA-based test; anticoagulants do not interfere."],
+              ["JAK2 mutation", "Useful when MPN is suspected."],
+              ["PNH flow cytometry", "Can be performed during anticoagulation."],
+            ]),
+            buildTable("Anticoagulant interruption rules", ["Anticoagulant", "Interruption"], interruptionRows),
+          ],
+          supporting: ["This recommendation is designed to reduce low-value testing."],
         };
       }
 
       return {
         tone: tone.warning,
-        headline: "Testing can be considered",
-        summary: "There is at least one feature that makes testing potentially management-relevant.",
-        action: "If proceeding, consider factor V Leiden, prothrombin G20210A, antithrombin, protein C, protein S, and antiphospholipid antibody testing.",
+        headline: triggerCount > 0 ? "Testing can be considered with specialist input" : "Use selective thrombophilia testing",
+        summary:
+          triggerCount > 0
+            ? "At least one specialist trigger is present. Test selectively and focus on results that could alter management."
+            : "The history is not strongly suggestive, so any testing should be tightly targeted to the clinical question.",
+        action:
+          values.onAnticoagulation && values.anticoagulantClass !== "none"
+            ? `Pause clot-based testing until ${values.anticoagulantClass === "warfarin" ? "warfarin has been stopped for at least 1 week" : values.anticoagulantClass === "doac" ? "the DOAC has been stopped for at least 2 days" : "UFH or LMWH has been stopped for at least 24 hours"}.`
+            : "Proceed only with tests that will change anticoagulant duration, counseling, pregnancy planning, or workup for an acquired thrombophilia.",
         metrics: buildMetrics([
-          { label: "Indication count", value: `${indications}` },
-          { label: "Site", value: values.site === "unusual" ? "Unusual site" : "Usual site" },
+          { label: "Specialist triggers", value: `${triggerCount}` },
+          { label: "First VTE", value: values.firstVte === "yes" ? "Yes" : "No" },
+          { label: "Site", value: values.vteSite === "unusual" ? "Unusual" : "Usual" },
+          { label: "Provocation", value: sentenceCase(values.provocation) },
         ]),
+        recommendations: [
+          { label: "Testing stance", value: "Test only if management will change." },
+          { label: "APS testing", value: apsSuggested ? "Suggested" : "Not specifically triggered" },
+          { label: "MPN testing", value: mpnSuggested ? "Suggested" : "Not specifically triggered" },
+          { label: "PNH testing", value: pnhSuggested ? "Suggested" : "Not specifically triggered" },
+          { label: "HIT testing", value: hitSuggested ? "Suggested" : "Not specifically triggered" },
+        ],
+        tables: [
+          buildTable("Tests that can be done during anticoagulation", ["Test", "Comment"], [
+            ["Factor V Leiden mutation", "DNA-based test; anticoagulants do not interfere."],
+            ["Prothrombin gene mutation", "DNA-based test; anticoagulants do not interfere."],
+            ["JAK2 mutation", "Order when MPN is suspected from CBC or blood film findings."],
+            ["PNH flow cytometry", "Can be performed during anticoagulation."],
+          ]),
+          buildTable("Anticoagulant interruption rules", ["Anticoagulant", "Interruption"], interruptionRows),
+          buildTable("Condition-specific testing prompts", ["Condition", "When to think about testing"], [
+            ["MPN", "Raised platelets, hematocrit, or white count; or blood film changes such as teardrop cells, nucleated red cells, or pancytopenia."],
+            ["APS", "Recurrent unprovoked VTE, recurrent VTE despite anticoagulation, autoimmune disease, or recurrent pregnancy loss."],
+            ["PNH", "Age under 50 with unusual or recurrent unprovoked thrombosis plus hemolysis, anemia, thrombocytopenia, or leucopenia."],
+            ["HIT", "Recent heparin exposure, platelet fall greater than 50 percent, thrombosis, and no alternative cause for thrombocytopenia."],
+          ]),
+        ],
         supporting: [
-          "Document how the result would alter duration of anticoagulation, pregnancy planning, or family counseling.",
-          "Interpret hereditary panels carefully in older adults and when baseline risk is already high.",
+          "Interpret clot-based assays only after the relevant anticoagulant interruption interval has been observed.",
+          "Acquired thrombophilia pathways often matter more than inherited thrombophilia panels in atypical presentations.",
         ],
       };
     },
@@ -669,19 +1208,23 @@ export const tools = [
       "Rapidly classify possible vaccine-induced immune thrombotic thrombocytopenia and highlight immediate management priorities.",
     tags: ["VITT", "platelets", "PF4", "emergency"],
     notes: [
-      "This is a support screen for rare suspected cases, not a substitute for urgent hematology review.",
-      "When suspicion is real, treatment should not wait for confirmatory PF4 results.",
+      "This section has been rebuilt as a structured acute-care workup rather than a generic screen.",
+      "Because the supplied VITT prompt was truncated, the symptom list is completed using the standard high-risk presentations used in practice.",
     ],
     inputs: [
-      { id: "symptomatic", label: "Concerning symptoms present", type: "checkbox" },
-      { id: "adenoviralVaccine", label: "Adenoviral vector COVID vaccine received", type: "checkbox" },
-      { id: "daysSinceVaccine", label: "Days since vaccination", type: "number", min: 0, step: 1 },
+      { id: "daysSinceVaccination", label: "Days since vaccination", type: "number", min: 0, step: 1 },
+      { id: "severeHeadache", label: "Persistent and severe headache", type: "checkbox" },
+      { id: "focalNeurology", label: "Focal neurological symptoms, seizures, or blurred or double vision", type: "checkbox" },
+      { id: "abdominalPain", label: "Severe abdominal pain", type: "checkbox" },
+      { id: "chestPainDyspnea", label: "Chest pain or shortness of breath", type: "checkbox" },
+      { id: "legPainSwelling", label: "Leg pain or unilateral leg swelling", type: "checkbox" },
+      { id: "bleedingOrPetechiae", label: "Petechiae, easy bruising, or bleeding away from the injection site", type: "checkbox" },
       { id: "plateletCount", label: "Platelet count (x10^9/L)", type: "number", min: 1, step: 1 },
       { id: "dDimerMarked", label: "D-dimer markedly elevated", type: "checkbox" },
       { id: "fibrinogenLow", label: "Fibrinogen low or falling", type: "checkbox" },
       { id: "thrombosisConfirmed", label: "Imaging-confirmed arterial or venous thrombosis", type: "checkbox" },
       {
-        id: "antiPf4",
+        id: "pf4Elisa",
         label: "Anti-PF4 ELISA result",
         type: "radio",
         options: [
@@ -693,30 +1236,44 @@ export const tools = [
       },
     ],
     calculate: (values) => {
-      const days = asNumber(values.daysSinceVaccine);
+      const days = asNumber(values.daysSinceVaccination);
       const platelets = asNumber(values.plateletCount);
-      const inWindow = Number.isFinite(days) && days >= 4 && days <= 28;
+      const symptomCount = [
+        values.severeHeadache,
+        values.focalNeurology,
+        values.abdominalPain,
+        values.chestPainDyspnea,
+        values.legPainSwelling,
+        values.bleedingOrPetechiae,
+      ].filter(Boolean).length;
+      const inWindow = Number.isFinite(days) && days >= 4 && days <= 42;
       const thrombocytopenia = Number.isFinite(platelets) && platelets < 150;
+      const probable =
+        inWindow &&
+        symptomCount > 0 &&
+        thrombocytopenia &&
+        (values.thrombosisConfirmed || values.dDimerMarked || values.fibrinogenLow);
+      const definite = probable && values.pf4Elisa === "positive";
 
-      if (!values.symptomatic) {
+      if (symptomCount === 0) {
         return {
           tone: tone.success,
-          headline: "Low immediate concern for VITT",
-          summary: "The current symptom profile does not fit a typical acute VITT screen.",
-          action: "Reassess if new severe headache, abdominal pain, dyspnea, leg symptoms, or bleeding features emerge.",
-          metrics: [{ label: "Symptoms", value: "Not concerning" }],
+          headline: "VITT is not suggested by the current symptom profile",
+          summary: "No high-risk symptom cluster has been selected.",
+          action: "Reassess if severe headache, neurological change, abdominal pain, dyspnea, limb symptoms, or unusual bruising develops after vaccination.",
+          metrics: buildMetrics([{ label: "Symptoms selected", value: "0" }]),
         };
       }
 
-      if (!values.adenoviralVaccine || !inWindow) {
+      if (!inWindow) {
         return {
           tone: tone.success,
-          headline: "VITT is unlikely on timing history",
-          summary: "Typical VITT occurs 4 to 28 days after adenoviral vector vaccination.",
-          action: "Investigate alternative causes of thrombosis, thrombocytopenia, or systemic symptoms.",
+          headline: "Timing is not typical for VITT",
+          summary: "VITT usually presents 4 to 42 days after vaccination.",
+          action: "Investigate alternative explanations for thrombosis, thrombocytopenia, or systemic symptoms.",
           metrics: buildMetrics([
-            { label: "Adenoviral vaccine", value: values.adenoviralVaccine ? "Yes" : "No" },
             { label: "Timing", value: Number.isFinite(days) ? `${days} days` : "Not entered" },
+            { label: "Symptoms selected", value: `${symptomCount}` },
           ]),
         };
       }
@@ -724,42 +1281,67 @@ export const tools = [
       if (!thrombocytopenia) {
         return {
           tone: tone.warning,
-          headline: "Check or repeat the CBC promptly",
-          summary: "A platelet count below 150 x10^9/L is usually part of the syndrome definition.",
-          action: "If symptoms are convincing, repeat blood work and continue diagnostic imaging based on presentation.",
+          headline: "Symptoms are concerning but thrombocytopenia is not yet shown",
+          summary: "VITT usually includes a platelet count below 150 x10^9/L, so repeat blood work promptly if symptoms remain concerning.",
+          action: "Order CBC, D-dimer, fibrinogen, and targeted imaging based on symptoms. Repeat the CBC if symptoms continue to evolve.",
           metrics: buildMetrics([
             { label: "Timing", value: `${days} days` },
             { label: "Platelets", value: Number.isFinite(platelets) ? `${platelets}` : "Pending" },
           ]),
+          tables: [
+            buildTable("Urgent work-up", ["Investigation", "Purpose"], [
+              ["CBC and platelet count", "Confirm whether thrombocytopenia is evolving."],
+              ["D-dimer", "Marked elevation supports the diagnosis."],
+              ["Fibrinogen", "Low or falling fibrinogen supports consumptive coagulopathy."],
+              ["Targeted imaging", "Investigate cerebral, splanchnic, pulmonary, or limb thrombosis according to symptoms."],
+              ["PF4 ELISA", "Preferred assay when VITT is suspected."],
+            ]),
+          ],
         };
       }
 
-      const likelyFeatures = [
-        values.thrombosisConfirmed,
-        values.dDimerMarked,
-        values.fibrinogenLow,
-      ].filter(Boolean).length;
-
-      const definite =
-        values.thrombosisConfirmed &&
-        values.dDimerMarked &&
-        values.antiPf4 === "positive";
-
       return {
         tone: definite ? tone.danger : tone.warning,
-        headline: definite ? "Definite or near-definite VITT pattern" : "Probable VITT - treat while confirming",
+        headline: definite ? "Definite or near-definite VITT pattern" : probable ? "Probable VITT: treat while confirming" : "Possible VITT: urgent work-up needed",
         summary: definite
-          ? "Timing, thrombocytopenia, thrombosis, elevated D-dimer, and PF4 positivity align strongly with VITT."
-          : "The syndrome remains plausible even before PF4 confirmation, especially with thrombocytopenia and major coagulation derangement.",
+          ? "Timing, thrombocytopenia, thrombosis, coagulation abnormalities, and PF4 positivity align strongly with VITT."
+          : probable
+            ? "The syndrome is plausible even before PF4 confirmation because symptoms, thrombocytopenia, and coagulation abnormalities are already present."
+            : "There is enough concern to complete a VITT work-up urgently, but the syndrome is not yet fully established.",
         action:
-          "Start non-heparin anticoagulation if safe, give IVIG 1 g/kg daily for 2 days, and involve hematology urgently.",
+          probable || definite
+            ? "Start non-heparin anticoagulation if safe, give IVIG 1 g/kg daily for 2 days, and involve hematology urgently."
+            : "Order CBC, D-dimer, fibrinogen, PF4 ELISA, and symptom-directed imaging urgently.",
         metrics: buildMetrics([
           { label: "Timing", value: `${days} days` },
           { label: "Platelets", value: `${platelets}` },
-          { label: "Supportive features", value: `${likelyFeatures}/3` },
+          {
+            label: "Supportive features",
+            value: `${[values.thrombosisConfirmed, values.dDimerMarked, values.fibrinogenLow].filter(Boolean).length}/3`,
+          },
         ]),
+        recommendations: [
+          { label: "PF4 ELISA", value: values.pf4Elisa === "positive" ? "Positive" : values.pf4Elisa === "negative" ? "Negative" : "Pending" },
+          { label: "Heparin", value: probable || definite ? "Avoid heparin products." : "Do not use heparin until VITT is excluded if suspicion is meaningful." },
+          { label: "Platelet transfusion", value: "Avoid unless bleeding is life-threatening." },
+        ],
+        tables: [
+          buildTable("Urgent work-up", ["Investigation", "Purpose"], [
+            ["CBC and platelet count", "Confirm thrombocytopenia."],
+            ["D-dimer", "Marked elevation supports VITT."],
+            ["Fibrinogen", "Low or falling fibrinogen supports consumptive coagulopathy."],
+            ["Targeted imaging", "Look for cerebral, splanchnic, pulmonary, or limb thrombosis based on symptoms."],
+            ["PF4 ELISA", "Preferred confirmatory assay; do not rely on rapid HIT tests."],
+          ]),
+          buildTable("Immediate treatment steps", ["Step", "Recommendation"], [
+            ["Anticoagulation", "Use a non-heparin anticoagulant if bleeding risk allows."],
+            ["Immune therapy", "Give IVIG 1 g/kg daily for 2 days if probable or definite VITT."],
+            ["Transfusion", "Avoid platelet transfusion unless bleeding is life-threatening."],
+            ["Specialist review", "Discuss urgently with hematology and the relevant acute specialty."],
+          ]),
+        ],
         supporting: [
-          "Avoid heparin and avoid platelet transfusion unless bleeding is life-threatening.",
+          "This tool assumes the standard high-risk VITT symptom cluster because the supplied prompt ended mid-list.",
           "Use PF4 ELISA rather than a rapid HIT assay when testing is available.",
         ],
       };

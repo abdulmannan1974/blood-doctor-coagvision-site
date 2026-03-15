@@ -6,10 +6,10 @@ import {
   BookOpenText,
   BrainCircuit,
   Calculator,
-  ChartColumnBig,
+  ChevronDown,
+  ChevronRight,
   CircleAlert,
   CircleCheckBig,
-  Eye,
   FileSearch,
   FolderOpen,
   HeartPulse,
@@ -18,25 +18,7 @@ import {
   Pill,
   Search,
   ShieldAlert,
-  TestTubeDiagonal,
 } from "lucide-react";
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Cell,
-  Pie,
-  PieChart,
-  PolarAngleAxis,
-  PolarGrid,
-  PolarRadiusAxis,
-  Radar,
-  RadarChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
 import { toolCategories, tools } from "./data/tools";
 import { clinicalContentByToolId } from "./data/markdownContent";
 import { guideLibrary, pdfLibrary, resolveMarkdownTarget, vaultLibrary } from "./data/library";
@@ -63,8 +45,6 @@ const toneMeta = {
     icon: BadgeCheck,
   },
 };
-
-const chartPalette = ["#d24755", "#f0a23b", "#0f766e", "#0f172a", "#d97706", "#8b1e3f"];
 
 const normalizeValue = (value) => value.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
 const getPageForToolId = (toolId) =>
@@ -109,6 +89,14 @@ const pageCopy = {
     description:
       "A cleaner index of companion records linked back to the guide library, so the main reading experience stays markdown-first and connected across the whole website.",
   },
+};
+
+const referenceTabIconById = {
+  overview: BookOpenText,
+  criteria: Microscope,
+  interpretation: Activity,
+  application: HeartPulse,
+  references: FileSearch,
 };
 
 const getInitialValues = (tool) =>
@@ -160,6 +148,31 @@ const getCompletion = (tool, values) => {
 
 const getToneClass = (tone) => tone ?? "neutral";
 
+const getTab = (content, id) => content?.tabs?.find((tab) => tab.id === id) ?? null;
+const getCards = (content, id) => getTab(content, id)?.cards ?? [];
+const getBlocks = (content, id) => getCards(content, id).flatMap((card) => card.blocks ?? []);
+const getFirstBlock = (content, id, type) => getBlocks(content, id).find((block) => block.type === type) ?? null;
+const getFirstParagraphText = (content, id) => getFirstBlock(content, id, "paragraph")?.text ?? "";
+const getFirstTable = (content, id) => getFirstBlock(content, id, "table");
+const getFirstList = (content, id) => {
+  const block = getBlocks(content, id).find(
+    (item) => item.type === "bullet-list" || item.type === "ordered-list"
+  );
+
+  return block?.items ?? [];
+};
+const getReferenceItems = (content) => getBlocks(content, "references")
+  .filter((block) => block.type === "reference-list")
+  .flatMap((block) => block.items ?? []);
+const trimSentence = (value, maxLength = 220) => {
+  const safe = sanitizeDisplayText(value);
+  if (safe.length <= maxLength) {
+    return safe;
+  }
+
+  return `${safe.slice(0, maxLength).trim()}...`;
+};
+
 const getToolKeywords = (tool) =>
   normalizeValue([tool.title, tool.shortTitle, tool.blurb, ...(tool.tags ?? [])].join(" "))
     .split(" ")
@@ -198,7 +211,6 @@ function AppLayout() {
   const [currentPage, setCurrentPage] = useState(getPageFromHash);
   const [activeToolId, setActiveToolId] = useState(tools[0]?.id ?? "");
   const [toolValues, setToolValues] = useState(toolStateDefaults);
-  const [activeClinicalTab, setActiveClinicalTab] = useState("overview");
   const [activeGuideId, setActiveGuideId] = useState(guideLibrary[0]?.id ?? "");
   const [activeGuideTab, setActiveGuideTab] = useState("overview");
   const [activePdfId, setActivePdfId] = useState(pdfLibrary[0]?.id ?? "");
@@ -357,10 +369,6 @@ function AppLayout() {
 
   const activeValues = activeTool ? toolValues[activeTool.id] ?? {} : {};
   const result = activeTool ? activeTool.calculate(activeValues) : null;
-  const activeClinicalContent = activeTool
-    ? clinicalContentByToolId[activeTool.id] ?? { tabs: [] }
-    : { tabs: [] };
-  const completion = activeTool ? getCompletion(activeTool, activeValues) : { completed: 0, total: 1, percent: 0 };
   const relatedGuides = activeTool ? getRelatedGuides(activeTool) : [];
   const activeGuide =
     filteredGuides.find((guide) => guide.id === activeGuideId) ??
@@ -375,11 +383,12 @@ function AppLayout() {
   const activePdf = activeVaultEntry
     ? pdfLibrary.find((pdf) => pdf.id === activeVaultEntry.pdfId) ?? null
     : null;
-
-  useEffect(() => {
-    const firstTabId = activeClinicalContent.tabs[0]?.id ?? "overview";
-    setActiveClinicalTab(firstTabId);
-  }, [activeToolId, activeClinicalContent.tabs]);
+  const activeGuideOverview = trimSentence(getFirstParagraphText(activeGuide?.content, "overview") || activeGuide?.objective || activeGuide?.excerpt || "");
+  const activeGuideApplicationList = getFirstList(activeGuide?.content, "application").slice(0, 4);
+  const activeGuideReferenceItems = getReferenceItems(activeGuide?.content).slice(0, 4);
+  const activeVaultOverview = trimSentence(getFirstParagraphText(activeVaultEntry?.content, "overview") || activeVaultEntry?.objective || activeVaultEntry?.excerpt || "");
+  const activeVaultApplicationList = getFirstList(activeVaultEntry?.content, "application").slice(0, 4);
+  const activeVaultReferenceItems = getReferenceItems(activeVaultEntry?.content).slice(0, 5);
 
   useEffect(() => {
     const firstTabId = activeGuide?.content?.tabs?.[0]?.id ?? "overview";
@@ -392,78 +401,6 @@ function AppLayout() {
     pdfs: vaultLibrary.length,
     categories: toolCategories.filter((category) => category.id !== "all").length,
   };
-
-  const categoryChartData = useMemo(
-    () =>
-      toolCategories
-        .filter((category) => category.id !== "all")
-        .map((category) => ({
-          name: category.label,
-          total: tools.filter((tool) => tool.category === category.id).length,
-        })),
-    []
-  );
-
-  const complexityChartData = useMemo(
-    () =>
-      [...tools]
-        .map((tool) => ({
-          name: tool.shortTitle,
-          inputs: tool.inputs.filter((input) => input.type !== "hidden").length,
-        }))
-        .sort((left, right) => right.inputs - left.inputs)
-        .slice(0, 6),
-    []
-  );
-
-  const knowledgeMixData = useMemo(
-    () => [
-      { name: "Calculators", value: tools.length },
-      { name: "Guides", value: guideLibrary.length },
-      { name: "Vault entries", value: vaultLibrary.length },
-    ],
-    []
-  );
-
-  const activeToolRadarData = useMemo(() => {
-    if (!activeTool || !result) {
-      return [];
-    }
-
-    const resultMetricCount = result.metrics?.length ?? 0;
-    const referenceCardCount = activeClinicalContent.tabs.reduce(
-      (total, tab) => total + tab.cards.length,
-      0
-    );
-
-    return [
-      {
-        subject: "Inputs",
-        value: activeTool.inputs.filter((input) => input.type !== "hidden").length,
-        fullMark: 14,
-      },
-      {
-        subject: "Tags",
-        value: activeTool.tags.length,
-        fullMark: 8,
-      },
-      {
-        subject: "Metrics",
-        value: resultMetricCount,
-        fullMark: 6,
-      },
-      {
-        subject: "Reference cards",
-        value: Math.min(referenceCardCount, 14),
-        fullMark: 14,
-      },
-      {
-        subject: "Guide matches",
-        value: Math.min(relatedGuides.length, 6),
-        fullMark: 6,
-      },
-    ];
-  }, [activeClinicalContent.tabs, activeTool, relatedGuides.length, result]);
 
   const workspaceRows = useMemo(
     () =>
@@ -660,19 +597,6 @@ function AppLayout() {
             ) : null}
           </div>
 
-          <div className="topbar-actions">
-            <button type="button" className="ghost-button" onClick={() => navigateToPage("algorithms")}>
-              Algorithms
-            </button>
-            <button
-              type="button"
-              className="primary-button"
-              onClick={() => navigateToPage("pdfs")}
-            >
-              <Eye size={16} />
-              Open clinical vault
-            </button>
-          </div>
         </header>
 
         <main className="content-stack">
@@ -806,76 +730,6 @@ function AppLayout() {
             </section>
           </section>
 
-          <section className="analytics-grid">
-            <ChartCard
-              title="Tool footprint"
-              description="Distribution of calculator types across the platform."
-              icon={ChartColumnBig}
-            >
-              <ResponsiveContainer width="100%" height={240}>
-                <BarChart data={categoryChartData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e7e5e4" vertical={false} />
-                  <XAxis dataKey="name" tickLine={false} axisLine={false} fontSize={12} />
-                  <YAxis allowDecimals={false} tickLine={false} axisLine={false} fontSize={12} />
-                  <Tooltip cursor={{ fill: "rgba(148, 163, 184, 0.12)" }} />
-                  <Bar dataKey="total" radius={[10, 10, 0, 0]} fill="#8b1e3f" />
-                </BarChart>
-              </ResponsiveContainer>
-            </ChartCard>
-
-            <ChartCard
-              title="Most detailed calculators"
-              description="Highest-input calculators for richer bedside decision support."
-              icon={HeartPulse}
-            >
-              <ResponsiveContainer width="100%" height={240}>
-                <BarChart layout="vertical" data={complexityChartData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e7e5e4" horizontal={false} />
-                  <XAxis type="number" allowDecimals={false} tickLine={false} axisLine={false} fontSize={12} />
-                  <YAxis dataKey="name" type="category" width={88} tickLine={false} axisLine={false} fontSize={12} />
-                  <Tooltip cursor={{ fill: "rgba(148, 163, 184, 0.12)" }} />
-                  <Bar dataKey="inputs" radius={[0, 10, 10, 0]} fill="#f0a23b" />
-                </BarChart>
-              </ResponsiveContainer>
-            </ChartCard>
-
-            <ChartCard
-              title="Knowledge mix"
-              description="How the platform balances calculators, markdown guides, and connected vault entries."
-              icon={TestTubeDiagonal}
-            >
-              <ResponsiveContainer width="100%" height={240}>
-                <PieChart>
-                  <Pie
-                    data={knowledgeMixData}
-                    dataKey="value"
-                    nameKey="name"
-                    innerRadius={60}
-                    outerRadius={88}
-                    paddingAngle={4}
-                  >
-                    {knowledgeMixData.map((entry, index) => (
-                      <Cell key={entry.name} fill={chartPalette[index % chartPalette.length]} />
-                    ))}
-                  </Pie>
-                  <Tooltip />
-                </PieChart>
-              </ResponsiveContainer>
-
-              <div className="chart-legend">
-                {knowledgeMixData.map((entry, index) => (
-                  <div key={entry.name} className="legend-row">
-                    <span
-                      className="legend-dot"
-                      style={{ backgroundColor: chartPalette[index % chartPalette.length] }}
-                    />
-                    <span>{entry.name}</span>
-                    <strong>{entry.value}</strong>
-                  </div>
-                ))}
-              </div>
-            </ChartCard>
-          </section>
             </>
           ) : null}
 
@@ -916,17 +770,6 @@ function AppLayout() {
                           ))}
                         </div>
                       </div>
-
-                      <div className="progress-card">
-                        <span className="eyebrow">Input completion</span>
-                        <strong>{completion.percent}%</strong>
-                        <div className="progress-bar">
-                          <span style={{ width: `${completion.percent}%` }} />
-                        </div>
-                        <p>
-                          {completion.completed} of {completion.total} visible inputs populated.
-                        </p>
-                      </div>
                     </div>
 
                     <div className="tool-notes-grid">
@@ -961,34 +804,7 @@ function AppLayout() {
 
               <div className="insight-grid">
                 <ResultPanel result={result} />
-
-                <ChartCard
-                  title="Calculator richness"
-                  description="A quick visual read of how much structure supports the active decision tool."
-                  icon={BrainCircuit}
-                >
-                  <ResponsiveContainer width="100%" height={260}>
-                    <RadarChart data={activeToolRadarData}>
-                      <PolarGrid stroke="#e7e5e4" />
-                      <PolarAngleAxis dataKey="subject" tick={{ fontSize: 12, fill: "#475569" }} />
-                      <PolarRadiusAxis angle={30} domain={[0, "dataMax"]} tick={false} axisLine={false} />
-                      <Radar
-                        dataKey="value"
-                        stroke="#8b1e3f"
-                        fill="#8b1e3f"
-                        fillOpacity={0.32}
-                      />
-                    </RadarChart>
-                  </ResponsiveContainer>
-                </ChartCard>
               </div>
-
-              <ClinicalReference
-                title={activeTool?.title}
-                content={activeClinicalContent}
-                activeTab={activeClinicalTab}
-                onTabChange={setActiveClinicalTab}
-              />
             </div>
           </section>
           </>
@@ -996,11 +812,6 @@ function AppLayout() {
 
           {currentPage === "guides" ? (
           <>
-          <PageLead
-            eyebrow={pageCopy.guides.eyebrow}
-            title={pageCopy.guides.title}
-            description={pageCopy.guides.description}
-          />
           <section className="focus-layout">
             <div key={`guide-panel-${activeGuide?.id ?? "empty"}`} className="panel guide-detail-panel spotlight-panel">
               {activeGuide ? (
@@ -1011,21 +822,6 @@ function AppLayout() {
                       <h3>{activeGuide.title}</h3>
                     </div>
 
-                    {activeGuide.pdfId ? (
-                      <div className="button-cluster">
-                        <button
-                          type="button"
-                          className="primary-button"
-                          onClick={() => {
-                            setActivePdfId(activeGuide.pdfId);
-                            navigateToPage("pdfs");
-                          }}
-                        >
-                          <Eye size={16} />
-                          Open in clinical vault
-                        </button>
-                      </div>
-                    ) : null}
                   </div>
 
                   <div className="guide-meta-row">
@@ -1045,18 +841,31 @@ function AppLayout() {
                     </div>
                   </div>
 
-                  <article className="guide-story-card">
-                    <p>{activeGuide.objective || activeGuide.excerpt}</p>
-
-                    <div className="guide-heading-grid">
-                      {activeGuide.headings.slice(0, 8).map((heading) => (
-                        <div key={heading} className="guide-heading-chip">
-                          <ArrowUpRight size={14} />
-                          <span>{heading}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </article>
+                  <div className="guide-summary-grid">
+                    <ContentSummaryCard
+                      eyebrow="Guide synopsis"
+                      title="Overview"
+                      description={activeGuideOverview}
+                    />
+                    <ContentListPreview
+                      eyebrow="Clinical application"
+                      title="Practice points"
+                      items={activeGuideApplicationList}
+                      emptyLabel="Structured application points will appear here when listed in the guide."
+                    />
+                    <ContentOutlinePreview
+                      eyebrow="Guide structure"
+                      title="Key sections"
+                      items={activeGuide.headings.slice(0, 8)}
+                    />
+                    <ContentListPreview
+                      eyebrow="Reference preview"
+                      title="Key bibliography"
+                      items={activeGuideReferenceItems}
+                      ordered
+                      emptyLabel="Reference entries will appear here when available."
+                    />
+                  </div>
 
                   <ClinicalReference
                     eyebrow="Guide dossier"
@@ -1131,11 +940,6 @@ function AppLayout() {
 
           {currentPage === "pdfs" ? (
           <>
-          <PageLead
-            eyebrow={pageCopy.pdfs.eyebrow}
-            title={pageCopy.pdfs.title}
-            description={pageCopy.pdfs.description}
-          />
           <section className="focus-layout">
             <div key={`vault-panel-${activeVaultEntry?.id ?? "empty"}`} className="panel pdf-viewer-panel spotlight-panel">
               {activeVaultEntry ? (
@@ -1174,17 +978,31 @@ function AppLayout() {
                     </div>
                   </div>
 
-                  <article className="guide-story-card">
-                    <p>{activeVaultEntry.objective || activeVaultEntry.excerpt}</p>
-                    <div className="guide-heading-grid">
-                      {activeVaultEntry.headings.slice(0, 6).map((heading) => (
-                        <div key={heading} className="guide-heading-chip">
-                          <ArrowUpRight size={14} />
-                          <span>{heading}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </article>
+                  <div className="guide-summary-grid">
+                    <ContentSummaryCard
+                      eyebrow="Vault synopsis"
+                      title="Overview"
+                      description={activeVaultOverview}
+                    />
+                    <ContentListPreview
+                      eyebrow="Clinical application"
+                      title="Practice points"
+                      items={activeVaultApplicationList}
+                      emptyLabel="Structured clinical points will appear here when listed in the vault summary."
+                    />
+                    <ContentOutlinePreview
+                      eyebrow="Vault structure"
+                      title="Key sections"
+                      items={activeVaultEntry.headings.slice(0, 8)}
+                    />
+                    <ContentListPreview
+                      eyebrow="Reference preview"
+                      title="Bibliography"
+                      items={activeVaultReferenceItems}
+                      ordered
+                      emptyLabel="Reference entries will appear here when available."
+                    />
+                  </div>
 
                   <ClinicalReference
                     eyebrow="Vault summary"
@@ -1228,19 +1046,103 @@ function MetricCard({ icon: Icon, label, value, meta }) {
   );
 }
 
-function ChartCard({ title, description, icon: Icon, children }) {
+function ContentSummaryCard({ eyebrow, title, description }) {
   return (
-    <section className="panel chart-card">
-      <div className="section-card-header">
+    <article className="guide-story-card">
+      <div className="section-card-header slim">
         <div>
-          <span className="eyebrow">Analytics</span>
-          <h3>{title}</h3>
+          <span className="eyebrow">{eyebrow}</span>
+          <h4>{title}</h4>
         </div>
-        <Icon size={17} />
       </div>
-      <p className="section-copy">{description}</p>
-      {children}
-    </section>
+      <p className="guide-story-copy">{description || "No structured summary is available yet."}</p>
+    </article>
+  );
+}
+
+function ContentOutlinePreview({ eyebrow, title, items }) {
+  return (
+    <article className="guide-story-card">
+      <div className="section-card-header slim">
+        <div>
+          <span className="eyebrow">{eyebrow}</span>
+          <h4>{title}</h4>
+        </div>
+      </div>
+      {items?.length ? (
+        <ul className="guide-outline-list">
+          {items.map((item) => (
+            <li key={item}>
+              <ArrowUpRight size={14} />
+              <span>{sanitizeDisplayText(item)}</span>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="guide-story-copy">Section headings will appear here when available.</p>
+      )}
+    </article>
+  );
+}
+
+function ContentListPreview({ eyebrow, title, items, ordered = false, emptyLabel }) {
+  const ListTag = ordered ? "ol" : "ul";
+
+  return (
+    <article className="guide-story-card">
+      <div className="section-card-header slim">
+        <div>
+          <span className="eyebrow">{eyebrow}</span>
+          <h4>{title}</h4>
+        </div>
+      </div>
+      {items?.length ? (
+        <ListTag className={ordered ? "content-list compact ordered" : "content-list compact"}>
+          {items.map((item) => (
+            <li key={item}>{renderInlineContent(item)}</li>
+          ))}
+        </ListTag>
+      ) : (
+        <p className="guide-story-copy">{emptyLabel}</p>
+      )}
+    </article>
+  );
+}
+
+function ContentTablePreview({ eyebrow, title, table }) {
+  return (
+    <article className="guide-story-card wide">
+      <div className="section-card-header slim">
+        <div>
+          <span className="eyebrow">{eyebrow}</span>
+          <h4>{title}</h4>
+        </div>
+      </div>
+      {table?.headers?.length && table?.rows?.length ? (
+        <div className="content-table-shell compact">
+          <table className="content-table compact">
+            <thead>
+              <tr>
+                {table.headers.map((header) => (
+                  <th key={header}>{renderInlineContent(header)}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {table.rows.slice(0, 5).map((row, rowIndex) => (
+                <tr key={`${row.join("-")}-${rowIndex}`}>
+                  {row.map((cell, cellIndex) => (
+                    <td key={`${cell}-${cellIndex}`}>{renderInlineContent(cell)}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <p className="guide-story-copy">A structured comparison table will appear here when available.</p>
+      )}
+    </article>
   );
 }
 
@@ -1395,6 +1297,38 @@ function ResultPanel({ result }) {
         </div>
       ) : null}
 
+      {result.tables?.length ? (
+        <div className="result-table-stack">
+          {result.tables.map((table) => (
+            <div key={table.title} className="action-card result-table-card">
+              <span className="eyebrow">{table.title}</span>
+              <div className="content-table-shell compact">
+                <table className="content-table compact">
+                  <thead>
+                    <tr>
+                      {table.headers.map((header) => (
+                        <th key={header}>{renderInlineContent(header)}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {table.rows.map((row, rowIndex) => (
+                      <tr key={`${table.title}-${rowIndex}`}>
+                        {row.map((cell, cellIndex) => (
+                          <td key={`${table.title}-${rowIndex}-${cellIndex}`}>
+                            {renderInlineContent(cell)}
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : null}
+
       {result.supporting?.length ? (
         <ul className="support-list">
           {result.supporting.map((item) => (
@@ -1415,13 +1349,25 @@ function ClinicalReference({
   emptyMessage = "No clinical detail is available for this tool yet.",
 }) {
   const visibleTab = content.tabs.find((tab) => tab.id === activeTab) ?? content.tabs[0] ?? null;
+  const [openCardId, setOpenCardId] = useState("");
+
+  useEffect(() => {
+    if (!visibleTab?.cards?.length) {
+      setOpenCardId("");
+      return;
+    }
+
+    setOpenCardId(`${visibleTab.id}-${visibleTab.cards[0].title}`);
+  }, [visibleTab]);
+
+  const TabIcon = referenceTabIconById[visibleTab?.id] ?? BookOpenText;
 
   return (
     <section className="panel reference-panel">
       <div className="section-card-header">
         <div>
           <span className="eyebrow">{eyebrow}</span>
-          <h3>{title ? `${title} reference stack` : "Reference stack"}</h3>
+          <h3>{title || "Clinical reference"}</h3>
         </div>
         <BookOpenText size={17} />
       </div>
@@ -1445,31 +1391,41 @@ function ClinicalReference({
 
           {visibleTab ? (
             <div className="reference-panel-body">
-              <div className="reference-intro">
-                <div>
-                  <span className="eyebrow">Section focus</span>
-                  <p>{visibleTab.descriptor}</p>
-                </div>
-                <strong>{visibleTab.cards.length} cards</strong>
-              </div>
-
               <div className="accordion-list">
-                {visibleTab.cards.map((card) => (
-                  <details key={`${visibleTab.id}-${card.title}`} className="accordion-card" open>
-                    <summary>
-                      <div>
-                        <span className="badge soft">Section</span>
-                        <strong>{card.title}</strong>
-                      </div>
-                      {card.summary ? <p>{card.summary}</p> : null}
-                    </summary>
-                    <div className="accordion-content">
-                      {card.blocks.map((block, index) => (
-                        <ContentBlock key={`${card.title}-${block.type}-${index}`} block={block} />
-                      ))}
-                    </div>
-                  </details>
-                ))}
+                {visibleTab.cards.map((card) => {
+                  const cardId = `${visibleTab.id}-${card.title}`;
+                  const isOpen = openCardId === cardId;
+
+                  return (
+                    <article key={cardId} className={isOpen ? "accordion-card open" : "accordion-card"}>
+                      <button
+                        type="button"
+                        className="accordion-toggle"
+                        onClick={() => setOpenCardId(isOpen ? "" : cardId)}
+                        aria-expanded={isOpen}
+                      >
+                        <span className="accordion-toggle-copy">
+                          <span className="accordion-toggle-icon">
+                            <TabIcon size={16} />
+                          </span>
+                          <span>
+                            <strong>{card.title}</strong>
+                            {card.summary ? <p>{card.summary}</p> : null}
+                          </span>
+                        </span>
+                        {isOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+                      </button>
+
+                      {isOpen ? (
+                        <div className="accordion-content">
+                          {card.blocks.map((block, index) => (
+                            <ContentBlock key={`${card.title}-${block.type}-${index}`} block={block} />
+                          ))}
+                        </div>
+                      ) : null}
+                    </article>
+                  );
+                })}
               </div>
             </div>
           ) : null}
@@ -1514,6 +1470,18 @@ function ContentBlock({ block }) {
           <p>{renderInlineContent(block.value)}</p>
         </div>
       </div>
+    );
+  }
+
+  if (block.type === "reference-list") {
+    return (
+      <ol className="reference-list">
+        {block.items.map((item) => (
+          <li key={item} className="reference-item">
+            {renderInlineContent(item)}
+          </li>
+        ))}
+      </ol>
     );
   }
 
@@ -1626,7 +1594,7 @@ function renderInlineContent(text) {
     }
 
     lastIndex = pattern.lastIndex;
-    match = pattern.exec(text);
+    match = pattern.exec(safeText);
   }
 
   if (lastIndex < safeText.length) {
@@ -1648,6 +1616,11 @@ function sanitizeDisplayText(value) {
   }
 
   return value
+    .replace(/^#{1,4}\s+/gm, "")
+    .replace(/\s+#{1,4}\s+/g, " ")
+    .replace(/\*\*([^*]+)\*\*/g, "$1")
+    .replace(/^>\s+/gm, "")
+    .replace(/^"\s*/gm, "")
     .replace(/\\\(/g, "")
     .replace(/\\\)/g, "")
     .replace(/\\\[/g, "")
@@ -1655,6 +1628,7 @@ function sanitizeDisplayText(value) {
     .replace(/\$\$([^$]+)\$\$/g, "$1")
     .replace(/\$([^$]+)\$/g, "$1")
     .replace(/\\([_%#&])/g, "$1")
+    .replace(/(^|\s)---(\s|$)/g, " ")
     .replace(/\s{2,}/g, " ")
     .trim();
 }
