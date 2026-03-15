@@ -22249,12 +22249,14 @@ const splitSections = (markdown) => {
     if (headingMatch) {
       const level = headingMatch[1].length;
       const headingTitle = headingMatch[2].trim();
+      const cleanedHeadingTitle = stripMarkdown$1(debrandContent(headingTitle));
+      const normalizedHeadingTitle = cleanedHeadingTitle.toLowerCase();
       if (level === 1 && !hasSeenPrimaryTitle) {
         hasSeenPrimaryTitle = true;
-        primaryTitle = headingTitle.toLowerCase();
+        primaryTitle = normalizedHeadingTitle;
         continue;
       }
-      if (level === 1 && headingTitle.toLowerCase() === primaryTitle) {
+      if (level === 1 && normalizedHeadingTitle === primaryTitle) {
         continue;
       }
       if (current) {
@@ -22264,7 +22266,7 @@ const splitSections = (markdown) => {
         });
       }
       current = {
-        title: headingTitle,
+        title: cleanedHeadingTitle,
         content: []
       };
       continue;
@@ -22284,7 +22286,7 @@ const splitSections = (markdown) => {
     });
   }
   return sections.filter((section) => {
-    const normalizedTitle = section.title.toLowerCase();
+    const normalizedTitle = stripMarkdown$1(section.title).toLowerCase();
     return section.content && !sectionTitleBlacklist.includes(normalizedTitle);
   });
 };
@@ -22493,20 +22495,20 @@ const parseBlocks = (content, sectionTitle = "") => {
   return blocks;
 };
 const groupForSection = (title) => {
-  const normalized = title.toLowerCase();
-  if (normalized === "overview") {
+  const normalized = stripMarkdown$1(title).toLowerCase();
+  if (normalized === "overview" || normalized.includes("objective") || normalized.includes("background") || normalized.includes("anatomy")) {
     return "overview";
   }
   if (normalized.includes("reference")) {
     return "references";
   }
-  if (normalized.includes("interpretation") || normalized.includes("risk class") || normalized.includes("risk category") || normalized.includes("mortality") || normalized.includes("diagnostic criteria")) {
+  if (normalized.includes("interpretation") || normalized.includes("risk class") || normalized.includes("risk category") || normalized.includes("mortality") || normalized.includes("diagnostic criteria") || normalized.includes("score interpretation")) {
     return "interpretation";
   }
-  if (normalized.includes("criteria") || normalized.includes("step") || normalized.includes("formula") || normalized.includes("required inputs") || normalized.includes("panel") || normalized.includes("threshold") || normalized.includes("interaction") || normalized.includes("selection") || normalized.includes("protocol")) {
+  if (normalized.includes("criteria") || normalized.includes("diagnosis") || normalized.includes("diagnostic strategy") || normalized.includes("step") || normalized.includes("formula") || normalized.includes("required inputs") || normalized.includes("panel") || normalized.includes("threshold") || normalized.includes("interaction") || normalized.includes("selection") || normalized.includes("protocol") || normalized.includes("algorithm") || normalized.includes("figure") || normalized.includes("table ")) {
     return "criteria";
   }
-  if (normalized.includes("clinical application") || normalized.includes("management") || normalized.includes("when to test") || normalized.includes("when not to test") || normalized.includes("consideration") || normalized.includes("important note") || normalized.includes("limitations") || normalized.includes("restart") || normalized.includes("surgery")) {
+  if (normalized.includes("clinical application") || normalized.includes("recommendation") || normalized.includes("preventative") || normalized.includes("management") || normalized.includes("when to test") || normalized.includes("when not to test") || normalized.includes("consideration") || normalized.includes("important note") || normalized.includes("limitations") || normalized.includes("restart") || normalized.includes("surgery")) {
     return "application";
   }
   return "application";
@@ -24322,31 +24324,31 @@ function ClinicalReference({
         tab.id
       )) }),
       visibleTab ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "reference-panel-body", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "accordion-list", children: visibleTab.cards.map((card) => {
-          const cardId = `${visibleTab.id}-${card.title}`;
-          const isOpen = openCardId === cardId;
-          return /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: isOpen ? "accordion-card open" : "accordion-card", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs(
-              "button",
-              {
-                type: "button",
-                className: "accordion-toggle",
-                onClick: () => setOpenCardId(isOpen ? "" : cardId),
-                "aria-expanded": isOpen,
-                children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "accordion-toggle-copy", children: [
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "accordion-toggle-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsx(TabIcon, { size: 16 }) }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
-                      /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: card.title }),
-                      card.summary ? /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: card.summary }) : null
-                    ] })
-                  ] }),
-                  isOpen ? /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronDown, { size: 16 }) : /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronRight, { size: 16 })
-                ]
-              }
-            ),
-            isOpen ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "accordion-content", children: card.blocks.map((block, index) => /* @__PURE__ */ jsxRuntimeExports.jsx(ContentBlock, { block }, `${card.title}-${block.type}-${index}`)) }) : null
-          ] }, cardId);
-        }) }) }) : null
+        const cardId = `${visibleTab.id}-${card.title}`;
+        const isOpen = openCardId === cardId;
+        return /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: isOpen ? "accordion-card open" : "accordion-card", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "button",
+            {
+              type: "button",
+              className: "accordion-toggle",
+              onClick: () => setOpenCardId(isOpen ? "" : cardId),
+              "aria-expanded": isOpen,
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "accordion-toggle-copy", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "accordion-toggle-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsx(TabIcon, { size: 16 }) }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: card.title }),
+                    card.summary ? /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: card.summary }) : null
+                  ] })
+                ] }),
+                isOpen ? /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronDown, { size: 16 }) : /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronRight, { size: 16 })
+              ]
+            }
+          ),
+          isOpen ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "accordion-content", children: card.blocks.map((block, index) => /* @__PURE__ */ jsxRuntimeExports.jsx(ContentBlock, { block }, `${card.title}-${block.type}-${index}`)) }) : null
+        ] }, cardId);
+      }) }) }) : null
     ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "empty-state left-aligned", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(CircleAlert, { size: 24 }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: emptyMessage })
