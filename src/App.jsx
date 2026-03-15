@@ -61,6 +61,7 @@ const buildToolHref = (toolId) => `?tool=${encodeURIComponent(toolId)}#${getPage
 const pageDefinitions = [
   { id: "dashboard", label: "Dashboard", shortLabel: "Dashboard", icon: LayoutDashboard },
   { id: "algorithms", label: "Interactive Algorithms", shortLabel: "Algorithms", icon: BrainCircuit },
+  { id: "acute", label: "Acute Management", shortLabel: "Acute", icon: HeartPulse },
   { id: "scores", label: "Scoring Calculators", shortLabel: "Scores", icon: Calculator },
   { id: "guides", label: "Clinical Guides", shortLabel: "Guides", icon: BookOpenText },
   { id: "pdfs", label: "Clinical Vault", shortLabel: "Vault", icon: FolderOpen },
@@ -76,6 +77,12 @@ const pageCopy = {
     title: "Interactive algorithms",
     description:
       "Decision pathways from the local clinical tools index, kept in a cleaner two-panel workspace with the active calculator and its reference stack side by side.",
+  },
+  acute: {
+    eyebrow: "Acute pathways",
+    title: "Acute management",
+    description:
+      "Rapid-access pathways for urgent rhythm, bleeding, DVT, and pulmonary embolism decisions, organized from the local acute-management reference file without carrying over source-site branding.",
   },
   scores: {
     eyebrow: "Clinical tools index",
@@ -96,6 +103,68 @@ const pageCopy = {
       "A cleaner index of companion records linked back to the guide library, so the main reading experience stays markdown-first and connected across the whole website.",
   },
 };
+
+const acuteManagementItems = [
+  {
+    id: "acute-af",
+    title: "Atrial Fibrillation",
+    shortTitle: "Atrial Fibrillation",
+    category: "Rhythm instability",
+    summary:
+      "Urgent AF pathway focused on hemodynamic stability, valvular status, symptom duration, and recent stroke or TIA history.",
+    prompts: [
+      "Is the patient hemodynamically stable or unstable?",
+      "Does the patient have valvular or non-valvular AF?",
+      "For how long has the patient had non-valvular AF?",
+      "Has the patient had a recent stroke or TIA?",
+    ],
+    action:
+      "Use this section to triage urgent cardioversion questions and immediate anticoagulation context before moving into detailed dosing or long-term planning.",
+  },
+  {
+    id: "acute-bleeding",
+    title: "Bleed Management",
+    shortTitle: "Bleed Management",
+    category: "Bleeding emergencies",
+    summary:
+      "Urgent bleeding pathway centered on bleed severity, the anticoagulant involved, and INR-guided or drug-specific reversal planning.",
+    prompts: [
+      "What type of bleeding does the patient have?",
+      "What type of anticoagulant did the patient receive?",
+      "If the INR is known, please enter it.",
+    ],
+    action:
+      "Use this section to structure initial stabilization, reversal decisions, and urgent escalation for clinically relevant or major bleeding.",
+  },
+  {
+    id: "acute-dvt",
+    title: "Deep Vein Thrombosis",
+    shortTitle: "Deep Vein Thrombosis",
+    category: "Venous thromboembolism",
+    summary:
+      "Acute DVT pathway emphasizing limb threat, iliofemoral involvement, cancer, pregnancy, and other features that change immediate treatment intensity.",
+    prompts: [
+      "Does the patient have massive iliofemoral DVT, such as phlegmasia?",
+      "Please select all clinical modifiers that apply to the patient.",
+    ],
+    action:
+      "Use this section to flag limb-threatening DVT, identify higher-risk subgroups, and separate standard anticoagulation from escalation pathways.",
+  },
+  {
+    id: "acute-pe",
+    title: "Pulmonary Embolism",
+    shortTitle: "Pulmonary Embolism",
+    category: "Venous thromboembolism",
+    summary:
+      "Acute PE pathway organized around hemodynamic stability, high-risk PE features, and escalation to reperfusion or ICU-level care when needed.",
+    prompts: [
+      "Is the patient stable or unstable?",
+      "Please select all high-risk or contraindication features that apply.",
+    ],
+    action:
+      "Use this section to separate unstable or deteriorating PE from lower-risk presentations and highlight when reperfusion discussions become urgent.",
+  },
+];
 
 const referenceTabIconById = {
   overview: BookOpenText,
@@ -216,6 +285,7 @@ function AppLayout() {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(getPageFromHash);
   const [activeToolId, setActiveToolId] = useState(tools[0]?.id ?? "");
+  const [activeAcuteId, setActiveAcuteId] = useState(acuteManagementItems[0]?.id ?? "");
   const [toolValues, setToolValues] = useState(toolStateDefaults);
   const [activeGuideId, setActiveGuideId] = useState(guideLibrary[0]?.id ?? "");
   const [activeGuideTab, setActiveGuideTab] = useState("overview");
@@ -342,6 +412,18 @@ function AppLayout() {
     [toolSearch]
   );
 
+  const filteredAcuteItems = useMemo(
+    () =>
+      acuteManagementItems.filter((item) => {
+        if (!toolSearch) {
+          return true;
+        }
+
+        return normalizeValue(`${item.title} ${item.category} ${item.summary} ${item.prompts.join(" ")}`).includes(toolSearch);
+      }),
+    [toolSearch]
+  );
+
   const visibleTools =
     currentPage === "algorithms"
       ? algorithmTools
@@ -366,6 +448,12 @@ function AppLayout() {
       setActivePdfId(filteredVaultEntries[0].pdfId);
     }
   }, [activePdfId, filteredVaultEntries]);
+
+  useEffect(() => {
+    if (filteredAcuteItems.length && !filteredAcuteItems.some((item) => item.id === activeAcuteId)) {
+      setActiveAcuteId(filteredAcuteItems[0].id);
+    }
+  }, [activeAcuteId, filteredAcuteItems]);
 
   const activeTool =
     visibleTools.find((tool) => tool.id === activeToolId) ??
@@ -395,6 +483,12 @@ function AppLayout() {
   const activeVaultOverview = trimSentence(getFirstParagraphText(activeVaultEntry?.content, "overview") || activeVaultEntry?.objective || activeVaultEntry?.excerpt || "");
   const activeVaultApplicationList = getFirstList(activeVaultEntry?.content, "application").slice(0, 4);
   const activeVaultReferenceItems = getReferenceItems(activeVaultEntry?.content).slice(0, 5);
+  const activeAcuteItem =
+    filteredAcuteItems.find((item) => item.id === activeAcuteId) ??
+    acuteManagementItems.find((item) => item.id === activeAcuteId) ??
+    filteredAcuteItems[0] ??
+    acuteManagementItems[0] ??
+    null;
 
   useEffect(() => {
     const firstTabId = activeGuide?.content?.tabs?.[0]?.id ?? "overview";
@@ -464,8 +558,19 @@ function AppLayout() {
       label: "Vault",
     }));
 
-    return [...toolResults, ...guideResults, ...pdfResults].slice(0, 10);
-  }, [filteredGuides, filteredVaultEntries, searchableTools, toolSearch]);
+    const acuteResults = filteredAcuteItems.slice(0, 4).map((item) => ({
+      id: `acute-${item.id}`,
+      kind: "acute",
+      title: item.title,
+      subtitle: item.category,
+      pageId: "acute",
+      pageLabel: "Acute Management",
+      payloadId: item.id,
+      label: "Acute",
+    }));
+
+    return [...toolResults, ...acuteResults, ...guideResults, ...pdfResults].slice(0, 10);
+  }, [filteredAcuteItems, filteredGuides, filteredVaultEntries, searchableTools, toolSearch]);
 
   const handleSearchSelection = (resultItem) => {
     if (resultItem.kind === "tool") {
@@ -486,6 +591,10 @@ function AppLayout() {
       if (matchedGuide) {
         setActiveGuideId(matchedGuide.id);
       }
+    }
+
+    if (resultItem.kind === "acute") {
+      setActiveAcuteId(resultItem.payloadId);
     }
 
     setSearchTerm("");
@@ -536,10 +645,16 @@ function AppLayout() {
           }
           navigateToPage("pdfs");
         }}
+        onSelectAcute={(acuteId) => {
+          setActiveAcuteId(acuteId);
+          navigateToPage("acute");
+        }}
         activeToolId={activeToolId}
+        activeAcuteId={activeAcuteId}
         activeGuideId={activeGuideId}
         activePdfId={activePdfId}
         algorithmItems={algorithmTools}
+        acuteItems={filteredAcuteItems}
         scoreItems={scoreTools}
         guideItems={filteredGuides}
         vaultItems={filteredVaultEntries}
@@ -813,6 +928,80 @@ function AppLayout() {
               <div className="insight-grid">
                 <ResultPanel result={result} />
               </div>
+            </div>
+          </section>
+          </>
+          ) : null}
+
+          {currentPage === "acute" ? (
+          <>
+          <section className="focus-layout">
+            <div key={`acute-panel-${activeAcuteItem?.id ?? "empty"}`} className="panel guide-detail-panel spotlight-panel">
+              {activeAcuteItem ? (
+                <>
+                  <div className="section-card-header">
+                    <div>
+                      <span className="eyebrow">Acute management</span>
+                      <h3>{activeAcuteItem.title}</h3>
+                    </div>
+                    <HeartPulse size={18} />
+                  </div>
+
+                  <div className="guide-meta-row">
+                    <div className="mini-stat">
+                      <span>Category</span>
+                      <strong>{activeAcuteItem.category}</strong>
+                    </div>
+                    <div className="mini-stat">
+                      <span>Core prompts</span>
+                      <strong>{activeAcuteItem.prompts.length}</strong>
+                    </div>
+                    <div className="mini-stat">
+                      <span>Workspace</span>
+                      <strong>Acute pathway</strong>
+                    </div>
+                  </div>
+
+                  <div className="guide-summary-grid">
+                    <ContentSummaryCard
+                      eyebrow="Acute synopsis"
+                      title="Overview"
+                      description={activeAcuteItem.summary}
+                    />
+                    <ContentListPreview
+                      eyebrow="Key prompts"
+                      title="Decision sequence"
+                      items={activeAcuteItem.prompts}
+                      emptyLabel="Acute prompts will appear here."
+                    />
+                  </div>
+
+                  <section className="panel reference-panel">
+                    <div className="section-card-header slim">
+                      <div>
+                        <span className="eyebrow">Immediate use</span>
+                        <h4>Clinical orientation</h4>
+                      </div>
+                    </div>
+                    <div className="action-card">
+                      <p>{activeAcuteItem.action}</p>
+                    </div>
+                    <div className="result-list">
+                      {activeAcuteItem.prompts.map((prompt, index) => (
+                        <div key={prompt} className="result-list-item">
+                          <span>Step {index + 1}</span>
+                          <strong>{prompt}</strong>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                </>
+              ) : (
+                <div className="empty-state left-aligned">
+                  <CircleAlert size={24} />
+                  <h4>No acute-management items matched the current search.</h4>
+                </div>
+              )}
             </div>
           </section>
           </>

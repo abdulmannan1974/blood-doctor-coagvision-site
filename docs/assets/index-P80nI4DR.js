@@ -23441,20 +23441,50 @@ const groupByLabel = (items, getGroupLabel) => items.reduce((accumulator, item) 
 const pageIconById = {
   dashboard: LayoutDashboard,
   algorithms: BrainCircuit,
+  acute: HeartPulse,
   scores: Calculator,
   guides: BookOpenText,
   pdfs: FolderOpen
 };
+const pageMetaById = {
+  dashboard: {
+    subtitle: "Overview and key workspace signals"
+  },
+  algorithms: {
+    subtitle: "Decision pathways and treatment flowcharts"
+  },
+  acute: {
+    subtitle: "Urgent bedside pathways and escalation prompts"
+  },
+  scores: {
+    subtitle: "Risk scores and renal dosing tools"
+  },
+  guides: {
+    subtitle: "Structured clinical guide library"
+  },
+  pdfs: {
+    subtitle: "Linked vault records and companion views"
+  }
+};
+const countLeaves = (nodes) => nodes.reduce((total, node) => {
+  if (node.children?.length) {
+    return total + countLeaves(node.children);
+  }
+  return total + 1;
+}, 0);
 function AppSidebar({
   currentPage,
   onNavigate,
   onSelectTool,
   onSelectGuide,
   onSelectVault,
+  onSelectAcute,
   activeToolId,
+  activeAcuteId,
   activeGuideId,
   activePdfId,
   algorithmItems,
+  acuteItems,
   scoreItems,
   guideItems,
   vaultItems,
@@ -23478,6 +23508,7 @@ function AppSidebar({
       };
       const guideBuckets = groupByLabel(guideItems, (guide) => guide.category);
       const vaultBuckets = groupByLabel(vaultItems, (entry) => entry.category);
+      const acuteBuckets = groupByLabel(acuteItems, (item) => item.category);
       return {
         dashboard: [
           {
@@ -23502,6 +23533,19 @@ function AppSidebar({
             }))
           }
         ],
+        acute: Object.entries(acuteBuckets).map(([label, itemsInBucket]) => ({
+          id: toNodeId("acute", label),
+          label,
+          children: itemsInBucket.map((item) => ({
+            id: item.id,
+            label: item.shortTitle,
+            action: () => {
+              onSelectAcute(item.id);
+              setOpen(false);
+            },
+            active: activeAcuteId === item.id && currentPage === "acute"
+          }))
+        })),
         scores: Object.entries(scoreBuckets).filter(([, toolsInBucket]) => toolsInBucket.length).map(([label, toolsInBucket]) => ({
           id: toNodeId("scores", label),
           label,
@@ -23545,11 +23589,14 @@ function AppSidebar({
     },
     [
       activeGuideId,
+      activeAcuteId,
       activePdfId,
       activeToolId,
+      acuteItems,
       algorithmItems,
       currentPage,
       guideItems,
+      onSelectAcute,
       onSelectGuide,
       onSelectTool,
       onSelectVault,
@@ -23593,7 +23640,10 @@ function AppSidebar({
             active: node.children.some((child) => child.active),
             onClick: () => toggleFolder(node.id),
             children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: node.label }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "sidebar-folder-content", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "sidebar-label-text", children: node.label }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "sidebar-folder-meta", children: countLeaves(node.children) })
+              ] }),
               isExpanded ? /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronDown, { size: 14 }) : /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronRight, { size: 14 })
             ]
           }
@@ -23607,7 +23657,7 @@ function AppSidebar({
         className: `sidebar-leaf-button depth-${depth}`,
         active: node.active ?? false,
         onClick: node.action ?? (() => handleNavigate(pageId)),
-        children: node.label
+        children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "sidebar-label-text", children: node.label })
       },
       `${pageId}-${node.id}`
     );
@@ -23629,21 +23679,38 @@ function AppSidebar({
       /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarGroupContent, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarMenu, { children: [
         { id: "dashboard", label: "Dashboard" },
         { id: "algorithms", label: "Interactive Algorithms" },
+        { id: "acute", label: "Acute Management" },
         { id: "scores", label: "Scoring Calculators" },
         { id: "guides", label: "Clinical Guides" },
         { id: "pdfs", label: "Clinical Vault" }
       ].map((page) => {
         const Icon2 = pageIconById[page.id];
+        const meta = pageMetaById[page.id];
         const children = sidebarSections[page.id] ?? [];
         const isExpanded = expandedSection === page.id;
+        const itemCount = countLeaves(children);
         return /* @__PURE__ */ jsxRuntimeExports.jsxs(SidebarMenuItem, { children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs(SidebarMenuButton, { active: currentPage === page.id, onClick: () => handlePagePress(page.id), children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "sidebar-menu-leading", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx(Icon2, { size: 16 }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: page.label })
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarMenuMeta, { children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "sidebar-menu-trailing", children: isExpanded ? /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronDown, { size: 14 }) : /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronRight, { size: 14 }) }) })
-          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            SidebarMenuButton,
+            {
+              className: isExpanded ? "section-open" : "",
+              active: currentPage === page.id,
+              onClick: () => handlePagePress(page.id),
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "sidebar-menu-leading", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "sidebar-menu-icon-shell", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Icon2, { size: 16 }) }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "sidebar-section-copy", children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "sidebar-section-title", children: page.label }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "sidebar-section-subtitle", children: meta.subtitle })
+                  ] })
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarMenuMeta, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "sidebar-menu-trailing", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "sidebar-count-badge", children: itemCount }),
+                  isExpanded ? /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronDown, { size: 14 }) : /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronRight, { size: 14 })
+                ] }) })
+              ]
+            }
+          ),
           /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarSubmenu, { className: isExpanded ? "open" : "closed", children: renderSidebarNodes(page.id, children) })
         ] }, page.id);
       }) }) })
@@ -23679,6 +23746,7 @@ const buildToolHref = (toolId) => `?tool=${encodeURIComponent(toolId)}#${getPage
 const pageDefinitions = [
   { id: "dashboard", label: "Dashboard", shortLabel: "Dashboard", icon: LayoutDashboard },
   { id: "algorithms", label: "Interactive Algorithms", shortLabel: "Algorithms", icon: BrainCircuit },
+  { id: "acute", label: "Acute Management", shortLabel: "Acute", icon: HeartPulse },
   { id: "scores", label: "Scoring Calculators", shortLabel: "Scores", icon: Calculator },
   { id: "guides", label: "Clinical Guides", shortLabel: "Guides", icon: BookOpenText },
   { id: "pdfs", label: "Clinical Vault", shortLabel: "Vault", icon: FolderOpen }
@@ -23688,6 +23756,59 @@ const getPageFromHash = () => {
   const hashValue = window.location.hash.replace(/^#/, "").trim();
   return pageIds.has(hashValue) ? hashValue : "dashboard";
 };
+const acuteManagementItems = [
+  {
+    id: "acute-af",
+    title: "Atrial Fibrillation",
+    shortTitle: "Atrial Fibrillation",
+    category: "Rhythm instability",
+    summary: "Urgent AF pathway focused on hemodynamic stability, valvular status, symptom duration, and recent stroke or TIA history.",
+    prompts: [
+      "Is the patient hemodynamically stable or unstable?",
+      "Does the patient have valvular or non-valvular AF?",
+      "For how long has the patient had non-valvular AF?",
+      "Has the patient had a recent stroke or TIA?"
+    ],
+    action: "Use this section to triage urgent cardioversion questions and immediate anticoagulation context before moving into detailed dosing or long-term planning."
+  },
+  {
+    id: "acute-bleeding",
+    title: "Bleed Management",
+    shortTitle: "Bleed Management",
+    category: "Bleeding emergencies",
+    summary: "Urgent bleeding pathway centered on bleed severity, the anticoagulant involved, and INR-guided or drug-specific reversal planning.",
+    prompts: [
+      "What type of bleeding does the patient have?",
+      "What type of anticoagulant did the patient receive?",
+      "If the INR is known, please enter it."
+    ],
+    action: "Use this section to structure initial stabilization, reversal decisions, and urgent escalation for clinically relevant or major bleeding."
+  },
+  {
+    id: "acute-dvt",
+    title: "Deep Vein Thrombosis",
+    shortTitle: "Deep Vein Thrombosis",
+    category: "Venous thromboembolism",
+    summary: "Acute DVT pathway emphasizing limb threat, iliofemoral involvement, cancer, pregnancy, and other features that change immediate treatment intensity.",
+    prompts: [
+      "Does the patient have massive iliofemoral DVT, such as phlegmasia?",
+      "Please select all clinical modifiers that apply to the patient."
+    ],
+    action: "Use this section to flag limb-threatening DVT, identify higher-risk subgroups, and separate standard anticoagulation from escalation pathways."
+  },
+  {
+    id: "acute-pe",
+    title: "Pulmonary Embolism",
+    shortTitle: "Pulmonary Embolism",
+    category: "Venous thromboembolism",
+    summary: "Acute PE pathway organized around hemodynamic stability, high-risk PE features, and escalation to reperfusion or ICU-level care when needed.",
+    prompts: [
+      "Is the patient stable or unstable?",
+      "Please select all high-risk or contraindication features that apply."
+    ],
+    action: "Use this section to separate unstable or deteriorating PE from lower-risk presentations and highlight when reperfusion discussions become urgent."
+  }
+];
 const referenceTabIconById = {
   overview: BookOpenText,
   criteria: Microscope,
@@ -23756,6 +23877,7 @@ function AppLayout() {
   const [searchTerm, setSearchTerm] = reactExports.useState("");
   const [currentPage, setCurrentPage] = reactExports.useState(getPageFromHash);
   const [activeToolId, setActiveToolId] = reactExports.useState(tools[0]?.id ?? "");
+  const [activeAcuteId, setActiveAcuteId] = reactExports.useState(acuteManagementItems[0]?.id ?? "");
   const [toolValues, setToolValues] = reactExports.useState(toolStateDefaults);
   const [activeGuideId, setActiveGuideId] = reactExports.useState(guideLibrary[0]?.id ?? "");
   const [activeGuideTab, setActiveGuideTab] = reactExports.useState("overview");
@@ -23855,6 +23977,15 @@ function AppLayout() {
     }),
     [toolSearch]
   );
+  const filteredAcuteItems = reactExports.useMemo(
+    () => acuteManagementItems.filter((item) => {
+      if (!toolSearch) {
+        return true;
+      }
+      return normalizeValue(`${item.title} ${item.category} ${item.summary} ${item.prompts.join(" ")}`).includes(toolSearch);
+    }),
+    [toolSearch]
+  );
   const visibleTools = currentPage === "algorithms" ? algorithmTools : currentPage === "scores" ? scoreTools : searchableTools;
   reactExports.useEffect(() => {
     if (visibleTools.length && !visibleTools.some((tool) => tool.id === activeToolId)) {
@@ -23871,6 +24002,11 @@ function AppLayout() {
       setActivePdfId(filteredVaultEntries[0].pdfId);
     }
   }, [activePdfId, filteredVaultEntries]);
+  reactExports.useEffect(() => {
+    if (filteredAcuteItems.length && !filteredAcuteItems.some((item) => item.id === activeAcuteId)) {
+      setActiveAcuteId(filteredAcuteItems[0].id);
+    }
+  }, [activeAcuteId, filteredAcuteItems]);
   const activeTool = visibleTools.find((tool) => tool.id === activeToolId) ?? searchableTools.find((tool) => tool.id === activeToolId) ?? tools.find((tool) => tool.id === activeToolId) ?? tools[0];
   const activeValues = activeTool ? toolValues[activeTool.id] ?? {} : {};
   const result = activeTool ? activeTool.calculate(activeValues) : null;
@@ -23884,6 +24020,7 @@ function AppLayout() {
   const activeVaultOverview = trimSentence(getFirstParagraphText(activeVaultEntry?.content, "overview") || activeVaultEntry?.objective || activeVaultEntry?.excerpt || "");
   const activeVaultApplicationList = getFirstList(activeVaultEntry?.content, "application").slice(0, 4);
   const activeVaultReferenceItems = getReferenceItems(activeVaultEntry?.content).slice(0, 5);
+  const activeAcuteItem = filteredAcuteItems.find((item) => item.id === activeAcuteId) ?? acuteManagementItems.find((item) => item.id === activeAcuteId) ?? filteredAcuteItems[0] ?? acuteManagementItems[0] ?? null;
   reactExports.useEffect(() => {
     const firstTabId = activeGuide?.content?.tabs?.[0]?.id ?? "overview";
     setActiveGuideTab(firstTabId);
@@ -23939,8 +24076,18 @@ function AppLayout() {
       payloadId: guide.pdfId,
       label: "Vault"
     }));
-    return [...toolResults, ...guideResults, ...pdfResults].slice(0, 10);
-  }, [filteredGuides, filteredVaultEntries, searchableTools, toolSearch]);
+    const acuteResults = filteredAcuteItems.slice(0, 4).map((item) => ({
+      id: `acute-${item.id}`,
+      kind: "acute",
+      title: item.title,
+      subtitle: item.category,
+      pageId: "acute",
+      pageLabel: "Acute Management",
+      payloadId: item.id,
+      label: "Acute"
+    }));
+    return [...toolResults, ...acuteResults, ...guideResults, ...pdfResults].slice(0, 10);
+  }, [filteredAcuteItems, filteredGuides, filteredVaultEntries, searchableTools, toolSearch]);
   const handleSearchSelection = (resultItem) => {
     if (resultItem.kind === "tool") {
       setActiveToolId(resultItem.payloadId);
@@ -23958,6 +24105,9 @@ function AppLayout() {
       if (matchedGuide) {
         setActiveGuideId(matchedGuide.id);
       }
+    }
+    if (resultItem.kind === "acute") {
+      setActiveAcuteId(resultItem.payloadId);
     }
     setSearchTerm("");
     navigateToPage(resultItem.pageId);
@@ -24007,10 +24157,16 @@ function AppLayout() {
           }
           navigateToPage("pdfs");
         },
+        onSelectAcute: (acuteId) => {
+          setActiveAcuteId(acuteId);
+          navigateToPage("acute");
+        },
         activeToolId,
+        activeAcuteId,
         activeGuideId,
         activePdfId,
         algorithmItems: algorithmTools,
+        acuteItems: filteredAcuteItems,
         scoreItems: scoreTools,
         guideItems: filteredGuides,
         vaultItems: filteredVaultEntries,
@@ -24225,6 +24381,65 @@ function AppLayout() {
           ] }) }, `tool-panel-${activeTool?.id ?? "empty"}`),
           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "insight-grid", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ResultPanel, { result }) })
         ] }) }) }) : null,
+        currentPage === "acute" ? /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "focus-layout", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "panel guide-detail-panel spotlight-panel", children: activeAcuteItem ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "section-card-header", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Acute management" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: activeAcuteItem.title })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(HeartPulse, { size: 18 })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "guide-meta-row", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mini-stat", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Category" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: activeAcuteItem.category })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mini-stat", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Core prompts" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: activeAcuteItem.prompts.length })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mini-stat", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Workspace" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Acute pathway" })
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "guide-summary-grid", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              ContentSummaryCard,
+              {
+                eyebrow: "Acute synopsis",
+                title: "Overview",
+                description: activeAcuteItem.summary
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              ContentListPreview,
+              {
+                eyebrow: "Key prompts",
+                title: "Decision sequence",
+                items: activeAcuteItem.prompts,
+                emptyLabel: "Acute prompts will appear here."
+              }
+            )
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "panel reference-panel", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "section-card-header slim", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Immediate use" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: "Clinical orientation" })
+            ] }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "action-card", children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: activeAcuteItem.action }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "result-list", children: activeAcuteItem.prompts.map((prompt, index) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "result-list-item", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+                "Step ",
+                index + 1
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: prompt })
+            ] }, prompt)) })
+          ] })
+        ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "empty-state left-aligned", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(CircleAlert, { size: 24 }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: "No acute-management items matched the current search." })
+        ] }) }, `acute-panel-${activeAcuteItem?.id ?? "empty"}`) }) }) : null,
         currentPage === "guides" ? /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "focus-layout", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "panel guide-detail-panel spotlight-panel", children: activeGuide ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "section-card-header", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Selected guide" }),

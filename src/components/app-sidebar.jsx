@@ -7,6 +7,7 @@ import {
   ChevronRight,
   Droplets,
   FolderOpen,
+  HeartPulse,
   LayoutDashboard,
   Sparkles,
 } from "lucide-react";
@@ -47,10 +48,41 @@ const groupByLabel = (items, getGroupLabel) =>
 const pageIconById = {
   dashboard: LayoutDashboard,
   algorithms: BrainCircuit,
+  acute: HeartPulse,
   scores: Calculator,
   guides: BookOpenText,
   pdfs: FolderOpen,
 };
+
+const pageMetaById = {
+  dashboard: {
+    subtitle: "Overview and key workspace signals",
+  },
+  algorithms: {
+    subtitle: "Decision pathways and treatment flowcharts",
+  },
+  acute: {
+    subtitle: "Urgent bedside pathways and escalation prompts",
+  },
+  scores: {
+    subtitle: "Risk scores and renal dosing tools",
+  },
+  guides: {
+    subtitle: "Structured clinical guide library",
+  },
+  pdfs: {
+    subtitle: "Linked vault records and companion views",
+  },
+};
+
+const countLeaves = (nodes) =>
+  nodes.reduce((total, node) => {
+    if (node.children?.length) {
+      return total + countLeaves(node.children);
+    }
+
+    return total + 1;
+  }, 0);
 
 export function AppSidebar({
   currentPage,
@@ -58,10 +90,13 @@ export function AppSidebar({
   onSelectTool,
   onSelectGuide,
   onSelectVault,
+  onSelectAcute,
   activeToolId,
+  activeAcuteId,
   activeGuideId,
   activePdfId,
   algorithmItems,
+  acuteItems,
   scoreItems,
   guideItems,
   vaultItems,
@@ -88,6 +123,7 @@ export function AppSidebar({
       };
       const guideBuckets = groupByLabel(guideItems, (guide) => guide.category);
       const vaultBuckets = groupByLabel(vaultItems, (entry) => entry.category);
+      const acuteBuckets = groupByLabel(acuteItems, (item) => item.category);
 
       return {
       dashboard: [
@@ -113,6 +149,19 @@ export function AppSidebar({
           })),
         },
       ],
+      acute: Object.entries(acuteBuckets).map(([label, itemsInBucket]) => ({
+        id: toNodeId("acute", label),
+        label,
+        children: itemsInBucket.map((item) => ({
+          id: item.id,
+          label: item.shortTitle,
+          action: () => {
+            onSelectAcute(item.id);
+            setOpen(false);
+          },
+          active: activeAcuteId === item.id && currentPage === "acute",
+        })),
+      })),
       scores: Object.entries(scoreBuckets)
         .filter(([, toolsInBucket]) => toolsInBucket.length)
         .map(([label, toolsInBucket]) => ({
@@ -158,11 +207,14 @@ export function AppSidebar({
     },
     [
       activeGuideId,
+      activeAcuteId,
       activePdfId,
       activeToolId,
+      acuteItems,
       algorithmItems,
       currentPage,
       guideItems,
+      onSelectAcute,
       onSelectGuide,
       onSelectTool,
       onSelectVault,
@@ -213,7 +265,10 @@ export function AppSidebar({
               active={node.children.some((child) => child.active)}
               onClick={() => toggleFolder(node.id)}
             >
-              <span>{node.label}</span>
+              <span className="sidebar-folder-content">
+                <span className="sidebar-label-text">{node.label}</span>
+                <span className="sidebar-folder-meta">{countLeaves(node.children)}</span>
+              </span>
               {isExpanded ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
             </SidebarSubmenuButton>
             <SidebarSubmenu className={`nested ${isExpanded ? "open" : "closed"}`}>
@@ -230,7 +285,7 @@ export function AppSidebar({
           active={node.active ?? false}
           onClick={node.action ?? (() => handleNavigate(pageId))}
         >
-          {node.label}
+          <span className="sidebar-label-text">{node.label}</span>
         </SidebarSubmenuButton>
       );
     });
@@ -258,36 +313,49 @@ export function AppSidebar({
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {[
-                { id: "dashboard", label: "Dashboard" },
-                { id: "algorithms", label: "Interactive Algorithms" },
-                { id: "scores", label: "Scoring Calculators" },
-                { id: "guides", label: "Clinical Guides" },
-                { id: "pdfs", label: "Clinical Vault" },
-              ].map((page) => {
-                const Icon = pageIconById[page.id];
-                const children = sidebarSections[page.id] ?? [];
-                const isExpanded = expandedSection === page.id;
+                {[
+                  { id: "dashboard", label: "Dashboard" },
+                  { id: "algorithms", label: "Interactive Algorithms" },
+                  { id: "acute", label: "Acute Management" },
+                  { id: "scores", label: "Scoring Calculators" },
+                  { id: "guides", label: "Clinical Guides" },
+                  { id: "pdfs", label: "Clinical Vault" },
+                ].map((page) => {
+                  const Icon = pageIconById[page.id];
+                  const meta = pageMetaById[page.id];
+                  const children = sidebarSections[page.id] ?? [];
+                  const isExpanded = expandedSection === page.id;
+                  const itemCount = countLeaves(children);
 
-                return (
-                  <SidebarMenuItem key={page.id}>
-                    <SidebarMenuButton active={currentPage === page.id} onClick={() => handlePagePress(page.id)}>
-                      <span className="sidebar-menu-leading">
-                        <Icon size={16} />
-                        <span>{page.label}</span>
-                      </span>
-                      <SidebarMenuMeta>
-                        <span className="sidebar-menu-trailing">
-                          {isExpanded ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                  return (
+                    <SidebarMenuItem key={page.id}>
+                      <SidebarMenuButton
+                        className={isExpanded ? "section-open" : ""}
+                        active={currentPage === page.id}
+                        onClick={() => handlePagePress(page.id)}
+                      >
+                        <span className="sidebar-menu-leading">
+                          <span className="sidebar-menu-icon-shell">
+                            <Icon size={16} />
+                          </span>
+                          <span className="sidebar-section-copy">
+                            <span className="sidebar-section-title">{page.label}</span>
+                            <span className="sidebar-section-subtitle">{meta.subtitle}</span>
+                          </span>
                         </span>
-                      </SidebarMenuMeta>
-                    </SidebarMenuButton>
-                    <SidebarSubmenu className={isExpanded ? "open" : "closed"}>
-                      {renderSidebarNodes(page.id, children)}
-                    </SidebarSubmenu>
-                  </SidebarMenuItem>
-                );
-              })}
+                        <SidebarMenuMeta>
+                          <span className="sidebar-menu-trailing">
+                            <span className="sidebar-count-badge">{itemCount}</span>
+                            {isExpanded ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                          </span>
+                        </SidebarMenuMeta>
+                      </SidebarMenuButton>
+                      <SidebarSubmenu className={isExpanded ? "open" : "closed"}>
+                        {renderSidebarNodes(page.id, children)}
+                      </SidebarSubmenu>
+                    </SidebarMenuItem>
+                  );
+                })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
