@@ -28177,7 +28177,7 @@ function AppLayout() {
               /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: activeGuide.content.tabs.find((tab) => tab.id === "references")?.cards.length ?? 0 })
             ] })
           ] }),
-          activeGuide.title === "Acetylsalicylic Acid (ASA)" ? /* @__PURE__ */ jsxRuntimeExports.jsx(AsaGuide, {}) : activeGuide.title === "Bioprosthetic and Mechanical Heart Valves: Antithrombotic Therapy" ? /* @__PURE__ */ jsxRuntimeExports.jsx(HeartValvesGuide, {}) : activeGuide.title === "Air Travel-related Thrombosis" ? /* @__PURE__ */ jsxRuntimeExports.jsx(TravelThrombosisGuide, {}) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+          activeGuide.id === "Acetylsalicylic_Acid_(ASA)" || activeGuide.title === "Acetylsalicylic Acid (ASA)" ? /* @__PURE__ */ jsxRuntimeExports.jsx(AsaGuide, {}) : activeGuide.id === "Bioprosthetic_and_Mechanical_Heart_Valves_Antithrombotic_Therapy" || activeGuide.title === "Bioprosthetic and Mechanical Heart Valves: Antithrombotic Therapy" ? /* @__PURE__ */ jsxRuntimeExports.jsx(HeartValvesGuide, {}) : activeGuide.id === "Air_Travel-related_Thrombosis" || activeGuide.title === "Air Travel-related Thrombosis" ? /* @__PURE__ */ jsxRuntimeExports.jsx(TravelThrombosisGuide, {}) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "guide-summary-grid", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 ContentSummaryCard,

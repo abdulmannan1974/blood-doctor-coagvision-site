@@ -1995,11 +1995,11 @@ function AppLayout() {
                     </div>
                   </div>
 
-                  {activeGuide.title === "Acetylsalicylic Acid (ASA)" ? (
+                  {activeGuide.id === "Acetylsalicylic_Acid_(ASA)" || activeGuide.title === "Acetylsalicylic Acid (ASA)" ? (
                     <AsaGuide />
-                  ) : activeGuide.title === "Bioprosthetic and Mechanical Heart Valves: Antithrombotic Therapy" ? (
+                  ) : activeGuide.id === "Bioprosthetic_and_Mechanical_Heart_Valves_Antithrombotic_Therapy" || activeGuide.title === "Bioprosthetic and Mechanical Heart Valves: Antithrombotic Therapy" ? (
                     <HeartValvesGuide />
-                  ) : activeGuide.title === "Air Travel-related Thrombosis" ? (
+                  ) : activeGuide.id === "Air_Travel-related_Thrombosis" || activeGuide.title === "Air Travel-related Thrombosis" ? (
                     <TravelThrombosisGuide />
                   ) : (
                     <>
