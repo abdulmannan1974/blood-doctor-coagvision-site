@@ -2151,6 +2151,36 @@ fieldset.field-card {
   gap: 1rem;
 }
 
+.acute-embed-shell {
+  display: grid;
+  gap: 1rem;
+}
+
+.acute-embed-note {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.95rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: #fcf7f9;
+  color: #102a5d;
+  line-height: 1.6;
+}
+
+.acute-embed-note svg {
+  flex-shrink: 0;
+  color: #7f1d3f;
+}
+
+.acute-embed-frame {
+  width: 100%;
+  min-height: 1200px;
+  border: 0;
+  border-radius: 18px;
+  background: transparent;
+}
+
 .acute-toolbar {
   display: flex;
   align-items: start;

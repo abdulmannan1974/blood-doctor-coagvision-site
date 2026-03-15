@@ -27,6 +27,7 @@ import { clinicalContentByToolId } from "./data/markdownContent";
 import { guideLibrary, pdfLibrary, resolveMarkdownTarget, vaultLibrary } from "./data/library";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarProvider, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
+import acuteGuidanceHtmlRaw from "../Thrombosis_Canada_Acute_Management_App (2).html?raw";
 
 const siteName = "Blood🩸Doctor CoagVision";
 
@@ -53,6 +54,254 @@ const globalToolDisclaimer = {
   text:
     "These general recommendations do not replace clinical judgement. Physicians must consider relative risks and benefits for each individual patient and consult with appropriate specialists.",
   source: "",
+};
+
+const acuteToolFrameMap = {
+  "acute-af": "af",
+  "acute-bleeding": "bleed",
+  "acute-dvt": "dvt",
+  "acute-pe": "pe",
+};
+
+const acuteFrameStyleOverrides = `
+<style>
+  :root {
+    --navy: #0f172a !important;
+    --red: #7f1d3f !important;
+    --blue: #ffffff !important;
+    --light-blue: #f8fafc !important;
+    --green: #166534 !important;
+    --orange: #b45309 !important;
+    --border: #e2e8f0 !important;
+    --text: #0f172a !important;
+    --muted: #475569 !important;
+  }
+  body {
+    background: transparent !important;
+    color: #0f172a !important;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+  }
+  header {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border: 1px solid #e2e8f0 !important;
+    border-bottom: none !important;
+    border-radius: 18px 18px 0 0 !important;
+    box-shadow: none !important;
+    padding: 1rem 1.25rem !important;
+  }
+  header .logo { color: #111827 !important; }
+  header .logo span,
+  header .subtitle { color: #64748b !important; }
+  .header-badge {
+    background: #f8fafc !important;
+    color: #7f1d3f !important;
+    border: 1px solid #ead5df !important;
+    border-radius: 999px !important;
+    padding: 0.35rem 0.75rem !important;
+  }
+  .tab-nav {
+    background: transparent !important;
+    border-left: 1px solid #e2e8f0 !important;
+    border-right: 1px solid #e2e8f0 !important;
+    border-bottom: none !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.6rem !important;
+    padding: 0.95rem 1.25rem !important;
+    overflow: visible !important;
+  }
+  .tab-nav button {
+    background: #ffffff !important;
+    color: #475569 !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 999px !important;
+    padding: 0.72rem 1rem !important;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+    margin-bottom: 0 !important;
+  }
+  .tab-nav button:hover {
+    background: #fcf7f9 !important;
+    color: #7f1d3f !important;
+  }
+  .tab-nav button.active {
+    background: #7f1d3f !important;
+    color: #ffffff !important;
+    border-color: #7f1d3f !important;
+  }
+  .tool-container {
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .tool-header {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border: 1px solid #e2e8f0 !important;
+    border-bottom: none !important;
+    border-radius: 0 !important;
+    padding: 1.25rem !important;
+  }
+  .tool-header h2,
+  .tool-header p { color: inherit !important; }
+  .tool-header p { color: #64748b !important; }
+  .form-card {
+    border: 1px solid #e2e8f0 !important;
+    border-top: none !important;
+    border-radius: 0 0 18px 18px !important;
+    box-shadow: none !important;
+    padding: 1.25rem !important;
+    background: #ffffff !important;
+  }
+  .section {
+    margin-bottom: 1.25rem !important;
+    padding-bottom: 1.25rem !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+  }
+  .section-label {
+    color: #0f172a !important;
+    font-weight: 700 !important;
+  }
+  .section-num {
+    background: #7f1d3f !important;
+    color: #ffffff !important;
+  }
+  .option-item,
+  .option-btn {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 14px !important;
+    box-shadow: none !important;
+  }
+  .option-item:hover,
+  .option-btn:hover {
+    border-color: #7f1d3f !important;
+    background: #fcf7f9 !important;
+  }
+  .option-item.selected,
+  .option-btn.selected,
+  .option-item.active,
+  .option-btn.active {
+    background: #7f1d3f !important;
+    border-color: #7f1d3f !important;
+    color: #ffffff !important;
+  }
+  .option-item.selected *,
+  .option-btn.selected *,
+  .option-item.active *,
+  .option-btn.active * {
+    color: #ffffff !important;
+  }
+  .option-item input,
+  .option-btn input { accent-color: #7f1d3f !important; }
+  .rec-box {
+    border-radius: 16px !important;
+    box-shadow: none !important;
+  }
+  .rec-box.primary {
+    background: #7f1d3f !important;
+    color: #ffffff !important;
+  }
+  .dose-table th {
+    background: #0f172a !important;
+    color: #ffffff !important;
+  }
+  .btn-next,
+  .btn-reset,
+  .btn-back {
+    border-radius: 12px !important;
+  }
+  .btn-next { background: #7f1d3f !important; }
+  .btn-reset { background: #0f172a !important; }
+  footer,
+  .footer,
+  .watermark,
+  a[download] {
+    display: none !important;
+  }
+</style>
+`;
+
+const sanitizeAcuteGuidanceHtml = (html, activeTool) => {
+  if (!html) return "";
+
+  const brandingCleaned = html
+    .replaceAll("Thrombosis Canada — Acute Management Clinical Tools", "Blood\u{1FA78}Doctor Acute Management")
+    .replaceAll("Thrombosis Canada", "Blood\u{1FA78}Doctor")
+    .replaceAll("Clinical Decision Support", "Acute Management")
+    .replaceAll("Visit the Blood\u{1FA78}Doctor website at www.blood\u{1FA78}doctor.ca", "")
+    .replaceAll("powered by Vivomap®", "")
+    .replaceAll("🫁 ", "")
+    .replaceAll("❤️ ", "")
+    .replaceAll("🩸 ", "")
+    .replaceAll("🦵 ", "")
+    .replaceAll("⚡ ", "")
+    .replaceAll("✅ ", "")
+    .replaceAll("⚠️ ", "")
+    .replaceAll("🚨 ", "")
+    .replaceAll("ℹ ", "")
+    .replaceAll("ℹ️ ", "")
+    .replace(/https?:\/\/thrombosiscanada\.ca[^\s"'<>)]*/gi, "#")
+    .replace(/blob:https:\/\/thrombosiscanada\.ca[^"']*/gi, "#")
+    .replace(/Based on Blood🩸Doctor [^.]*\./gi, "Based on linked clinical guidance.")
+    .replace(/Consult ESC 2019 and ACCP 2021 Guidelines and Blood🩸Doctor Clinical Guides for complete guidance\./gi, "Use the linked guide library for expanded clinical detail.")
+    .replace(/Thrombosis_Canada_Acute_Management_App\.html/gi, "Blood_Doctor_Acute_Management.html");
+
+  const injectedScript = `
+<script>
+  (function () {
+    var activeTool = ${JSON.stringify(activeTool)};
+    function syncFrame() {
+      if (typeof showTool === "function") {
+        showTool(activeTool);
+      }
+      var logo = document.querySelector('header .logo');
+      if (logo) {
+        logo.innerHTML = 'Blood🩸Doctor<span>Acute Management</span>';
+      }
+      var subtitle = document.querySelector('header .subtitle');
+      if (subtitle) {
+        subtitle.textContent = 'Urgent bedside pathways and escalation tools';
+      }
+      var badge = document.querySelector('.header-badge');
+      if (badge) {
+        badge.textContent = 'Acute Management';
+      }
+      document.querySelectorAll('footer, .footer, .watermark, a[download]').forEach(function (node) {
+        node.remove();
+      });
+    }
+    function postHeight() {
+      var height = Math.max(
+        document.body ? document.body.scrollHeight : 0,
+        document.documentElement ? document.documentElement.scrollHeight : 0
+      );
+      parent.postMessage({ type: 'acute-frame-height', height: height }, '*');
+    }
+    window.addEventListener('load', function () {
+      syncFrame();
+      postHeight();
+      setTimeout(postHeight, 120);
+    });
+    window.addEventListener('resize', postHeight);
+    if (window.ResizeObserver) {
+      var ro = new ResizeObserver(postHeight);
+      ro.observe(document.documentElement);
+      if (document.body) ro.observe(document.body);
+    }
+    setTimeout(function () {
+      syncFrame();
+      postHeight();
+    }, 10);
+  })();
+</script>
+`;
+
+  return brandingCleaned
+    .replace("</head>", `${acuteFrameStyleOverrides}</head>`)
+    .replace("</body>", `${injectedScript}</body>`);
 };
 
 const normalizeValue = (value) => value.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
@@ -2061,16 +2310,32 @@ function DoacBinaryMatrix({ rows }) {
 function AcuteManagementPage({
   activeAcuteId,
   activeAcuteItem,
-  onSelectAcute,
-  acuteState,
-  onFieldChange,
-  onToggleModifier,
   onResetTool,
 }) {
+  const [frameHeight, setFrameHeight] = useState(1900);
+  const [frameKey, setFrameKey] = useState(0);
+  const acuteTool = acuteToolFrameMap[activeAcuteId] ?? "af";
+
+  const frameDoc = useMemo(
+    () => sanitizeAcuteGuidanceHtml(acuteGuidanceHtmlRaw, acuteTool),
+    [acuteTool]
+  );
+
+  useEffect(() => {
+    const handleMessage = (event) => {
+      if (event?.data?.type === "acute-frame-height" && Number.isFinite(event.data.height)) {
+        setFrameHeight(Math.max(1200, event.data.height + 16));
+      }
+    };
+
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
+  }, []);
+
   if (!activeAcuteItem) {
     return (
       <section className="focus-layout">
-        <div className="panel acute-workspace">
+        <div className="panel acute-embed-shell">
           <div className="empty-state left-aligned">
             <CircleAlert size={24} />
             <h4>No acute-management items matched the current search.</h4>
@@ -2082,43 +2347,39 @@ function AcuteManagementPage({
 
   return (
     <section className="focus-layout">
-      <div className="panel acute-workspace spotlight-panel">
+      <div className="panel acute-embed-shell spotlight-panel">
         <div className="acute-toolbar">
           <div>
             <span className="eyebrow">Acute management</span>
             <h3>{activeAcuteItem.title}</h3>
             <p>{activeAcuteItem.summary}</p>
           </div>
-          <button type="button" className="ghost-button" onClick={() => onResetTool(getAcuteToolKey(activeAcuteId))}>
-            Reset
-          </button>
-        </div>
-
-        <div className="acute-tool-tabs">
-          {acuteManagementItems.map((item) => (
+          <div className="button-cluster">
             <button
-              key={item.id}
               type="button"
-              className={item.id === activeAcuteId ? "acute-tool-tab active" : "acute-tool-tab"}
-              onClick={() => onSelectAcute(item.id)}
+              className="ghost-button"
+              onClick={() => {
+                onResetTool(getAcuteToolKey(activeAcuteId));
+                setFrameKey((value) => value + 1);
+              }}
             >
-              {item.shortTitle}
+              Reset
             </button>
-          ))}
+          </div>
         </div>
 
-        {activeAcuteId === "acute-af" ? (
-          <AcuteAFPanel state={acuteState.af} onFieldChange={onFieldChange} />
-        ) : null}
-        {activeAcuteId === "acute-bleeding" ? (
-          <AcuteBleedPanel state={acuteState.bleed} onFieldChange={onFieldChange} />
-        ) : null}
-        {activeAcuteId === "acute-dvt" ? (
-          <AcuteDvtPanel state={acuteState.dvt} onToggleModifier={onToggleModifier} onFieldChange={onFieldChange} />
-        ) : null}
-        {activeAcuteId === "acute-pe" ? (
-          <AcutePePanel state={acuteState.pe} onToggleModifier={onToggleModifier} onFieldChange={onFieldChange} />
-        ) : null}
+        <div className="acute-embed-note">
+          <CircleCheckBig size={18} />
+          <span>Interactive acute pathways are now aligned to the generated acute-management build and open directly to the selected tool.</span>
+        </div>
+
+        <iframe
+          key={`${activeAcuteId}-${frameKey}`}
+          title={`${activeAcuteItem.title} acute management`}
+          className="acute-embed-frame"
+          srcDoc={frameDoc}
+          style={{ height: `${frameHeight}px` }}
+        />
       </div>
     </section>
   );

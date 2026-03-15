@@ -1,0 +1,1562 @@
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thrombosis Canada — Acute Management Clinical Tools</title>
+<style>
+  :root {
+    --navy: #0d1b3e;
+    --red: #c8102e;
+    --blue: #1a3a6b;
+    --light-blue: #e8eef5;
+    --green: #1a7a3c;
+    --orange: #e07b00;
+    --border: #dce3ee;
+    --text: #222;
+    --muted: #6b7280;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f4f6fb; color: var(--text); font-size: 15px; }
+
+  /* Header */
+  header { background: var(--navy); color: #fff; padding: 14px 20px; display: flex; align-items: center; gap: 14px; }
+  header .logo { font-size: 1.3rem; font-weight: 700; line-height: 1.1; }
+  header .logo span { color: var(--red); display: block; font-size: 0.85rem; font-weight: 400; }
+  header .subtitle { color: #a8b8d4; font-size: 0.8rem; margin-top: 2px; }
+  .header-badge { background: var(--red); color: #fff; font-size: 0.7rem; font-weight: 700; padding: 2px 7px; border-radius: 3px; text-transform: uppercase; margin-left: auto; }
+
+  /* Tab Navigation */
+  .tab-nav { background: var(--blue); display: flex; overflow-x: auto; border-bottom: 3px solid var(--red); }
+  .tab-nav button { background: none; border: none; color: #a8c0e0; padding: 13px 20px; font-size: 0.88rem; font-weight: 600; cursor: pointer; white-space: nowrap; border-bottom: 3px solid transparent; margin-bottom: -3px; transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.04em; }
+  .tab-nav button:hover { color: #fff; background: rgba(255,255,255,0.08); }
+  .tab-nav button.active { color: #fff; border-bottom-color: var(--red); background: rgba(255,255,255,0.1); }
+
+  /* Tool Container */
+  .tool-container { max-width: 780px; margin: 24px auto; padding: 0 14px 40px; }
+  .tool-panel { display: none; }
+  .tool-panel.active { display: block; }
+
+  /* Tool Header */
+  .tool-header { background: var(--navy); color: #fff; padding: 16px 22px; border-radius: 10px 10px 0 0; }
+  .tool-header h2 { font-size: 1.22rem; font-weight: 700; }
+  .tool-header p { color: #a8b8d4; font-size: 0.82rem; margin-top: 4px; }
+
+  /* Form Card */
+  .form-card { background: #fff; border: 1px solid var(--border); border-top: none; border-radius: 0 0 10px 10px; padding: 22px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+
+  /* Section */
+  .section { margin-bottom: 22px; padding-bottom: 22px; border-bottom: 1px solid var(--border); }
+  .section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .section-label { font-weight: 700; color: var(--navy); margin-bottom: 10px; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; }
+  .section-num { background: var(--red); color: #fff; border-radius: 50%; width: 22px; height: 22px; font-size: 0.75rem; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+  /* Radio/Checkbox Groups */
+  .option-group { display: flex; flex-direction: column; gap: 8px; }
+  .option-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 7px; cursor: pointer; transition: all 0.18s; background: #fafbff; }
+  .option-item:hover { border-color: var(--blue); background: var(--light-blue); }
+  .option-item.selected { border-color: var(--blue); background: var(--light-blue); }
+  .option-item.selected.danger { border-color: var(--red); background: #fff0f2; }
+  .option-item input[type="radio"], .option-item input[type="checkbox"] { margin-top: 2px; accent-color: var(--blue); width: 16px; height: 16px; flex-shrink: 0; }
+  .option-item label { cursor: pointer; line-height: 1.4; font-size: 0.9rem; }
+
+  /* Input Fields */
+  .input-row { display: flex; gap: 14px; flex-wrap: wrap; }
+  .input-group { flex: 1; min-width: 140px; }
+  .input-group label { display: block; font-size: 0.82rem; font-weight: 600; color: var(--muted); margin-bottom: 5px; }
+  .input-group input[type="number"], .input-group input[type="text"], .input-group textarea, .input-group select {
+    width: 100%; padding: 9px 12px; border: 1.5px solid var(--border); border-radius: 6px; font-size: 0.95rem; color: var(--text); background: #fafbff; transition: border-color 0.18s; }
+  .input-group input:focus, .input-group textarea:focus, .input-group select:focus { outline: none; border-color: var(--blue); background: #fff; }
+  .input-group .computed { background: var(--light-blue); border-color: var(--blue); color: var(--blue); font-weight: 700; }
+  .input-unit { font-size: 0.8rem; color: var(--muted); margin-top: 3px; }
+
+  /* Recommendation Box */
+  .rec-box { border-radius: 8px; padding: 16px 18px; margin-top: 18px; animation: fadeIn 0.3s; }
+  .rec-box.stable { background: #e8f4ee; border-left: 5px solid var(--green); }
+  .rec-box.unstable { background: #fff0f2; border-left: 5px solid var(--red); }
+  .rec-box.info { background: var(--light-blue); border-left: 5px solid var(--blue); }
+  .rec-box.warning { background: #fff8e1; border-left: 5px solid var(--orange); }
+  .rec-box h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .rec-box.stable h4 { color: var(--green); }
+  .rec-box.unstable h4 { color: var(--red); }
+  .rec-box.info h4 { color: var(--blue); }
+  .rec-box.warning h4 { color: var(--orange); }
+  .rec-box ul { margin: 0 0 0 16px; }
+  .rec-box ul li { margin-bottom: 5px; line-height: 1.5; font-size: 0.9rem; }
+  .rec-box p { font-size: 0.9rem; line-height: 1.6; }
+
+  /* Drug Chips */
+  .drug-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .drug-chip { background: var(--navy); color: #fff; padding: 5px 11px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; }
+  .drug-chip.preferred { background: var(--green); }
+  .drug-chip.caution { background: var(--orange); }
+  .drug-chip.avoid { background: var(--red); }
+
+  /* Dosing Table */
+  .dose-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.85rem; }
+  .dose-table th { background: var(--navy); color: #fff; padding: 8px 10px; text-align: left; }
+  .dose-table td { padding: 7px 10px; border-bottom: 1px solid var(--border); }
+  .dose-table tr:nth-child(even) td { background: #f8f9fd; }
+  .dose-table tr:hover td { background: var(--light-blue); }
+
+  /* Alert Banner */
+  .alert-banner { background: var(--red); color: #fff; padding: 12px 16px; border-radius: 7px; font-size: 0.88rem; margin-top: 12px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+  .alert-banner::before { content: "⚠"; font-size: 1.1rem; }
+
+  /* Action Buttons */
+  .btn-row { display: flex; gap: 10px; margin-top: 22px; flex-wrap: wrap; }
+  .btn { padding: 10px 20px; border-radius: 6px; border: none; font-weight: 700; font-size: 0.88rem; cursor: pointer; text-transform: uppercase; letter-spacing: 0.04em; transition: all 0.18s; }
+  .btn-primary { background: var(--navy); color: #fff; }
+  .btn-primary:hover { background: var(--blue); }
+  .btn-danger { background: var(--red); color: #fff; }
+  .btn-reset { background: #f3f4f6; color: var(--text); border: 1.5px solid var(--border); }
+  .btn-reset:hover { background: var(--border); }
+
+  /* Progress */
+  .progress-bar { height: 4px; background: var(--border); border-radius: 2px; margin-top: 16px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--red); border-radius: 2px; transition: width 0.4s; }
+
+  /* CrCl display */
+  .crcl-display { display: inline-block; background: var(--light-blue); border: 1.5px solid var(--blue); border-radius: 5px; padding: 5px 12px; font-weight: 700; color: var(--blue); font-size: 0.9rem; margin-top: 8px; }
+
+  /* Disclaimer */
+  .disclaimer { background: #f8f9fd; border: 1px solid var(--border); border-radius: 6px; padding: 12px 16px; font-size: 0.78rem; color: var(--muted); margin-top: 16px; line-height: 1.6; }
+  .disclaimer strong { color: var(--text); }
+
+  /* PESI */
+  .pesi-score { font-size: 2rem; font-weight: 800; text-align: center; padding: 16px; border-radius: 8px; margin-top: 12px; }
+  .pesi-score.low { background: #e8f4ee; color: var(--green); }
+  .pesi-score.high { background: #fff0f2; color: var(--red); }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  @media (max-width: 600px) {
+    .tab-nav button { padding: 11px 13px; font-size: 0.78rem; }
+    .form-card { padding: 16px; }
+    .tool-container { padding: 0 8px 40px; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <div class="logo">Thrombosis Canada<span>Clinical Decision Support</span></div>
+    <div class="subtitle">Acute Management — Evidence-Based Anticoagulation Tools</div>
+  </div>
+  <div class="header-badge">Acute Management</div>
+</header>
+
+<nav class="tab-nav">
+  <button class="" onclick="showTool('pe')">🫁 Pulmonary Embolism</button>
+  <button onclick="showTool('af')" class="">❤️ Atrial Fibrillation</button>
+  <button onclick="showTool('bleed')" class="">🩸 Bleed Management</button>
+  <button onclick="showTool('dvt')" class="active">🦵 Deep Vein Thrombosis</button>
+</nav>
+
+<div class="tool-container">
+<!-- ============================
+     PULMONARY EMBOLISM
+     ============================ -->
+<div id="tool-pe" class="tool-panel">
+  <div class="tool-header">
+    <h2>🫁 Pulmonary Embolism Management</h2>
+    <p>Evidence-based anticoagulation guidance for PE — ESC 2019 &amp; ACCP 2021 Guidelines</p>
+  </div>
+  <div class="form-card">
+
+    <!-- Section 1: Stability -->
+    <div class="section">
+      <div class="section-label"><span class="section-num">1</span>Patient Stability</div>
+      <div class="option-group">
+        <div class="option-item selected" id="pe-stable-opt" onclick="peSelectStability('stable')">
+          <input type="radio" name="pe_stability" id="pe_stable" value="stable" checked="">
+          <label for="pe_stable"><strong>Stable</strong></label>
+        </div>
+        <div class="option-item danger" id="pe-unstable-opt" onclick="peSelectStability('unstable')">
+          <input type="radio" name="pe_stability" id="pe_unstable" value="unstable">
+          <label for="pe_unstable"><strong>Unstable / High-Risk PE</strong> — Persistent hemodynamic instability OR shock, or patients with acute PE who deteriorate</label>
+        </div>
+      </div>
+      <div id="pe-unstable-rec" class="rec-box unstable" style="display:none;">
+        <h4>⚠ Immediate Action Required</h4>
+        <ul>
+          <li>Consideration for <strong>immediate IV thrombolysis</strong></li>
+          <li>Immediate consultation with <strong>ICU</strong></li>
+          <li>Consideration for <strong>pharmacomechanical therapy</strong> (patients at high risk of bleeding)</li>
+          <li>Anticoagulation with <strong>UFH or LMWH</strong> after initial therapy completed</li>
+        </ul>
+        <div style="margin-top:10px; font-size:0.8rem; color:#8b0000;">
+          <em>Per ESC 2019 &amp; ACCP 2021 Guidelines: High-risk PE = hemodynamic instability including sustained hypotension, cardiogenic shock and/or cardiac arrest</em>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 2: Patient Demographics -->
+    <div class="section">
+      <div class="section-label"><span class="section-num">2</span>Patient Demographics</div>
+      <div class="input-row">
+        <div class="input-group">
+          <label>Age (years)</label>
+          <input type="number" id="pe_age" placeholder="e.g. 65" min="0" max="120" oninput="peCalcCrCl()">
+        </div>
+        <div class="input-group">
+          <label>Weight (kg)</label>
+          <input type="number" id="pe_weight_kg" placeholder="e.g. 75" min="0" oninput="peWeightKgToLb();peCalcCrCl()">
+        </div>
+        <div class="input-group">
+          <label>Weight (lb)</label>
+          <input type="number" id="pe_weight_lb" placeholder="e.g. 165" min="0" oninput="peWeightLbToKg();peCalcCrCl()">
+        </div>
+      </div>
+      <div style="margin-top:14px;">
+        <div class="section-label" style="margin-bottom:8px; font-size:0.88rem;">Gender</div>
+        <div class="option-group" style="flex-direction:row;">
+          <div class="option-item" id="pe-male-opt" onclick="peSelectGender('male')" style="flex:1;">
+            <input type="radio" name="pe_gender" id="pe_male" value="male">
+            <label for="pe_male"><strong>Male</strong></label>
+          </div>
+          <div class="option-item selected" id="pe-female-opt" onclick="peSelectGender('female')" style="flex:1;">
+            <input type="radio" name="pe_gender" id="pe_female" value="female">
+            <label for="pe_female"><strong>Female</strong></label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3: Serum Creatinine -->
+    <div class="section">
+      <div class="section-label"><span class="section-num">3</span>Renal Function</div>
+      <div class="input-row">
+        <div class="input-group">
+          <label>Serum Creatinine (µmol/L)</label>
+          <input type="number" id="pe_creatinine" placeholder="e.g. 90" min="0" oninput="peCalcCrCl()">
+        </div>
+        <div class="input-group">
+          <label>Creatinine Clearance</label>
+          <input type="text" id="pe_crcl_display" class="computed" readonly="" placeholder="Enter age, weight, gender, Cr">
+        </div>
+      </div>
+      <div id="pe_crcl_label" style="display: inline-block;" class="crcl-display">CrCl: 65.2 mL/min</div>
+    </div>
+
+    <!-- Section 4: Clinical Flags -->
+    <div class="section">
+      <div class="section-label"><span class="section-num">4</span>Clinical Flags (select all that apply)</div>
+      <div class="option-group">
+        <div class="option-item" id="pe-flag-cancer" onclick="peToggleFlag('cancer', this)">
+          <input type="checkbox" id="pe_cancer" value="cancer">
+          <label for="pe_cancer"><strong>Active cancer</strong></label>
+        </div>
+        <div class="option-item" id="pe-flag-hepatic" onclick="peToggleFlag('hepatic', this)">
+          <input type="checkbox" id="pe_hepatic" value="hepatic">
+          <label for="pe_hepatic"><strong>Significant hepatic dysfunction</strong> (e.g., Liver cirrhosis Child-Pugh B or C, active hepatitis)</label>
+        </div>
+        <div class="option-item" id="pe-flag-crcl15" onclick="peToggleFlag('crcl15', this)">
+          <input type="checkbox" id="pe_crcl15" value="crcl15">
+          <label for="pe_crcl15"><strong>Creatinine clearance &lt; 15 mL/min</strong></label>
+        </div>
+        <div class="option-item" id="pe-flag-pregnancy" onclick="peToggleFlag('pregnancy', this)">
+          <input type="checkbox" id="pe_pregnancy" value="pregnancy">
+          <label for="pe_pregnancy"><strong>Pregnancy</strong></label>
+        </div>
+        <div class="option-item" id="pe-flag-doac-interaction" onclick="peToggleFlag('doac_interaction', this)">
+          <input type="checkbox" id="pe_doac_interaction" value="doac_interaction">
+          <label for="pe_doac_interaction"><strong>DOAC–drug interactions</strong> (strong inhibitors or inducers of CYP 3A4 or P-gp — see Product Monograph)</label>
+        </div>
+        <div class="option-item" id="pe-flag-none" onclick="peToggleFlag('none_flags', this)">
+          <input type="checkbox" id="pe_none_flags" value="none">
+          <label for="pe_none_flags"><strong>None of the above</strong></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 5: Recommendations -->
+    <div class="section" id="pe-rec-section">
+      <div class="section-label"><span class="section-num">5</span>Recommendations</div>
+      <div id="pe-recommendations"><div class="rec-box stable">
+      <h4>✅ STABLE PE — Anticoagulation Recommendations</h4>
+      <p style="margin-bottom:10px; font-size:0.85rem; color:#1a7a3c;"><em>Based on similar efficacy and less bleeding, international guidelines recommend DOAC in preference to warfarin (Stevens SM et al. Chest 2021)</em></p>
+      <table class="dose-table">
+        <thead><tr><th>Drug</th><th>Dosing Regimen</th><th>Notes</th></tr></thead>
+        <tbody><tr><td><strong>Apixaban</strong> ✓ Preferred</td><td>10 mg PO BID × 7 days, then <strong>5 mg PO BID</strong></td><td>No parenteral lead-in needed</td></tr><tr><td><strong>Rivaroxaban</strong></td><td>15 mg PO BID × 21 days, then <strong>20 mg PO daily</strong> with evening meal</td><td>No parenteral lead-in needed</td></tr><tr><td><strong>Dabigatran</strong></td><td>LMWH × 5–7 days, then <strong>150 mg PO BID</strong><br><small>(or 110 mg BID if other bleeding risks)</small></td><td>Parenteral lead-in required</td></tr><tr><td><strong>Edoxaban</strong></td><td>LMWH × ≥5 days, then <strong>60 mg PO daily</strong></td><td>Parenteral lead-in required</td></tr><tr><td>Warfarin</td><td>LMWH ≥5 days + Warfarin until INR 2–3 (target 2.5)</td><td>Overlap until INR therapeutic; monitor INR closely</td></tr></tbody></table>
+      <div style="margin-top:14px;">
+        <strong>LMWH Options (for initial parenteral anticoagulation):</strong>
+        <table class="dose-table" style="margin-top:6px;">
+          <tbody><tr><th>Drug</th><th>Dose</th></tr>
+          <tr><td>Dalteparin (Fragmin®)</td><td>200 U/kg SC once daily <em>or</em> 100 U/kg SC twice daily</td></tr>
+          <tr><td>Enoxaparin (Lovenox®)</td><td>1.5 mg/kg SC once daily <em>or</em> 1 mg/kg SC twice daily</td></tr>
+          <tr><td>Tinzaparin (Innohep®)</td><td>175 U/kg SC once daily</td></tr>
+          <tr><td>Nadroparin (Fraxiparine®)</td><td>171 IU/kg SC once daily <em>or</em> 86 IU/kg SC twice daily</td></tr>
+          <tr><td>UFH (SC alternative)</td><td>333 IU/kg SC once, then 250 IU/kg SC twice daily</td></tr>
+        </tbody></table>
+      </div>
+    </div><div class="rec-box info" style="margin-top:10px;">
+        <h4>📊 Calculated CrCl: 65.2 mL/min</h4>
+        <p>✓ Adequate renal function — standard DOAC doses apply.</p>
+      </div><div class="rec-box info" style="margin-top:10px;">
+    <h4>📋 Monitoring &amp; Follow-up</h4>
+    <ul>
+      <li>Confirm diagnosis with imaging if not already done</li>
+      <li>Assess for underlying provoked vs unprovoked PE</li>
+      <li>Consider duration of anticoagulation (minimum 3 months for provoked, extended for unprovoked)</li>
+      <li>Reassess bleeding risk before prescribing anticoagulation</li>
+      <li>Refer to Thrombosis Canada PE: Diagnosis &amp; Treatment Clinical Guide</li>
+    </ul>
+  </div></div>
+    </div>
+
+    <!-- Section 6: Admit/Discharge Decision -->
+    <div class="section" id="pe-admit-section" style="display: block;">
+      <div class="section-label"><span class="section-num">6</span>Admit or Discharge Decision</div>
+      <div class="option-group">
+        <div class="option-item" onclick="peSelectDisposition('admit')">
+          <input type="radio" name="pe_disposition" value="admit">
+          <label><strong>Admit</strong></label>
+        </div>
+        <div class="option-item" onclick="peSelectDisposition('discharge')">
+          <input type="radio" name="pe_disposition" value="discharge">
+          <label><strong>Discharge</strong></label>
+        </div>
+        <div class="option-item" onclick="peSelectDisposition('pesi')">
+          <input type="radio" name="pe_disposition" value="pesi">
+          <label><strong>Unsure — Use Simplified PESI Score</strong></label>
+        </div>
+      </div>
+      <div id="pe-pesi-section" style="display:none; margin-top:14px;">
+        <div class="section-label" style="font-size:0.9rem; margin-bottom:10px;">Simplified PESI Criteria</div>
+        <div class="option-group">
+          <div class="option-item" onclick="peTogglePESI('pesi_age80', this)"><input type="checkbox" id="pesi_age80"><label for="pesi_age80">Age &gt; 80 years (+1)</label></div>
+          <div class="option-item" onclick="peTogglePESI('pesi_cancer', this)"><input type="checkbox" id="pesi_cancer"><label for="pesi_cancer">History of Cancer (+1)</label></div>
+          <div class="option-item" onclick="peTogglePESI('pesi_cardio', this)"><input type="checkbox" id="pesi_cardio"><label for="pesi_cardio">History of Chronic Cardiopulmonary Disease (+1)</label></div>
+          <div class="option-item" onclick="peTogglePESI('pesi_hr', this)"><input type="checkbox" id="pesi_hr"><label for="pesi_hr">Heart Rate ≥ 110 (+1)</label></div>
+          <div class="option-item" onclick="peTogglePESI('pesi_sbp', this)"><input type="checkbox" id="pesi_sbp"><label for="pesi_sbp">Systolic Blood Pressure ≤ 100 mmHg (+1)</label></div>
+          <div class="option-item" onclick="peTogglePESI('pesi_o2', this)"><input type="checkbox" id="pesi_o2"><label for="pesi_o2">O₂ Saturation &lt; 90% on Room Air (+1)</label></div>
+        </div>
+        <div id="pesi-result" style="margin-top:12px;"></div>
+      </div>
+    </div>
+
+    <!-- Comments -->
+    <div class="section">
+      <div class="section-label"><span class="section-num">7</span>Clinical Notes (optional)</div>
+      <div class="input-group">
+        <textarea id="pe_notes" placeholder="Any other comments or notes for transition of care..." rows="3" style="width:100%;"></textarea>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="peGenerate()">Generate Recommendations</button>
+      <button class="btn btn-reset" onclick="peReset()">Reset Form</button>
+    </div>
+
+    <div class="disclaimer">
+      <strong>Disclaimer:</strong> These recommendations are based on Thrombosis Canada guidelines and do not replace clinical judgement. Always consider individual patient factors, risks, and benefits. Consult ESC 2019 and ACCP 2021 Guidelines and Thrombosis Canada Clinical Guides for complete guidance.
+    </div>
+  </div>
+</div>
+<!-- ============================
+     ATRIAL FIBRILLATION
+     ============================ -->
+<div id="tool-af" class="tool-panel">
+  <div class="tool-header">
+    <h2>❤️ Atrial Fibrillation — Acute Management</h2>
+    <p>Anticoagulation guidance for AF — CCS 2020 Guidelines</p>
+  </div>
+  <div class="form-card">
+
+    <!-- Section 1: Stability -->
+    <div class="section">
+      <div class="section-label"><span class="section-num">1</span>Patient Stability</div>
+      <div class="option-group">
+        <div class="option-item selected" id="af-stable-opt" onclick="afSelectStability('stable')">
+          <input type="checkbox" name="af_stability" id="af_stable" checked="">
+          <label for="af_stable"><strong>Stable</strong></label>
+        </div>
+        <div class="option-item danger" id="af-hypotension-opt" onclick="afSelectStability('hypotension')">
+          <input type="checkbox" name="af_stability" id="af_hypotension">
+          <label for="af_hypotension"><strong>Unstable — Acute AF causing persistent hypotension</strong></label>
+        </div>
+        <div class="option-item danger" id="af-ischemia-opt" onclick="afSelectStability('ischemia')">
+          <input type="checkbox" name="af_stability" id="af_ischemia">
+          <label for="af_ischemia"><strong>Unstable — Acute AF causing cardiac ischemia</strong></label>
+        </div>
+        <div class="option-item danger" id="af-edema-opt" onclick="afSelectStability('edema')">
+          <input type="checkbox" name="af_stability" id="af_edema">
+          <label for="af_edema"><strong>Unstable — Acute AF causing pulmonary edema</strong></label>
+        </div>
+      </div>
+      <div id="af-unstable-rec" class="rec-box unstable" style="display:none;">
+        <h4>⚠ Urgent Intervention Required</h4>
+        <ul>
+          <li>Consider <strong>urgent electrical cardioversion at 150–200 J</strong> if rate control not effective</li>
+          <li><strong>Antithrombotic therapy:</strong> Initiate immediate OAC in ED and continue for ≥ 4 weeks if any "high-risk" features present</li>
+          <li>Early follow-up to review long-term OAC</li>
+          <li>Patient is likely to require long-term anticoagulation — complete the rest of the form for guidance</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Section 2: Patient Demographics -->
+    <div class="section">
+      <div class="section-label"><span class="section-num">2</span>Patient Demographics</div>
+      <div class="input-row">
+        <div class="input-group">
+          <label>Age (years)</label>
+          <input type="number" id="af_age" placeholder="e.g. 72" min="0" max="120" oninput="afCalcCrCl()">
+        </div>
+        <div class="input-group">
+          <label>Weight (kg)</label>
+          <input type="number" id="af_weight_kg" placeholder="e.g. 80" min="0" oninput="afWeightKgToLb();afCalcCrCl()">
+        </div>
+        <div class="input-group">
+          <label>Weight (lb)</label>
+          <input type="number" id="af_weight_lb" placeholder="e.g. 176" min="0" oninput="afWeightLbToKg();afCalcCrCl()">
+        </div>
+      </div>
+      <div style="margin-top:14px;">
+        <div class="section-label" style="margin-bottom:8px; font-size:0.88rem;">Gender</div>
+        <div class="option-group" style="flex-direction:row;">
+          <div class="option-item" id="af-male-opt" onclick="afSelectGender('male')" style="flex:1;">
+            <input type="radio" name="af_gender" id="af_male" value="male">
+            <label for="af_male"><strong>Male</strong></label>
+          </div>
+          <div class="option-item" id="af-female-opt" onclick="afSelectGender('female')" style="flex:1;">
+            <input type="radio" name="af_gender" id="af_female" value="female">
+            <label for="af_female"><strong>Female</strong></label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3: Serum Creatinine -->
+    <div class="section">
+      <div class="section-label"><span class="section-num">3</span>Renal Function</div>
+      <div class="input-row">
+        <div class="input-group">
+          <label>Serum Creatinine (µmol/L)</label>
+          <input type="number" id="af_creatinine" placeholder="e.g. 85" min="0" oninput="afCalcCrCl()">
+        </div>
+        <div class="input-group">
+          <label>Creatinine Clearance</label>
+          <input type="text" id="af_crcl_display" class="computed" readonly="" placeholder="Enter demographics &amp; Cr">
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 4: AF Duration / Cardioversion Context -->
+    <div class="section">
+      <div class="section-label"><span class="section-num">4</span>AF Clinical Context (select all that apply)</div>
+      <div class="option-group">
+        <div class="option-item" id="af-dur48-opt" onclick="afToggleContext('dur_lt48', this)">
+          <input type="checkbox" id="af_dur_lt48">
+          <label for="af_dur_lt48"><strong>AF duration &lt; 48 hours</strong></label>
+        </div>
+        <div class="option-item" id="af-dur48p-opt" onclick="afToggleContext('dur_gt48', this)">
+          <input type="checkbox" id="af_dur_gt48">
+          <label for="af_dur_gt48"><strong>AF duration &gt; 48 hours or unknown</strong></label>
+        </div>
+        <div class="option-item" id="af-oac3w-opt" onclick="afToggleContext('oac_3weeks', this)">
+          <input type="checkbox" id="af_oac_3weeks">
+          <label for="af_oac_3weeks"><strong>Therapeutic OAC ≥ 3 weeks</strong></label>
+        </div>
+        <div class="option-item" id="af-stroke6m-opt" onclick="afToggleContext('stroke_6m', this)">
+          <input type="checkbox" id="af_stroke_6m">
+          <label for="af_stroke_6m"><strong>Stroke/TIA within 6 months</strong></label>
+        </div>
+        <div class="option-item" id="af-valve-opt" onclick="afToggleContext('mech_valve', this)">
+          <input type="checkbox" id="af_mech_valve">
+          <label for="af_mech_valve"><strong>Mechanical/rheumatic valve</strong></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 5: Special Populations -->
+    <div class="section">
+      <div class="section-label"><span class="section-num">5</span>Special Population Flags</div>
+      <div class="option-group">
+        <div class="option-item" id="af-sp-hepatic" onclick="afToggleSP('hepatic', this)">
+          <input type="checkbox" id="af_sp_hepatic">
+          <label for="af_sp_hepatic"><strong>Significant hepatic disease</strong> (acute clinical hepatitis, chronic active hepatitis, liver cirrhosis)</label>
+        </div>
+        <div class="option-item" id="af-sp-crcl15" onclick="afToggleSP('crcl15', this)">
+          <input type="checkbox" id="af_sp_crcl15">
+          <label for="af_sp_crcl15"><strong>Creatinine clearance &lt; 15 mL/min</strong></label>
+        </div>
+        <div class="option-item" id="af-sp-preg" onclick="afToggleSP('pregnancy', this)">
+          <input type="checkbox" id="af_sp_preg">
+          <label for="af_sp_preg"><strong>Pregnancy / Lactation</strong></label>
+        </div>
+        <div class="option-item" id="af-sp-drugint" onclick="afToggleSP('drug_int', this)">
+          <input type="checkbox" id="af_sp_drugint">
+          <label for="af_sp_drugint"><strong>NOAC drug interactions</strong> (seizure, TB, HIV, fungal, cancer meds — see Product Monograph)</label>
+        </div>
+        <div class="option-item" id="af-sp-pgp" onclick="afToggleSP('pgp', this)">
+          <input type="checkbox" id="af_sp_pgp">
+          <label for="af_sp_pgp"><strong>Concomitant use of P-gp inhibitors</strong> (excl. amiodarone and verapamil)</label>
+        </div>
+        <div class="option-item" id="af-sp-none" onclick="afToggleSP('none', this)">
+          <input type="checkbox" id="af_sp_none">
+          <label for="af_sp_none"><strong>None of the above</strong></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 6: Clinical Characteristics for CHADS2 / HAS-BLED -->
+    <div class="section">
+      <div class="section-label"><span class="section-num">6</span>Clinical Characteristics (CHADS₂ / HAS-BLED)</div>
+      <div class="option-group">
+        <div class="option-item" id="af-cc-htn" onclick="afToggleCC('htn', this)"><input type="checkbox" id="af_htn"><label for="af_htn">Hypertension</label></div>
+        <div class="option-item" id="af-cc-dm" onclick="afToggleCC('dm', this)"><input type="checkbox" id="af_dm"><label for="af_dm">Diabetes Mellitus</label></div>
+        <div class="option-item" id="af-cc-chf" onclick="afToggleCC('chf', this)"><input type="checkbox" id="af_chf"><label for="af_chf">Congestive Heart Failure</label></div>
+        <div class="option-item" id="af-cc-stroke" onclick="afToggleCC('stroke', this)"><input type="checkbox" id="af_stroke"><label for="af_stroke">Previous Stroke / TIA</label></div>
+        <div class="option-item" id="af-cc-vascular" onclick="afToggleCC('vascular', this)"><input type="checkbox" id="af_vascular"><label for="af_vascular">Vascular Disease History (MI, peripheral arterial disease, aortic plaque)</label></div>
+        <div class="option-item" id="af-cc-bleed" onclick="afToggleCC('bleed', this)"><input type="checkbox" id="af_bleed"><label for="af_bleed">Previous Major Bleeding or Predisposition to Bleeding</label></div>
+        <div class="option-item" id="af-cc-inr" onclick="afToggleCC('inr', this)"><input type="checkbox" id="af_inr"><label for="af_inr">Labile INR (Unstable/high INRs)</label></div>
+        <div class="option-item" id="af-cc-nsaid" onclick="afToggleCC('nsaid', this)"><input type="checkbox" id="af_nsaid"><label for="af_nsaid">Medication Usage Predisposing to Bleeding (ASA, antiplatelet, NSAIDs)</label></div>
+        <div class="option-item" id="af-cc-alcohol" onclick="afToggleCC('alcohol', this)"><input type="checkbox" id="af_alcohol"><label for="af_alcohol">Alcohol Usage History</label></div>
+        <div class="option-item" id="af-cc-none" onclick="afToggleCC('cc_none', this)"><input type="checkbox" id="af_cc_none"><label for="af_cc_none"><strong>None of the above</strong></label></div>
+      </div>
+    </div>
+
+    <!-- Scores Display -->
+    <div id="af-scores" style="display:none; margin-bottom:18px;">
+      <div class="input-row">
+        <div class="input-group">
+          <label>CHADS₂ Score</label>
+          <input type="text" id="af_chads2_score" class="computed" readonly="">
+        </div>
+        <div class="input-group">
+          <label>HAS-BLED Risk</label>
+          <input type="text" id="af_hasbled_score" class="computed" readonly="">
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 7: Recommendations -->
+    <div class="section">
+      <div class="section-label"><span class="section-num">7</span>Recommendations</div>
+      <div id="af-recommendations">
+        <div class="rec-box info">
+          <h4>ℹ Complete all sections above</h4>
+          <p>Enter patient data to generate anticoagulation recommendations.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notes -->
+    <div class="section">
+      <div class="section-label"><span class="section-num">8</span>Clinical Notes (optional)</div>
+      <div class="input-group">
+        <textarea id="af_notes" placeholder="Comments or notes for transition of care..." rows="3" style="width:100%;"></textarea>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="afGenerate()">Generate Recommendations</button>
+      <button class="btn btn-reset" onclick="afReset()">Reset Form</button>
+    </div>
+
+    <div class="disclaimer">
+      <strong>Disclaimer:</strong> Based on CCS 2020 Atrial Fibrillation Guidelines. Does not replace clinical judgement. Consider individual patient factors, risks, and benefits.
+    </div>
+  </div>
+</div>
+<!-- ============================
+     BLEED MANAGEMENT
+     ============================ -->
+<div id="tool-bleed" class="tool-panel">
+  <div class="tool-header">
+    <h2>🩸 Anticoagulant-Related Bleed Management</h2>
+    <p>Reversal and management of anticoagulant-related bleeding</p>
+  </div>
+  <div class="form-card">
+
+    <!-- Section 1: Bleed Severity -->
+    <div class="section">
+      <div class="section-label"><span class="section-num">1</span>Type of Bleeding</div>
+      <div class="option-group">
+        <div class="option-item" id="bleed-minor-opt" onclick="bleedSelectSeverity('minor')">
+          <input type="radio" name="bleed_severity" id="bleed_minor" value="minor">
+          <label for="bleed_minor"><strong>Minor Bleeding</strong><br><span style="font-size:0.82rem; color:#6b7280;">e.g. subconjunctival hemorrhage, small bruising/lacerations, dental bleeding, anterior epistaxis, hemorrhoidal bleeding</span></label>
+        </div>
+        <div class="option-item" id="bleed-crnm-opt" onclick="bleedSelectSeverity('crnm')">
+          <input type="radio" name="bleed_severity" id="bleed_crnm" value="crnm">
+          <label for="bleed_crnm"><strong>Clinically Relevant Non-Major Bleeding (CRNM)</strong><br><span style="font-size:0.82rem; color:#6b7280;">Non-life-threatening; requires medical attention and/or non-urgent intervention e.g. hemodynamically stable GI bleeding, uncontrolled posterior epistaxis</span></label>
+        </div>
+        <div class="option-item danger" id="bleed-major-opt" onclick="bleedSelectSeverity('major')">
+          <input type="radio" name="bleed_severity" id="bleed_major" value="major">
+          <label for="bleed_major"><strong>Major / Life-Threatening Bleeding</strong><br><span style="font-size:0.82rem; color:#8b0000;">e.g. intracranial hemorrhage, retroperitoneal, intra-spinal, intramuscular with compartment syndrome, pericardial, hemodynamic instability</span></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 2: Anticoagulant Type -->
+    <div class="section">
+      <div class="section-label"><span class="section-num">2</span>Anticoagulant Received</div>
+      <div class="option-group">
+        <div class="option-item" id="bleed-apix-opt" onclick="bleedSelectAC('apixaban')"><input type="radio" name="bleed_ac" id="bleed_apixaban"><label for="bleed_apixaban"><strong>Apixaban</strong> (Eliquis®)</label></div>
+        <div class="option-item" id="bleed-dabi-opt" onclick="bleedSelectAC('dabigatran')"><input type="radio" name="bleed_ac" id="bleed_dabigatran"><label for="bleed_dabigatran"><strong>Dabigatran</strong> (Pradaxa®)</label></div>
+        <div class="option-item" id="bleed-edox-opt" onclick="bleedSelectAC('edoxaban')"><input type="radio" name="bleed_ac" id="bleed_edoxaban"><label for="bleed_edoxaban"><strong>Edoxaban</strong> (Lixiana®)</label></div>
+        <div class="option-item" id="bleed-riva-opt" onclick="bleedSelectAC('rivaroxaban')"><input type="radio" name="bleed_ac" id="bleed_rivaroxaban"><label for="bleed_rivaroxaban"><strong>Rivaroxaban</strong> (Xarelto®)</label></div>
+        <div class="option-item" id="bleed-warf-opt" onclick="bleedSelectAC('warfarin')"><input type="radio" name="bleed_ac" id="bleed_warfarin"><label for="bleed_warfarin"><strong>Warfarin</strong></label></div>
+      </div>
+    </div>
+
+    <!-- Section 3: Patient Demographics -->
+    <div class="section">
+      <div class="section-label"><span class="section-num">3</span>Patient Demographics</div>
+      <div class="input-row">
+        <div class="input-group">
+          <label>Age (years)</label>
+          <input type="number" id="bleed_age" placeholder="e.g. 70" min="0" max="120" oninput="bleedCalcCrCl()">
+        </div>
+        <div class="input-group">
+          <label>Weight (kg)</label>
+          <input type="number" id="bleed_weight_kg" placeholder="e.g. 72" min="0" oninput="bleedWeightKgToLb();bleedCalcCrCl()">
+        </div>
+        <div class="input-group">
+          <label>Weight (lb)</label>
+          <input type="number" id="bleed_weight_lb" placeholder="e.g. 159" min="0" oninput="bleedWeightLbToKg();bleedCalcCrCl()">
+        </div>
+      </div>
+      <div style="margin-top:14px;">
+        <div class="section-label" style="margin-bottom:8px; font-size:0.88rem;">Sex</div>
+        <div class="option-group" style="flex-direction:row;">
+          <div class="option-item" id="bleed-male-opt" onclick="bleedSelectGender('male')" style="flex:1;"><input type="radio" name="bleed_gender" id="bleed_male"><label for="bleed_male"><strong>Male</strong></label></div>
+          <div class="option-item" id="bleed-female-opt" onclick="bleedSelectGender('female')" style="flex:1;"><input type="radio" name="bleed_gender" id="bleed_female"><label for="bleed_female"><strong>Female</strong></label></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 4: Serum Creatinine -->
+    <div class="section">
+      <div class="section-label"><span class="section-num">4</span>Renal Function</div>
+      <div class="input-row">
+        <div class="input-group">
+          <label>Serum Creatinine (µmol/L)</label>
+          <input type="number" id="bleed_creatinine" placeholder="e.g. 95" min="0" oninput="bleedCalcCrCl()">
+        </div>
+        <div class="input-group">
+          <label>Creatinine Clearance</label>
+          <input type="text" id="bleed_crcl_display" class="computed" readonly="" placeholder="Auto-calculated">
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 5: INR (warfarin) -->
+    <div class="section" id="bleed-inr-section" style="display:none;">
+      <div class="section-label"><span class="section-num">5</span>INR (if known — Warfarin)</div>
+      <div class="option-group">
+        <div class="option-item" id="bleed-inr-known-opt" onclick="bleedINROption('known')"><input type="radio" name="bleed_inr_opt" id="bleed_inr_known"><label for="bleed_inr_known">INR known — enter value: <input type="number" id="bleed_inr_val" placeholder="e.g. 2.5" min="0" step="0.1" style="width:80px; margin-left:8px; display:inline-block;" onclick="event.stopPropagation()"></label></div>
+        <div class="option-item" id="bleed-inr-unk-opt" onclick="bleedINROption('unknown')"><input type="radio" name="bleed_inr_opt" id="bleed_inr_unknown"><label for="bleed_inr_unknown">Unknown or pending</label></div>
+      </div>
+    </div>
+
+    <!-- Section 6: DOAC Level Testing (for DOACs) -->
+    <div class="section" id="bleed-doac-test-section" style="display:none;">
+      <div class="section-label"><span class="section-num">5</span>DOAC Level Testing</div>
+      <div id="bleed-doac-test-options" class="option-group"></div>
+    </div>
+
+    <!-- Section 7: Recommendations -->
+    <div class="section">
+      <div class="section-label"><span class="section-num">6</span>Management Recommendations</div>
+      <div id="bleed-recommendations">
+        <div class="rec-box info">
+          <h4>ℹ Select bleeding type and anticoagulant to generate recommendations</h4>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="bleedGenerate()">Generate Management Plan</button>
+      <button class="btn btn-reset" onclick="bleedReset()">Reset Form</button>
+    </div>
+
+    <div class="disclaimer">
+      <strong>Disclaimer:</strong> These recommendations do not replace clinical judgement. Always consider individual patient risks and benefits. Based on Thrombosis Canada Bleed Management guidance.
+    </div>
+  </div>
+</div>
+<!-- ============================
+     DEEP VEIN THROMBOSIS
+     ============================ -->
+<div id="tool-dvt" class="tool-panel active">
+  <div class="tool-header">
+    <h2>🦵 Deep Vein Thrombosis — Acute Management</h2>
+    <p>Anticoagulation guidance for DVT — Thrombosis Canada Guidelines</p>
+  </div>
+  <div class="form-card">
+
+    <!-- Section 1: Massive DVT -->
+    <div class="section">
+      <div class="section-label"><span class="section-num">1</span>Does the patient have massive iliofemoral DVT (e.g. phlegmasia)?</div>
+      <div class="option-group" style="flex-direction:row;">
+        <div class="option-item danger" id="dvt-massive-yes" onclick="dvtSelectMassive('yes')" style="flex:1;">
+          <input type="radio" name="dvt_massive" id="dvt_massive_yes" value="yes">
+          <label for="dvt_massive_yes"><strong>Yes</strong></label>
+        </div>
+        <div class="option-item" id="dvt-massive-no" onclick="dvtSelectMassive('no')" style="flex:1;">
+          <input type="radio" name="dvt_massive" id="dvt_massive_no" value="no">
+          <label for="dvt_massive_no"><strong>No</strong></label>
+        </div>
+      </div>
+      <div id="dvt-massive-rec" class="rec-box unstable" style="display:none;">
+        <h4>⚠ Urgent Consultation Required</h4>
+        <ul>
+          <li><strong>Immediate consultation</strong> with vascular surgeon and interventional radiologist for consideration of urgent pharmacomechanical treatment</li>
+          <li>Anticoagulation with <strong>UFH or LMWH</strong> after initial therapy completed</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Section 2: Patient Demographics -->
+    <div class="section">
+      <div class="section-label"><span class="section-num">2</span>Patient Demographics</div>
+      <div class="input-row">
+        <div class="input-group">
+          <label>Age (years)</label>
+          <input type="number" id="dvt_age" placeholder="e.g. 58" min="0" max="120" oninput="dvtCalcCrCl()">
+        </div>
+        <div class="input-group">
+          <label>Weight (kg)</label>
+          <input type="number" id="dvt_weight_kg" placeholder="e.g. 80" min="0" oninput="dvtWeightKgToLb();dvtCalcCrCl()">
+        </div>
+        <div class="input-group">
+          <label>Weight (lb)</label>
+          <input type="number" id="dvt_weight_lb" placeholder="e.g. 176" min="0" oninput="dvtWeightLbToKg();dvtCalcCrCl()">
+        </div>
+      </div>
+      <div style="margin-top:14px;">
+        <div class="section-label" style="margin-bottom:8px; font-size:0.88rem;">Gender</div>
+        <div class="option-group" style="flex-direction:row;">
+          <div class="option-item" id="dvt-male-opt" onclick="dvtSelectGender('male')" style="flex:1;"><input type="radio" name="dvt_gender" id="dvt_male"><label for="dvt_male"><strong>Male</strong></label></div>
+          <div class="option-item" id="dvt-female-opt" onclick="dvtSelectGender('female')" style="flex:1;"><input type="radio" name="dvt_gender" id="dvt_female"><label for="dvt_female"><strong>Female</strong></label></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3: Serum Creatinine -->
+    <div class="section">
+      <div class="section-label"><span class="section-num">3</span>Renal Function</div>
+      <div class="input-row">
+        <div class="input-group">
+          <label>Serum Creatinine (µmol/L)</label>
+          <input type="number" id="dvt_creatinine" placeholder="e.g. 80" min="0" oninput="dvtCalcCrCl()">
+        </div>
+        <div class="input-group">
+          <label>Creatinine Clearance</label>
+          <input type="text" id="dvt_crcl_display" class="computed" readonly="" placeholder="Auto-calculated">
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 4: Clinical Flags -->
+    <div class="section">
+      <div class="section-label"><span class="section-num">4</span>Clinical Flags (select all that apply)</div>
+      <div class="option-group">
+        <div class="option-item" id="dvt-flag-cancer" onclick="dvtToggleFlag('cancer', this)"><input type="checkbox" id="dvt_cancer"><label for="dvt_cancer"><strong>Active cancer</strong></label></div>
+        <div class="option-item" id="dvt-flag-hepatic" onclick="dvtToggleFlag('hepatic', this)"><input type="checkbox" id="dvt_hepatic"><label for="dvt_hepatic"><strong>Significant hepatic dysfunction</strong> (e.g., Liver cirrhosis Child-Pugh B or C, acute/chronic active hepatitis)</label></div>
+        <div class="option-item" id="dvt-flag-crcl15" onclick="dvtToggleFlag('crcl15', this)"><input type="checkbox" id="dvt_crcl15"><label for="dvt_crcl15"><strong>Creatinine clearance &lt; 15 mL/min</strong></label></div>
+        <div class="option-item" id="dvt-flag-pregnancy" onclick="dvtToggleFlag('pregnancy', this)"><input type="checkbox" id="dvt_pregnancy"><label for="dvt_pregnancy"><strong>Pregnancy</strong></label></div>
+        <div class="option-item" id="dvt-flag-doac" onclick="dvtToggleFlag('doac_interaction', this)"><input type="checkbox" id="dvt_doac_interaction"><label for="dvt_doac_interaction"><strong>DOAC drug interactions</strong> (strong inhibitors or inducers of CYP 3A4 or P-gp — see Product Monograph)</label></div>
+        <div class="option-item" id="dvt-flag-painful" onclick="dvtToggleFlag('painful_leg', this)"><input type="checkbox" id="dvt_painful_leg"><label for="dvt_painful_leg"><strong>Inflamed / Painful leg</strong> (consider initial LMWH monotherapy)</label></div>
+        <div class="option-item" id="dvt-flag-none" onclick="dvtToggleFlag('none_flags', this)"><input type="checkbox" id="dvt_none_flags"><label for="dvt_none_flags"><strong>None of the above</strong></label></div>
+      </div>
+    </div>
+
+    <!-- Section 5: Recommendations -->
+    <div class="section">
+      <div class="section-label"><span class="section-num">5</span>Recommendations</div>
+      <div id="dvt-recommendations">
+        <div class="rec-box info">
+          <h4>ℹ Complete all sections above</h4>
+          <p>Enter patient data to generate anticoagulation recommendations.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notes -->
+    <div class="section">
+      <div class="section-label"><span class="section-num">6</span>Clinical Notes (optional)</div>
+      <div class="input-group">
+        <textarea id="dvt_notes" placeholder="Comments or notes for transition of care..." rows="3" style="width:100%;"></textarea>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="dvtGenerate()">Generate Recommendations</button>
+      <button class="btn btn-reset" onclick="dvtReset()">Reset Form</button>
+    </div>
+
+    <div class="disclaimer">
+      <strong>Disclaimer:</strong> Recommendations based on Thrombosis Canada DVT Clinical Guides. Does not replace clinical judgement. Early referral highly recommended for complex cases.
+    </div>
+  </div>
+</div>
+
+</div><!-- end tool-container -->
+<script>
+// =============================================
+// NAVIGATION
+// =============================================
+function showTool(tool) {
+  document.querySelectorAll('.tool-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('tool-' + tool).classList.add('active');
+  const idx = {pe:0, af:1, bleed:2, dvt:3}[tool];
+  document.querySelectorAll('.tab-nav button')[idx].classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// =============================================
+// COCKCROFT-GAULT CrCl CALCULATOR
+// =============================================
+function calcCrCl(age, weight_kg, isFemale, creatinine_umol) {
+  if (!age || !weight_kg || creatinine_umol == null || creatinine_umol <= 0) return null;
+  const sex_factor = isFemale ? 0.85 : 1.0;
+  const crcl = ((140 - age) * weight_kg * sex_factor) / (0.815 * creatinine_umol);
+  return Math.round(crcl * 10) / 10;
+}
+
+function lbToKg(lb) { return Math.round(lb * 0.453592 * 10) / 10; }
+function kgToLb(kg) { return Math.round(kg * 2.20462 * 10) / 10; }
+
+// =============================================
+// PULMONARY EMBOLISM LOGIC
+// =============================================
+var peState = {stability:'stable', gender:null, flags:[], disposition:null, pesiFlags:[]};
+
+function peSelectStability(val) {
+  peState.stability = val;
+  ['stable','unstable'].forEach(v => {
+    document.getElementById('pe-'+v+'-opt').classList.toggle('selected', v === val && val === 'stable');
+    document.getElementById('pe-'+v+'-opt').classList.toggle('danger', v === val && val === 'unstable');
+    document.getElementById('pe_'+v).checked = (v === val);
+  });
+  document.getElementById('pe-unstable-rec').style.display = val === 'unstable' ? 'block' : 'none';
+}
+
+function peSelectGender(val) {
+  peState.gender = val;
+  ['male','female'].forEach(v => {
+    document.getElementById('pe-'+v+'-opt').classList.toggle('selected', v === val);
+    document.getElementById('pe_'+v).checked = (v === val);
+  });
+  peCalcCrCl();
+}
+
+function peWeightKgToLb() {
+  const kg = parseFloat(document.getElementById('pe_weight_kg').value);
+  if (!isNaN(kg)) document.getElementById('pe_weight_lb').value = kgToLb(kg);
+}
+function peWeightLbToKg() {
+  const lb = parseFloat(document.getElementById('pe_weight_lb').value);
+  if (!isNaN(lb)) document.getElementById('pe_weight_kg').value = lbToKg(lb);
+}
+
+function peCalcCrCl() {
+  const age = parseFloat(document.getElementById('pe_age').value);
+  const wt = parseFloat(document.getElementById('pe_weight_kg').value);
+  const cr = parseFloat(document.getElementById('pe_creatinine').value);
+  const female = peState.gender === 'female';
+  const crcl = calcCrCl(age, wt, female, cr);
+  const disp = document.getElementById('pe_crcl_display');
+  const lbl = document.getElementById('pe_crcl_label');
+  if (crcl !== null) {
+    disp.value = crcl + ' mL/min';
+    lbl.style.display = 'inline-block';
+    lbl.textContent = 'CrCl: ' + crcl + ' mL/min';
+    if (crcl < 15) {
+      document.getElementById('pe_crcl15').checked = true;
+      document.getElementById('pe-flag-crcl15').classList.add('selected');
+      if (!peState.flags.includes('crcl15')) peState.flags.push('crcl15');
+    }
+  } else {
+    disp.value = '';
+    lbl.style.display = 'none';
+  }
+}
+
+function peToggleFlag(flag, el) {
+  const cb = el.querySelector('input[type=checkbox]');
+  if (flag === 'none_flags') {
+    const isNowChecked = !cb.checked;
+    cb.checked = isNowChecked;
+    if (isNowChecked) {
+      ['cancer','hepatic','crcl15','pregnancy','doac_interaction'].forEach(f => {
+        document.getElementById('pe_' + f).checked = false;
+        document.getElementById('pe-flag-' + f).classList.remove('selected');
+      });
+      peState.flags = [];
+      el.classList.add('selected');
+    } else {
+      el.classList.remove('selected');
+    }
+    return;
+  }
+  document.getElementById('pe_none_flags').checked = false;
+  document.getElementById('pe-flag-none').classList.remove('selected');
+  cb.checked = !cb.checked;
+  el.classList.toggle('selected', cb.checked);
+  if (cb.checked && !peState.flags.includes(flag)) peState.flags.push(flag);
+  else peState.flags = peState.flags.filter(f => f !== flag);
+}
+
+function peSelectDisposition(val) {
+  peState.disposition = val;
+  document.querySelectorAll('#pe-admit-section .option-item').forEach(el => el.classList.remove('selected'));
+  event.currentTarget.classList.add('selected');
+  document.getElementById('pe-pesi-section').style.display = val === 'pesi' ? 'block' : 'none';
+}
+
+var pesiState = [];
+function peTogglePESI(flag, el) {
+  const cb = el.querySelector('input[type=checkbox]');
+  cb.checked = !cb.checked;
+  el.classList.toggle('selected', cb.checked);
+  if (cb.checked && !pesiState.includes(flag)) pesiState.push(flag);
+  else pesiState = pesiState.filter(f => f !== flag);
+  const score = pesiState.length;
+  const res = document.getElementById('pesi-result');
+  if (score === 0) {
+    res.innerHTML = '<div class="pesi-score low">sPESI = 0<br><small>Consider early discharge home (if adequate support)</small></div>';
+  } else {
+    res.innerHTML = '<div class="pesi-score high">sPESI = ' + score + '<br><small>High risk — Consider hospital admission and monitoring</small></div>';
+  }
+}
+
+function peGenerate() {
+  const stability = peState.stability;
+  const flags = peState.flags;
+  const age = parseFloat(document.getElementById('pe_age').value) || 0;
+  const wt = parseFloat(document.getElementById('pe_weight_kg').value) || 0;
+  const cr = parseFloat(document.getElementById('pe_creatinine').value) || 0;
+  const female = peState.gender === 'female';
+  const crcl = calcCrCl(age, wt, female, cr);
+
+  const rec = document.getElementById('pe-recommendations');
+  
+  if (stability === 'unstable') {
+    rec.innerHTML = `<div class="rec-box unstable">
+      <h4>⚠ UNSTABLE / HIGH-RISK PE — IMMEDIATE ACTION</h4>
+      <ul>
+        <li>Consideration for <strong>immediate IV thrombolysis</strong></li>
+        <li>Immediate consultation with <strong>ICU</strong></li>
+        <li>Consideration for <strong>pharmacomechanical therapy</strong> for patients at high risk of bleeding</li>
+        <li>Anticoagulation with <strong>UFH or LMWH</strong> after initial therapy is completed</li>
+      </ul>
+    </div>`;
+    document.getElementById('pe-admit-section').style.display = 'block';
+    return;
+  }
+
+  // Special populations
+  const isSpecial = flags.some(f => ['cancer','hepatic','crcl15','pregnancy','doac_interaction'].includes(f));
+  
+  let html = '';
+
+  if (flags.includes('cancer')) {
+    html += `<div class="rec-box warning">
+      <h4>🎗 Active Cancer — VTE Treatment</h4>
+      <p>For cancer-associated VTE, LMWH is preferred. Consider DOAC (apixaban, rivaroxaban, edoxaban) for selected patients without high GI/GU bleeding risk.</p>
+      <table class="dose-table" style="margin-top:10px;">
+        <tr><th>Drug</th><th>Dose</th><th>Duration</th></tr>
+        <tr><td><strong>Dalteparin</strong> (preferred)</td><td>200 IU/kg SC daily × 1 month, then 150 IU/kg SC daily</td><td>5 months then re-evaluate</td></tr>
+        <tr><td>Enoxaparin</td><td>1.5 mg/kg SC daily</td><td>6 months then re-evaluate</td></tr>
+        <tr><td>Tinzaparin</td><td>175 IU/kg SC daily</td><td>6 months then re-evaluate</td></tr>
+        <tr><td>Nadroparin</td><td>171 IU/kg SC daily</td><td>6 months then re-evaluate</td></tr>
+        <tr><td>Apixaban</td><td>10 mg PO BID × 7 days, then 5 mg PO BID</td><td>Duration of cancer treatment</td></tr>
+        <tr><td>Rivaroxaban</td><td>15 mg PO BID × 21 days, then 20 mg PO daily</td><td>Duration, with caution re: GI bleed</td></tr>
+        <tr><td>LMWH + Edoxaban</td><td>LMWH × 5 days, then Edoxaban 60 mg PO daily</td><td>Reduce to 30 mg if CrCl &lt;50, wt ≤60 kg, or P-gp inhibitor</td></tr>
+      </table>
+    </div>`;
+  } else if (flags.includes('crcl15') || flags.includes('hepatic') || flags.includes('pregnancy') || flags.includes('doac_interaction')) {
+    html += `<div class="rec-box warning">
+      <h4>⚠ Special Population — Specialist Consultation Recommended</h4>
+      <ul>`;
+    if (flags.includes('crcl15')) html += '<li><strong>CrCl &lt; 15 mL/min:</strong> DOACs are NOT recommended. Use Warfarin + UFH/LMWH with renal consultation.</li>';
+    if (flags.includes('hepatic')) html += '<li><strong>Hepatic dysfunction:</strong> DOACs may be contraindicated. Use Warfarin + LMWH with specialist consultation.</li>';
+    if (flags.includes('pregnancy')) html += '<li><strong>Pregnancy:</strong> Use LMWH (preferred). DOACs and Warfarin are contraindicated. Immediate obstetric/hematology consultation.</li>';
+    if (flags.includes('doac_interaction')) html += '<li><strong>DOAC drug interactions:</strong> Warfarin or LMWH preferred. Review Product Monograph. Consider specialist consultation.</li>';
+    html += `</ul>
+      <div class="drug-chips">
+        <span class="drug-chip preferred">LMWH (preferred)</span>
+        <span class="drug-chip caution">Warfarin + UFH (consultation)</span>
+        <span class="drug-chip avoid">DOACs — use with caution or avoid</span>
+      </div>
+    </div>`;
+  } else {
+    // Standard stable PE — recommend DOACs
+    let crclNote = '';
+    const crclVal = crcl || 99;
+    
+    html += `<div class="rec-box stable">
+      <h4>✅ STABLE PE — Anticoagulation Recommendations</h4>
+      <p style="margin-bottom:10px; font-size:0.85rem; color:#1a7a3c;"><em>Based on similar efficacy and less bleeding, international guidelines recommend DOAC in preference to warfarin (Stevens SM et al. Chest 2021)</em></p>
+      <table class="dose-table">
+        <thead><tr><th>Drug</th><th>Dosing Regimen</th><th>Notes</th></tr></thead>
+        <tbody>`;
+
+    // Apixaban — preferred, no lead-in required  
+    html += '<tr><td><strong>Apixaban</strong> ✓ Preferred</td><td>10 mg PO BID × 7 days, then <strong>5 mg PO BID</strong></td><td>No parenteral lead-in needed</td></tr>';
+    
+    // Rivaroxaban
+    if (crclVal >= 30) {
+      html += '<tr><td><strong>Rivaroxaban</strong></td><td>15 mg PO BID × 21 days, then <strong>20 mg PO daily</strong> with evening meal</td><td>No parenteral lead-in needed</td></tr>';
+    } else {
+      html += '<tr><td><strong>Rivaroxaban</strong></td><td>15 mg PO BID × 21 days, then 20 mg PO daily</td><td style="color:var(--orange)">⚠ With caution (CrCl 30–49: use 15 mg once daily)</td></tr>';
+    }
+    
+    // Dabigatran
+    if (crclVal >= 50) {
+      html += '<tr><td><strong>Dabigatran</strong></td><td>LMWH × 5–7 days, then <strong>150 mg PO BID</strong><br><small>(or 110 mg BID if other bleeding risks)</small></td><td>Parenteral lead-in required</td></tr>';
+    } else if (crclVal >= 30) {
+      html += '<tr><td><strong>Dabigatran</strong></td><td>LMWH × 5–7 days, then <strong>110 mg PO BID</strong></td><td style="color:var(--orange)">⚠ CrCl 30–49: use 110 mg BID</td></tr>';
+    } else {
+      html += '<tr><td><strong>Dabigatran</strong></td><td style="color:var(--red)">Contraindicated</td><td>CrCl &lt; 30 mL/min</td></tr>';
+    }
+    
+    // Edoxaban
+    const edoxDose = (crclVal < 50 || wt <= 60) ? '30 mg' : '60 mg';
+    html += `<tr><td><strong>Edoxaban</strong></td><td>LMWH × ≥5 days, then <strong>${edoxDose} PO daily</strong></td><td>${(crclVal < 50 || wt <= 60) ? '⚠ Reduced dose: CrCl &lt;50 or wt ≤60 kg' : 'Parenteral lead-in required'}</td></tr>`;
+    
+    // Warfarin
+    html += '<tr><td>Warfarin</td><td>LMWH ≥5 days + Warfarin until INR 2–3 (target 2.5)</td><td>Overlap until INR therapeutic; monitor INR closely</td></tr>';
+
+    html += `</tbody></table>
+      <div style="margin-top:14px;">
+        <strong>LMWH Options (for initial parenteral anticoagulation):</strong>
+        <table class="dose-table" style="margin-top:6px;">
+          <tr><th>Drug</th><th>Dose</th></tr>
+          <tr><td>Dalteparin (Fragmin®)</td><td>200 U/kg SC once daily <em>or</em> 100 U/kg SC twice daily</td></tr>
+          <tr><td>Enoxaparin (Lovenox®)</td><td>1.5 mg/kg SC once daily <em>or</em> 1 mg/kg SC twice daily</td></tr>
+          <tr><td>Tinzaparin (Innohep®)</td><td>175 U/kg SC once daily</td></tr>
+          <tr><td>Nadroparin (Fraxiparine®)</td><td>171 IU/kg SC once daily <em>or</em> 86 IU/kg SC twice daily</td></tr>
+          <tr><td>UFH (SC alternative)</td><td>333 IU/kg SC once, then 250 IU/kg SC twice daily</td></tr>
+        </table>
+      </div>
+    </div>`;
+    
+    if (crcl) {
+      html += `<div class="rec-box info" style="margin-top:10px;">
+        <h4>📊 Calculated CrCl: ${crcl} mL/min</h4>
+        <p>${crcl < 30 ? '⚠ Severely reduced renal function — significant DOAC restrictions apply.' : crcl < 50 ? '⚠ Moderate renal impairment — dose adjustments required for some DOACs.' : '✓ Adequate renal function — standard DOAC doses apply.'}</p>
+      </div>`;
+    }
+  }
+
+  html += `<div class="rec-box info" style="margin-top:10px;">
+    <h4>📋 Monitoring &amp; Follow-up</h4>
+    <ul>
+      <li>Confirm diagnosis with imaging if not already done</li>
+      <li>Assess for underlying provoked vs unprovoked PE</li>
+      <li>Consider duration of anticoagulation (minimum 3 months for provoked, extended for unprovoked)</li>
+      <li>Reassess bleeding risk before prescribing anticoagulation</li>
+      <li>Refer to Thrombosis Canada PE: Diagnosis &amp; Treatment Clinical Guide</li>
+    </ul>
+  </div>`;
+
+  rec.innerHTML = html;
+  document.getElementById('pe-admit-section').style.display = 'block';
+}
+
+function peReset() {
+  peState = {stability:'stable', gender:null, flags:[], disposition:null, pesiFlags:[]};
+  pesiState = [];
+  ['pe_age','pe_weight_kg','pe_weight_lb','pe_creatinine','pe_crcl_display','pe_notes'].forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
+  document.getElementById('pe_crcl_label').style.display = 'none';
+  document.querySelectorAll('#tool-pe .option-item').forEach(el => { el.classList.remove('selected','danger'); const inp = el.querySelector('input'); if(inp) inp.checked = false; });
+  document.getElementById('pe-stable-opt').classList.add('selected');
+  document.getElementById('pe_stable').checked = true;
+  document.getElementById('pe-unstable-rec').style.display = 'none';
+  document.getElementById('pe-admit-section').style.display = 'none';
+  document.getElementById('pe-pesi-section').style.display = 'none';
+  document.getElementById('pesi-result').innerHTML = '';
+  document.getElementById('pe-recommendations').innerHTML = '<div class="rec-box info"><h4>\u2139 Complete all sections above</h4><p>Enter patient data to generate recommendations.</p></div>';
+}
+
+// =============================================
+// ATRIAL FIBRILLATION LOGIC
+// =============================================
+var afState = {stability:'stable', gender:null, context:[], sp:[], cc:[], chads2:0, hasbled:0};
+
+function afSelectStability(val) {
+  afState.stability = val;
+  ['stable','hypotension','ischemia','edema'].forEach(v => {
+    const el = document.getElementById('af-'+v+'-opt');
+    if (el) { el.classList.remove('selected','danger'); document.getElementById('af_'+v).checked = false; }
+  });
+  const isUnstable = val !== 'stable';
+  if (val === 'stable') {
+    document.getElementById('af-stable-opt').classList.add('selected');
+    document.getElementById('af_stable').checked = true;
+  } else {
+    document.getElementById('af-'+val+'-opt').classList.add('selected','danger');
+    document.getElementById('af_'+val).checked = true;
+    document.getElementById('af-stable-opt').classList.remove('selected');
+    document.getElementById('af_stable').checked = false;
+  }
+  document.getElementById('af-unstable-rec').style.display = isUnstable ? 'block' : 'none';
+}
+
+function afSelectGender(val) {
+  afState.gender = val;
+  ['male','female'].forEach(v => {
+    document.getElementById('af-'+v+'-opt').classList.toggle('selected', v === val);
+    document.getElementById('af_'+v).checked = (v === val);
+  });
+  afCalcCrCl(); afCalcScores();
+}
+
+function afWeightKgToLb() { const kg = parseFloat(document.getElementById('af_weight_kg').value); if (!isNaN(kg)) document.getElementById('af_weight_lb').value = kgToLb(kg); }
+function afWeightLbToKg() { const lb = parseFloat(document.getElementById('af_weight_lb').value); if (!isNaN(lb)) document.getElementById('af_weight_kg').value = lbToKg(lb); }
+
+function afCalcCrCl() {
+  const age = parseFloat(document.getElementById('af_age').value);
+  const wt = parseFloat(document.getElementById('af_weight_kg').value);
+  const cr = parseFloat(document.getElementById('af_creatinine').value);
+  const crcl = calcCrCl(age, wt, afState.gender === 'female', cr);
+  document.getElementById('af_crcl_display').value = crcl ? crcl + ' mL/min' : '';
+  afCalcScores();
+}
+
+function afToggleContext(flag, el) {
+  const cb = el.querySelector('input[type=checkbox]');
+  cb.checked = !cb.checked;
+  el.classList.toggle('selected', cb.checked);
+  if (cb.checked && !afState.context.includes(flag)) afState.context.push(flag);
+  else afState.context = afState.context.filter(f => f !== flag);
+  afCalcScores();
+}
+
+function afToggleSP(flag, el) {
+  const cb = el.querySelector('input[type=checkbox]');
+  if (flag === 'none') {
+    const nc = !cb.checked;
+    cb.checked = nc;
+    el.classList.toggle('selected', nc);
+    if (nc) { ['hepatic','crcl15','pregnancy','drug_int','pgp'].forEach(f => { document.getElementById('af_sp_' + f.replace('_','_')).checked = false; document.getElementById('af-sp-'+f.replace('_','')).classList.remove('selected'); }); afState.sp = []; }
+    return;
+  }
+  document.getElementById('af_sp_none').checked = false;
+  document.getElementById('af-sp-none').classList.remove('selected');
+  cb.checked = !cb.checked;
+  el.classList.toggle('selected', cb.checked);
+  if (cb.checked && !afState.sp.includes(flag)) afState.sp.push(flag);
+  else afState.sp = afState.sp.filter(f => f !== flag);
+}
+
+function afToggleCC(flag, el) {
+  const cb = el.querySelector('input[type=checkbox]');
+  if (flag === 'cc_none') {
+    const nc = !cb.checked; cb.checked = nc; el.classList.toggle('selected', nc);
+    if (nc) { ['htn','dm','chf','stroke','vascular','bleed','inr','nsaid','alcohol'].forEach(f => { document.getElementById('af_'+f).checked = false; document.getElementById('af-cc-'+f).classList.remove('selected'); }); afState.cc = []; }
+    afCalcScores(); return;
+  }
+  document.getElementById('af_cc_none').checked = false;
+  document.getElementById('af-cc-none').classList.remove('selected');
+  cb.checked = !cb.checked;
+  el.classList.toggle('selected', cb.checked);
+  if (cb.checked && !afState.cc.includes(flag)) afState.cc.push(flag);
+  else afState.cc = afState.cc.filter(f => f !== flag);
+  afCalcScores();
+}
+
+function afCalcScores() {
+  const cc = afState.cc;
+  const age = parseFloat(document.getElementById('af_age').value) || 0;
+  // CHADS2: CHF(1), HTN(1), Age≥75(2), DM(1), Stroke/TIA(2)
+  let chads2 = 0;
+  if (cc.includes('chf')) chads2 += 1;
+  if (cc.includes('htn')) chads2 += 1;
+  if (age >= 75) chads2 += 2;
+  if (cc.includes('dm')) chads2 += 1;
+  if (cc.includes('stroke')) chads2 += 2;
+  // HAS-BLED: HTN, Renal/Liver, Stroke, Prior bleed, INR, Age≥65, Drugs/alcohol
+  let hasbled = 0;
+  if (cc.includes('htn')) hasbled += 1;
+  if (cc.includes('stroke')) hasbled += 1;
+  if (cc.includes('bleed')) hasbled += 1;
+  if (cc.includes('inr')) hasbled += 1;
+  if (age >= 65) hasbled += 1;
+  if (cc.includes('nsaid')) hasbled += 1;
+  if (cc.includes('alcohol')) hasbled += 1;
+  afState.chads2 = chads2;
+  afState.hasbled = hasbled;
+  
+  const scoreDiv = document.getElementById('af-scores');
+  scoreDiv.style.display = (age > 0 || cc.length > 0) ? 'block' : 'none';
+  document.getElementById('af_chads2_score').value = chads2 + ' — ' + (chads2 === 0 ? 'Low Risk' : chads2 <= 2 ? 'Low-Moderate' : chads2 <= 4 ? 'Moderate-High' : 'High Risk');
+  document.getElementById('af_hasbled_score').value = hasbled + ' — ' + (hasbled <= 2 ? 'Low Bleeding Risk' : 'High Bleeding Risk');
+}
+
+function afGenerate() {
+  const sp = afState.sp;
+  const cc = afState.cc;
+  const age = parseFloat(document.getElementById('af_age').value) || 0;
+  const wt = parseFloat(document.getElementById('af_weight_kg').value) || 0;
+  const cr = parseFloat(document.getElementById('af_creatinine').value) || 0;
+  const crcl = calcCrCl(age, wt, afState.gender === 'female', cr);
+  const crclVal = crcl || 99;
+  const chads2 = afState.chads2;
+  const hasbled = afState.hasbled;
+  const ctx = afState.context;
+  const female = afState.gender === 'female';
+  const rec = document.getElementById('af-recommendations');
+  let html = '';
+
+  // Unstable
+  if (afState.stability !== 'stable') {
+    html = '<div class="rec-box unstable"><h4>⚠ Unstable AF — Urgent Action</h4><ul><li>Consider <strong>urgent electrical cardioversion at 150–200 J</strong></li><li>Initiate immediate OAC in ED; continue ≥ 4 weeks if high-risk features</li><li>Early follow-up to review long-term OAC</li></ul></div>';
+  }
+
+  // Mechanical valve
+  if (ctx.includes('mech_valve')) {
+    html += '<div class="rec-box warning"><h4>⚠ Mechanical / Rheumatic Valve</h4><p>DOACs are <strong>contraindicated</strong> with mechanical heart valves. Use <strong>Warfarin</strong> with INR monitoring to target as required by valve type. Expert consultation recommended.</p><div class="drug-chips"><span class="drug-chip preferred">Warfarin (INR per indication)</span><span class="drug-chip avoid">DOACs — CONTRAINDICATED</span></div></div>';
+  }
+
+  // Special populations
+  if (sp.includes('crcl15') || sp.includes('hepatic') || sp.includes('pregnancy') || sp.includes('drug_int')) {
+    html += '<div class="rec-box warning"><h4>⚠ Special Population</h4><ul>';
+    if (sp.includes('crcl15')) html += '<li><strong>CrCl &lt;15:</strong> Dabigatran contraindicated; apixaban/edoxaban/rivaroxaban not recommended. Use Warfarin + LMWH.</li>';
+    if (sp.includes('hepatic')) html += '<li><strong>Hepatic disease:</strong> Warfarin + LMWH with specialist consultation.</li>';
+    if (sp.includes('pregnancy')) html += '<li><strong>Pregnancy/lactation:</strong> Warfarin and DOACs contraindicated. Use LMWH with specialist consultation.</li>';
+    if (sp.includes('drug_int')) html += '<li><strong>Drug interactions:</strong> Review Product Monograph. Consider warfarin or specialist consultation.</li>';
+    html += '</ul></div>';
+  }
+
+  // AF Duration < 48h — cardioversion option
+  if (ctx.includes('dur_lt48') && !ctx.includes('stroke_6m') && !ctx.includes('mech_valve')) {
+    html += '<div class="rec-box stable"><h4>✅ AF &lt; 48h — Cardioversion Option</h4><ul><li>Pharmacological or electrical cardioversion appropriate</li><li>Anticoagulation at discharge if <strong>age &gt; 65</strong> or <strong>CHADS₂ &gt; 1</strong></li></ul></div>';
+  }
+  if (ctx.includes('stroke_6m')) {
+    html += '<div class="rec-box unstable"><h4>⚠ Stroke/TIA &lt; 6 months — High Risk</h4><p>Patient is at high risk for stroke — less appropriate for cardioversion. Anticoagulation strongly recommended.</p></div>';
+  }
+
+  // Standard DOAC recommendations based on CrCl
+  html += '<div class="rec-box stable"><h4>✅ AF Anticoagulation Recommendations</h4>';
+  html += '<p style="font-size:0.82rem; margin-bottom:10px;">CHADS₂ = <strong>' + chads2 + '</strong> | HAS-BLED = <strong>' + hasbled + '</strong></p>';
+  
+  if (chads2 === 0 && !female) {
+    html += '<p>CHADS₂ = 0: <strong>No antithrombotic agent indicated</strong> for stroke prevention. Reassess annually.</p>';
+  } else {
+    html += '<table class="dose-table"><thead><tr><th>Drug</th><th>Dose</th><th>Conditions</th></tr></thead><tbody>';
+    
+    // Apixaban
+    const apixDose = (age >= 80 && wt <= 60) ? '2.5 mg BID' : '5 mg BID';
+    const apixNote = (age >= 80 && wt <= 60) ? '≥2 of: age≥80, wt≤60kg, Cr≥133' : 'Standard dose';
+    html += '<tr><td><strong>Apixaban</strong> ✓ Preferred</td><td>' + apixDose + '</td><td>' + apixNote + '</td></tr>';
+    
+    // Dabigatran
+    if (crclVal >= 50) {
+      const dabiDose = '150 mg BID' + (hasbled >= 3 ? ' (or 110 mg BID)' : '');
+      html += '<tr><td><strong>Dabigatran</strong></td><td>' + dabiDose + '</td><td>' + (sp.includes('pgp') ? '⚠ P-gp inhibitor: 110 mg BID' : 'Standard') + '</td></tr>';
+    } else if (crclVal >= 30) {
+      html += '<tr><td><strong>Dabigatran</strong></td><td>110 mg BID</td><td>CrCl 30–49 mL/min</td></tr>';
+    } else {
+      html += '<tr><td><strong>Dabigatran</strong></td><td style="color:var(--red)">Contraindicated</td><td>CrCl &lt;30</td></tr>';
+    }
+    
+    // Rivaroxaban
+    if (crclVal >= 50) {
+      html += '<tr><td><strong>Rivaroxaban</strong></td><td>20 mg once daily with evening meal</td><td>Standard</td></tr>';
+    } else if (crclVal >= 15) {
+      html += '<tr><td><strong>Rivaroxaban</strong></td><td>15 mg once daily ⚠</td><td>CrCl 15–49: reduced dose</td></tr>';
+    } else {
+      html += '<tr><td><strong>Rivaroxaban</strong></td><td style="color:var(--red)">Not recommended</td><td>CrCl &lt;15</td></tr>';
+    }
+    
+    // Edoxaban
+    if (crclVal >= 50) {
+      html += '<tr><td><strong>Edoxaban</strong></td><td>60 mg once daily</td><td>Standard</td></tr>';
+    } else if (crclVal >= 15) {
+      html += '<tr><td><strong>Edoxaban</strong></td><td>30 mg once daily ⚠</td><td>CrCl 15–49: reduced dose</td></tr>';
+    } else {
+      html += '<tr><td><strong>Edoxaban</strong></td><td style="color:var(--red)">Not recommended</td><td>CrCl &lt;15</td></tr>';
+    }
+    
+    html += '<tr><td>Warfarin</td><td>Titrate to INR 2–3</td><td>For mechanical valves, pregnancy, or where DOACs not suitable</td></tr>';
+    html += '</tbody></table>';
+  }
+  
+  html += '</div>';
+
+  if (ctx.includes('dur_gt48') && !ctx.includes('oac_3weeks')) {
+    html += '<div class="rec-box warning"><h4>⚠ AF &gt; 48h Without ≥3 weeks OAC</h4><p>If cardioversion planned: ensure ≥3 weeks of therapeutic OAC, or perform TEE to exclude thrombus before cardioversion. Continue OAC for ≥4 weeks post-cardioversion.</p></div>';
+  }
+
+  rec.innerHTML = html;
+}
+
+function afReset() {
+  afState = {stability:'stable', gender:null, context:[], sp:[], cc:[], chads2:0, hasbled:0};
+  ['af_age','af_weight_kg','af_weight_lb','af_creatinine','af_crcl_display','af_chads2_score','af_hasbled_score','af_notes'].forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
+  document.querySelectorAll('#tool-af .option-item').forEach(el => { el.classList.remove('selected','danger'); const inp = el.querySelector('input'); if(inp) inp.checked = false; });
+  document.getElementById('af-stable-opt').classList.add('selected');
+  document.getElementById('af_stable').checked = true;
+  document.getElementById('af-unstable-rec').style.display = 'none';
+  document.getElementById('af-scores').style.display = 'none';
+  document.getElementById('af-recommendations').innerHTML = '<div class="rec-box info"><h4>\u2139 Complete all sections above</h4><p>Enter patient data to generate recommendations.</p></div>';
+}
+
+// =============================================
+// BLEED MANAGEMENT LOGIC
+// =============================================
+var bleedState = {severity:null, ac:null, gender:null, inrOption:null};
+
+function bleedSelectSeverity(val) {
+  bleedState.severity = val;
+  ['minor','crnm','major'].forEach(v => {
+    document.getElementById('bleed-'+v+'-opt').classList.remove('selected','danger');
+    document.getElementById('bleed_'+v).checked = false;
+  });
+  document.getElementById('bleed-'+val+'-opt').classList.add('selected', val === 'major' ? 'danger' : '');
+  document.getElementById('bleed_'+val).checked = true;
+  bleedCheckSections();
+}
+
+function bleedSelectAC(val) {
+  bleedState.ac = val;
+  ['apixaban','dabigatran','edoxaban','rivaroxaban','warfarin'].forEach(v => {
+    document.getElementById('bleed-'+v+'-opt').classList.remove('selected');
+    document.getElementById('bleed_'+v).checked = false;
+  });
+  document.getElementById('bleed-'+val+'-opt').classList.add('selected');
+  document.getElementById('bleed_'+val).checked = true;
+  document.getElementById('bleed-inr-section').style.display = val === 'warfarin' ? 'block' : 'none';
+  const doacs = ['apixaban','dabigatran','edoxaban','rivaroxaban'];
+  const doacSect = document.getElementById('bleed-doac-test-section');
+  if (doacs.includes(val)) {
+    doacSect.style.display = 'block';
+    const opts = document.getElementById('bleed-doac-test-options');
+    const testInfo = {
+      apixaban: 'Apixaban-calibrated anti-Xa assay',
+      dabigatran: 'Dilute thrombin time (dTT/Hemoclot assay)',
+      edoxaban: 'Edoxaban-calibrated anti-Xa assay',
+      rivaroxaban: 'Rivaroxaban-calibrated anti-Xa assay'
+    };
+    opts.innerHTML = '<div class="option-item selected" id="doac-test-unavail" onclick="bleedDOACTest(this, "unavailable")"><input type="radio" name="doac_test" checked><label><strong>Not available</strong> at institution or not available within acceptable timeframe</label></div>' +
+      '<div class="option-item" id="doac-test-low" onclick="bleedDOACTest(this, "low")"><input type="radio" name="doac_test"><label><strong>' + testInfo[val] + '</strong> — <span style="color:var(--green)">Level LOW / normal</span> (no significant anticoagulant effect)</label></div>' +
+      '<div class="option-item danger" id="doac-test-high" onclick="bleedDOACTest(this, "high")"><input type="radio" name="doac_test"><label><strong>' + testInfo[val] + '</strong> — <span style="color:var(--red)">Level HIGH / elevated</span> (significant anticoagulant effect)</label></div>';
+    bleedState.doacTest = 'unavailable';
+  } else {
+    doacSect.style.display = 'none';
+    bleedState.doacTest = null;
+  }
+  bleedCheckSections();
+}
+
+function bleedDOACTest(el, val) {
+  bleedState.doacTest = val;
+  document.querySelectorAll('#bleed-doac-test-options .option-item').forEach(e => { e.classList.remove('selected','danger'); e.querySelector('input').checked = false; });
+  el.classList.add('selected', val === 'high' ? 'danger' : '');
+  el.querySelector('input').checked = true;
+}
+
+function bleedSelectGender(val) { bleedState.gender = val; ['male','female'].forEach(v => { document.getElementById('bleed-'+v+'-opt').classList.toggle('selected', v===val); document.getElementById('bleed_'+v).checked = (v===val); }); bleedCalcCrCl(); }
+function bleedWeightKgToLb() { const kg=parseFloat(document.getElementById('bleed_weight_kg').value); if(!isNaN(kg)) document.getElementById('bleed_weight_lb').value=kgToLb(kg); }
+function bleedWeightLbToKg() { const lb=parseFloat(document.getElementById('bleed_weight_lb').value); if(!isNaN(lb)) document.getElementById('bleed_weight_kg').value=lbToKg(lb); }
+function bleedCalcCrCl() {
+  const age=parseFloat(document.getElementById('bleed_age').value), wt=parseFloat(document.getElementById('bleed_weight_kg').value), cr=parseFloat(document.getElementById('bleed_creatinine').value);
+  const crcl=calcCrCl(age,wt,bleedState.gender==='female',cr);
+  document.getElementById('bleed_crcl_display').value = crcl ? crcl+' mL/min' : '';
+}
+function bleedCheckSections() {}
+function bleedINROption(val) {
+  bleedState.inrOption = val;
+  ['known','unknown'].forEach(v => { document.getElementById('bleed-inr-'+v+'-opt').classList.toggle('selected', v===val); document.getElementById('bleed_inr_'+v).checked = (v===val); });
+}
+
+function bleedGenerate() {
+  const sev = bleedState.severity;
+  const ac = bleedState.ac;
+  const rec = document.getElementById('bleed-recommendations');
+  if (!sev || !ac) { rec.innerHTML = '<div class="rec-box warning"><h4>⚠ Please select bleeding type and anticoagulant</h4></div>'; return; }
+  let html = '';
+  const inrVal = parseFloat(document.getElementById('bleed_inr_val')?.value) || null;
+  const wt = parseFloat(document.getElementById('bleed_weight_kg').value) || 70;
+
+  if (sev === 'minor') {
+    html = '<div class="rec-box stable"><h4>✅ Minor Bleeding — Recommendations</h4><ul>' +
+      '<li><strong>Continue anticoagulant and monitor</strong></li>' +
+      '<li>Confirm patient is receiving appropriate drug and dose based on indication, age, weight, CrCl, co-medications</li>' +
+      '<li>Consider measuring hemoglobin, platelet count, creatinine, liver function tests</li>' +
+      '<li>Review concomitant medications contributing to bleeding (antiplatelet, NSAIDs)</li>' +
+      (ac === 'warfarin' ? '<li>Check INR — ensure within target range for indication</li>' : '') +
+      '<li>Apply local hemostatic measures if appropriate</li>' +
+      '</ul></div>';
+  } else if (sev === 'crnm') {
+    html = '<div class="rec-box warning"><h4>⚠ Clinically Relevant Non-Major Bleeding</h4><ul>' +
+      '<li>Consider <strong>temporarily interrupting anticoagulant</strong></li>' +
+      '<li>Apply local hemostatic measures (compression, packing, splinting) as appropriate</li>' +
+      '<li>Refer for procedural/surgical intervention if required</li>' +
+      '<li>Monitor hemoglobin and reassess anticoagulation need</li>' +
+      (ac === 'warfarin' ? '<li>Check INR; consider holding dose</li>' : '') +
+      '<li>Reassess risk-benefit of anticoagulation once bleeding controlled</li>' +
+      '</ul></div>';
+  } else {
+    // Major bleeding — always urgent
+    html = '<div class="rec-box unstable"><h4>⚠ MAJOR BLEEDING — IMMEDIATE ACTION</h4><ul>' +
+      '<li><strong>Interrupt anticoagulant therapy immediately</strong></li>' +
+      '<li>Initiate resuscitation in a monitored setting</li>' +
+      '<li>Apply local hemostatic measures (compression, packing, splinting)</li>' +
+      '<li>Refer for <strong>procedural/surgical intervention</strong> for definitive treatment</li>' +
+      '<li>STAT labs: CBC (Hgb, platelets), PT/INR, aPTT, creatinine, liver function</li>' +
+      '<li>Transfusion therapy: RBC transfusion target Hgb ≥80 g/L; platelet transfusion if count &lt;50×10⁹/L</li>' +
+      '</ul></div>';
+
+    // Reversal by agent
+    if (ac === 'warfarin') {
+      const inr = inrVal || 0;
+      if (inr > 0 && inr <= 1.5) {
+        html += '<div class="rec-box stable"><h4>✅ INR ≤ 1.5 — No Reversal Needed</h4><ul><li>INR is ≤ 1.5 — proceed with surgical/procedural intervention</li><li>Ensure bleeding source addressed</li></ul></div>';
+      } else {
+        html += '<div class="rec-box unstable"><h4>Warfarin Reversal Protocol</h4><ul>' +
+          '<li><strong>Vitamin K 10 mg IV</strong> (in 50 mL NS IV STAT) — prevents re-elevation of INR</li>' +
+          '<li><strong>Prothrombin Complex Concentrate (PCC)</strong> — dose based on INR and weight:</li>' +
+          '</ul>' +
+          '<table class="dose-table"><thead><tr><th>INR Range</th><th>PCC Dose</th></tr></thead><tbody>' +
+          '<tr><td>2–3.9</td><td>25 units/kg IV (max 2,500 units)</td></tr>' +
+          '<tr><td>4–6</td><td>35 units/kg IV (max 3,500 units)</td></tr>' +
+          '<tr><td>&gt;6</td><td>50 units/kg IV (max 5,000 units)</td></tr>' +
+          '<tr><td>Unknown/not reported</td><td>25 units/kg IV (or 2,000 units if weight unknown)</td></tr>' +
+          '</tbody></table>' +
+          '<p style="margin-top:8px; font-size:0.82rem;"><strong>⚠ PCC is contraindicated in heparin-induced thrombocytopenia (HIT)</strong></p>' +
+          '<p style="font-size:0.82rem;"><em>Inform patients/families of small (&lt;2%) thrombotic risk of PCC (stroke, MI, DVT, PE)</em></p>' +
+          '<p style="font-size:0.82rem; margin-top:6px;"><strong>Repeat INR 15 minutes after PCC infusion</strong></p>' +
+          '</div>';
+      }
+    } else if (ac === 'dabigatran') {
+      html += '<div class="rec-box unstable"><h4>Dabigatran Reversal</h4><ol style="margin:0 0 0 16px;">' +
+        '<li><strong>Determine plasma dabigatran level</strong> using dilute thrombin time (dTT/Hemoclot assay)<br>' +
+        '<small>If &lt;30–50 ng/mL: no reversal needed. If dTT unavailable, assess dosing timing and CrCl.</small></li>' +
+        '<li>If level ≥30–50 ng/mL OR clinically significant effect:<br>' +
+        '<strong>Idarucizumab (Praxbind®) 5 g IV</strong> — two 50 mL bolus infusions of 2.5 g each</li>' +
+        '<li>If idarucizumab unavailable:<br>' +
+        'PCC 50 units/kg IV (max 3,000 units) — NOT in HIT<br>' +
+        'OR FEIBA® 50 units/kg IV (max 2,000 units)</li>' +
+        '<li>Adjunctive: <strong>Hemodialysis</strong> (~65% removal after 4 hrs) if feasible</li>' +
+        '</ol></div>';
+    } else if (ac === 'apixaban' || ac === 'rivaroxaban' || ac === 'edoxaban') {
+      const drug = ac.charAt(0).toUpperCase() + ac.slice(1);
+      const assay = ac === 'dabigatran' ? 'dTT' : ac + '-calibrated anti-Xa assay';
+      html += '<div class="rec-box unstable"><h4>' + drug + ' Reversal / Management</h4><ol style="margin:0 0 0 16px;">' +
+        '<li><strong>Determine ' + drug + ' level</strong> using ' + assay + '<br>' +
+        '<small>If &lt;30–50 ng/mL: no reversal needed.</small></li>' +
+        '<li>If significant drug effect confirmed or assay unavailable:<br>';
+      if (ac === 'apixaban' || ac === 'rivaroxaban') {
+        html += '<strong>Andexanet alfa (Ondexxya®)</strong> — if available for apixaban/rivaroxaban reversal<br>';
+      }
+      html += '<strong>PCC 25–50 units/kg IV</strong> (no direct reversal agent available for edoxaban)<br>' +
+        '<small>⚠ PCC contraindicated in HIT. Inform patients of small thrombotic risk.</small></li>' +
+        '<li>Review half-life of ' + drug + ' — assess time since last dose</li>' +
+        '</ol></div>';
+    }
+  }
+
+  html += '<div class="rec-box info"><h4>📋 Thromboembolism Risk Reassessment</h4>' +
+    '<p>After bleeding is controlled, reassess risk-benefit of restarting anticoagulation based on indication (AF, VTE, mechanical valve). Consider the patient&#39;s thromboembolic risk category (High/Moderate/Low) vs ongoing bleeding risk before resuming therapy.</p></div>';
+  rec.innerHTML = html;
+}
+
+function bleedReset() {
+  bleedState = {severity:null, ac:null, gender:null, inrOption:null};
+  ['bleed_age','bleed_weight_kg','bleed_weight_lb','bleed_creatinine','bleed_crcl_display','bleed_inr_val'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
+  document.querySelectorAll('#tool-bleed .option-item').forEach(el => { el.classList.remove('selected','danger'); const inp=el.querySelector('input'); if(inp) inp.checked=false; });
+  document.getElementById('bleed-inr-section').style.display = 'none';
+  document.getElementById('bleed-doac-test-section').style.display = 'none';
+  document.getElementById('bleed-recommendations').innerHTML = '<div class="rec-box info"><h4>\u2139 Select bleeding type and anticoagulant</h4></div>';
+}
+
+// =============================================
+// DVT LOGIC
+// =============================================
+var dvtState = {massive:null, gender:null, flags:[]};
+
+function dvtSelectMassive(val) {
+  dvtState.massive = val;
+  ['yes','no'].forEach(v => { document.getElementById('dvt-massive-'+v).classList.toggle('selected', v===val); document.getElementById('dvt_massive_'+v).checked=(v===val); });
+  document.getElementById('dvt-massive-rec').style.display = val==='yes' ? 'block' : 'none';
+}
+function dvtSelectGender(val) { dvtState.gender=val; ['male','female'].forEach(v=>{document.getElementById('dvt-'+v+'-opt').classList.toggle('selected',v===val); document.getElementById('dvt_'+v).checked=(v===val);}); dvtCalcCrCl(); }
+function dvtWeightKgToLb(){const kg=parseFloat(document.getElementById('dvt_weight_kg').value); if(!isNaN(kg)) document.getElementById('dvt_weight_lb').value=kgToLb(kg);}
+function dvtWeightLbToKg(){const lb=parseFloat(document.getElementById('dvt_weight_lb').value); if(!isNaN(lb)) document.getElementById('dvt_weight_kg').value=lbToKg(lb);}
+function dvtCalcCrCl(){
+  const age=parseFloat(document.getElementById('dvt_age').value),wt=parseFloat(document.getElementById('dvt_weight_kg').value),cr=parseFloat(document.getElementById('dvt_creatinine').value);
+  const crcl=calcCrCl(age,wt,dvtState.gender==='female',cr);
+  document.getElementById('dvt_crcl_display').value=crcl?crcl+' mL/min':'';
+}
+function dvtToggleFlag(flag,el){
+  const cb=el.querySelector('input[type=checkbox]');
+  if(flag==='none_flags'){const nc=!cb.checked; cb.checked=nc; el.classList.toggle('selected',nc); if(nc){['cancer','hepatic','crcl15','pregnancy','doac_interaction','painful_leg'].forEach(f=>{document.getElementById('dvt_'+f).checked=false; document.getElementById('dvt-flag-'+f.replace('_','-')).classList.remove('selected');}); dvtState.flags=[];} return;}
+  document.getElementById('dvt_none_flags').checked=false; document.getElementById('dvt-flag-none').classList.remove('selected');
+  cb.checked=!cb.checked; el.classList.toggle('selected',cb.checked);
+  if(cb.checked&&!dvtState.flags.includes(flag)) dvtState.flags.push(flag);
+  else dvtState.flags=dvtState.flags.filter(f=>f!==flag);
+}
+
+function dvtGenerate(){
+  const flags=dvtState.flags;
+  const age=parseFloat(document.getElementById('dvt_age').value)||0;
+  const wt=parseFloat(document.getElementById('dvt_weight_kg').value)||0;
+  const cr=parseFloat(document.getElementById('dvt_creatinine').value)||0;
+  const crcl=calcCrCl(age,wt,dvtState.gender==='female',cr);
+  const crclVal=crcl||99;
+  const rec=document.getElementById('dvt-recommendations');
+  let html='';
+
+  if(dvtState.massive==='yes'){
+    html='<div class="rec-box unstable"><h4>⚠ Massive Iliofemoral DVT</h4><ul><li>Immediate consultation with <strong>vascular surgeon and interventional radiologist</strong></li><li>Consider urgent pharmacomechanical treatment</li><li>Anticoagulation with <strong>UFH or LMWH</strong> after initial therapy</li></ul></div>';
+  }
+
+  if(flags.includes('cancer')){
+    html+='<div class="rec-box warning"><h4>🎗 Active Cancer — DVT Treatment</h4><table class="dose-table"><thead><tr><th>Drug</th><th>Dose</th><th>Duration</th></tr></thead><tbody>'+
+      '<tr><td><strong>Dalteparin</strong> ✓ Preferred</td><td>200 IU/kg SC daily × 1 month, then 150 IU/kg SC daily</td><td>5 months then re-evaluate</td></tr>'+
+      '<tr><td>Enoxaparin</td><td>1.5 mg/kg SC daily</td><td>6 months then re-evaluate</td></tr>'+
+      '<tr><td>Tinzaparin</td><td>175 IU/kg SC daily</td><td>6 months then re-evaluate</td></tr>'+
+      '<tr><td>Nadroparin</td><td>171 IU/kg SC daily</td><td>6 months then re-evaluate</td></tr>'+
+      '</tbody></table></div>';
+  } else if(flags.some(f=>['hepatic','crcl15','pregnancy','doac_interaction'].includes(f))){
+    html+='<div class="rec-box warning"><h4>⚠ Special Population</h4><ul>';
+    if(flags.includes('crcl15')) html+='<li><strong>CrCl &lt;15:</strong> DOACs not recommended. Warfarin + LMWH with specialist consultation.</li>';
+    if(flags.includes('hepatic')) html+='<li><strong>Hepatic dysfunction:</strong> Warfarin + LMWH with specialist consultation.</li>';
+    if(flags.includes('pregnancy')) html+='<li><strong>Pregnancy:</strong> LMWH preferred throughout pregnancy. DOACs and Warfarin contraindicated.</li>';
+    if(flags.includes('doac_interaction')) html+='<li><strong>DOAC drug interactions:</strong> Warfarin or LMWH preferred.</li>';
+    html+='</ul></div>';
+  } else {
+    html+='<div class="rec-box stable"><h4>✅ DVT Anticoagulation Recommendations</h4>';
+    html+='<table class="dose-table"><thead><tr><th>Drug</th><th>Dosing Regimen</th><th>Notes</th></tr></thead><tbody>';
+    html+='<tr><td><strong>Apixaban</strong> ✓ Preferred</td><td>10 mg PO BID × 7 days, then 5 mg PO BID</td><td>No parenteral lead-in needed</td></tr>';
+    if(crclVal>=30) html+='<tr><td><strong>Rivaroxaban</strong></td><td>15 mg PO BID × 21 days, then 20 mg PO daily</td><td>No parenteral lead-in needed</td></tr>';
+    else html+='<tr><td><strong>Rivaroxaban</strong></td><td>15 mg PO BID × 21d, then 20 mg daily ⚠</td><td>CrCl 30-49: with caution</td></tr>';
+    if(crclVal>=50) html+='<tr><td><strong>Dabigatran</strong></td><td>LMWH × 5–7 days, then 150 mg PO BID</td><td>Parenteral lead-in required' + (flags.includes('painful_leg') ? '; consider LMWH monotherapy initially for painful leg' : '') + '</td></tr>';
+    else if(crclVal>=30) html+='<tr><td><strong>Dabigatran</strong></td><td>LMWH × 5–7 days, then 110 mg PO BID</td><td>CrCl 30–49: 110 mg BID</td></tr>';
+    else html+='<tr><td><strong>Dabigatran</strong></td><td style="color:var(--red)">Contraindicated</td><td>CrCl &lt;30</td></tr>';
+    const edoxDose = (crclVal<50||wt<=60) ? '30 mg' : '60 mg';
+    html+='<tr><td><strong>Edoxaban</strong></td><td>LMWH ≥5 days, then '+edoxDose+' PO daily</td><td>'+(crclVal<50||wt<=60?'⚠ Reduced dose':'Parenteral lead-in required')+'</td></tr>';
+    html+='<tr><td>Warfarin</td><td>LMWH ≥5 days + Warfarin until INR 2–3</td><td>Overlap until therapeutic</td></tr>';
+    html+='</tbody></table>';
+    
+    if(flags.includes('painful_leg')) html+='<div style="margin-top:10px; padding:10px; background:#fff8e1; border-radius:5px; font-size:0.85rem;">⚠ <strong>Inflamed/Painful Leg:</strong> Consider initial LMWH monotherapy followed by switch to oral anticoagulant once inflammation resolves. Dabigatran or LMWH+Warfarin may be preferred. Consider Dabigatran for convenience.</div>';
+    
+    html+='</div>';
+    html+='<div class="rec-box info" style="margin-top:10px;"><h4>📋 LMWH Dosing Options</h4><table class="dose-table"><tr><th>Drug</th><th>SC Dose</th></tr>'+
+      '<tr><td>Dalteparin (Fragmin®)</td><td>200 U/kg once daily <em>or</em> 100 U/kg twice daily</td></tr>'+
+      '<tr><td>Enoxaparin (Lovenox®)</td><td>1.5 mg/kg once daily <em>or</em> 1 mg/kg twice daily</td></tr>'+
+      '<tr><td>Tinzaparin (Innohep®)</td><td>175 U/kg once daily</td></tr>'+
+      '<tr><td>UFH SC</td><td>333 IU/kg once, then 250 IU/kg twice daily</td></tr>'+
+      '</table><p style="margin-top:8px; font-size:0.82rem;"><em>Early referral highly recommended. Minimum 3 months anticoagulation. Assess for underlying provoked vs unprovoked DVT.</em></p></div>';
+  }
+
+  rec.innerHTML=html;
+}
+
+function dvtReset(){
+  dvtState={massive:null,gender:null,flags:[]};
+  ['dvt_age','dvt_weight_kg','dvt_weight_lb','dvt_creatinine','dvt_crcl_display','dvt_notes'].forEach(id=>{const el=document.getElementById(id); if(el) el.value='';});
+  document.querySelectorAll('#tool-dvt .option-item').forEach(el=>{el.classList.remove('selected','danger'); const inp=el.querySelector('input'); if(inp) inp.checked=false;});
+  document.getElementById('dvt-massive-rec').style.display='none';
+  document.getElementById('dvt-recommendations').innerHTML='<div class="rec-box info"><h4>\u2139 Complete all sections above</h4><p>Enter patient data to generate recommendations.</p></div>';
+}
+
+</script>
+
+<a href="blob:https://thrombosiscanada.ca/3899d282-1240-4b35-baf6-31778f7814ce" download="Thrombosis_Canada_Acute_Management_App.html"></a></body></html>
