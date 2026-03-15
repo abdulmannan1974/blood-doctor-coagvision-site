@@ -51035,21 +51035,6 @@ function AppLayout() {
             },
             item.id
           )) : /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "search-empty-state", children: "No results matched your search." }) }) : null
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "topbar-actions", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "button", className: "ghost-button", onClick: () => navigateToPage("algorithms"), children: "Algorithms" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs(
-            "button",
-            {
-              type: "button",
-              className: "primary-button",
-              onClick: () => navigateToPage("pdfs"),
-              children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx(Eye, { size: 16 }),
-                "Open clinical vault"
-              ]
-            }
-          )
         ] })
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("main", { className: "content-stack", children: [
@@ -51165,74 +51150,7 @@ function AppLayout() {
               ] }) })
             ] })
           ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "analytics-grid", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              ChartCard,
-              {
-                title: "Tool footprint",
-                description: "Distribution of calculator types across the platform.",
-                icon: ChartColumnBig,
-                children: /* @__PURE__ */ jsxRuntimeExports.jsx(ResponsiveContainer, { width: "100%", height: 240, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(BarChart, { data: categoryChartData, children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(CartesianGrid, { strokeDasharray: "3 3", stroke: "#e7e5e4", vertical: false }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(XAxis, { dataKey: "name", tickLine: false, axisLine: false, fontSize: 12 }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(YAxis, { allowDecimals: false, tickLine: false, axisLine: false, fontSize: 12 }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(Tooltip, { cursor: { fill: "rgba(148, 163, 184, 0.12)" } }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(Bar, { dataKey: "total", radius: [10, 10, 0, 0], fill: "#8b1e3f" })
-                ] }) })
-              }
-            ),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              ChartCard,
-              {
-                title: "Most detailed calculators",
-                description: "Highest-input calculators for richer bedside decision support.",
-                icon: HeartPulse,
-                children: /* @__PURE__ */ jsxRuntimeExports.jsx(ResponsiveContainer, { width: "100%", height: 240, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(BarChart, { layout: "vertical", data: complexityChartData, children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(CartesianGrid, { strokeDasharray: "3 3", stroke: "#e7e5e4", horizontal: false }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(XAxis, { type: "number", allowDecimals: false, tickLine: false, axisLine: false, fontSize: 12 }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(YAxis, { dataKey: "name", type: "category", width: 88, tickLine: false, axisLine: false, fontSize: 12 }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(Tooltip, { cursor: { fill: "rgba(148, 163, 184, 0.12)" } }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(Bar, { dataKey: "inputs", radius: [0, 10, 10, 0], fill: "#f0a23b" })
-                ] }) })
-              }
-            ),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs(
-              ChartCard,
-              {
-                title: "Knowledge mix",
-                description: "How the platform balances calculators, markdown guides, and connected vault entries.",
-                icon: TestTubeDiagonal,
-                children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(ResponsiveContainer, { width: "100%", height: 240, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(PieChart, { children: [
-                    /* @__PURE__ */ jsxRuntimeExports.jsx(
-                      Pie,
-                      {
-                        data: knowledgeMixData,
-                        dataKey: "value",
-                        nameKey: "name",
-                        innerRadius: 60,
-                        outerRadius: 88,
-                        paddingAngle: 4,
-                        children: knowledgeMixData.map((entry, index) => /* @__PURE__ */ jsxRuntimeExports.jsx(Cell, { fill: chartPalette[index % chartPalette.length] }, entry.name))
-                      }
-                    ),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx(Tooltip, {})
-                  ] }) }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "chart-legend", children: knowledgeMixData.map((entry, index) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "legend-row", children: [
-                    /* @__PURE__ */ jsxRuntimeExports.jsx(
-                      "span",
-                      {
-                        className: "legend-dot",
-                        style: { backgroundColor: chartPalette[index % chartPalette.length] }
-                      }
-                    ),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: entry.name }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: entry.value })
-                  ] }, entry.name)) })
-                ]
-              }
-            )
-          ] })
+          null
         ] }) : null,
         currentPage === "algorithms" || currentPage === "scores" ? /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "focus-layout focus-layout-tight", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "studio-stack", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "panel active-tool-panel spotlight-panel", children: activeTool ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
@@ -51291,31 +51209,7 @@ function AppLayout() {
             /* @__PURE__ */ jsxRuntimeExports.jsx(CircleAlert, { size: 24 }),
             /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: "No tools matched the current search." })
           ] }) }, `tool-panel-${activeTool?.id ?? "empty"}`),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "insight-grid", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(ResultPanel, { result }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              ChartCard,
-              {
-                title: "Calculator richness",
-                description: "A quick visual read of how much structure supports the active decision tool.",
-                icon: BrainCircuit,
-                children: /* @__PURE__ */ jsxRuntimeExports.jsx(ResponsiveContainer, { width: "100%", height: 260, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(RadarChart, { data: activeToolRadarData, children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(PolarGrid, { stroke: "#e7e5e4" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(PolarAngleAxis, { dataKey: "subject", tick: { fontSize: 12, fill: "#475569" } }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(PolarRadiusAxis, { angle: 30, domain: [0, "dataMax"], tick: false, axisLine: false }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    Radar,
-                    {
-                      dataKey: "value",
-                      stroke: "#8b1e3f",
-                      fill: "#8b1e3f",
-                      fillOpacity: 0.32
-                    }
-                  )
-                ] }) })
-              }
-            )
-          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "insight-grid", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ResultPanel, { result }) }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             ClinicalReference,
             {
@@ -51327,27 +51221,10 @@ function AppLayout() {
           )
         ] }) }) }) : null,
         currentPage === "guides" ? /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "focus-layout", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "panel guide-detail-panel spotlight-panel", children: activeGuide ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "section-card-header", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Selected guide" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: activeGuide.title })
-              ] }),
-              activeGuide.pdfId ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "button-cluster", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
-                "button",
-                {
-                  type: "button",
-                  className: "primary-button",
-                  onClick: () => {
-                    setActivePdfId(activeGuide.pdfId);
-                    navigateToPage("pdfs");
-                  },
-                  children: [
-                    /* @__PURE__ */ jsxRuntimeExports.jsx(Eye, { size: 16 }),
-                    "Open in clinical vault"
-                  ]
-                }
-              ) }) : null
-            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "section-card-header", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Selected guide" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: activeGuide.title })
+            ] }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "guide-meta-row", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mini-stat", children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Category" }),
