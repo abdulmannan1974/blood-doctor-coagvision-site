@@ -49,8 +49,7 @@ const toneMeta = {
 const globalToolDisclaimer = {
   text:
     "These general recommendations do not replace clinical judgement. Physicians must consider relative risks and benefits for each individual patient and consult with appropriate specialists.",
-  source:
-    "Source: Brought to you by Thrombosis Canada — ThrombosisCanada.ca | Version: 22",
+  source: "Clinical tools suite | Version 22",
 };
 
 const normalizeValue = (value) => value.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();

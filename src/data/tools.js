@@ -862,7 +862,7 @@ export const tools = [
     tags: ["AF", "DOAC", "stroke prevention", "renal"],
     notes: [
       "Designed for atrial fibrillation with explicit warfarin-only exceptions.",
-      "This version outputs structured dose and contraindication tables rather than loose narrative text.",
+      "Outputs follow the Version 22 recommendation structure with drug-specific renal notes and reassessment prompts.",
     ],
     inputs: [
       { id: "age", label: "Age", type: "number", min: 18, step: 1 },
@@ -899,8 +899,8 @@ export const tools = [
       { id: "diabetes", label: "Diabetes mellitus", type: "checkbox" },
       { id: "priorStroke", label: "Previous stroke or TIA", type: "checkbox" },
       { id: "vascularDisease", label: "Macrovascular disease: coronary, aortic, or peripheral", type: "checkbox" },
-      { id: "warfarinOnlyIndication", label: "Another indication for warfarin is present", type: "checkbox" },
-      { id: "pGpInhibitor", label: "Concomitant P-gp inhibitor except amiodarone or verapamil", type: "checkbox" },
+      { id: "warfarinOnlyIndication", label: "Patient has another indication for warfarin therapy", type: "checkbox" },
+      { id: "pGpInhibitor", label: "Concomitant use of P-gp inhibitors except amiodarone and verapamil", type: "checkbox" },
     ],
     calculate: (values) => {
       const mergedValues = { ...values, femaleSex: values.sex === "female" };
@@ -997,11 +997,11 @@ export const tools = [
 
       return {
         tone: warfarinOnly ? tone.warning : cha2ds2Vasc >= 2 ? tone.warning : tone.success,
-        headline: warfarinOnly ? "Warfarin-led strategy" : "Atrial fibrillation dosing summary",
+        headline: warfarinOnly ? "Warfarin-led strategy" : "Recommendations",
         summary: strokeInterpretation,
         action: warfarinOnly
           ? "Prescribe warfarin rather than a DOAC unless a specialist pathway says otherwise."
-          : "Choose from the structured dose options below after balancing stroke prevention against bleeding risk and patient preference.",
+          : "Review all applicable anticoagulant options below, then balance stroke prevention against bleeding risk and patient preference.",
         metrics: buildMetrics([
           { label: "CrCl", value: formatMetricValue(crcl, " mL/min") },
           { label: "CHA2DS2-VASc", value: `${cha2ds2Vasc}` },
@@ -1011,6 +1011,16 @@ export const tools = [
         recommendations: [
           { label: "Stroke interpretation", value: strokeInterpretation },
           { label: "Primary recommendation", value: warfarinOnly ? "Warfarin" : recommendedRows[0]?.[0] ?? "Enter renal data" },
+          {
+            label: "Other recommendations",
+            value:
+              "Creatinine clearance should be checked yearly if creatinine clearance is 50 mL/min or more and every 6 months if below 50 mL/min, with drug selection and dose reassessed accordingly.",
+          },
+          {
+            label: "Guideline preference",
+            value:
+              "A novel oral anticoagulant is generally preferred over warfarin when there is no separate indication for warfarin.",
+          },
         ],
         tables: [
           buildTable("Recommended anticoagulants", ["Drug", "Dose", "Clinical note"], recommendedRows),
@@ -1019,6 +1029,9 @@ export const tools = [
         supporting: [
           "Creatinine clearance uses Cockcroft-Gault, which is the renal estimate used in major DOAC trials.",
           "If another warfarin indication exists, DOACs are generally not recommended in this tool.",
+          "Concomitant use of potent P-gp or specific CYP inhibitors or inducers may impact anticoagulant levels. Consult the product monograph for specific recommendations.",
+          "Including but not limited to carvedilol, clarithromycin, cyclosporin, erythromycin, itraconazole, ketoconazole, dronedarone, lapatinib, lopinavir, propafenone, quinidine, ranolazine, ritonavir, saquinavir, telaprevir, and tipranavir.",
+          "Dose reduction of edoxaban is not required with concomitant use of verapamil or amiodarone.",
         ],
       };
     },
