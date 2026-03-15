@@ -24321,15 +24321,7 @@ function ClinicalReference({
         },
         tab.id
       )) }),
-      visibleTab ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "reference-panel-body", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "reference-section-intro", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "reference-section-chip", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(TabIcon, { size: 15 }),
-            visibleTab.label
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: visibleTab.descriptor })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "accordion-list", children: visibleTab.cards.map((card) => {
+      visibleTab ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "reference-panel-body", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "accordion-list", children: visibleTab.cards.map((card) => {
           const cardId = `${visibleTab.id}-${card.title}`;
           const isOpen = openCardId === cardId;
           return /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: isOpen ? "accordion-card open" : "accordion-card", children: [
@@ -24344,7 +24336,6 @@ function ClinicalReference({
                   /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "accordion-toggle-copy", children: [
                     /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "accordion-toggle-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsx(TabIcon, { size: 16 }) }),
                     /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
-                      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "badge soft", children: visibleTab.label }),
                       /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: card.title }),
                       card.summary ? /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: card.summary }) : null
                     ] })
@@ -24355,8 +24346,7 @@ function ClinicalReference({
             ),
             isOpen ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "accordion-content", children: card.blocks.map((block, index) => /* @__PURE__ */ jsxRuntimeExports.jsx(ContentBlock, { block }, `${card.title}-${block.type}-${index}`)) }) : null
           ] }, cardId);
-        }) })
-      ] }) : null
+        }) }) }) : null
     ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "empty-state left-aligned", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(CircleAlert, { size: 24 }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: emptyMessage })
