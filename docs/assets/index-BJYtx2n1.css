@@ -1242,6 +1242,23 @@ a {
   padding-left: 1rem;
 }
 
+.tool-disclaimer {
+  display: grid;
+  gap: 0.45rem;
+  margin-top: 1rem;
+  padding: 0.95rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: rgba(250, 247, 248, 0.9);
+}
+
+.tool-disclaimer p,
+.tool-disclaimer small {
+  margin: 0;
+  line-height: 1.75;
+  color: var(--muted-foreground);
+}
+
 .content-list.compact {
   display: grid;
   gap: 0.7rem;

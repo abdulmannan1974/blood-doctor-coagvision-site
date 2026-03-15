@@ -12808,38 +12808,6 @@ const getChadsVascScore = (values) => {
     agePoints
   ]);
 };
-const getChadsRecommendation = (score, femaleOnly) => {
-  if (femaleOnly) {
-    return {
-      headline: "No anticoagulation indicated by score alone",
-      summary: "Female sex alone does not justify stroke prevention therapy.",
-      preference: "No routine anticoagulation",
-      tone: tone.success
-    };
-  }
-  if (score <= 0) {
-    return {
-      headline: "No anticoagulation indicated",
-      summary: "Estimated thromboembolic risk is low by CHA2DS2-VASc.",
-      preference: "No routine anticoagulation",
-      tone: tone.success
-    };
-  }
-  if (score === 1) {
-    return {
-      headline: "Consider anticoagulation",
-      summary: "Shared decision-making is appropriate for borderline stroke risk.",
-      preference: "Consider DOAC if bleeding risk acceptable",
-      tone: tone.warning
-    };
-  }
-  return {
-    headline: "Anticoagulation recommended",
-    summary: "Stroke prevention benefit generally outweighs bleeding risk.",
-    preference: "DOAC preferred unless warfarin-only condition present",
-    tone: tone.danger
-  };
-};
 const formatMetricValue = (value, suffix = "") => {
   if (!Number.isFinite(value)) {
     return "Not available";
@@ -13946,42 +13914,53 @@ const tools = [
     type: "calculator",
     category: "score",
     badge: "Score",
-    blurb: "Classic AF stroke score retained for legacy pathways and quick bedside estimation.",
+    blurb: "Estimates stroke risk in patients with atrial fibrillation by the CHADS2 criteria.",
     tags: ["AF", "stroke prevention"],
-    notes: ["CHA2DS2-VASc generally provides better low-risk discrimination."],
+    notes: ["Use this for classic CHADS2-based risk stratification in atrial fibrillation."],
     inputs: [
-      { id: "chf", label: "Congestive heart failure", type: "checkbox" },
-      { id: "hypertension", label: "Hypertension", type: "checkbox" },
-      { id: "age75", label: "Age >= 75", type: "checkbox" },
-      { id: "diabetes", label: "Diabetes mellitus", type: "checkbox" },
-      { id: "priorStroke", label: "Previous stroke or TIA", type: "checkbox" }
+      { id: "congestiveHeardFailure", label: "Congestive Heart Failure history?", type: "checkbox" },
+      { id: "hypertension", label: "Hypertension history?", type: "checkbox" },
+      { id: "ageOver75", label: "Age ≥ 75?", type: "checkbox" },
+      { id: "diabetese", label: "Diabetes Mellitus history?", type: "checkbox" },
+      { id: "strokeOrTIA", label: "Previous stroke or TIA?", type: "checkbox" }
     ],
     calculate: (values) => {
       const score = sum([
-        values.chf ? 1 : 0,
+        values.congestiveHeardFailure ? 1 : 0,
         values.hypertension ? 1 : 0,
-        values.age75 ? 1 : 0,
-        values.diabetes ? 1 : 0,
-        values.priorStroke ? 2 : 0
+        values.ageOver75 ? 1 : 0,
+        values.diabetese ? 1 : 0,
+        values.strokeOrTIA ? 2 : 0
       ]);
-      const riskMap = {
-        0: "1.9% per year",
-        1: "2.8% per year",
-        2: "4.0% per year",
-        3: "5.9% per year",
-        4: "8.5% per year",
-        5: "12.5% per year",
-        6: "18.2% per year"
+      const scoreTextMap = {
+        0: "Low risk of thromboembolic event. 1.9% risk of event per year if no anticoagulation.",
+        1: "Intermediate risk of thromboembolic event. 2.8% risk of event per year if no anticoagulation.",
+        2: "Intermediate risk of thromboembolic event. 4.0% risk of event per year if no anticoagulation.",
+        3: "High risk of thromboembolic event. 5.9% risk of event per year if no anticoagulation.",
+        4: "High risk of thromboembolic event. 8.5% risk of event per year if no anticoagulation.",
+        5: "High risk of thromboembolic event. 12.5% risk of event per year if no anticoagulation.",
+        6: "High risk of thromboembolic event. 18.2% risk of event per year if no anticoagulation."
       };
       return {
-        tone: score >= 2 ? tone.warning : tone.success,
-        headline: score >= 2 ? "Oral anticoagulation recommended" : score === 1 ? "Consider oral anticoagulation" : "Low stroke risk",
-        summary: `Estimated annual stroke risk: ${riskMap[score] ?? "not available"}.`,
-        action: score >= 2 ? "OAC is preferred unless contraindicated." : score === 1 ? "Shared decision-making is appropriate." : "No therapy or aspirin may be considered in legacy pathways.",
+        tone: score >= 3 ? tone.danger : score >= 1 ? tone.warning : tone.success,
+        headline: `Score ${score}`,
+        summary: scoreTextMap[score] ?? "Risk description not available.",
         metrics: buildMetrics([
           { label: "Score", value: `${score}` },
-          { label: "Risk", value: riskMap[score] }
-        ])
+          { label: "Annual thromboembolic risk", value: scoreTextMap[score]?.match(/([0-9.]+%)/)?.[1] ?? "Not available" }
+        ]),
+        recommendations: [
+          {
+            label: "Footnote",
+            value: "The adjusted stroke rate was the expected stroke rate per 100 person-years derived from the multivariable model assuming that aspirin was not taken."
+          }
+        ],
+        supporting: [
+          "CHA2DS2-VASc score may be relatively insensitive or unspecific to predict risk of stroke.",
+          "If age is the only risk factor, there is a graded increase in stroke risk from age 65 to 75.",
+          "Females may not have a higher risk of stroke, independent of risk factors.",
+          "The risk stratification does not incorporate the severity of the risk factors, such as poorly controlled versus well controlled hypertension."
+        ]
       };
     }
   },
@@ -13992,57 +13971,61 @@ const tools = [
     type: "calculator",
     category: "score",
     badge: "Score",
-    blurb: "Estimate thromboembolic risk in atrial fibrillation with the contemporary bedside standard.",
+    blurb: "Calculates stroke risk for patients with atrial fibrillation, possibly better than the CHADS2 score.",
     tags: ["AF", "stroke prevention", "DOAC"],
-    notes: ["Female sex alone should not trigger anticoagulation."],
+    notes: ["Use the score together with clinical judgement rather than as a single treatment trigger."],
     inputs: [
-      { id: "age", label: "Age", type: "number", min: 18, step: 1 },
       {
-        id: "sex",
-        label: "Sex",
+        id: "chads2vascAge",
+        label: "Age",
         type: "radio",
         options: [
-          { value: "male", label: "Male" },
-          { value: "female", label: "Female" }
+          { value: "under_65", label: "< 65" },
+          { value: "65_74", label: "65-74" },
+          { value: "75_plus", label: "≥ 75" }
         ],
-        defaultValue: "male"
+        defaultValue: "under_65"
       },
-      { id: "chf", label: "Congestive heart failure", type: "checkbox" },
-      { id: "hypertension", label: "Hypertension", type: "checkbox" },
-      { id: "diabetes", label: "Diabetes mellitus", type: "checkbox" },
-      { id: "priorStroke", label: "Stroke / TIA / thromboembolism history", type: "checkbox" },
-      { id: "vascularDisease", label: "Vascular disease", type: "checkbox" }
+      { id: "chads2vascHeart", label: "Congestive Heart Failure History", type: "checkbox" },
+      { id: "chads2vascHyper", label: "Hypertension History", type: "checkbox" },
+      { id: "chads2vascStroke", label: "Stroke/TIA/Thromboembolism History", type: "checkbox" },
+      { id: "chads2vascVascHist", label: "Vascular Disease History? — previous MI, peripheral arterial disease or aortic plaque", type: "checkbox" },
+      { id: "chads2vascDiabetes", label: "Diabetes Mellitus", type: "checkbox" },
+      { id: "chads2vascFemale", label: "Female Patient", type: "checkbox" }
     ],
     calculate: (values) => {
-      const score = getChadsVascScore({
-        ...values,
-        femaleSex: values.sex === "female"
-      });
-      const femaleOnly = values.sex === "female" && score === 1;
-      const annualRisk = {
-        0: "0%",
-        1: "1.3%",
-        2: "2.2%",
-        3: "3.2%",
-        4: "4.0%",
-        5: "6.7%",
-        6: "9.8%",
-        7: "9.6%",
-        8: "6.7%",
-        9: "15.2%"
-      };
-      const recommendation = getChadsRecommendation(score, femaleOnly);
+      const agePoints = values.chads2vascAge === "75_plus" ? 2 : values.chads2vascAge === "65_74" ? 1 : 0;
+      const score = sum([
+        values.chads2vascHeart ? 1 : 0,
+        values.chads2vascHyper ? 1 : 0,
+        values.chads2vascStroke ? 2 : 0,
+        values.chads2vascVascHist ? 1 : 0,
+        values.chads2vascDiabetes ? 1 : 0,
+        values.chads2vascFemale ? 1 : 0,
+        agePoints
+      ]);
+      const interpretation = score === 0 && !values.chads2vascFemale ? "Very low risk — anticoagulation generally not recommended." : score === 1 && values.chads2vascFemale && values.chads2vascAge === "under_65" && !values.chads2vascHeart && !values.chads2vascHyper && !values.chads2vascStroke && !values.chads2vascVascHist && !values.chads2vascDiabetes ? "Low risk." : score === 1 ? "Low to intermediate stroke risk." : score >= 2 ? "Stroke prevention with anticoagulation is usually recommended." : "Risk interpretation requires clinical judgement.";
       return {
-        tone: recommendation.tone,
-        headline: recommendation.headline,
-        summary: `Estimated annual stroke risk: ${annualRisk[score] ?? "not available"}.`,
-        action: recommendation.preference,
+        tone: score >= 2 ? tone.warning : tone.success,
+        headline: `Score ${score}`,
+        summary: interpretation,
         metrics: buildMetrics([
           { label: "Score", value: `${score}` },
-          { label: "Annual risk", value: annualRisk[score] }
+          {
+            label: "Age band",
+            value: values.chads2vascAge === "75_plus" ? "≥ 75" : values.chads2vascAge === "65_74" ? "65-74" : "< 65"
+          }
         ]),
+        recommendations: [
+          {
+            label: "Limitations",
+            value: "Use this score with caution because it may be relatively insensitive or unspecific to predict stroke risk."
+          }
+        ],
         supporting: [
-          femaleOnly ? "Female sex is a risk modifier, not a lone treatment trigger." : "DOACs are usually preferred over warfarin in non-valvular AF."
+          "If age is the only risk factor, there is a graded increase in stroke risk from age 65 to 75.",
+          "Females may not have a higher risk of stroke, independent of risk factors.",
+          "The risk stratification does not incorporate the severity of the risk factors, such as poorly controlled versus well controlled hypertension."
         ]
       };
     }
@@ -23627,6 +23610,10 @@ const toneMeta = {
     icon: BadgeCheck
   }
 };
+const globalToolDisclaimer = {
+  text: "These general recommendations do not replace clinical judgement. Physicians must consider relative risks and benefits for each individual patient and consult with appropriate specialists.",
+  source: "Source: Brought to you by Thrombosis Canada — ThrombosisCanada.ca | Version: 22"
+};
 const normalizeValue = (value) => value.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
 const getPageForToolId = (toolId) => tools.find((tool) => tool.id === toolId)?.category === "algorithm" ? "algorithms" : "scores";
 const buildGuideHref = (guideId, pageId = "guides") => `?guide=${encodeURIComponent(guideId)}#${pageId}`;
@@ -24536,7 +24523,12 @@ function ResultPanel({ result }) {
         /* @__PURE__ */ jsxRuntimeExports.jsx("tbody", { children: table.rows.map((row, rowIndex) => /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { children: row.map((cell, cellIndex) => /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: renderInlineContent(cell) }, `${table.title}-${rowIndex}-${cellIndex}`)) }, `${table.title}-${rowIndex}`)) })
       ] }) })
     ] }, table.title)) }) : null,
-    result.supporting?.length ? /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "support-list", children: result.supporting.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: item }, item)) }) : null
+    result.supporting?.length ? /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "support-list", children: result.supporting.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: item }, item)) }) : null,
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tool-disclaimer", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Clinical disclaimer" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: globalToolDisclaimer.text }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("small", { children: globalToolDisclaimer.source })
+    ] })
   ] });
 }
 function ClinicalReference({
