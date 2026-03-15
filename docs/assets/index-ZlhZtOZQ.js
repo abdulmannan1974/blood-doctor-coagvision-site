@@ -25511,6 +25511,12 @@ const acuteFrameStyleOverrides = `
     background: #0f172a !important;
     color: #ffffff !important;
   }
+  .btn-row {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.75rem !important;
+    margin-top: 1rem !important;
+  }
   .btn-next,
   .btn-reset,
   .btn-back {
@@ -25518,6 +25524,116 @@ const acuteFrameStyleOverrides = `
   }
   .btn-next { background: #7f1d3f !important; }
   .btn-reset { background: #0f172a !important; }
+  .btn,
+  .btn-primary,
+  .btn-reset,
+  .acute-export-button {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.5rem !important;
+    min-height: 2.8rem !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    padding: 0.75rem 1rem !important;
+    font-weight: 700 !important;
+    box-shadow: none !important;
+  }
+  .btn-primary {
+    background: #7f1d3f !important;
+    border-color: #7f1d3f !important;
+    color: #ffffff !important;
+  }
+  .btn-reset {
+    color: #ffffff !important;
+  }
+  .acute-export-row {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.75rem !important;
+    margin-top: 1rem !important;
+  }
+  .acute-export-button {
+    background: #ffffff !important;
+    color: #0f172a !important;
+  }
+  .acute-export-button.primary {
+    background: #0f172a !important;
+    border-color: #0f172a !important;
+    color: #ffffff !important;
+  }
+  .acute-report-panel {
+    margin-top: 1rem !important;
+    padding: 1rem !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 18px !important;
+    background: #ffffff !important;
+  }
+  .acute-report-empty {
+    color: #64748b !important;
+    line-height: 1.7 !important;
+  }
+  .acute-report-sheet {
+    display: grid !important;
+    gap: 1rem !important;
+  }
+  .acute-report-header h4 {
+    margin: 0.3rem 0 0 !important;
+    font-size: 1.35rem !important;
+    color: #0f172a !important;
+  }
+  .acute-report-header p {
+    margin: 0.45rem 0 0 !important;
+    color: #64748b !important;
+  }
+  .acute-report-eyebrow {
+    font-size: 0.74rem !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.12em !important;
+    color: #7f1d3f !important;
+  }
+  .acute-report-grid {
+    display: grid !important;
+    gap: 1rem !important;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)) !important;
+  }
+  .acute-report-card {
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    background: #f8fafc !important;
+    padding: 1rem !important;
+  }
+  .acute-report-card h5 {
+    margin: 0 0 0.85rem !important;
+    color: #0f172a !important;
+    font-size: 1rem !important;
+  }
+  .acute-report-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+  }
+  .acute-report-table td {
+    padding: 0.6rem 0.2rem !important;
+    vertical-align: top !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    color: #0f172a !important;
+    line-height: 1.6 !important;
+  }
+  .acute-report-table td:first-child {
+    width: 38% !important;
+    font-weight: 700 !important;
+    color: #334155 !important;
+  }
+  .acute-report-recommendations .rec-box:last-child {
+    margin-bottom: 0 !important;
+  }
+  .acute-report-footer {
+    padding-top: 0.35rem !important;
+    color: #64748b !important;
+    font-size: 0.85rem !important;
+    line-height: 1.7 !important;
+  }
   footer,
   .footer,
   .watermark,
@@ -25552,6 +25668,208 @@ const sanitizeAcuteGuidanceHtml = (html, activeTool) => {
         node.remove();
       });
     }
+    function cleanText(value) {
+      return (value || '').replace(/\\s+/g, ' ').replace(/[\\u{1FA78}]/gu, '').trim();
+    }
+    function fieldLabelFor(input) {
+      var group = input.closest('.input-group');
+      if (group) {
+        var label = group.querySelector('label');
+        if (label) return cleanText(label.textContent);
+      }
+      return cleanText(input.getAttribute('placeholder') || input.name || input.id || 'Value');
+    }
+    function selectedOptionText(section) {
+      var values = [];
+      section.querySelectorAll('.option-item.selected label').forEach(function (label) {
+        var text = cleanText(label.textContent);
+        if (text) values.push(text);
+      });
+      return values;
+    }
+    function gatherSectionSummary(tool) {
+      var panel = document.getElementById('tool-' + tool);
+      if (!panel) return [];
+      var rows = [];
+      panel.querySelectorAll('.section').forEach(function (section) {
+        var labelNode = section.querySelector('.section-label');
+        if (!labelNode) return;
+        var label = cleanText(labelNode.textContent.replace(/^\\d+/, ''));
+        var answers = [];
+        selectedOptionText(section).forEach(function (value) {
+          if (value && answers.indexOf(value) === -1) answers.push(value);
+        });
+        section.querySelectorAll('input[type="text"], input[type="number"], input[type="date"], textarea, select').forEach(function (input) {
+          var rawValue = input.value;
+          if (rawValue == null) return;
+          var value = cleanText(rawValue);
+          if (!value) return;
+          var field = fieldLabelFor(input);
+          var combined = field && field !== value ? field + ': ' + value : value;
+          if (combined && answers.indexOf(combined) === -1) answers.push(combined);
+        });
+        var dynamicResult = section.querySelector('#pesi-result');
+        if (dynamicResult) {
+          var resultText = cleanText(dynamicResult.textContent);
+          if (resultText) answers.push(resultText);
+        }
+        if (answers.length) {
+          rows.push({ label: label, value: answers.join('; ') });
+        }
+      });
+      return rows;
+    }
+    function recommendationsReady(tool) {
+      var node = document.getElementById(tool + '-recommendations');
+      if (!node) return false;
+      var text = cleanText(node.textContent);
+      if (!text) return false;
+      return !/complete all sections above|please select|enter patient data to generate/i.test(text);
+    }
+    function buildReportMarkup(tool) {
+      var names = {
+        pe: 'Pulmonary Embolism',
+        af: 'Atrial Fibrillation',
+        bleed: 'Bleed Management',
+        dvt: 'Deep Vein Thrombosis'
+      };
+      var title = names[tool] || 'Acute Management';
+      var rows = gatherSectionSummary(tool);
+      var recNode = document.getElementById(tool + '-recommendations');
+      var recHtml = recNode ? recNode.innerHTML : '';
+      var summaryTable = rows.length
+        ? '<table class="acute-report-table"><tbody>' + rows.map(function (row) {
+            return '<tr><td>' + row.label + '</td><td>' + row.value + '</td></tr>';
+          }).join('') + '</tbody></table>'
+        : '<p>No structured patient inputs captured yet.</p>';
+      return ''
+        + '<div class="acute-report-sheet">'
+        + '  <div class="acute-report-header">'
+        + '    <span class="acute-report-eyebrow">Printable acute care plan</span>'
+        + '    <h4>' + title + '</h4>'
+        + '    <p>Generated ' + new Date().toLocaleString() + ' | Blood🩸Doctor Acute Management</p>'
+        + '  </div>'
+        + '  <div class="acute-report-grid">'
+        + '    <section class="acute-report-card">'
+        + '      <h5>Case summary</h5>'
+        +        summaryTable
+        + '    </section>'
+        + '    <section class="acute-report-card acute-report-recommendations">'
+        + '      <h5>Assessment and plan</h5>'
+        +        recHtml
+        + '    </section>'
+        + '  </div>'
+        + '  <div class="acute-report-footer">'
+        + '    These general recommendations do not replace clinical judgement. Physicians must consider relative risks and benefits for each individual patient and consult with appropriate specialists.'
+        + '  </div>'
+        + '</div>';
+    }
+    function ensureReportContainer(tool) {
+      var panel = document.getElementById('tool-' + tool);
+      if (!panel) return null;
+      var report = panel.querySelector('#acute-report-' + tool);
+      if (report) return report;
+      var recNode = document.getElementById(tool + '-recommendations');
+      if (!recNode) return null;
+      report = document.createElement('section');
+      report.className = 'acute-report-panel';
+      report.id = 'acute-report-' + tool;
+      report.innerHTML = '<div class="acute-report-empty">Generate recommendations to build a printable acute care plan.</div>';
+      recNode.insertAdjacentElement('afterend', report);
+      return report;
+    }
+    function renderReport(tool) {
+      var report = ensureReportContainer(tool);
+      if (!report) return;
+      if (!recommendationsReady(tool)) {
+        report.innerHTML = '<div class="acute-report-empty">Generate recommendations to build a printable acute care plan.</div>';
+        postHeight();
+        return;
+      }
+      report.innerHTML = buildReportMarkup(tool);
+      postHeight();
+    }
+    function printReport(tool) {
+      renderReport(tool);
+      var report = document.getElementById('acute-report-' + tool);
+      if (!report || !recommendationsReady(tool)) return;
+      var win = window.open('', '_blank', 'width=1000,height=900');
+      if (!win) return;
+      win.document.write('<!doctype html><html><head><meta charset="utf-8"><title>Acute Management Report</title>' + ${JSON.stringify(acuteFrameStyleOverrides)} + '</head><body><div class="tool-container" style="padding:24px;max-width:1000px;margin:0 auto;">' + report.innerHTML + '</div></body></html>');
+      win.document.close();
+      win.focus();
+      setTimeout(function () { win.print(); }, 250);
+    }
+    function downloadWord(tool) {
+      renderReport(tool);
+      var report = document.getElementById('acute-report-' + tool);
+      if (!report || !recommendationsReady(tool)) return;
+      var doc = '<html><head><meta charset="utf-8">' + ${JSON.stringify(acuteFrameStyleOverrides)} + '</head><body><div class="tool-container" style="padding:24px;max-width:1000px;margin:0 auto;">' + report.innerHTML + '</div></body></html>';
+      var blob = new Blob(['\\ufeff', doc], { type: 'application/msword' });
+      var url = URL.createObjectURL(blob);
+      var link = document.createElement('a');
+      link.href = url;
+      link.download = 'Blood_Doctor_Acute_Management_' + tool + '.doc';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+    }
+    function attachExportRow(tool) {
+      var panel = document.getElementById('tool-' + tool);
+      if (!panel || panel.querySelector('.acute-export-row')) return;
+      var btnRow = panel.querySelector('.btn-row');
+      if (!btnRow) return;
+      var row = document.createElement('div');
+      row.className = 'acute-export-row';
+      row.innerHTML = ''
+        + '<button type="button" class="acute-export-button primary">Generate report</button>'
+        + '<button type="button" class="acute-export-button">Print / Save PDF</button>'
+        + '<button type="button" class="acute-export-button">Download Word</button>';
+      var buttons = row.querySelectorAll('button');
+      buttons[0].addEventListener('click', function () { renderReport(tool); });
+      buttons[1].addEventListener('click', function () { printReport(tool); });
+      buttons[2].addEventListener('click', function () { downloadWord(tool); });
+      btnRow.insertAdjacentElement('afterend', row);
+    }
+    function wrapGenerator(tool, generateName, resetName) {
+      if (typeof window[generateName] === 'function' && !window[generateName].__bloodDoctorWrapped) {
+        var originalGenerate = window[generateName];
+        var wrappedGenerate = function () {
+          var output = originalGenerate.apply(this, arguments);
+          renderReport(tool);
+          return output;
+        };
+        wrappedGenerate.__bloodDoctorWrapped = true;
+        window[generateName] = wrappedGenerate;
+      }
+      if (typeof window[resetName] === 'function' && !window[resetName].__bloodDoctorWrapped) {
+        var originalReset = window[resetName];
+        var wrappedReset = function () {
+          var output = originalReset.apply(this, arguments);
+          var report = ensureReportContainer(tool);
+          if (report) {
+            report.innerHTML = '<div class="acute-report-empty">Generate recommendations to build a printable acute care plan.</div>';
+          }
+          postHeight();
+          return output;
+        };
+        wrappedReset.__bloodDoctorWrapped = true;
+        window[resetName] = wrappedReset;
+      }
+    }
+    function enhanceAcuteTools() {
+      [
+        ['pe', 'peGenerate', 'peReset'],
+        ['af', 'afGenerate', 'afReset'],
+        ['bleed', 'bleedGenerate', 'bleedReset'],
+        ['dvt', 'dvtGenerate', 'dvtReset']
+      ].forEach(function (item) {
+        attachExportRow(item[0]);
+        ensureReportContainer(item[0]);
+        wrapGenerator(item[0], item[1], item[2]);
+      });
+    }
     function postHeight() {
       var height = Math.max(
         document.body ? document.body.scrollHeight : 0,
@@ -25561,6 +25879,7 @@ const sanitizeAcuteGuidanceHtml = (html, activeTool) => {
     }
     window.addEventListener('load', function () {
       syncFrame();
+      enhanceAcuteTools();
       postHeight();
       setTimeout(postHeight, 120);
     });
@@ -25572,6 +25891,7 @@ const sanitizeAcuteGuidanceHtml = (html, activeTool) => {
     }
     setTimeout(function () {
       syncFrame();
+      enhanceAcuteTools();
       postHeight();
     }, 10);
   })();
