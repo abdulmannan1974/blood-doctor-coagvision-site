@@ -1283,6 +1283,49 @@ a {
   margin: 0.45rem 0 0;
 }
 
+.reference-overview-copy {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: start;
+  margin-top: 0.5rem;
+}
+
+.reference-overview-icon,
+.accordion-toggle-icon {
+  width: 2rem;
+  height: 2rem;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: rgba(127, 29, 63, 0.08);
+  color: var(--primary);
+}
+
+.section-jump-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.section-jump-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.7rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--muted-foreground);
+  font-weight: 600;
+}
+
+.section-jump-button.active {
+  border-color: rgba(127, 29, 63, 0.18);
+  background: rgba(127, 29, 63, 0.08);
+  color: var(--foreground);
+}
+
 .accordion-list {
   display: grid;
   gap: 1rem;
@@ -1295,27 +1338,45 @@ a {
   overflow: hidden;
 }
 
-.accordion-card summary {
-  list-style: none;
-  cursor: pointer;
+.accordion-toggle {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
   padding: 1.15rem 1.2rem;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
 }
 
-.accordion-card summary::-webkit-details-marker {
-  display: none;
+.accordion-toggle-copy {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.85rem;
+  align-items: start;
 }
 
-.accordion-card summary strong {
+.accordion-toggle strong {
   display: block;
   margin-top: 0.4rem;
   font-size: 1.1rem;
   line-height: 1.35;
 }
 
+.accordion-toggle p {
+  margin: 0.35rem 0 0;
+  color: var(--muted-foreground);
+  line-height: 1.65;
+}
+
 .accordion-content {
   padding: 0 1.2rem 1.2rem;
   display: grid;
   gap: 1rem;
+  border-top: 1px solid var(--border);
 }
 
 .fact-row {
@@ -1380,17 +1441,15 @@ a {
 
 .reference-list {
   margin: 0;
-  padding-left: 1.2rem;
-  display: grid;
-  gap: 0.9rem;
+  padding-left: 1.6rem;
 }
 
 .reference-item {
-  padding: 0.95rem 1rem;
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  background: var(--card-muted);
-  line-height: 1.75;
+  padding: 0 0 0.3rem 0.1rem;
+  margin-bottom: 0.9rem;
+  border: 0;
+  background: transparent;
+  line-height: 1.9;
 }
 
 .content-link {
