@@ -23942,7 +23942,7 @@ function AppSidebar({
     /* @__PURE__ */ jsxRuntimeExports.jsx(SidebarHeader, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "sidebar-brand sidebar-brand-card", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "sidebar-logo", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Droplets, {}) }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Blood🩸Doctor" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Blood Doctor" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { children: siteName2 }),
         /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Clear clinical navigation with actionable calculators, guide folders, and linked vault records." })
       ] })
@@ -25921,7 +25921,7 @@ function dvtReset(){
 <\/script>
 
 <a href="blob:https://thrombosiscanada.ca/3899d282-1240-4b35-baf6-31778f7814ce" download="Thrombosis_Canada_Acute_Management_App.html"></a></body></html>`;
-const siteName = "Blood🩸Doctor CoagVision";
+const siteName = "Blood Doctor CoagVision";
 const toneMeta = {
   success: {
     label: "Ready to use",
@@ -25953,7 +25953,7 @@ const acuteFrameStyleOverrides = `
 <style>
   :root {
     --navy: #0f172a !important;
-    --red: #7f1d3f !important;
+    --red: #1d4ed8 !important;
     --blue: #ffffff !important;
     --light-blue: #f8fafc !important;
     --green: #166534 !important;
@@ -25980,9 +25980,9 @@ const acuteFrameStyleOverrides = `
   header .logo span,
   header .subtitle { color: #64748b !important; }
   .header-badge {
-    background: #f8fafc !important;
-    color: #7f1d3f !important;
-    border: 1px solid #ead5df !important;
+    background: #eff6ff !important;
+    color: #1d4ed8 !important;
+    border: 1px solid #bfdbfe !important;
     border-radius: 999px !important;
     padding: 0.35rem 0.75rem !important;
   }
@@ -26008,13 +26008,13 @@ const acuteFrameStyleOverrides = `
     margin-bottom: 0 !important;
   }
   .tab-nav button:hover {
-    background: #fcf7f9 !important;
-    color: #7f1d3f !important;
+    background: #eff6ff !important;
+    color: #1d4ed8 !important;
   }
   .tab-nav button.active {
-    background: #7f1d3f !important;
+    background: #1d4ed8 !important;
     color: #ffffff !important;
-    border-color: #7f1d3f !important;
+    border-color: #1d4ed8 !important;
   }
   .tool-container {
     max-width: none !important;
@@ -26050,7 +26050,7 @@ const acuteFrameStyleOverrides = `
     font-weight: 700 !important;
   }
   .section-num {
-    background: #7f1d3f !important;
+    background: #1d4ed8 !important;
     color: #ffffff !important;
   }
   .option-item,
@@ -26063,15 +26063,15 @@ const acuteFrameStyleOverrides = `
   }
   .option-item:hover,
   .option-btn:hover {
-    border-color: #7f1d3f !important;
-    background: #fcf7f9 !important;
+    border-color: #1d4ed8 !important;
+    background: #eff6ff !important;
   }
   .option-item.selected,
   .option-btn.selected,
   .option-item.active,
   .option-btn.active {
-    background: #7f1d3f !important;
-    border-color: #7f1d3f !important;
+    background: #1d4ed8 !important;
+    border-color: #1d4ed8 !important;
     color: #ffffff !important;
   }
   .option-item.selected *,
@@ -26081,13 +26081,13 @@ const acuteFrameStyleOverrides = `
     color: #ffffff !important;
   }
   .option-item input,
-  .option-btn input { accent-color: #7f1d3f !important; }
+  .option-btn input { accent-color: #1d4ed8 !important; }
   .rec-box {
     border-radius: 16px !important;
     box-shadow: none !important;
   }
   .rec-box.primary {
-    background: #7f1d3f !important;
+    background: #1d4ed8 !important;
     color: #ffffff !important;
   }
   .dose-table th {
@@ -26105,7 +26105,7 @@ const acuteFrameStyleOverrides = `
   .btn-back {
     border-radius: 12px !important;
   }
-  .btn-next { background: #7f1d3f !important; }
+  .btn-next { background: #1d4ed8 !important; }
   .btn-reset { background: #0f172a !important; }
   .btn,
   .btn-primary,
@@ -26123,8 +26123,8 @@ const acuteFrameStyleOverrides = `
     box-shadow: none !important;
   }
   .btn-primary {
-    background: #7f1d3f !important;
-    border-color: #7f1d3f !important;
+    background: #1d4ed8 !important;
+    border-color: #1d4ed8 !important;
     color: #ffffff !important;
   }
   .btn-reset {
@@ -26174,7 +26174,7 @@ const acuteFrameStyleOverrides = `
     font-weight: 800 !important;
     text-transform: uppercase !important;
     letter-spacing: 0.12em !important;
-    color: #7f1d3f !important;
+    color: #1d4ed8 !important;
   }
   .acute-report-grid {
     display: grid !important;
@@ -26226,7 +26226,7 @@ const acuteFrameStyleOverrides = `
 </style>
 `;
 const sanitizeAcuteGuidanceHtml = (html, activeTool) => {
-  const brandingCleaned = html.replaceAll("Thrombosis Canada — Acute Management Clinical Tools", "Blood🩸Doctor Acute Management").replaceAll("Thrombosis Canada", "Blood🩸Doctor").replaceAll("Clinical Decision Support", "Acute Management").replaceAll("Visit the Blood🩸Doctor website at www.blood🩸doctor.ca", "").replaceAll("powered by Vivomap®", "").replaceAll("🫁 ", "").replaceAll("❤️ ", "").replaceAll("🩸 ", "").replaceAll("🦵 ", "").replaceAll("⚡ ", "").replaceAll("✅ ", "").replaceAll("⚠️ ", "").replaceAll("🚨 ", "").replaceAll("ℹ ", "").replaceAll("ℹ️ ", "").replace(/https?:\/\/thrombosiscanada\.ca[^\s"'<>)]*/gi, "#").replace(/blob:https:\/\/thrombosiscanada\.ca[^"']*/gi, "#").replace(/Based on Blood🩸Doctor [^.]*\./gi, "Based on linked clinical guidance.").replace(/Consult ESC 2019 and ACCP 2021 Guidelines and Blood🩸Doctor Clinical Guides for complete guidance\./gi, "Use the linked guide library for expanded clinical detail.").replace(/Thrombosis_Canada_Acute_Management_App\.html/gi, "Blood_Doctor_Acute_Management.html");
+  const brandingCleaned = html.replaceAll("Thrombosis Canada — Acute Management Clinical Tools", "Blood Doctor Acute Management").replaceAll("Thrombosis Canada", "Blood Doctor").replaceAll("Clinical Decision Support", "Acute Management").replaceAll("Visit the Blood🩸Doctor website at www.blood🩸doctor.ca", "").replaceAll("powered by Vivomap®", "").replaceAll("🫁 ", "").replaceAll("❤️ ", "").replaceAll("🩸 ", "").replaceAll("🦵 ", "").replaceAll("⚡ ", "").replaceAll("✅ ", "").replaceAll("⚠️ ", "").replaceAll("🚨 ", "").replaceAll("ℹ ", "").replaceAll("ℹ️ ", "").replace(/https?:\/\/thrombosiscanada\.ca[^\s"'<>)]*/gi, "#").replace(/blob:https:\/\/thrombosiscanada\.ca[^"']*/gi, "#").replace(/Based on Blood Doctor [^.]*\./gi, "Based on linked clinical guidance.").replace(/Consult ESC 2019 and ACCP 2021 Guidelines and Blood Doctor Clinical Guides for complete guidance\./gi, "Use the linked guide library for expanded clinical detail.").replace(/Thrombosis_Canada_Acute_Management_App\.html/gi, "Blood_Doctor_Acute_Management.html");
   const injectedScript = `
 <script>
   (function () {
@@ -26237,7 +26237,7 @@ const sanitizeAcuteGuidanceHtml = (html, activeTool) => {
       }
       var logo = document.querySelector('header .logo');
       if (logo) {
-        logo.innerHTML = 'Blood🩸Doctor<span>Acute Management</span>';
+        logo.innerHTML = 'Blood Doctor<span>Acute Management</span>';
       }
       var subtitle = document.querySelector('header .subtitle');
       if (subtitle) {
@@ -26330,7 +26330,7 @@ const sanitizeAcuteGuidanceHtml = (html, activeTool) => {
         + '  <div class="acute-report-header">'
         + '    <span class="acute-report-eyebrow">Printable acute care plan</span>'
         + '    <h4>' + title + '</h4>'
-        + '    <p>Generated ' + new Date().toLocaleString() + ' | Blood🩸Doctor Acute Management</p>'
+        + '    <p>Generated ' + new Date().toLocaleString() + ' | Blood Doctor Acute Management</p>'
         + '  </div>'
         + '  <div class="acute-report-grid">'
         + '    <section class="acute-report-card">'
@@ -27708,7 +27708,7 @@ function AppLayout() {
           /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: "No vault entries matched the current search" })
         ] }) }, `vault-panel-${activeVaultEntry?.id ?? "empty"}`) }) }) : null
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("footer", { className: "footer", children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Dr Abdul Mannan FRCPath FCPS I Blood🩸Doctor I blooddoctor.co@gmail.com" }) })
+      /* @__PURE__ */ jsxRuntimeExports.jsx("footer", { className: "footer", children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Dr Abdul Mannan FRCPath FCPS | Blood Doctor | blooddoctor.co@gmail.com" }) })
     ] })
   ] });
 }

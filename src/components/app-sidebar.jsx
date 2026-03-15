@@ -316,7 +316,7 @@ export function AppSidebar({
             <Droplets />
           </div>
           <div>
-            <span className="eyebrow">Blood🩸Doctor</span>
+            <span className="eyebrow">Blood Doctor</span>
             <h1>{siteName}</h1>
             <p>Clear clinical navigation with actionable calculators, guide folders, and linked vault records.</p>
           </div>
