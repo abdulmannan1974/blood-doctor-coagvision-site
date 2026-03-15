@@ -2889,6 +2889,17 @@ fieldset.field-card {
   color: #1d4ed8;
 }
 
+.valves-guide-shell .valves-guide-icon {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+  color: #1d4ed8;
+}
+
+.valves-guide-shell .valves-mechanism-icon {
+  background: #f0fdf4;
+  color: #166534;
+}
+
 .travel-card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));

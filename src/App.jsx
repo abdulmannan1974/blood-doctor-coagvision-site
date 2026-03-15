@@ -28,6 +28,7 @@ import { guideLibrary, pdfLibrary, resolveMarkdownTarget, vaultLibrary } from ".
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarProvider, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import { AsaGuide } from "@/components/asa-guide";
+import { HeartValvesGuide } from "@/components/heart-valves-guide";
 import { TravelThrombosisGuide } from "@/components/travel-thrombosis-guide";
 import acuteGuidanceHtmlRaw from "../Thrombosis_Canada_Acute_Management_App (2).html?raw";
 
@@ -1996,6 +1997,8 @@ function AppLayout() {
 
                   {activeGuide.title === "Acetylsalicylic Acid (ASA)" ? (
                     <AsaGuide />
+                  ) : activeGuide.title === "Bioprosthetic and Mechanical Heart Valves: Antithrombotic Therapy" ? (
+                    <HeartValvesGuide />
                   ) : activeGuide.title === "Air Travel-related Thrombosis" ? (
                     <TravelThrombosisGuide />
                   ) : (

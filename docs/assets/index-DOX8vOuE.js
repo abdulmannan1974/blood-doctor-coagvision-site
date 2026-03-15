@@ -12559,7 +12559,7 @@ const createLucideIcon = (iconName, iconNode) => {
   Component.displayName = toPascalCase(iconName);
   return Component;
 };
-const __iconNode$y = [
+const __iconNode$B = [
   [
     "path",
     {
@@ -12568,13 +12568,26 @@ const __iconNode$y = [
     }
   ]
 ];
-const Activity = createLucideIcon("activity", __iconNode$y);
-const __iconNode$x = [
+const Activity = createLucideIcon("activity", __iconNode$B);
+const __iconNode$A = [
   ["path", { d: "M7 7h10v10", key: "1tivn9" }],
   ["path", { d: "M7 17 17 7", key: "1vkiza" }]
 ];
-const ArrowUpRight = createLucideIcon("arrow-up-right", __iconNode$x);
-const __iconNode$w = [
+const ArrowUpRight = createLucideIcon("arrow-up-right", __iconNode$A);
+const __iconNode$z = [
+  ["path", { d: "M10 16c.5.3 1.2.5 2 .5s1.5-.2 2-.5", key: "1u7htd" }],
+  ["path", { d: "M15 12h.01", key: "1k8ypt" }],
+  [
+    "path",
+    {
+      d: "M19.38 6.813A9 9 0 0 1 20.8 10.2a2 2 0 0 1 0 3.6 9 9 0 0 1-17.6 0 2 2 0 0 1 0-3.6A9 9 0 0 1 12 3c2 0 3.5 1.1 3.5 2.5s-.9 2.5-2 2.5c-.8 0-1.5-.4-1.5-1",
+      key: "11xh7x"
+    }
+  ],
+  ["path", { d: "M9 12h.01", key: "157uk2" }]
+];
+const Baby = createLucideIcon("baby", __iconNode$z);
+const __iconNode$y = [
   [
     "path",
     {
@@ -12584,8 +12597,8 @@ const __iconNode$w = [
   ],
   ["path", { d: "m9 12 2 2 4-4", key: "dzmm74" }]
 ];
-const BadgeCheck = createLucideIcon("badge-check", __iconNode$w);
-const __iconNode$v = [
+const BadgeCheck = createLucideIcon("badge-check", __iconNode$y);
+const __iconNode$x = [
   ["path", { d: "M12 7v14", key: "1akyts" }],
   ["path", { d: "M16 12h2", key: "7q9ll5" }],
   ["path", { d: "M16 8h2", key: "msurwy" }],
@@ -12599,8 +12612,8 @@ const __iconNode$v = [
   ["path", { d: "M6 12h2", key: "32wvfc" }],
   ["path", { d: "M6 8h2", key: "30oboj" }]
 ];
-const BookOpenText = createLucideIcon("book-open-text", __iconNode$v);
-const __iconNode$u = [
+const BookOpenText = createLucideIcon("book-open-text", __iconNode$x);
+const __iconNode$w = [
   [
     "path",
     {
@@ -12621,8 +12634,8 @@ const __iconNode$u = [
   ["circle", { cx: "20", cy: "21", r: ".5", key: "yhc1fs" }],
   ["circle", { cx: "20", cy: "8", r: ".5", key: "1e43v0" }]
 ];
-const BrainCircuit = createLucideIcon("brain-circuit", __iconNode$u);
-const __iconNode$t = [
+const BrainCircuit = createLucideIcon("brain-circuit", __iconNode$w);
+const __iconNode$v = [
   ["rect", { width: "16", height: "20", x: "4", y: "2", rx: "2", key: "1nb95v" }],
   ["line", { x1: "8", x2: "16", y1: "6", y2: "6", key: "x4nwl0" }],
   ["line", { x1: "16", x2: "16", y1: "14", y2: "18", key: "wjye3r" }],
@@ -12634,35 +12647,35 @@ const __iconNode$t = [
   ["path", { d: "M12 18h.01", key: "mhygvu" }],
   ["path", { d: "M8 18h.01", key: "lrp35t" }]
 ];
-const Calculator = createLucideIcon("calculator", __iconNode$t);
-const __iconNode$s = [
+const Calculator = createLucideIcon("calculator", __iconNode$v);
+const __iconNode$u = [
   ["path", { d: "M8 2v4", key: "1cmpym" }],
   ["path", { d: "M16 2v4", key: "4m81vk" }],
   ["rect", { width: "18", height: "18", x: "3", y: "4", rx: "2", key: "1hopcy" }],
   ["path", { d: "M3 10h18", key: "8toen8" }]
 ];
-const Calendar = createLucideIcon("calendar", __iconNode$s);
-const __iconNode$r = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
-const ChevronDown = createLucideIcon("chevron-down", __iconNode$r);
-const __iconNode$q = [["path", { d: "m9 18 6-6-6-6", key: "mthhwq" }]];
-const ChevronRight = createLucideIcon("chevron-right", __iconNode$q);
-const __iconNode$p = [
+const Calendar = createLucideIcon("calendar", __iconNode$u);
+const __iconNode$t = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
+const ChevronDown = createLucideIcon("chevron-down", __iconNode$t);
+const __iconNode$s = [["path", { d: "m9 18 6-6-6-6", key: "mthhwq" }]];
+const ChevronRight = createLucideIcon("chevron-right", __iconNode$s);
+const __iconNode$r = [
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
   ["line", { x1: "12", x2: "12", y1: "8", y2: "12", key: "1pkeuh" }],
   ["line", { x1: "12", x2: "12.01", y1: "16", y2: "16", key: "4dfq90" }]
 ];
-const CircleAlert = createLucideIcon("circle-alert", __iconNode$p);
-const __iconNode$o = [
+const CircleAlert = createLucideIcon("circle-alert", __iconNode$r);
+const __iconNode$q = [
   ["path", { d: "M21.801 10A10 10 0 1 1 17 3.335", key: "yps3ct" }],
   ["path", { d: "m9 11 3 3L22 4", key: "1pflzl" }]
 ];
-const CircleCheckBig = createLucideIcon("circle-check-big", __iconNode$o);
-const __iconNode$n = [
+const CircleCheckBig = createLucideIcon("circle-check-big", __iconNode$q);
+const __iconNode$p = [
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
   ["path", { d: "m9 12 2 2 4-4", key: "dzmm74" }]
 ];
-const CircleCheck = createLucideIcon("circle-check", __iconNode$n);
-const __iconNode$m = [
+const CircleCheck = createLucideIcon("circle-check", __iconNode$p);
+const __iconNode$o = [
   ["rect", { width: "8", height: "4", x: "8", y: "2", rx: "1", ry: "1", key: "tgr4d6" }],
   [
     "path",
@@ -12676,8 +12689,8 @@ const __iconNode$m = [
   ["path", { d: "M8 11h.01", key: "1dfujw" }],
   ["path", { d: "M8 16h.01", key: "18s6g9" }]
 ];
-const ClipboardList = createLucideIcon("clipboard-list", __iconNode$m);
-const __iconNode$l = [
+const ClipboardList = createLucideIcon("clipboard-list", __iconNode$o);
+const __iconNode$n = [
   [
     "path",
     {
@@ -12693,8 +12706,8 @@ const __iconNode$l = [
     }
   ]
 ];
-const Droplets = createLucideIcon("droplets", __iconNode$l);
-const __iconNode$k = [
+const Droplets = createLucideIcon("droplets", __iconNode$n);
+const __iconNode$m = [
   [
     "path",
     {
@@ -12706,8 +12719,8 @@ const __iconNode$k = [
   ["circle", { cx: "11.5", cy: "14.5", r: "2.5", key: "1bq0ko" }],
   ["path", { d: "M13.3 16.3 15 18", key: "2quom7" }]
 ];
-const FileSearch = createLucideIcon("file-search", __iconNode$k);
-const __iconNode$j = [
+const FileSearch = createLucideIcon("file-search", __iconNode$m);
+const __iconNode$l = [
   [
     "path",
     {
@@ -12720,8 +12733,8 @@ const __iconNode$j = [
   ["path", { d: "M16 13H8", key: "t4e002" }],
   ["path", { d: "M16 17H8", key: "z1uh3a" }]
 ];
-const FileText = createLucideIcon("file-text", __iconNode$j);
-const __iconNode$i = [
+const FileText = createLucideIcon("file-text", __iconNode$l);
+const __iconNode$k = [
   [
     "path",
     {
@@ -12730,8 +12743,8 @@ const __iconNode$i = [
     }
   ]
 ];
-const FolderOpen = createLucideIcon("folder-open", __iconNode$i);
-const __iconNode$h = [
+const FolderOpen = createLucideIcon("folder-open", __iconNode$k);
+const __iconNode$j = [
   [
     "path",
     {
@@ -12741,8 +12754,8 @@ const __iconNode$h = [
   ],
   ["path", { d: "M3.22 13H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27", key: "auskq0" }]
 ];
-const HeartPulse = createLucideIcon("heart-pulse", __iconNode$h);
-const __iconNode$g = [
+const HeartPulse = createLucideIcon("heart-pulse", __iconNode$j);
+const __iconNode$i = [
   [
     "path",
     {
@@ -12751,27 +12764,27 @@ const __iconNode$g = [
     }
   ]
 ];
-const Heart = createLucideIcon("heart", __iconNode$g);
-const __iconNode$f = [
+const Heart = createLucideIcon("heart", __iconNode$i);
+const __iconNode$h = [
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
   ["path", { d: "M12 16v-4", key: "1dtifu" }],
   ["path", { d: "M12 8h.01", key: "e9boi3" }]
 ];
-const Info = createLucideIcon("info", __iconNode$f);
-const __iconNode$e = [
+const Info = createLucideIcon("info", __iconNode$h);
+const __iconNode$g = [
   ["rect", { width: "7", height: "9", x: "3", y: "3", rx: "1", key: "10lvy0" }],
   ["rect", { width: "7", height: "5", x: "14", y: "3", rx: "1", key: "16une8" }],
   ["rect", { width: "7", height: "9", x: "14", y: "12", rx: "1", key: "1hutg5" }],
   ["rect", { width: "7", height: "5", x: "3", y: "16", rx: "1", key: "ldoo1y" }]
 ];
-const LayoutDashboard = createLucideIcon("layout-dashboard", __iconNode$e);
-const __iconNode$d = [
+const LayoutDashboard = createLucideIcon("layout-dashboard", __iconNode$g);
+const __iconNode$f = [
   ["path", { d: "M9 17H7A5 5 0 0 1 7 7h2", key: "8i5ue5" }],
   ["path", { d: "M15 7h2a5 5 0 1 1 0 10h-2", key: "1b9ql8" }],
   ["line", { x1: "8", x2: "16", y1: "12", y2: "12", key: "1jonct" }]
 ];
-const Link2 = createLucideIcon("link-2", __iconNode$d);
-const __iconNode$c = [
+const Link2 = createLucideIcon("link-2", __iconNode$f);
+const __iconNode$e = [
   [
     "path",
     { d: "M6 20a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2", key: "1m57jg" }
@@ -12781,8 +12794,8 @@ const __iconNode$c = [
   ["circle", { cx: "16", cy: "20", r: "2", key: "1vifvg" }],
   ["circle", { cx: "8", cy: "20", r: "2", key: "ckkr5m" }]
 ];
-const Luggage = createLucideIcon("luggage", __iconNode$c);
-const __iconNode$b = [
+const Luggage = createLucideIcon("luggage", __iconNode$e);
+const __iconNode$d = [
   ["path", { d: "M6 18h8", key: "1borvv" }],
   ["path", { d: "M3 22h18", key: "8prr45" }],
   ["path", { d: "M14 22a7 7 0 1 0 0-14h-1", key: "1jwaiy" }],
@@ -12790,21 +12803,29 @@ const __iconNode$b = [
   ["path", { d: "M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z", key: "1bmzmy" }],
   ["path", { d: "M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3", key: "1drr47" }]
 ];
-const Microscope = createLucideIcon("microscope", __iconNode$b);
-const __iconNode$a = [
+const Microscope = createLucideIcon("microscope", __iconNode$d);
+const __iconNode$c = [
+  ["path", { d: "M20.341 6.484A10 10 0 0 1 10.266 21.85", key: "1enhxb" }],
+  ["path", { d: "M3.659 17.516A10 10 0 0 1 13.74 2.152", key: "1crzgf" }],
+  ["circle", { cx: "12", cy: "12", r: "3", key: "1v7zrd" }],
+  ["circle", { cx: "19", cy: "5", r: "2", key: "mhkx31" }],
+  ["circle", { cx: "5", cy: "19", r: "2", key: "v8kfzx" }]
+];
+const Orbit = createLucideIcon("orbit", __iconNode$c);
+const __iconNode$b = [
   ["rect", { width: "18", height: "18", x: "3", y: "3", rx: "2", key: "afitv7" }],
   ["path", { d: "M9 3v18", key: "fh3hqa" }]
 ];
-const PanelLeft = createLucideIcon("panel-left", __iconNode$a);
-const __iconNode$9 = [
+const PanelLeft = createLucideIcon("panel-left", __iconNode$b);
+const __iconNode$a = [
   [
     "path",
     { d: "m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z", key: "wa1lgi" }
   ],
   ["path", { d: "m8.5 8.5 7 7", key: "rvfmvr" }]
 ];
-const Pill = createLucideIcon("pill", __iconNode$9);
-const __iconNode$8 = [
+const Pill = createLucideIcon("pill", __iconNode$a);
+const __iconNode$9 = [
   [
     "path",
     {
@@ -12813,8 +12834,8 @@ const __iconNode$8 = [
     }
   ]
 ];
-const Plane = createLucideIcon("plane", __iconNode$8);
-const __iconNode$7 = [
+const Plane = createLucideIcon("plane", __iconNode$9);
+const __iconNode$8 = [
   [
     "path",
     {
@@ -12825,13 +12846,13 @@ const __iconNode$7 = [
   ["path", { d: "M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6", key: "1itne7" }],
   ["rect", { x: "6", y: "14", width: "12", height: "8", rx: "1", key: "1ue0tg" }]
 ];
-const Printer = createLucideIcon("printer", __iconNode$7);
-const __iconNode$6 = [
+const Printer = createLucideIcon("printer", __iconNode$8);
+const __iconNode$7 = [
   ["path", { d: "m21 21-4.34-4.34", key: "14j7rj" }],
   ["circle", { cx: "11", cy: "11", r: "8", key: "4ej97u" }]
 ];
-const Search = createLucideIcon("search", __iconNode$6);
-const __iconNode$5 = [
+const Search = createLucideIcon("search", __iconNode$7);
+const __iconNode$6 = [
   [
     "path",
     {
@@ -12842,8 +12863,8 @@ const __iconNode$5 = [
   ["path", { d: "M12 8v4", key: "1got3b" }],
   ["path", { d: "M12 16h.01", key: "1drbdi" }]
 ];
-const ShieldAlert = createLucideIcon("shield-alert", __iconNode$5);
-const __iconNode$4 = [
+const ShieldAlert = createLucideIcon("shield-alert", __iconNode$6);
+const __iconNode$5 = [
   [
     "path",
     {
@@ -12853,8 +12874,8 @@ const __iconNode$4 = [
   ],
   ["path", { d: "m9 12 2 2 4-4", key: "dzmm74" }]
 ];
-const ShieldCheck = createLucideIcon("shield-check", __iconNode$4);
-const __iconNode$3 = [
+const ShieldCheck = createLucideIcon("shield-check", __iconNode$5);
+const __iconNode$4 = [
   [
     "path",
     {
@@ -12866,7 +12887,15 @@ const __iconNode$3 = [
   ["path", { d: "M22 4h-4", key: "gwowj6" }],
   ["circle", { cx: "4", cy: "20", r: "2", key: "6kqj1y" }]
 ];
-const Sparkles = createLucideIcon("sparkles", __iconNode$3);
+const Sparkles = createLucideIcon("sparkles", __iconNode$4);
+const __iconNode$3 = [
+  ["path", { d: "M11 2v2", key: "1539x4" }],
+  ["path", { d: "M5 2v2", key: "1yf1q8" }],
+  ["path", { d: "M5 3H4a2 2 0 0 0-2 2v4a6 6 0 0 0 12 0V5a2 2 0 0 0-2-2h-1", key: "rb5t3r" }],
+  ["path", { d: "M8 15a6 6 0 0 0 12 0v-3", key: "x18d4x" }],
+  ["circle", { cx: "20", cy: "10", r: "2", key: "ts1r5v" }]
+];
+const Stethoscope = createLucideIcon("stethoscope", __iconNode$3);
 const __iconNode$2 = [
   ["path", { d: "m18 2 4 4", key: "22kx64" }],
   ["path", { d: "m17 7 3-3", key: "1w1zoj" }],
@@ -24172,7 +24201,7 @@ const relatedGuides = [
   "Venous Thromboembolism: Duration of Treatment",
   "Duration of Dual Antiplatelet Therapy in Coronary Artery Disease"
 ];
-const references$1 = [
+const references$2 = [
   "Anderson D, et al. Aspirin or rivaroxaban for VTE prophylaxis after hip or knee arthroplasty. N Engl J Med. 2018;378:699-707.",
   "Bainey KR, et al. 2023 Canadian Cardiovascular Society and Canadian Association of Interventional Cardiology focused update of the guidelines for the use of antiplatelet therapy. Can J Cardiol. 2024;40:160-181.",
   "Bowman W, et al. Effects of aspirin for primary prevention in persons with diabetes mellitus. N Engl J Med. 2018;379:1529-1539.",
@@ -24191,7 +24220,7 @@ const references$1 = [
   "Yasuda S, et al. Antithrombotic therapy for atrial fibrillation with stable coronary disease. N Engl J Med. 2019;381:1103-1113.",
   "Yusuf S, et al. Polypill with or without aspirin in persons without cardiovascular disease. N Engl J Med. 2021;384:216-228."
 ];
-const tabs$1 = [
+const tabs$2 = [
   ["indications", "Indications"],
   ["dosing", "Dosing"],
   ["adverse", "Adverse Effects"],
@@ -24200,7 +24229,7 @@ const tabs$1 = [
   ["pediatrics", "Pediatrics"],
   ["references", "References"]
 ];
-function Dot$1({ tone: tone2 }) {
+function Dot$2({ tone: tone2 }) {
   return /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: `asa-dot ${tone2}` });
 }
 function AsaGuide() {
@@ -24241,7 +24270,7 @@ function AsaGuide() {
       ] })
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-tabs", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "asa-tabs-list", role: "tablist", "aria-label": "ASA guide sections", children: tabs$1.map(([id, label]) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "asa-tabs-list", role: "tablist", "aria-label": "ASA guide sections", children: tabs$2.map(([id, label]) => /* @__PURE__ */ jsxRuntimeExports.jsx(
         "button",
         {
           type: "button",
@@ -24256,7 +24285,7 @@ function AsaGuide() {
           const Icon2 = section.icon;
           return /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx(Dot$1, { tone: section.tone }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Dot$2, { tone: section.tone }),
               section.title
             ] }),
             section.groups.map((group) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-ind-group", children: [
@@ -24280,7 +24309,7 @@ function AsaGuide() {
       tab === "dosing" ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-tab-panel", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot$1, { tone: "blue" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot$2, { tone: "blue" }),
             "Dosing Summary"
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { className: "asa-dose-table", children: [
@@ -24307,7 +24336,7 @@ function AsaGuide() {
       tab === "adverse" ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-tab-panel", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot$1, { tone: "danger" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot$2, { tone: "danger" }),
             "Adverse Effects Profile"
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "asa-ae-grid", children: adverseEffects.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `asa-ae-card ${item.tone}`, children: [
@@ -24333,7 +24362,7 @@ function AsaGuide() {
       tab === "periprocedural" ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-tab-panel", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot$1, { tone: "purple" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot$2, { tone: "purple" }),
             "Peri-procedural Management"
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-alert asa-alert-info", children: [
@@ -24355,7 +24384,7 @@ function AsaGuide() {
       tab === "special" ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-tab-panel", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot$1, { tone: "orange" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot$2, { tone: "orange" }),
             "Concomitant Anticoagulation"
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "asa-section-copy", children: "Concomitant use of therapeutic anticoagulation and ASA is discouraged and should only be considered in carefully selected low-bleeding-risk patients." }),
@@ -24372,7 +24401,7 @@ function AsaGuide() {
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot$1, { tone: "danger" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot$2, { tone: "danger" }),
             "Cautions and Contraindications"
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: "asa-ind-list", children: [
@@ -24386,7 +24415,7 @@ function AsaGuide() {
       ] }) : null,
       tab === "pediatrics" ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "asa-tab-panel", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Dot$1, { tone: "teal" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Dot$2, { tone: "teal" }),
           "Pediatric Use"
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-alert asa-alert-teal", children: [
@@ -24398,7 +24427,7 @@ function AsaGuide() {
       tab === "references" ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-tab-panel", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot$1, { tone: "gray" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot$2, { tone: "gray" }),
             "Related Clinical Guides"
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "asa-related-list", children: relatedGuides.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
@@ -24408,10 +24437,10 @@ function AsaGuide() {
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot$1, { tone: "gray" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot$2, { tone: "gray" }),
             "References"
           ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("ol", { className: "asa-ref-list", children: references$1.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: item }, item)) })
+          /* @__PURE__ */ jsxRuntimeExports.jsx("ol", { className: "asa-ref-list", children: references$2.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: item }, item)) })
         ] })
       ] }) : null
     ] }),
@@ -24421,6 +24450,330 @@ function AsaGuide() {
         " | Updated 5 February 2026 | Version 105"
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "The information here is not a substitute for clinical judgement. Always seek appropriate specialist input when needed." })
+    ] })
+  ] });
+}
+const tabs$1 = [
+  ["overview", "Overview"],
+  ["bioprosthetic", "Bioprosthetic"],
+  ["transcatheter", "Transcatheter"],
+  ["mechanical", "Mechanical"],
+  ["special", "Special Situations"],
+  ["references", "References"]
+];
+const bioprostheticRows = [
+  [
+    "Surgical bioprosthetic aortic valve",
+    "Warfarin for 3 to 6 months with INR target 2.5, or ASA 81 mg daily.",
+    "Long-term ASA 81 mg daily may be considered thereafter if no other indication for anticoagulation exists."
+  ],
+  [
+    "Surgical bioprosthetic mitral valve",
+    "Warfarin for 3 to 6 months with INR target 2.5, or ASA 81 mg daily.",
+    "Long-term ASA 81 mg daily may be considered thereafter if no other indication for anticoagulation exists."
+  ],
+  [
+    "Surgical bioprosthetic tricuspid or pulmonic valve",
+    "Warfarin for 3 months with INR target 2.5, or ASA 81 mg daily.",
+    "Evidence is lower quality and management should be individualized."
+  ],
+  [
+    "Surgical valve repair",
+    "Aortic repair: ASA for at least 3 months. Mitral repair: ASA or warfarin for 3 months. Tricuspid repair: warfarin for 3 months.",
+    "Follow local valve and surgical protocols where available."
+  ]
+];
+const transcatheterRows = [
+  [
+    "TAVR without another anticoagulation indication",
+    "Single antiplatelet therapy is now generally preferred over dual antiplatelet therapy.",
+    "Older guidance suggested DAPT for 3 to 6 months or warfarin for 3 months in selected low-bleeding-risk patients."
+  ],
+  [
+    "TAVR with atrial fibrillation or another anticoagulation indication",
+    "Use long-term oral anticoagulation according to the AF pathway.",
+    "Addition of routine antiplatelet therapy is not recommended because it increases bleeding without benefit."
+  ],
+  [
+    "Transcatheter mitral valve replacement",
+    "Three months of anticoagulation, then aspirin alone.",
+    "Applies to off-label transcatheter use in selected scenarios."
+  ],
+  [
+    "Transcatheter tricuspid valve replacement",
+    "Optimal therapy remains uncertain.",
+    "TRISCEND II used 6 months of warfarin or another anticoagulant plus aspirin, but major bleeding was common."
+  ],
+  [
+    "Transcatheter pulmonary valve replacement",
+    "Aspirin alone is most commonly used and is likely safe.",
+    "Randomized data are lacking."
+  ],
+  [
+    "Transcatheter mitral or tricuspid repair",
+    "Either aspirin alone or aspirin plus clopidogrel for 3 to 6 months, then lifelong aspirin.",
+    "This follows major device-trial protocols until better comparative data are available."
+  ]
+];
+const mechanicalRows = [
+  [
+    "Core treatment",
+    "All patients with mechanical heart valves require lifelong warfarin.",
+    "Target INR depends on valve type, manufacturer, location, and stroke risk factors."
+  ],
+  [
+    "Aspirin",
+    "ASA 81 mg daily should be added in low-bleeding-risk patients with mechanical aortic or mitral valves.",
+    "Use caution in patients with prior gastrointestinal bleeding or other major bleeding risk."
+  ],
+  [
+    "DOACs",
+    "Dabigatran, apixaban, rivaroxaban, and edoxaban are contraindicated.",
+    "Randomized trials showed more thrombosis and, in some trials, more bleeding compared with warfarin."
+  ],
+  [
+    "On-X aortic mechanical valve",
+    "Lower INR targets may be reasonable in selected patients after the first 3 months.",
+    "This remains controversial and is not endorsed by all major guidelines."
+  ]
+];
+const mechanicalFacts = [
+  "Stroke or valve thrombosis risk is approximately 0.5% per year with mechanical aortic valves.",
+  "Stroke or valve thrombosis risk is approximately 0.9% per year with mechanical mitral valves.",
+  "Combined aortic and mitral mechanical valves carry approximately 1.2% annual risk despite anticoagulation.",
+  "Mechanical mitral valves are more thrombogenic than mechanical aortic valves because flow is more passive across the mitral position."
+];
+const specialRows = [
+  [
+    "Periprocedural management",
+    "Elective procedures usually require bridging with UFH or LMWH before surgery and sometimes after surgery.",
+    "Do not interrupt warfarin for minor procedures such as cataract surgery, dental procedures, or skin biopsy."
+  ],
+  [
+    "Pregnancy with mechanical valves",
+    "Manage through a multidisciplinary team with expertise in maternal cardiac and thrombosis care.",
+    "Therapeutic anticoagulation must continue throughout pregnancy, with individualized warfarin, LMWH, and peri-delivery planning."
+  ],
+  [
+    "Pediatrics",
+    "Children should be managed with paediatric cardiology input and adult recommendations used as a guide.",
+    "High-quality paediatric randomized data are lacking."
+  ]
+];
+const references$1 = [
+  "Asgar AW, et al. 2019 Canadian Cardiovascular Society position statement for transcatheter aortic valve implantation. Can J Cardiol. 2019;35:1437-1448.",
+  "Brouwer J, et al. Aspirin alone versus dual antiplatelet therapy after transcatheter aortic valve implantation. J Am Heart Assoc. 2021;10:e019604.",
+  "Chu MWA, et al. Low-dose vs standard warfarin after mechanical mitral valve replacement. Ann Thorac Surg. 2023;115:929-938.",
+  "Collet JP, et al. Apixaban vs standard of care after transcatheter aortic valve implantation: ATLANTIS trial. Eur Heart J. 2022;43:2783-2797.",
+  "Dangas GD, et al. A controlled trial of rivaroxaban after transcatheter aortic-valve replacement. N Engl J Med. 2020;382:120-129.",
+  "Eikelboom JW, et al. Dabigatran versus warfarin in patients with mechanical heart valves. N Engl J Med. 2013;369:1206-1214.",
+  "Guimaraes HP, et al. Rivaroxaban in patients with atrial fibrillation and a bioprosthetic mitral valve. N Engl J Med. 2020;383:2117-2126.",
+  "Hahn RT, et al. Transcatheter valve replacement in severe tricuspid regurgitation. N Engl J Med. 2024;392:115-126.",
+  "Kovacs MJ, et al. PERIOP2 bridging trial. BMJ. 2021;373:n1205.",
+  "Maznyczka A, Pilgrim T. Antithrombotic treatment after transcatheter valve interventions. Clin Ther. 2023:S0149-2918(23)00393-4.",
+  "McLintock C. Thromboembolism in pregnancy and mechanical prosthetic heart valves. Best Pract Res Clin Obstet Gynaecol. 2014;28:519-536.",
+  "Montalescot G, et al. Apixaban and valve thrombosis after TAVR: ATLANTIS-4D-CT substudy. JACC Cardiovasc Interv. 2022;15:1794-1804.",
+  "Nijenhuis VJ, et al. Anticoagulation with or without clopidogrel after TAVI. N Engl J Med. 2020;382:1696-1707.",
+  "Otto CM, et al. 2020 ACC/AHA valvular heart disease guideline. Circulation. 2021;143:e72-e227.",
+  "Park DW, et al. ADAPT-TAVR randomized clinical trial. Circulation. 2022;146:466-479.",
+  "Puskas JD, et al. Anticoagulation and antiplatelet strategies after On-X mechanical aortic valve replacement. J Am Coll Cardiol. 2018;71:2717-2726.",
+  "Shim CY, et al. Edoxaban early after surgical bioprosthetic valve implantation or repair. J Thorac Cardiovasc Surg. 2023;165:58-67.e4.",
+  "Unverdorben M, et al. Edoxaban versus vitamin K antagonist for atrial fibrillation after TAVR. N Engl J Med. 2021;385:2150-2160.",
+  "Vahanian A, et al. 2021 ESC/EACTS valvular heart disease guideline. Eur Heart J. 2022;43:561-632.",
+  "Wang TY, et al. Apixaban or warfarin in patients with an On-X mechanical aortic valve. NEJM Evid. 2023;2(7).",
+  "Whitlock RP, et al. Antithrombotic and thrombolytic therapy for valvular disease. Chest. 2012;141:e576S-e600S.",
+  "Woldendorp K, et al. Subclinical valve thrombosis in TAVI. J Thorac Cardiovasc Surg. 2021;162:1491-1499.e2."
+];
+function Dot$1({ tone: tone2 }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: `asa-dot ${tone2}` });
+}
+function HeartValvesGuide() {
+  const [tab, setTab] = reactExports.useState("overview");
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "asa-guide-shell valves-guide-shell", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-guide-header", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-guide-header-top", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-guide-header-copy", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-badge-row", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "asa-badge asa-badge-blue", children: "Clinical Guide" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "asa-badge asa-badge-green", children: "Valve Antithrombotics" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "asa-badge asa-badge-teal", children: "Cardiac Devices" })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "asa-guide-title", children: "Bioprosthetic and Mechanical Heart Valves: Antithrombotic Therapy" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-guide-meta", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Calendar, { size: 13 }),
+              " Updated 6 February 2026"
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(FileText, { size: 13 }),
+              " Surgical, repaired, and transcatheter valves"
+            ] })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "asa-guide-icon valves-guide-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsx(HeartPulse, { size: 24 }) })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-objective-strip", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Objective:" }),
+        " To summarize evidence-based recommendations for antithrombotic drug management in patients with surgical or transcatheter valve replacement or repair."
+      ] })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-mechanism-card valves-mechanism-card", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "asa-mechanism-icon valves-mechanism-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Orbit, { size: 18 }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: "Clinical Background" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Valve thrombosis and thromboembolism risk varies by prosthesis type, valve position, repair versus replacement strategy, coexisting atrial fibrillation, and patient-specific bleeding risk. Antithrombotic decisions must balance valve protection, systemic embolic risk, and procedural bleeding burden." })
+      ] })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-tabs", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "asa-tabs-list", role: "tablist", "aria-label": "Heart valve guide sections", children: tabs$1.map(([id, label]) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          type: "button",
+          className: tab === id ? "asa-tab-btn active" : "asa-tab-btn",
+          onClick: () => setTab(id),
+          children: label
+        },
+        id
+      )) }),
+      tab === "overview" ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-tab-panel", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot$1, { tone: "blue" }),
+            "High-Yield Clinical Orientation"
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: "asa-ind-list", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Bioprosthetic valve recommendations are largely based on lower-quality observational evidence, and guideline bodies differ in emphasis." }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Transcatheter valve decisions are increasingly patient-driven because bleeding and thrombotic risk often reflect comorbidity burden more than the device itself." }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Mechanical valves remain highly thrombogenic and require lifelong warfarin, with intensity adjusted by valve type and location." }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Subclinical leaflet thrombosis may be reduced by anticoagulation, but routine screening and routine preventive anticoagulation are not currently recommended." })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-alert asa-alert-info", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Info, { size: 16 }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "Two important recurring questions should guide decisions: does the patient have another indication for anticoagulation, and is the valve surgical, repaired, or transcatheter?" })
+        ] })
+      ] }) : null,
+      tab === "bioprosthetic" ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-tab-panel", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot$1, { tone: "green" }),
+            "Bioprosthetic Valves and Surgical Repair"
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { className: "asa-dose-table", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("thead", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Valve situation" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Suggested regimen" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Notes" })
+            ] }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("tbody", { children: bioprostheticRows.map((row) => /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "dose-highlight", children: row[0] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: row[1] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: row[2] })
+            ] }, row[0])) })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-alert asa-alert-teal", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(CircleCheck, { size: 16 }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "When atrial fibrillation or another long-term anticoagulation indication is present, continue long-term anticoagulation rather than relying on antiplatelet therapy alone." })
+        ] })
+      ] }) : null,
+      tab === "transcatheter" ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-tab-panel", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot$1, { tone: "teal" }),
+            "Transcatheter Valve Strategies"
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { className: "asa-dose-table", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("thead", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Intervention" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Typical antithrombotic approach" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Practice note" })
+            ] }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("tbody", { children: transcatheterRows.map((row) => /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "dose-highlight", children: row[0] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: row[1] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: row[2] })
+            ] }, row[0])) })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-alert asa-alert-warn", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(CircleAlert, { size: 16 }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "Earlier TAVR protocols often used dual antiplatelet therapy empirically. More recent evidence supports single antiplatelet therapy in patients without another anticoagulation indication because bleeding rises without clear thrombotic benefit." })
+        ] })
+      ] }) : null,
+      tab === "mechanical" ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-tab-panel", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot$1, { tone: "danger" }),
+            "Mechanical Valves"
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { className: "asa-dose-table", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("thead", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Topic" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Key recommendation" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Important qualifier" })
+            ] }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("tbody", { children: mechanicalRows.map((row) => /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "dose-highlight", children: row[0] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: row[1] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: row[2] })
+            ] }, row[0])) })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot$1, { tone: "orange" }),
+            "Mechanical Valve Risk Points"
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "asa-ind-list", children: mechanicalFacts.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: item }, item)) })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-alert asa-alert-danger", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ShieldAlert, { size: 16 }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "Direct oral anticoagulants are contraindicated in patients with mechanical heart valves." })
+        ] })
+      ] }) : null,
+      tab === "special" ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-tab-panel", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot$1, { tone: "purple" }),
+            "Special Situations"
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { className: "asa-dose-table", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("thead", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Scenario" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Clinical approach" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Practical note" })
+            ] }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("tbody", { children: specialRows.map((row) => /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "dose-highlight", children: row[0] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: row[1] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: row[2] })
+            ] }, row[0])) })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-alert asa-alert-info", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Stethoscope, { size: 16 }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "Pregnancy in women with mechanical heart valves requires multidisciplinary planning, therapeutic anticoagulation throughout pregnancy, and a defined peripartum switch to unfractionated heparin before delivery." })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-alert asa-alert-teal", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Baby, { size: 16 }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "Paediatric valve patients should be co-managed with specialist paediatric cardiology and haematology support whenever possible." })
+        ] })
+      ] }) : null,
+      tab === "references" ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "asa-tab-panel", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Dot$1, { tone: "gray" }),
+          "References"
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("ol", { className: "asa-ref-list", children: references$1.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: item }, item)) })
+      ] }) }) : null
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-guide-footer", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Bioprosthetic and Mechanical Heart Valves: Antithrombotic Therapy" }),
+        " | Updated 6 February 2026"
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Use these recommendations alongside valve-specific cardiology input, bleeding-risk assessment, and peri-procedural planning." })
     ] })
   ] });
 }
@@ -27824,7 +28177,7 @@ function AppLayout() {
               /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: activeGuide.content.tabs.find((tab) => tab.id === "references")?.cards.length ?? 0 })
             ] })
           ] }),
-          activeGuide.title === "Acetylsalicylic Acid (ASA)" ? /* @__PURE__ */ jsxRuntimeExports.jsx(AsaGuide, {}) : activeGuide.title === "Air Travel-related Thrombosis" ? /* @__PURE__ */ jsxRuntimeExports.jsx(TravelThrombosisGuide, {}) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+          activeGuide.title === "Acetylsalicylic Acid (ASA)" ? /* @__PURE__ */ jsxRuntimeExports.jsx(AsaGuide, {}) : activeGuide.title === "Bioprosthetic and Mechanical Heart Valves: Antithrombotic Therapy" ? /* @__PURE__ */ jsxRuntimeExports.jsx(HeartValvesGuide, {}) : activeGuide.title === "Air Travel-related Thrombosis" ? /* @__PURE__ */ jsxRuntimeExports.jsx(TravelThrombosisGuide, {}) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "guide-summary-grid", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 ContentSummaryCard,
