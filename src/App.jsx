@@ -176,6 +176,30 @@ const acuteManagementItems = [
   },
 ];
 
+const acuteInitialState = {
+  af: {
+    stability: "",
+    valvularStatus: "",
+    duration: "",
+    recentStrokeTia: "",
+    chads2: "",
+  },
+  bleed: {
+    severity: "",
+    drug: "",
+    inr: "",
+    inrUnknown: false,
+  },
+  dvt: {
+    massiveIliofemoral: "",
+    modifiers: [],
+  },
+  pe: {
+    stability: "",
+    modifiers: [],
+  },
+};
+
 const doacFollowupInitialState = {
   patientName: "",
   patientAge: "",
@@ -589,6 +613,7 @@ function AppLayout() {
   const [currentPage, setCurrentPage] = useState(getPageFromHash);
   const [activeToolId, setActiveToolId] = useState(tools[0]?.id ?? "");
   const [activeAcuteId, setActiveAcuteId] = useState(acuteManagementItems[0]?.id ?? "");
+  const [acuteState, setAcuteState] = useState(acuteInitialState);
   const [doacFollowup, setDoacFollowup] = useState(doacFollowupInitialState);
   const [toolValues, setToolValues] = useState(toolStateDefaults);
   const [activeGuideId, setActiveGuideId] = useState(guideLibrary[0]?.id ?? "");
@@ -936,6 +961,48 @@ function AppLayout() {
         ...current[toolId],
         [inputId]: value,
       },
+    }));
+  };
+
+  const updateAcuteField = (toolKey, field, value) => {
+    setAcuteState((current) => ({
+      ...current,
+      [toolKey]: {
+        ...current[toolKey],
+        [field]: value,
+      },
+    }));
+  };
+
+  const toggleAcuteModifier = (toolKey, modifier, noneKey = "none") => {
+    setAcuteState((current) => {
+      const currentValues = current[toolKey]?.modifiers ?? [];
+      const hasModifier = currentValues.includes(modifier);
+
+      let nextValues;
+
+      if (modifier === noneKey) {
+        nextValues = hasModifier ? [] : [noneKey];
+      } else if (hasModifier) {
+        nextValues = currentValues.filter((value) => value !== modifier);
+      } else {
+        nextValues = [...currentValues.filter((value) => value !== noneKey), modifier];
+      }
+
+      return {
+        ...current,
+        [toolKey]: {
+          ...current[toolKey],
+          modifiers: nextValues,
+        },
+      };
+    });
+  };
+
+  const resetAcuteTool = (toolKey) => {
+    setAcuteState((current) => ({
+      ...current,
+      [toolKey]: acuteInitialState[toolKey],
     }));
   };
 
@@ -1301,75 +1368,15 @@ function AppLayout() {
 
           {currentPage === "acute" ? (
           <>
-          <section className="focus-layout">
-            <div key={`acute-panel-${activeAcuteItem?.id ?? "empty"}`} className="panel guide-detail-panel spotlight-panel">
-              {activeAcuteItem ? (
-                <>
-                  <div className="section-card-header">
-                    <div>
-                      <span className="eyebrow">Acute management</span>
-                      <h3>{activeAcuteItem.title}</h3>
-                    </div>
-                    <HeartPulse size={18} />
-                  </div>
-
-                  <div className="guide-meta-row">
-                    <div className="mini-stat">
-                      <span>Category</span>
-                      <strong>{activeAcuteItem.category}</strong>
-                    </div>
-                    <div className="mini-stat">
-                      <span>Core prompts</span>
-                      <strong>{activeAcuteItem.prompts.length}</strong>
-                    </div>
-                    <div className="mini-stat">
-                      <span>Workspace</span>
-                      <strong>Acute pathway</strong>
-                    </div>
-                  </div>
-
-                  <div className="guide-summary-grid">
-                    <ContentSummaryCard
-                      eyebrow="Acute synopsis"
-                      title="Overview"
-                      description={activeAcuteItem.summary}
-                    />
-                    <ContentListPreview
-                      eyebrow="Key prompts"
-                      title="Decision sequence"
-                      items={activeAcuteItem.prompts}
-                      emptyLabel="Acute prompts will appear here."
-                    />
-                  </div>
-
-                  <section className="panel reference-panel">
-                    <div className="section-card-header slim">
-                      <div>
-                        <span className="eyebrow">Immediate use</span>
-                        <h4>Clinical orientation</h4>
-                      </div>
-                    </div>
-                    <div className="action-card">
-                      <p>{activeAcuteItem.action}</p>
-                    </div>
-                    <div className="result-list">
-                      {activeAcuteItem.prompts.map((prompt, index) => (
-                        <div key={prompt} className="result-list-item">
-                          <span>Step {index + 1}</span>
-                          <strong>{prompt}</strong>
-                        </div>
-                      ))}
-                    </div>
-                  </section>
-                </>
-              ) : (
-                <div className="empty-state left-aligned">
-                  <CircleAlert size={24} />
-                  <h4>No acute-management items matched the current search.</h4>
-                </div>
-              )}
-            </div>
-          </section>
+          <AcuteManagementPage
+            activeAcuteId={activeAcuteId}
+            activeAcuteItem={activeAcuteItem}
+            onSelectAcute={setActiveAcuteId}
+            acuteState={acuteState}
+            onFieldChange={updateAcuteField}
+            onToggleModifier={toggleAcuteModifier}
+            onResetTool={resetAcuteTool}
+          />
           </>
           ) : null}
 
@@ -2047,6 +2054,594 @@ function DoacBinaryMatrix({ rows }) {
           </label>
         </div>
       ))}
+    </div>
+  );
+}
+
+function AcuteManagementPage({
+  activeAcuteId,
+  activeAcuteItem,
+  onSelectAcute,
+  acuteState,
+  onFieldChange,
+  onToggleModifier,
+  onResetTool,
+}) {
+  if (!activeAcuteItem) {
+    return (
+      <section className="focus-layout">
+        <div className="panel acute-workspace">
+          <div className="empty-state left-aligned">
+            <CircleAlert size={24} />
+            <h4>No acute-management items matched the current search.</h4>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section className="focus-layout">
+      <div className="panel acute-workspace spotlight-panel">
+        <div className="acute-toolbar">
+          <div>
+            <span className="eyebrow">Acute management</span>
+            <h3>{activeAcuteItem.title}</h3>
+            <p>{activeAcuteItem.summary}</p>
+          </div>
+          <button type="button" className="ghost-button" onClick={() => onResetTool(getAcuteToolKey(activeAcuteId))}>
+            Reset
+          </button>
+        </div>
+
+        <div className="acute-tool-tabs">
+          {acuteManagementItems.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              className={item.id === activeAcuteId ? "acute-tool-tab active" : "acute-tool-tab"}
+              onClick={() => onSelectAcute(item.id)}
+            >
+              {item.shortTitle}
+            </button>
+          ))}
+        </div>
+
+        {activeAcuteId === "acute-af" ? (
+          <AcuteAFPanel state={acuteState.af} onFieldChange={onFieldChange} />
+        ) : null}
+        {activeAcuteId === "acute-bleeding" ? (
+          <AcuteBleedPanel state={acuteState.bleed} onFieldChange={onFieldChange} />
+        ) : null}
+        {activeAcuteId === "acute-dvt" ? (
+          <AcuteDvtPanel state={acuteState.dvt} onToggleModifier={onToggleModifier} onFieldChange={onFieldChange} />
+        ) : null}
+        {activeAcuteId === "acute-pe" ? (
+          <AcutePePanel state={acuteState.pe} onToggleModifier={onToggleModifier} onFieldChange={onFieldChange} />
+        ) : null}
+      </div>
+    </section>
+  );
+}
+
+function getAcuteToolKey(activeAcuteId) {
+  if (activeAcuteId === "acute-af") return "af";
+  if (activeAcuteId === "acute-bleeding") return "bleed";
+  if (activeAcuteId === "acute-dvt") return "dvt";
+  if (activeAcuteId === "acute-pe") return "pe";
+  return "af";
+}
+
+function AcuteQuestionCard({ title, children, note }) {
+  return (
+    <section className="acute-question-card">
+      <h4>{title}</h4>
+      {note ? <p className="acute-question-note">{note}</p> : null}
+      {children}
+    </section>
+  );
+}
+
+function AcuteChoiceGrid({ options, value, onChange, multi = false }) {
+  return (
+    <div className="acute-choice-grid">
+      {options.map((option) => {
+        const active = multi ? value.includes(option.value) : value === option.value;
+        return (
+          <button
+            key={option.value}
+            type="button"
+            className={active ? "acute-choice active" : "acute-choice"}
+            onClick={() => onChange(option.value)}
+          >
+            <span className="acute-choice-indicator" />
+            <span>
+              <strong>{option.label}</strong>
+              {option.detail ? <small>{option.detail}</small> : null}
+            </span>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function AcuteRecommendationBox({ tone = "info", title, children }) {
+  return (
+    <article className={`acute-rec-box ${tone}`}>
+      <h4>{title}</h4>
+      <div>{children}</div>
+    </article>
+  );
+}
+
+function AcuteAFPanel({ state, onFieldChange }) {
+  const setField = (field, value) => onFieldChange("af", field, value);
+  const isUnstable = ["hypotension", "ischemia", "edema"].includes(state.stability);
+  const showValvularStatus = state.stability === "stable";
+  const showDuration = state.stability === "stable" && state.valvularStatus === "nonvalvular";
+  const showRecentStroke = showDuration && state.duration === "12to48h";
+  const showChads = showRecentStroke && state.recentStrokeTia === "no";
+  const showUnstableRec = isUnstable;
+  const showValvularRec =
+    state.stability === "stable" &&
+    (state.valvularStatus === "valvular" || state.duration === "gt48h" || state.recentStrokeTia === "yes" || state.chads2 === "gte2");
+  const showEarlyRec =
+    state.stability === "stable" &&
+    (state.duration === "lt12h" || (state.duration === "12to48h" && state.recentStrokeTia === "no"));
+
+  return (
+    <div className="acute-tool-body">
+      <AcuteQuestionCard title="Hemodynamic status">
+        <AcuteChoiceGrid
+          value={state.stability}
+          onChange={(value) => {
+            setField("stability", value);
+            setField("valvularStatus", "");
+            setField("duration", "");
+            setField("recentStrokeTia", "");
+            setField("chads2", "");
+          }}
+          options={[
+            { value: "stable", label: "Stable" },
+            { value: "hypotension", label: "Unstable", detail: "Acute AF causing persistent hypotension" },
+            { value: "ischemia", label: "Unstable", detail: "Acute AF causing cardiac ischemia" },
+            { value: "edema", label: "Unstable", detail: "Acute AF causing pulmonary edema" },
+          ]}
+        />
+      </AcuteQuestionCard>
+
+      {showValvularStatus ? (
+        <AcuteQuestionCard title="Valvular status">
+          <AcuteChoiceGrid
+            value={state.valvularStatus}
+            onChange={(value) => {
+              setField("valvularStatus", value);
+              setField("duration", "");
+              setField("recentStrokeTia", "");
+              setField("chads2", "");
+            }}
+            options={[
+              { value: "valvular", label: "Valvular AF" },
+              { value: "nonvalvular", label: "Non-valvular AF" },
+            ]}
+          />
+        </AcuteQuestionCard>
+      ) : null}
+
+      {showDuration ? (
+        <AcuteQuestionCard title="Duration of non-valvular AF">
+          <AcuteChoiceGrid
+            value={state.duration}
+            onChange={(value) => {
+              setField("duration", value);
+              setField("recentStrokeTia", "");
+              setField("chads2", "");
+            }}
+            options={[
+              { value: "lt12h", label: "Less than 12 hours" },
+              { value: "12to48h", label: "12 to 48 hours" },
+              { value: "gt48h", label: "More than 48 hours" },
+            ]}
+          />
+        </AcuteQuestionCard>
+      ) : null}
+
+      {showRecentStroke ? (
+        <AcuteQuestionCard title="Recent stroke or TIA">
+          <AcuteChoiceGrid
+            value={state.recentStrokeTia}
+            onChange={(value) => {
+              setField("recentStrokeTia", value);
+              setField("chads2", "");
+            }}
+            options={[
+              { value: "yes", label: "Yes" },
+              { value: "no", label: "No" },
+            ]}
+          />
+        </AcuteQuestionCard>
+      ) : null}
+
+      {showChads ? (
+        <AcuteQuestionCard title="CHADS2 score">
+          <AcuteChoiceGrid
+            value={state.chads2}
+            onChange={(value) => setField("chads2", value)}
+            options={[
+              { value: "gte2", label: "At least 2" },
+              { value: "lt2", label: "0 or 1" },
+              { value: "unknown", label: "Unknown" },
+            ]}
+          />
+        </AcuteQuestionCard>
+      ) : null}
+
+      <div className="acute-rec-grid">
+        {showUnstableRec ? (
+          <AcuteRecommendationBox tone="danger" title="Urgent cardioversion pathway">
+            <ul className="content-list compact">
+              <li>Initiate an oral anticoagulant as soon as possible, ideally before cardioversion.</li>
+              <li>Proceed with urgent synchronized cardioversion.</li>
+              <li>Continue anticoagulation for 4 weeks after cardioversion.</li>
+              <li>Plan long-term anticoagulation according to stroke risk and specialist review.</li>
+            </ul>
+          </AcuteRecommendationBox>
+        ) : null}
+
+        {showValvularRec ? (
+          <AcuteRecommendationBox tone="warning" title="Anticoagulate before delayed cardioversion">
+            <ul className="content-list compact">
+              <li>Provide therapeutic oral anticoagulation for at least 3 weeks before cardioversion, or perform TEE to exclude left atrial thrombus.</li>
+              <li>Proceed with cardioversion once safe.</li>
+              <li>Continue anticoagulation for 4 weeks after cardioversion.</li>
+              <li>Arrange long-term anticoagulation based on stroke-risk assessment.</li>
+            </ul>
+          </AcuteRecommendationBox>
+        ) : null}
+
+        {showEarlyRec ? (
+          <AcuteRecommendationBox tone="action" title="Early AF cardioversion strategy">
+            <ul className="content-list compact">
+              <li>Start oral anticoagulation as soon as possible, preferably before cardioversion.</li>
+              <li>Proceed with cardioversion once rate and symptoms are appropriately managed.</li>
+              <li>Continue anticoagulation for at least 4 weeks after cardioversion.</li>
+              <li>Review the need for long-term anticoagulation according to stroke risk.</li>
+            </ul>
+          </AcuteRecommendationBox>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+function AcuteBleedPanel({ state, onFieldChange }) {
+  const setField = (field, value) => onFieldChange("bleed", field, value);
+  const showDrug = state.severity === "clinical" || state.severity === "major";
+  const showInr = showDrug && state.drug === "warfarin";
+  const showMinorRec = state.severity === "minor";
+  const showClinicalRec = state.severity === "clinical";
+  const showMajorInitial = state.severity === "major";
+  const showWarfarinLow = showInr && !state.inrUnknown && Number(state.inr) > 0 && Number(state.inr) <= 1.5;
+  const showWarfarinReverse = showInr && (state.inrUnknown || Number(state.inr) > 1.5);
+  const showDabigatranRec = state.severity === "major" && state.drug === "dabigatran";
+  const showXaRec = state.severity === "major" && ["apixaban", "rivaroxaban", "edoxaban"].includes(state.drug);
+  const showHeparinRec = state.severity === "major" && state.drug === "heparin";
+
+  return (
+    <div className="acute-tool-body">
+      <AcuteQuestionCard title="Bleeding severity">
+        <AcuteChoiceGrid
+          value={state.severity}
+          onChange={(value) => {
+            setField("severity", value);
+            setField("drug", "");
+            setField("inr", "");
+            setField("inrUnknown", false);
+          }}
+          options={[
+            { value: "minor", label: "Minor bleeding", detail: "Small bruising, dental bleeding, anterior epistaxis, hemorrhoidal bleeding" },
+            { value: "clinical", label: "Clinically relevant non-major bleeding", detail: "Requires medical attention or non-urgent intervention" },
+            { value: "major", label: "Major or life-threatening bleeding", detail: "Critical site bleeding or hemodynamic instability" },
+          ]}
+        />
+      </AcuteQuestionCard>
+
+      {showDrug ? (
+        <AcuteQuestionCard title="Anticoagulant used">
+          <AcuteChoiceGrid
+            value={state.drug}
+            onChange={(value) => {
+              setField("drug", value);
+              setField("inr", "");
+              setField("inrUnknown", false);
+            }}
+            options={[
+              { value: "warfarin", label: "Warfarin" },
+              { value: "dabigatran", label: "Dabigatran" },
+              { value: "apixaban", label: "Apixaban" },
+              { value: "rivaroxaban", label: "Rivaroxaban" },
+              { value: "edoxaban", label: "Edoxaban" },
+              { value: "heparin", label: "UFH or LMWH" },
+            ]}
+          />
+        </AcuteQuestionCard>
+      ) : null}
+
+      {showInr ? (
+        <AcuteQuestionCard title="Warfarin INR">
+          <div className="acute-inline-form">
+            <label className="acute-inline-label">
+              <span>INR value</span>
+              <input
+                className="acute-inline-input"
+                type="number"
+                step="0.1"
+                min="0.5"
+                max="15"
+                value={state.inr}
+                onChange={(event) => {
+                  setField("inr", event.target.value);
+                  setField("inrUnknown", false);
+                }}
+              />
+            </label>
+            <button
+              type="button"
+              className={state.inrUnknown ? "acute-choice active acute-inline-toggle" : "acute-choice acute-inline-toggle"}
+              onClick={() => {
+                setField("inrUnknown", !state.inrUnknown);
+                if (!state.inrUnknown) {
+                  setField("inr", "");
+                }
+              }}
+            >
+              <span className="acute-choice-indicator" />
+              <span><strong>Unknown or pending</strong></span>
+            </button>
+          </div>
+        </AcuteQuestionCard>
+      ) : null}
+
+      <div className="acute-rec-grid">
+        {showMinorRec ? (
+          <AcuteRecommendationBox tone="action" title="Minor bleeding management">
+            <ul className="content-list compact">
+              <li>Continue anticoagulant therapy and monitor.</li>
+              <li>Confirm the drug and dose remain appropriate for age, weight, indication, and renal function.</li>
+              <li>Review CBC, creatinine, liver function, and interacting medicines when clinically needed.</li>
+              <li>Check INR if the patient is on warfarin.</li>
+            </ul>
+          </AcuteRecommendationBox>
+        ) : null}
+
+        {showClinicalRec ? (
+          <AcuteRecommendationBox tone="warning" title="Clinically relevant non-major bleeding">
+            <ul className="content-list compact">
+              <li>Consider temporary interruption of anticoagulation depending on site and severity.</li>
+              <li>Apply local hemostatic measures and refer for procedural control if needed.</li>
+              <li>Check CBC, PT/INR, aPTT, creatinine, liver tests, and group and screen when relevant.</li>
+              <li>Review antiplatelets, NSAIDs, and other medicines that may worsen bleeding.</li>
+            </ul>
+          </AcuteRecommendationBox>
+        ) : null}
+
+        {showMajorInitial ? (
+          <AcuteRecommendationBox tone="danger" title="Initial management of major bleeding">
+            <ul className="content-list compact">
+              <li>Interrupt anticoagulant therapy immediately and begin monitored resuscitation.</li>
+              <li>Apply local hemostatic measures and refer for procedural or surgical control where appropriate.</li>
+              <li>Check CBC, coagulation tests, creatinine, liver function, and blood bank testing urgently.</li>
+              <li>Use specific DOAC assays when available and timely.</li>
+            </ul>
+          </AcuteRecommendationBox>
+        ) : null}
+
+        {showWarfarinLow ? (
+          <AcuteRecommendationBox tone="info" title="Warfarin: INR 1.5 or lower">
+            <ul className="content-list compact">
+              <li>No reversal is usually required.</li>
+              <li>Consider interrupting warfarin based on bleeding site and severity.</li>
+              <li>Continue local measures, monitoring, and investigation of the bleeding source.</li>
+            </ul>
+          </AcuteRecommendationBox>
+        ) : null}
+
+        {showWarfarinReverse ? (
+          <AcuteRecommendationBox tone="danger" title="Warfarin: reversal required">
+            <ul className="content-list compact">
+              <li>Use 4-factor PCC for immediate reversal, guided by INR and weight where available.</li>
+              <li>Give vitamin K 10 mg IV to sustain reversal.</li>
+              <li>Use FFP only if PCC is unavailable.</li>
+              <li>Repeat INR about 15 minutes after PCC infusion and target INR 1.5 or lower.</li>
+            </ul>
+          </AcuteRecommendationBox>
+        ) : null}
+
+        {showDabigatranRec ? (
+          <AcuteRecommendationBox tone="danger" title="Dabigatran reversal">
+            <ul className="content-list compact">
+              <li>Use idarucizumab 5 g IV as the preferred specific reversal agent.</li>
+              <li>If unavailable, consider PCC 50 units/kg or FEIBA 50 units/kg with specialist input.</li>
+              <li>Hemodialysis can be considered if feasible.</li>
+            </ul>
+          </AcuteRecommendationBox>
+        ) : null}
+
+        {showXaRec ? (
+          <AcuteRecommendationBox tone="danger" title="Factor Xa inhibitor reversal">
+            <ul className="content-list compact">
+              <li>Use andexanet alfa where available and appropriate.</li>
+              <li>If unavailable, consider 4-factor PCC 50 units/kg as pro-hemostatic therapy.</li>
+              <li>Use calibrated anti-Xa testing where available to estimate residual drug effect.</li>
+            </ul>
+          </AcuteRecommendationBox>
+        ) : null}
+
+        {showHeparinRec ? (
+          <AcuteRecommendationBox tone="danger" title="Heparin or LMWH reversal">
+            <ul className="content-list compact">
+              <li>Stop heparin immediately.</li>
+              <li>Use protamine sulfate according to the heparin preparation and timing of the last dose.</li>
+              <li>Monitor aPTT or anti-Xa level where appropriate.</li>
+            </ul>
+          </AcuteRecommendationBox>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+function AcuteDvtPanel({ state, onToggleModifier, onFieldChange }) {
+  const setField = (field, value) => onFieldChange("dvt", field, value);
+  const showModifiers = state.massiveIliofemoral === "no";
+  const hasContra = state.modifiers.some((value) => value !== "none");
+  const showStandard = showModifiers && state.modifiers.includes("none");
+  const showContra = showModifiers && hasContra;
+
+  return (
+    <div className="acute-tool-body">
+      <AcuteQuestionCard title="Massive iliofemoral DVT">
+        <AcuteChoiceGrid
+          value={state.massiveIliofemoral}
+          onChange={(value) => {
+            setField("massiveIliofemoral", value);
+            setField("modifiers", []);
+          }}
+          options={[
+            { value: "yes", label: "Yes", detail: "Massive iliofemoral DVT or phlegmasia" },
+            { value: "no", label: "No" },
+          ]}
+        />
+      </AcuteQuestionCard>
+
+      {showModifiers ? (
+        <AcuteQuestionCard title="Clinical modifiers" note="Select all that apply. Choosing None clears the other modifiers.">
+          <AcuteChoiceGrid
+            multi
+            value={state.modifiers}
+            onChange={(value) => onToggleModifier("dvt", value)}
+            options={[
+              { value: "cancer", label: "Active cancer" },
+              { value: "liver", label: "Significant hepatic dysfunction" },
+              { value: "crcl15", label: "Creatinine clearance below 15 mL/min" },
+              { value: "preg", label: "Pregnancy" },
+              { value: "drugint", label: "Clinically important DOAC drug interaction" },
+              { value: "none", label: "None of the above" },
+            ]}
+          />
+        </AcuteQuestionCard>
+      ) : null}
+
+      <div className="acute-rec-grid">
+        {state.massiveIliofemoral === "yes" ? (
+          <AcuteRecommendationBox tone="danger" title="Massive iliofemoral DVT">
+            <ul className="content-list compact">
+              <li>Seek immediate vascular surgery and interventional radiology input for urgent pharmacomechanical treatment.</li>
+              <li>Continue anticoagulation with UFH or LMWH after initial intervention is arranged.</li>
+            </ul>
+          </AcuteRecommendationBox>
+        ) : null}
+
+        {showStandard ? (
+          <AcuteRecommendationBox tone="action" title="Standard anticoagulation options">
+            <ul className="content-list compact">
+              <li>LMWH for at least 5 days with warfarin bridging until INR is therapeutic.</li>
+              <li>LMWH lead-in followed by dabigatran where appropriate.</li>
+              <li>Apixaban 10 mg twice daily for 7 days, then 5 mg twice daily.</li>
+              <li>Rivaroxaban 15 mg twice daily for 21 days, then 20 mg once daily.</li>
+            </ul>
+          </AcuteRecommendationBox>
+        ) : null}
+
+        {showContra ? (
+          <AcuteRecommendationBox tone="warning" title="DVT treatment with modifiers present">
+            <ul className="content-list compact">
+              <li>Active cancer: consider LMWH monotherapy.</li>
+              <li>Hepatic dysfunction, pregnancy, or CrCl below 15: use warfarin with heparin support or LMWH with specialist input.</li>
+              <li>Important DOAC interactions: favor warfarin and LMWH or specialist consultation.</li>
+            </ul>
+          </AcuteRecommendationBox>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+function AcutePePanel({ state, onToggleModifier, onFieldChange }) {
+  const setField = (field, value) => onFieldChange("pe", field, value);
+  const showModifiers = state.stability === "stable";
+  const hasContra = state.modifiers.some((value) => value !== "none");
+  const showStandard = showModifiers && state.modifiers.includes("none");
+  const showContra = showModifiers && hasContra;
+
+  return (
+    <div className="acute-tool-body">
+      <AcuteQuestionCard title="Hemodynamic stability" note="High-risk PE includes persistent hemodynamic instability, shock, or acute deterioration.">
+        <AcuteChoiceGrid
+          value={state.stability}
+          onChange={(value) => {
+            setField("stability", value);
+            setField("modifiers", []);
+          }}
+          options={[
+            { value: "stable", label: "Stable" },
+            { value: "unstable", label: "Unstable", detail: "High-risk PE or clinical deterioration" },
+          ]}
+        />
+      </AcuteQuestionCard>
+
+      {showModifiers ? (
+        <AcuteQuestionCard title="Treatment modifiers" note="Select all that apply. Choosing None clears the other modifiers.">
+          <AcuteChoiceGrid
+            multi
+            value={state.modifiers}
+            onChange={(value) => onToggleModifier("pe", value)}
+            options={[
+              { value: "cancer", label: "Active cancer" },
+              { value: "liver", label: "Significant hepatic dysfunction" },
+              { value: "crcl15", label: "Creatinine clearance below 15 mL/min" },
+              { value: "preg", label: "Pregnancy" },
+              { value: "drugint", label: "Clinically important DOAC drug interaction" },
+              { value: "none", label: "None of the above" },
+            ]}
+          />
+        </AcuteQuestionCard>
+      ) : null}
+
+      <div className="acute-rec-grid">
+        {state.stability === "unstable" ? (
+          <AcuteRecommendationBox tone="danger" title="Unstable pulmonary embolism">
+            <ul className="content-list compact">
+              <li>Consider immediate IV thrombolysis.</li>
+              <li>Consult ICU urgently.</li>
+              <li>Consider pharmacomechanical therapy when bleeding risk is high.</li>
+              <li>Use UFH or LMWH after initial reperfusion therapy is completed.</li>
+            </ul>
+          </AcuteRecommendationBox>
+        ) : null}
+
+        {showStandard ? (
+          <AcuteRecommendationBox tone="action" title="Standard PE anticoagulation">
+            <ul className="content-list compact">
+              <li>LMWH for at least 5 days with warfarin until INR is 2 to 3.</li>
+              <li>LMWH lead-in followed by dabigatran where appropriate.</li>
+              <li>Apixaban 10 mg twice daily for 7 days, then 5 mg twice daily.</li>
+              <li>Rivaroxaban 15 mg twice daily for 21 days, then 20 mg once daily.</li>
+            </ul>
+          </AcuteRecommendationBox>
+        ) : null}
+
+        {showContra ? (
+          <AcuteRecommendationBox tone="warning" title="PE treatment with modifiers present">
+            <ul className="content-list compact">
+              <li>Active cancer: consider LMWH monotherapy.</li>
+              <li>Hepatic dysfunction, pregnancy, or CrCl below 15: use warfarin with heparin support or LMWH with specialist input.</li>
+              <li>Important DOAC interactions: favor warfarin and LMWH or specialist consultation.</li>
+            </ul>
+          </AcuteRecommendationBox>
+        ) : null}
+      </div>
     </div>
   );
 }

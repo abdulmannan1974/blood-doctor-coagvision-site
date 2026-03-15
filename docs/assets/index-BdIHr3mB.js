@@ -23869,6 +23869,29 @@ const acuteManagementItems = [
     action: "Use this section to separate unstable or deteriorating PE from lower-risk presentations and highlight when reperfusion discussions become urgent."
   }
 ];
+const acuteInitialState = {
+  af: {
+    stability: "",
+    valvularStatus: "",
+    duration: "",
+    recentStrokeTia: "",
+    chads2: ""
+  },
+  bleed: {
+    severity: "",
+    drug: "",
+    inr: "",
+    inrUnknown: false
+  },
+  dvt: {
+    massiveIliofemoral: "",
+    modifiers: []
+  },
+  pe: {
+    stability: "",
+    modifiers: []
+  }
+};
 const doacFollowupInitialState = {
   patientName: "",
   patientAge: "",
@@ -24181,6 +24204,7 @@ function AppLayout() {
   const [currentPage, setCurrentPage] = reactExports.useState(getPageFromHash);
   const [activeToolId, setActiveToolId] = reactExports.useState(tools[0]?.id ?? "");
   const [activeAcuteId, setActiveAcuteId] = reactExports.useState(acuteManagementItems[0]?.id ?? "");
+  const [acuteState, setAcuteState] = reactExports.useState(acuteInitialState);
   const [doacFollowup, setDoacFollowup] = reactExports.useState(doacFollowupInitialState);
   const [toolValues, setToolValues] = reactExports.useState(toolStateDefaults);
   const [activeGuideId, setActiveGuideId] = reactExports.useState(guideLibrary[0]?.id ?? "");
@@ -24442,6 +24466,42 @@ function AppLayout() {
         ...current[toolId],
         [inputId]: value
       }
+    }));
+  };
+  const updateAcuteField = (toolKey, field, value) => {
+    setAcuteState((current) => ({
+      ...current,
+      [toolKey]: {
+        ...current[toolKey],
+        [field]: value
+      }
+    }));
+  };
+  const toggleAcuteModifier = (toolKey, modifier, noneKey = "none") => {
+    setAcuteState((current) => {
+      const currentValues = current[toolKey]?.modifiers ?? [];
+      const hasModifier = currentValues.includes(modifier);
+      let nextValues;
+      if (modifier === noneKey) {
+        nextValues = hasModifier ? [] : [noneKey];
+      } else if (hasModifier) {
+        nextValues = currentValues.filter((value) => value !== modifier);
+      } else {
+        nextValues = [...currentValues.filter((value) => value !== noneKey), modifier];
+      }
+      return {
+        ...current,
+        [toolKey]: {
+          ...current[toolKey],
+          modifiers: nextValues
+        }
+      };
+    });
+  };
+  const resetAcuteTool = (toolKey) => {
+    setAcuteState((current) => ({
+      ...current,
+      [toolKey]: acuteInitialState[toolKey]
     }));
   };
   const updateDoacFollowup = (field, value) => {
@@ -24738,65 +24798,18 @@ function AppLayout() {
           ] }) }, `tool-panel-${activeTool?.id ?? "empty"}`),
           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "insight-grid", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ResultPanel, { result }) })
         ] }) }) }) : null,
-        currentPage === "acute" ? /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "focus-layout", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "panel guide-detail-panel spotlight-panel", children: activeAcuteItem ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "section-card-header", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Acute management" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: activeAcuteItem.title })
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(HeartPulse, { size: 18 })
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "guide-meta-row", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mini-stat", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Category" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: activeAcuteItem.category })
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mini-stat", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Core prompts" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: activeAcuteItem.prompts.length })
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mini-stat", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Workspace" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Acute pathway" })
-            ] })
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "guide-summary-grid", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              ContentSummaryCard,
-              {
-                eyebrow: "Acute synopsis",
-                title: "Overview",
-                description: activeAcuteItem.summary
-              }
-            ),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              ContentListPreview,
-              {
-                eyebrow: "Key prompts",
-                title: "Decision sequence",
-                items: activeAcuteItem.prompts,
-                emptyLabel: "Acute prompts will appear here."
-              }
-            )
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "panel reference-panel", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "section-card-header slim", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Immediate use" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: "Clinical orientation" })
-            ] }) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "action-card", children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: activeAcuteItem.action }) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "result-list", children: activeAcuteItem.prompts.map((prompt, index) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "result-list-item", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
-                "Step ",
-                index + 1
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: prompt })
-            ] }, prompt)) })
-          ] })
-        ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "empty-state left-aligned", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(CircleAlert, { size: 24 }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: "No acute-management items matched the current search." })
-        ] }) }, `acute-panel-${activeAcuteItem?.id ?? "empty"}`) }) }) : null,
+        currentPage === "acute" ? /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+          AcuteManagementPage,
+          {
+            activeAcuteId,
+            activeAcuteItem,
+            onSelectAcute: setActiveAcuteId,
+            acuteState,
+            onFieldChange: updateAcuteField,
+            onToggleModifier: toggleAcuteModifier,
+            onResetTool: resetAcuteTool
+          }
+        ) }) : null,
         currentPage === "followup" ? /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(
           DoacFollowupPage,
           {
@@ -25471,6 +25484,445 @@ function DoacBinaryMatrix({ rows }) {
         /* @__PURE__ */ jsxRuntimeExports.jsx("span", {})
       ] })
     ] }, label))
+  ] });
+}
+function AcuteManagementPage({
+  activeAcuteId,
+  activeAcuteItem,
+  onSelectAcute,
+  acuteState,
+  onFieldChange,
+  onToggleModifier,
+  onResetTool
+}) {
+  if (!activeAcuteItem) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "focus-layout", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "panel acute-workspace", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "empty-state left-aligned", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(CircleAlert, { size: 24 }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: "No acute-management items matched the current search." })
+    ] }) }) });
+  }
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "focus-layout", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "panel acute-workspace spotlight-panel", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "acute-toolbar", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Acute management" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: activeAcuteItem.title }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: activeAcuteItem.summary })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "button", className: "ghost-button", onClick: () => onResetTool(getAcuteToolKey(activeAcuteId)), children: "Reset" })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "acute-tool-tabs", children: acuteManagementItems.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "button",
+      {
+        type: "button",
+        className: item.id === activeAcuteId ? "acute-tool-tab active" : "acute-tool-tab",
+        onClick: () => onSelectAcute(item.id),
+        children: item.shortTitle
+      },
+      item.id
+    )) }),
+    activeAcuteId === "acute-af" ? /* @__PURE__ */ jsxRuntimeExports.jsx(AcuteAFPanel, { state: acuteState.af, onFieldChange }) : null,
+    activeAcuteId === "acute-bleeding" ? /* @__PURE__ */ jsxRuntimeExports.jsx(AcuteBleedPanel, { state: acuteState.bleed, onFieldChange }) : null,
+    activeAcuteId === "acute-dvt" ? /* @__PURE__ */ jsxRuntimeExports.jsx(AcuteDvtPanel, { state: acuteState.dvt, onToggleModifier, onFieldChange }) : null,
+    activeAcuteId === "acute-pe" ? /* @__PURE__ */ jsxRuntimeExports.jsx(AcutePePanel, { state: acuteState.pe, onToggleModifier, onFieldChange }) : null
+  ] }) });
+}
+function getAcuteToolKey(activeAcuteId) {
+  if (activeAcuteId === "acute-af") return "af";
+  if (activeAcuteId === "acute-bleeding") return "bleed";
+  if (activeAcuteId === "acute-dvt") return "dvt";
+  if (activeAcuteId === "acute-pe") return "pe";
+  return "af";
+}
+function AcuteQuestionCard({ title, children, note }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "acute-question-card", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: title }),
+    note ? /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "acute-question-note", children: note }) : null,
+    children
+  ] });
+}
+function AcuteChoiceGrid({ options, value, onChange, multi = false }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "acute-choice-grid", children: options.map((option) => {
+    const active = multi ? value.includes(option.value) : value === option.value;
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      "button",
+      {
+        type: "button",
+        className: active ? "acute-choice active" : "acute-choice",
+        onClick: () => onChange(option.value),
+        children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "acute-choice-indicator" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: option.label }),
+            option.detail ? /* @__PURE__ */ jsxRuntimeExports.jsx("small", { children: option.detail }) : null
+          ] })
+        ]
+      },
+      option.value
+    );
+  }) });
+}
+function AcuteRecommendationBox({ tone: tone2 = "info", title, children }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: `acute-rec-box ${tone2}`, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: title }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children })
+  ] });
+}
+function AcuteAFPanel({ state, onFieldChange }) {
+  const setField = (field, value) => onFieldChange("af", field, value);
+  const isUnstable = ["hypotension", "ischemia", "edema"].includes(state.stability);
+  const showValvularStatus = state.stability === "stable";
+  const showDuration = state.stability === "stable" && state.valvularStatus === "nonvalvular";
+  const showRecentStroke = showDuration && state.duration === "12to48h";
+  const showChads = showRecentStroke && state.recentStrokeTia === "no";
+  const showUnstableRec = isUnstable;
+  const showValvularRec = state.stability === "stable" && (state.valvularStatus === "valvular" || state.duration === "gt48h" || state.recentStrokeTia === "yes" || state.chads2 === "gte2");
+  const showEarlyRec = state.stability === "stable" && (state.duration === "lt12h" || state.duration === "12to48h" && state.recentStrokeTia === "no");
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "acute-tool-body", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(AcuteQuestionCard, { title: "Hemodynamic status", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      AcuteChoiceGrid,
+      {
+        value: state.stability,
+        onChange: (value) => {
+          setField("stability", value);
+          setField("valvularStatus", "");
+          setField("duration", "");
+          setField("recentStrokeTia", "");
+          setField("chads2", "");
+        },
+        options: [
+          { value: "stable", label: "Stable" },
+          { value: "hypotension", label: "Unstable", detail: "Acute AF causing persistent hypotension" },
+          { value: "ischemia", label: "Unstable", detail: "Acute AF causing cardiac ischemia" },
+          { value: "edema", label: "Unstable", detail: "Acute AF causing pulmonary edema" }
+        ]
+      }
+    ) }),
+    showValvularStatus ? /* @__PURE__ */ jsxRuntimeExports.jsx(AcuteQuestionCard, { title: "Valvular status", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      AcuteChoiceGrid,
+      {
+        value: state.valvularStatus,
+        onChange: (value) => {
+          setField("valvularStatus", value);
+          setField("duration", "");
+          setField("recentStrokeTia", "");
+          setField("chads2", "");
+        },
+        options: [
+          { value: "valvular", label: "Valvular AF" },
+          { value: "nonvalvular", label: "Non-valvular AF" }
+        ]
+      }
+    ) }) : null,
+    showDuration ? /* @__PURE__ */ jsxRuntimeExports.jsx(AcuteQuestionCard, { title: "Duration of non-valvular AF", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      AcuteChoiceGrid,
+      {
+        value: state.duration,
+        onChange: (value) => {
+          setField("duration", value);
+          setField("recentStrokeTia", "");
+          setField("chads2", "");
+        },
+        options: [
+          { value: "lt12h", label: "Less than 12 hours" },
+          { value: "12to48h", label: "12 to 48 hours" },
+          { value: "gt48h", label: "More than 48 hours" }
+        ]
+      }
+    ) }) : null,
+    showRecentStroke ? /* @__PURE__ */ jsxRuntimeExports.jsx(AcuteQuestionCard, { title: "Recent stroke or TIA", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      AcuteChoiceGrid,
+      {
+        value: state.recentStrokeTia,
+        onChange: (value) => {
+          setField("recentStrokeTia", value);
+          setField("chads2", "");
+        },
+        options: [
+          { value: "yes", label: "Yes" },
+          { value: "no", label: "No" }
+        ]
+      }
+    ) }) : null,
+    showChads ? /* @__PURE__ */ jsxRuntimeExports.jsx(AcuteQuestionCard, { title: "CHADS2 score", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      AcuteChoiceGrid,
+      {
+        value: state.chads2,
+        onChange: (value) => setField("chads2", value),
+        options: [
+          { value: "gte2", label: "At least 2" },
+          { value: "lt2", label: "0 or 1" },
+          { value: "unknown", label: "Unknown" }
+        ]
+      }
+    ) }) : null,
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "acute-rec-grid", children: [
+      showUnstableRec ? /* @__PURE__ */ jsxRuntimeExports.jsx(AcuteRecommendationBox, { tone: "danger", title: "Urgent cardioversion pathway", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: "content-list compact", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Initiate an oral anticoagulant as soon as possible, ideally before cardioversion." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Proceed with urgent synchronized cardioversion." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Continue anticoagulation for 4 weeks after cardioversion." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Plan long-term anticoagulation according to stroke risk and specialist review." })
+      ] }) }) : null,
+      showValvularRec ? /* @__PURE__ */ jsxRuntimeExports.jsx(AcuteRecommendationBox, { tone: "warning", title: "Anticoagulate before delayed cardioversion", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: "content-list compact", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Provide therapeutic oral anticoagulation for at least 3 weeks before cardioversion, or perform TEE to exclude left atrial thrombus." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Proceed with cardioversion once safe." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Continue anticoagulation for 4 weeks after cardioversion." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Arrange long-term anticoagulation based on stroke-risk assessment." })
+      ] }) }) : null,
+      showEarlyRec ? /* @__PURE__ */ jsxRuntimeExports.jsx(AcuteRecommendationBox, { tone: "action", title: "Early AF cardioversion strategy", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: "content-list compact", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Start oral anticoagulation as soon as possible, preferably before cardioversion." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Proceed with cardioversion once rate and symptoms are appropriately managed." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Continue anticoagulation for at least 4 weeks after cardioversion." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Review the need for long-term anticoagulation according to stroke risk." })
+      ] }) }) : null
+    ] })
+  ] });
+}
+function AcuteBleedPanel({ state, onFieldChange }) {
+  const setField = (field, value) => onFieldChange("bleed", field, value);
+  const showDrug = state.severity === "clinical" || state.severity === "major";
+  const showInr = showDrug && state.drug === "warfarin";
+  const showMinorRec = state.severity === "minor";
+  const showClinicalRec = state.severity === "clinical";
+  const showMajorInitial = state.severity === "major";
+  const showWarfarinLow = showInr && !state.inrUnknown && Number(state.inr) > 0 && Number(state.inr) <= 1.5;
+  const showWarfarinReverse = showInr && (state.inrUnknown || Number(state.inr) > 1.5);
+  const showDabigatranRec = state.severity === "major" && state.drug === "dabigatran";
+  const showXaRec = state.severity === "major" && ["apixaban", "rivaroxaban", "edoxaban"].includes(state.drug);
+  const showHeparinRec = state.severity === "major" && state.drug === "heparin";
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "acute-tool-body", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(AcuteQuestionCard, { title: "Bleeding severity", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      AcuteChoiceGrid,
+      {
+        value: state.severity,
+        onChange: (value) => {
+          setField("severity", value);
+          setField("drug", "");
+          setField("inr", "");
+          setField("inrUnknown", false);
+        },
+        options: [
+          { value: "minor", label: "Minor bleeding", detail: "Small bruising, dental bleeding, anterior epistaxis, hemorrhoidal bleeding" },
+          { value: "clinical", label: "Clinically relevant non-major bleeding", detail: "Requires medical attention or non-urgent intervention" },
+          { value: "major", label: "Major or life-threatening bleeding", detail: "Critical site bleeding or hemodynamic instability" }
+        ]
+      }
+    ) }),
+    showDrug ? /* @__PURE__ */ jsxRuntimeExports.jsx(AcuteQuestionCard, { title: "Anticoagulant used", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      AcuteChoiceGrid,
+      {
+        value: state.drug,
+        onChange: (value) => {
+          setField("drug", value);
+          setField("inr", "");
+          setField("inrUnknown", false);
+        },
+        options: [
+          { value: "warfarin", label: "Warfarin" },
+          { value: "dabigatran", label: "Dabigatran" },
+          { value: "apixaban", label: "Apixaban" },
+          { value: "rivaroxaban", label: "Rivaroxaban" },
+          { value: "edoxaban", label: "Edoxaban" },
+          { value: "heparin", label: "UFH or LMWH" }
+        ]
+      }
+    ) }) : null,
+    showInr ? /* @__PURE__ */ jsxRuntimeExports.jsx(AcuteQuestionCard, { title: "Warfarin INR", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "acute-inline-form", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "acute-inline-label", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "INR value" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "input",
+          {
+            className: "acute-inline-input",
+            type: "number",
+            step: "0.1",
+            min: "0.5",
+            max: "15",
+            value: state.inr,
+            onChange: (event) => {
+              setField("inr", event.target.value);
+              setField("inrUnknown", false);
+            }
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "button",
+        {
+          type: "button",
+          className: state.inrUnknown ? "acute-choice active acute-inline-toggle" : "acute-choice acute-inline-toggle",
+          onClick: () => {
+            setField("inrUnknown", !state.inrUnknown);
+            if (!state.inrUnknown) {
+              setField("inr", "");
+            }
+          },
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "acute-choice-indicator" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Unknown or pending" }) })
+          ]
+        }
+      )
+    ] }) }) : null,
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "acute-rec-grid", children: [
+      showMinorRec ? /* @__PURE__ */ jsxRuntimeExports.jsx(AcuteRecommendationBox, { tone: "action", title: "Minor bleeding management", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: "content-list compact", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Continue anticoagulant therapy and monitor." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Confirm the drug and dose remain appropriate for age, weight, indication, and renal function." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Review CBC, creatinine, liver function, and interacting medicines when clinically needed." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Check INR if the patient is on warfarin." })
+      ] }) }) : null,
+      showClinicalRec ? /* @__PURE__ */ jsxRuntimeExports.jsx(AcuteRecommendationBox, { tone: "warning", title: "Clinically relevant non-major bleeding", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: "content-list compact", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Consider temporary interruption of anticoagulation depending on site and severity." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Apply local hemostatic measures and refer for procedural control if needed." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Check CBC, PT/INR, aPTT, creatinine, liver tests, and group and screen when relevant." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Review antiplatelets, NSAIDs, and other medicines that may worsen bleeding." })
+      ] }) }) : null,
+      showMajorInitial ? /* @__PURE__ */ jsxRuntimeExports.jsx(AcuteRecommendationBox, { tone: "danger", title: "Initial management of major bleeding", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: "content-list compact", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Interrupt anticoagulant therapy immediately and begin monitored resuscitation." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Apply local hemostatic measures and refer for procedural or surgical control where appropriate." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Check CBC, coagulation tests, creatinine, liver function, and blood bank testing urgently." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Use specific DOAC assays when available and timely." })
+      ] }) }) : null,
+      showWarfarinLow ? /* @__PURE__ */ jsxRuntimeExports.jsx(AcuteRecommendationBox, { tone: "info", title: "Warfarin: INR 1.5 or lower", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: "content-list compact", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "No reversal is usually required." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Consider interrupting warfarin based on bleeding site and severity." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Continue local measures, monitoring, and investigation of the bleeding source." })
+      ] }) }) : null,
+      showWarfarinReverse ? /* @__PURE__ */ jsxRuntimeExports.jsx(AcuteRecommendationBox, { tone: "danger", title: "Warfarin: reversal required", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: "content-list compact", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Use 4-factor PCC for immediate reversal, guided by INR and weight where available." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Give vitamin K 10 mg IV to sustain reversal." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Use FFP only if PCC is unavailable." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Repeat INR about 15 minutes after PCC infusion and target INR 1.5 or lower." })
+      ] }) }) : null,
+      showDabigatranRec ? /* @__PURE__ */ jsxRuntimeExports.jsx(AcuteRecommendationBox, { tone: "danger", title: "Dabigatran reversal", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: "content-list compact", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Use idarucizumab 5 g IV as the preferred specific reversal agent." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "If unavailable, consider PCC 50 units/kg or FEIBA 50 units/kg with specialist input." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Hemodialysis can be considered if feasible." })
+      ] }) }) : null,
+      showXaRec ? /* @__PURE__ */ jsxRuntimeExports.jsx(AcuteRecommendationBox, { tone: "danger", title: "Factor Xa inhibitor reversal", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: "content-list compact", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Use andexanet alfa where available and appropriate." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "If unavailable, consider 4-factor PCC 50 units/kg as pro-hemostatic therapy." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Use calibrated anti-Xa testing where available to estimate residual drug effect." })
+      ] }) }) : null,
+      showHeparinRec ? /* @__PURE__ */ jsxRuntimeExports.jsx(AcuteRecommendationBox, { tone: "danger", title: "Heparin or LMWH reversal", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: "content-list compact", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Stop heparin immediately." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Use protamine sulfate according to the heparin preparation and timing of the last dose." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Monitor aPTT or anti-Xa level where appropriate." })
+      ] }) }) : null
+    ] })
+  ] });
+}
+function AcuteDvtPanel({ state, onToggleModifier, onFieldChange }) {
+  const setField = (field, value) => onFieldChange("dvt", field, value);
+  const showModifiers = state.massiveIliofemoral === "no";
+  const hasContra = state.modifiers.some((value) => value !== "none");
+  const showStandard = showModifiers && state.modifiers.includes("none");
+  const showContra = showModifiers && hasContra;
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "acute-tool-body", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(AcuteQuestionCard, { title: "Massive iliofemoral DVT", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      AcuteChoiceGrid,
+      {
+        value: state.massiveIliofemoral,
+        onChange: (value) => {
+          setField("massiveIliofemoral", value);
+          setField("modifiers", []);
+        },
+        options: [
+          { value: "yes", label: "Yes", detail: "Massive iliofemoral DVT or phlegmasia" },
+          { value: "no", label: "No" }
+        ]
+      }
+    ) }),
+    showModifiers ? /* @__PURE__ */ jsxRuntimeExports.jsx(AcuteQuestionCard, { title: "Clinical modifiers", note: "Select all that apply. Choosing None clears the other modifiers.", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      AcuteChoiceGrid,
+      {
+        multi: true,
+        value: state.modifiers,
+        onChange: (value) => onToggleModifier("dvt", value),
+        options: [
+          { value: "cancer", label: "Active cancer" },
+          { value: "liver", label: "Significant hepatic dysfunction" },
+          { value: "crcl15", label: "Creatinine clearance below 15 mL/min" },
+          { value: "preg", label: "Pregnancy" },
+          { value: "drugint", label: "Clinically important DOAC drug interaction" },
+          { value: "none", label: "None of the above" }
+        ]
+      }
+    ) }) : null,
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "acute-rec-grid", children: [
+      state.massiveIliofemoral === "yes" ? /* @__PURE__ */ jsxRuntimeExports.jsx(AcuteRecommendationBox, { tone: "danger", title: "Massive iliofemoral DVT", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: "content-list compact", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Seek immediate vascular surgery and interventional radiology input for urgent pharmacomechanical treatment." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Continue anticoagulation with UFH or LMWH after initial intervention is arranged." })
+      ] }) }) : null,
+      showStandard ? /* @__PURE__ */ jsxRuntimeExports.jsx(AcuteRecommendationBox, { tone: "action", title: "Standard anticoagulation options", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: "content-list compact", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "LMWH for at least 5 days with warfarin bridging until INR is therapeutic." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "LMWH lead-in followed by dabigatran where appropriate." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Apixaban 10 mg twice daily for 7 days, then 5 mg twice daily." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Rivaroxaban 15 mg twice daily for 21 days, then 20 mg once daily." })
+      ] }) }) : null,
+      showContra ? /* @__PURE__ */ jsxRuntimeExports.jsx(AcuteRecommendationBox, { tone: "warning", title: "DVT treatment with modifiers present", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: "content-list compact", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Active cancer: consider LMWH monotherapy." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Hepatic dysfunction, pregnancy, or CrCl below 15: use warfarin with heparin support or LMWH with specialist input." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Important DOAC interactions: favor warfarin and LMWH or specialist consultation." })
+      ] }) }) : null
+    ] })
+  ] });
+}
+function AcutePePanel({ state, onToggleModifier, onFieldChange }) {
+  const setField = (field, value) => onFieldChange("pe", field, value);
+  const showModifiers = state.stability === "stable";
+  const hasContra = state.modifiers.some((value) => value !== "none");
+  const showStandard = showModifiers && state.modifiers.includes("none");
+  const showContra = showModifiers && hasContra;
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "acute-tool-body", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(AcuteQuestionCard, { title: "Hemodynamic stability", note: "High-risk PE includes persistent hemodynamic instability, shock, or acute deterioration.", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      AcuteChoiceGrid,
+      {
+        value: state.stability,
+        onChange: (value) => {
+          setField("stability", value);
+          setField("modifiers", []);
+        },
+        options: [
+          { value: "stable", label: "Stable" },
+          { value: "unstable", label: "Unstable", detail: "High-risk PE or clinical deterioration" }
+        ]
+      }
+    ) }),
+    showModifiers ? /* @__PURE__ */ jsxRuntimeExports.jsx(AcuteQuestionCard, { title: "Treatment modifiers", note: "Select all that apply. Choosing None clears the other modifiers.", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      AcuteChoiceGrid,
+      {
+        multi: true,
+        value: state.modifiers,
+        onChange: (value) => onToggleModifier("pe", value),
+        options: [
+          { value: "cancer", label: "Active cancer" },
+          { value: "liver", label: "Significant hepatic dysfunction" },
+          { value: "crcl15", label: "Creatinine clearance below 15 mL/min" },
+          { value: "preg", label: "Pregnancy" },
+          { value: "drugint", label: "Clinically important DOAC drug interaction" },
+          { value: "none", label: "None of the above" }
+        ]
+      }
+    ) }) : null,
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "acute-rec-grid", children: [
+      state.stability === "unstable" ? /* @__PURE__ */ jsxRuntimeExports.jsx(AcuteRecommendationBox, { tone: "danger", title: "Unstable pulmonary embolism", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: "content-list compact", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Consider immediate IV thrombolysis." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Consult ICU urgently." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Consider pharmacomechanical therapy when bleeding risk is high." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Use UFH or LMWH after initial reperfusion therapy is completed." })
+      ] }) }) : null,
+      showStandard ? /* @__PURE__ */ jsxRuntimeExports.jsx(AcuteRecommendationBox, { tone: "action", title: "Standard PE anticoagulation", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: "content-list compact", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "LMWH for at least 5 days with warfarin until INR is 2 to 3." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "LMWH lead-in followed by dabigatran where appropriate." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Apixaban 10 mg twice daily for 7 days, then 5 mg twice daily." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Rivaroxaban 15 mg twice daily for 21 days, then 20 mg once daily." })
+      ] }) }) : null,
+      showContra ? /* @__PURE__ */ jsxRuntimeExports.jsx(AcuteRecommendationBox, { tone: "warning", title: "PE treatment with modifiers present", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: "content-list compact", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Active cancer: consider LMWH monotherapy." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Hepatic dysfunction, pregnancy, or CrCl below 15: use warfarin with heparin support or LMWH with specialist input." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Important DOAC interactions: favor warfarin and LMWH or specialist consultation." })
+      ] }) }) : null
+    ] })
   ] });
 }
 function MetricCard({ icon: Icon2, label, value, meta }) {
