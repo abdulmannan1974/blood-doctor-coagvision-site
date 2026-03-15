@@ -1179,6 +1179,10 @@ a {
   font-weight: 700;
 }
 
+.segment span {
+  color: inherit;
+}
+
 .segment.active {
   background: #7f1d3f;
   color: #ffffff;
@@ -1186,9 +1190,17 @@ a {
   box-shadow: 0 10px 24px rgba(127, 29, 63, 0.12);
 }
 
+.segment.active span {
+  color: #ffffff;
+}
+
 .segment:hover {
   border-color: rgba(127, 29, 63, 0.24);
   color: #5b2333;
+}
+
+.segment:hover span {
+  color: inherit;
 }
 
 .insight-grid {
