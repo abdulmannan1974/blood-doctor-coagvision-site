@@ -80,6 +80,16 @@ const pageMetaById = {
   },
 };
 
+const pageToneById = {
+  dashboard: "tone-blue",
+  algorithms: "tone-violet",
+  acute: "tone-red",
+  followup: "tone-teal",
+  scores: "tone-green",
+  guides: "tone-blue",
+  pdfs: "tone-orange",
+};
+
 const countLeaves = (nodes) =>
   nodes.reduce((total, node) => {
     if (node.children?.length) {
@@ -353,8 +363,8 @@ export function AppSidebar({
                         active={currentPage === page.id}
                         onClick={() => handlePagePress(page.id)}
                       >
-                        <span className="sidebar-menu-leading">
-                          <span className="sidebar-menu-icon-shell">
+                          <span className="sidebar-menu-leading">
+                          <span className={`sidebar-menu-icon-shell ${pageToneById[page.id] ?? "tone-blue"}`}>
                             <Icon size={16} />
                           </span>
                           <span className="sidebar-section-copy">

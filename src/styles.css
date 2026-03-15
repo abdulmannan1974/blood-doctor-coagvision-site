@@ -2233,6 +2233,7 @@ fieldset.field-card {
 
 .asa-badge-blue { background: #eff6ff; color: #1d4ed8; border-color: #bfdbfe; }
 .asa-badge-teal { background: #f0fdfa; color: #0f766e; border-color: #99f6e4; }
+.asa-badge-green { background: #f0fdf4; color: #166534; border-color: #bbf7d0; }
 .asa-badge-gray { background: #f3f4f6; color: #374151; border-color: #e5e7eb; }
 
 .asa-guide-title {
@@ -2761,6 +2762,43 @@ fieldset.field-card {
   color: var(--primary);
 }
 
+.sidebar-menu-icon-shell.tone-blue,
+.sidebar-logo {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+  color: #1d4ed8;
+}
+
+.sidebar-menu-icon-shell.tone-green {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+  color: #166534;
+}
+
+.sidebar-menu-icon-shell.tone-teal {
+  background: #f0fdfa;
+  border-color: #99f6e4;
+  color: #0f766e;
+}
+
+.sidebar-menu-icon-shell.tone-orange {
+  background: #fffbeb;
+  border-color: #fde68a;
+  color: #b45309;
+}
+
+.sidebar-menu-icon-shell.tone-violet {
+  background: #f5f3ff;
+  border-color: #ddd6fe;
+  color: #7c3aed;
+}
+
+.sidebar-menu-icon-shell.tone-red {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #dc2626;
+}
+
 .sidebar-count-badge,
 .sidebar-folder-meta,
 .pill,
@@ -2837,6 +2875,51 @@ fieldset.field-card {
 .footer,
 .asa-guide-footer {
   color: var(--muted-foreground);
+}
+
+.travel-guide-shell .asa-guide-icon,
+.travel-guide-shell .travel-guide-icon {
+  background: #f0fdfa;
+  border-color: #99f6e4;
+  color: #0f766e;
+}
+
+.travel-guide-shell .travel-mechanism-icon {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.travel-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
+}
+
+.travel-tip-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.7rem;
+  align-items: start;
+  padding: 0.95rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #f9fafb;
+}
+
+.travel-tip-card p {
+  margin: 0;
+  line-height: 1.65;
+  color: var(--muted-foreground);
+}
+
+.travel-tip-icon {
+  width: 1.9rem;
+  height: 1.9rem;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: #f0fdf4;
+  color: #166534;
 }
 
 @media (max-width: 720px) {

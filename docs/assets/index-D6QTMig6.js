@@ -12559,7 +12559,7 @@ const createLucideIcon = (iconName, iconNode) => {
   Component.displayName = toPascalCase(iconName);
   return Component;
 };
-const __iconNode$u = [
+const __iconNode$y = [
   [
     "path",
     {
@@ -12568,13 +12568,13 @@ const __iconNode$u = [
     }
   ]
 ];
-const Activity = createLucideIcon("activity", __iconNode$u);
-const __iconNode$t = [
+const Activity = createLucideIcon("activity", __iconNode$y);
+const __iconNode$x = [
   ["path", { d: "M7 7h10v10", key: "1tivn9" }],
   ["path", { d: "M7 17 17 7", key: "1vkiza" }]
 ];
-const ArrowUpRight = createLucideIcon("arrow-up-right", __iconNode$t);
-const __iconNode$s = [
+const ArrowUpRight = createLucideIcon("arrow-up-right", __iconNode$x);
+const __iconNode$w = [
   [
     "path",
     {
@@ -12584,8 +12584,8 @@ const __iconNode$s = [
   ],
   ["path", { d: "m9 12 2 2 4-4", key: "dzmm74" }]
 ];
-const BadgeCheck = createLucideIcon("badge-check", __iconNode$s);
-const __iconNode$r = [
+const BadgeCheck = createLucideIcon("badge-check", __iconNode$w);
+const __iconNode$v = [
   ["path", { d: "M12 7v14", key: "1akyts" }],
   ["path", { d: "M16 12h2", key: "7q9ll5" }],
   ["path", { d: "M16 8h2", key: "msurwy" }],
@@ -12599,8 +12599,8 @@ const __iconNode$r = [
   ["path", { d: "M6 12h2", key: "32wvfc" }],
   ["path", { d: "M6 8h2", key: "30oboj" }]
 ];
-const BookOpenText = createLucideIcon("book-open-text", __iconNode$r);
-const __iconNode$q = [
+const BookOpenText = createLucideIcon("book-open-text", __iconNode$v);
+const __iconNode$u = [
   [
     "path",
     {
@@ -12621,8 +12621,8 @@ const __iconNode$q = [
   ["circle", { cx: "20", cy: "21", r: ".5", key: "yhc1fs" }],
   ["circle", { cx: "20", cy: "8", r: ".5", key: "1e43v0" }]
 ];
-const BrainCircuit = createLucideIcon("brain-circuit", __iconNode$q);
-const __iconNode$p = [
+const BrainCircuit = createLucideIcon("brain-circuit", __iconNode$u);
+const __iconNode$t = [
   ["rect", { width: "16", height: "20", x: "4", y: "2", rx: "2", key: "1nb95v" }],
   ["line", { x1: "8", x2: "16", y1: "6", y2: "6", key: "x4nwl0" }],
   ["line", { x1: "16", x2: "16", y1: "14", y2: "18", key: "wjye3r" }],
@@ -12634,35 +12634,35 @@ const __iconNode$p = [
   ["path", { d: "M12 18h.01", key: "mhygvu" }],
   ["path", { d: "M8 18h.01", key: "lrp35t" }]
 ];
-const Calculator = createLucideIcon("calculator", __iconNode$p);
-const __iconNode$o = [
+const Calculator = createLucideIcon("calculator", __iconNode$t);
+const __iconNode$s = [
   ["path", { d: "M8 2v4", key: "1cmpym" }],
   ["path", { d: "M16 2v4", key: "4m81vk" }],
   ["rect", { width: "18", height: "18", x: "3", y: "4", rx: "2", key: "1hopcy" }],
   ["path", { d: "M3 10h18", key: "8toen8" }]
 ];
-const Calendar = createLucideIcon("calendar", __iconNode$o);
-const __iconNode$n = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
-const ChevronDown = createLucideIcon("chevron-down", __iconNode$n);
-const __iconNode$m = [["path", { d: "m9 18 6-6-6-6", key: "mthhwq" }]];
-const ChevronRight = createLucideIcon("chevron-right", __iconNode$m);
-const __iconNode$l = [
+const Calendar = createLucideIcon("calendar", __iconNode$s);
+const __iconNode$r = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
+const ChevronDown = createLucideIcon("chevron-down", __iconNode$r);
+const __iconNode$q = [["path", { d: "m9 18 6-6-6-6", key: "mthhwq" }]];
+const ChevronRight = createLucideIcon("chevron-right", __iconNode$q);
+const __iconNode$p = [
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
   ["line", { x1: "12", x2: "12", y1: "8", y2: "12", key: "1pkeuh" }],
   ["line", { x1: "12", x2: "12.01", y1: "16", y2: "16", key: "4dfq90" }]
 ];
-const CircleAlert = createLucideIcon("circle-alert", __iconNode$l);
-const __iconNode$k = [
+const CircleAlert = createLucideIcon("circle-alert", __iconNode$p);
+const __iconNode$o = [
   ["path", { d: "M21.801 10A10 10 0 1 1 17 3.335", key: "yps3ct" }],
   ["path", { d: "m9 11 3 3L22 4", key: "1pflzl" }]
 ];
-const CircleCheckBig = createLucideIcon("circle-check-big", __iconNode$k);
-const __iconNode$j = [
+const CircleCheckBig = createLucideIcon("circle-check-big", __iconNode$o);
+const __iconNode$n = [
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
   ["path", { d: "m9 12 2 2 4-4", key: "dzmm74" }]
 ];
-const CircleCheck = createLucideIcon("circle-check", __iconNode$j);
-const __iconNode$i = [
+const CircleCheck = createLucideIcon("circle-check", __iconNode$n);
+const __iconNode$m = [
   ["rect", { width: "8", height: "4", x: "8", y: "2", rx: "1", ry: "1", key: "tgr4d6" }],
   [
     "path",
@@ -12676,8 +12676,8 @@ const __iconNode$i = [
   ["path", { d: "M8 11h.01", key: "1dfujw" }],
   ["path", { d: "M8 16h.01", key: "18s6g9" }]
 ];
-const ClipboardList = createLucideIcon("clipboard-list", __iconNode$i);
-const __iconNode$h = [
+const ClipboardList = createLucideIcon("clipboard-list", __iconNode$m);
+const __iconNode$l = [
   [
     "path",
     {
@@ -12693,8 +12693,8 @@ const __iconNode$h = [
     }
   ]
 ];
-const Droplets = createLucideIcon("droplets", __iconNode$h);
-const __iconNode$g = [
+const Droplets = createLucideIcon("droplets", __iconNode$l);
+const __iconNode$k = [
   [
     "path",
     {
@@ -12706,8 +12706,8 @@ const __iconNode$g = [
   ["circle", { cx: "11.5", cy: "14.5", r: "2.5", key: "1bq0ko" }],
   ["path", { d: "M13.3 16.3 15 18", key: "2quom7" }]
 ];
-const FileSearch = createLucideIcon("file-search", __iconNode$g);
-const __iconNode$f = [
+const FileSearch = createLucideIcon("file-search", __iconNode$k);
+const __iconNode$j = [
   [
     "path",
     {
@@ -12720,8 +12720,8 @@ const __iconNode$f = [
   ["path", { d: "M16 13H8", key: "t4e002" }],
   ["path", { d: "M16 17H8", key: "z1uh3a" }]
 ];
-const FileText = createLucideIcon("file-text", __iconNode$f);
-const __iconNode$e = [
+const FileText = createLucideIcon("file-text", __iconNode$j);
+const __iconNode$i = [
   [
     "path",
     {
@@ -12730,8 +12730,8 @@ const __iconNode$e = [
     }
   ]
 ];
-const FolderOpen = createLucideIcon("folder-open", __iconNode$e);
-const __iconNode$d = [
+const FolderOpen = createLucideIcon("folder-open", __iconNode$i);
+const __iconNode$h = [
   [
     "path",
     {
@@ -12741,8 +12741,8 @@ const __iconNode$d = [
   ],
   ["path", { d: "M3.22 13H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27", key: "auskq0" }]
 ];
-const HeartPulse = createLucideIcon("heart-pulse", __iconNode$d);
-const __iconNode$c = [
+const HeartPulse = createLucideIcon("heart-pulse", __iconNode$h);
+const __iconNode$g = [
   [
     "path",
     {
@@ -12751,27 +12751,38 @@ const __iconNode$c = [
     }
   ]
 ];
-const Heart = createLucideIcon("heart", __iconNode$c);
-const __iconNode$b = [
+const Heart = createLucideIcon("heart", __iconNode$g);
+const __iconNode$f = [
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
   ["path", { d: "M12 16v-4", key: "1dtifu" }],
   ["path", { d: "M12 8h.01", key: "e9boi3" }]
 ];
-const Info = createLucideIcon("info", __iconNode$b);
-const __iconNode$a = [
+const Info = createLucideIcon("info", __iconNode$f);
+const __iconNode$e = [
   ["rect", { width: "7", height: "9", x: "3", y: "3", rx: "1", key: "10lvy0" }],
   ["rect", { width: "7", height: "5", x: "14", y: "3", rx: "1", key: "16une8" }],
   ["rect", { width: "7", height: "9", x: "14", y: "12", rx: "1", key: "1hutg5" }],
   ["rect", { width: "7", height: "5", x: "3", y: "16", rx: "1", key: "ldoo1y" }]
 ];
-const LayoutDashboard = createLucideIcon("layout-dashboard", __iconNode$a);
-const __iconNode$9 = [
+const LayoutDashboard = createLucideIcon("layout-dashboard", __iconNode$e);
+const __iconNode$d = [
   ["path", { d: "M9 17H7A5 5 0 0 1 7 7h2", key: "8i5ue5" }],
   ["path", { d: "M15 7h2a5 5 0 1 1 0 10h-2", key: "1b9ql8" }],
   ["line", { x1: "8", x2: "16", y1: "12", y2: "12", key: "1jonct" }]
 ];
-const Link2 = createLucideIcon("link-2", __iconNode$9);
-const __iconNode$8 = [
+const Link2 = createLucideIcon("link-2", __iconNode$d);
+const __iconNode$c = [
+  [
+    "path",
+    { d: "M6 20a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2", key: "1m57jg" }
+  ],
+  ["path", { d: "M8 18V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v14", key: "1l99gc" }],
+  ["path", { d: "M10 20h4", key: "ni2waw" }],
+  ["circle", { cx: "16", cy: "20", r: "2", key: "1vifvg" }],
+  ["circle", { cx: "8", cy: "20", r: "2", key: "ckkr5m" }]
+];
+const Luggage = createLucideIcon("luggage", __iconNode$c);
+const __iconNode$b = [
   ["path", { d: "M6 18h8", key: "1borvv" }],
   ["path", { d: "M3 22h18", key: "8prr45" }],
   ["path", { d: "M14 22a7 7 0 1 0 0-14h-1", key: "1jwaiy" }],
@@ -12779,21 +12790,31 @@ const __iconNode$8 = [
   ["path", { d: "M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z", key: "1bmzmy" }],
   ["path", { d: "M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3", key: "1drr47" }]
 ];
-const Microscope = createLucideIcon("microscope", __iconNode$8);
-const __iconNode$7 = [
+const Microscope = createLucideIcon("microscope", __iconNode$b);
+const __iconNode$a = [
   ["rect", { width: "18", height: "18", x: "3", y: "3", rx: "2", key: "afitv7" }],
   ["path", { d: "M9 3v18", key: "fh3hqa" }]
 ];
-const PanelLeft = createLucideIcon("panel-left", __iconNode$7);
-const __iconNode$6 = [
+const PanelLeft = createLucideIcon("panel-left", __iconNode$a);
+const __iconNode$9 = [
   [
     "path",
     { d: "m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z", key: "wa1lgi" }
   ],
   ["path", { d: "m8.5 8.5 7 7", key: "rvfmvr" }]
 ];
-const Pill = createLucideIcon("pill", __iconNode$6);
-const __iconNode$5 = [
+const Pill = createLucideIcon("pill", __iconNode$9);
+const __iconNode$8 = [
+  [
+    "path",
+    {
+      d: "M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z",
+      key: "1v9wt8"
+    }
+  ]
+];
+const Plane = createLucideIcon("plane", __iconNode$8);
+const __iconNode$7 = [
   [
     "path",
     {
@@ -12804,13 +12825,13 @@ const __iconNode$5 = [
   ["path", { d: "M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6", key: "1itne7" }],
   ["rect", { x: "6", y: "14", width: "12", height: "8", rx: "1", key: "1ue0tg" }]
 ];
-const Printer = createLucideIcon("printer", __iconNode$5);
-const __iconNode$4 = [
+const Printer = createLucideIcon("printer", __iconNode$7);
+const __iconNode$6 = [
   ["path", { d: "m21 21-4.34-4.34", key: "14j7rj" }],
   ["circle", { cx: "11", cy: "11", r: "8", key: "4ej97u" }]
 ];
-const Search = createLucideIcon("search", __iconNode$4);
-const __iconNode$3 = [
+const Search = createLucideIcon("search", __iconNode$6);
+const __iconNode$5 = [
   [
     "path",
     {
@@ -12821,8 +12842,19 @@ const __iconNode$3 = [
   ["path", { d: "M12 8v4", key: "1got3b" }],
   ["path", { d: "M12 16h.01", key: "1drbdi" }]
 ];
-const ShieldAlert = createLucideIcon("shield-alert", __iconNode$3);
-const __iconNode$2 = [
+const ShieldAlert = createLucideIcon("shield-alert", __iconNode$5);
+const __iconNode$4 = [
+  [
+    "path",
+    {
+      d: "M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z",
+      key: "oel41y"
+    }
+  ],
+  ["path", { d: "m9 12 2 2 4-4", key: "dzmm74" }]
+];
+const ShieldCheck = createLucideIcon("shield-check", __iconNode$4);
+const __iconNode$3 = [
   [
     "path",
     {
@@ -12834,8 +12866,8 @@ const __iconNode$2 = [
   ["path", { d: "M22 4h-4", key: "gwowj6" }],
   ["circle", { cx: "4", cy: "20", r: "2", key: "6kqj1y" }]
 ];
-const Sparkles = createLucideIcon("sparkles", __iconNode$2);
-const __iconNode$1 = [
+const Sparkles = createLucideIcon("sparkles", __iconNode$3);
+const __iconNode$2 = [
   ["path", { d: "m18 2 4 4", key: "22kx64" }],
   ["path", { d: "m17 7 3-3", key: "1w1zoj" }],
   ["path", { d: "M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5", key: "1exhtz" }],
@@ -12843,14 +12875,38 @@ const __iconNode$1 = [
   ["path", { d: "m5 19-3 3", key: "59f2uf" }],
   ["path", { d: "m14 4 6 6", key: "yqp9t2" }]
 ];
-const Syringe = createLucideIcon("syringe", __iconNode$1);
-const __iconNode = [
+const Syringe = createLucideIcon("syringe", __iconNode$2);
+const __iconNode$1 = [
   ["path", { d: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2", key: "1yyitq" }],
   ["path", { d: "M16 3.128a4 4 0 0 1 0 7.744", key: "16gr8j" }],
   ["path", { d: "M22 21v-2a4 4 0 0 0-3-3.87", key: "kshegd" }],
   ["circle", { cx: "9", cy: "7", r: "4", key: "nufk8" }]
 ];
-const Users = createLucideIcon("users", __iconNode);
+const Users = createLucideIcon("users", __iconNode$1);
+const __iconNode = [
+  [
+    "path",
+    {
+      d: "M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1",
+      key: "knzxuh"
+    }
+  ],
+  [
+    "path",
+    {
+      d: "M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1",
+      key: "2jd2cc"
+    }
+  ],
+  [
+    "path",
+    {
+      d: "M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1",
+      key: "rd2r6e"
+    }
+  ]
+];
+const Waves = createLucideIcon("waves", __iconNode);
 const tone = {
   success: "success",
   warning: "warning",
@@ -23729,6 +23785,15 @@ const pageMetaById = {
     subtitle: "Linked vault records and companion views"
   }
 };
+const pageToneById = {
+  dashboard: "tone-blue",
+  algorithms: "tone-violet",
+  acute: "tone-red",
+  followup: "tone-teal",
+  scores: "tone-green",
+  guides: "tone-blue",
+  pdfs: "tone-orange"
+};
 const countLeaves = (nodes) => nodes.reduce((total, node) => {
   if (node.children?.length) {
     return total + countLeaves(node.children);
@@ -23975,7 +24040,7 @@ function AppSidebar({
               onClick: () => handlePagePress(page.id),
               children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "sidebar-menu-leading", children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "sidebar-menu-icon-shell", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Icon2, { size: 16 }) }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: `sidebar-menu-icon-shell ${pageToneById[page.id] ?? "tone-blue"}`, children: /* @__PURE__ */ jsxRuntimeExports.jsx(Icon2, { size: 16 }) }),
                   /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "sidebar-section-copy", children: [
                     /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "sidebar-section-title", children: page.label }),
                     /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "sidebar-section-subtitle", children: meta.subtitle })
@@ -24107,7 +24172,7 @@ const relatedGuides = [
   "Venous Thromboembolism: Duration of Treatment",
   "Duration of Dual Antiplatelet Therapy in Coronary Artery Disease"
 ];
-const references = [
+const references$1 = [
   "Anderson D, et al. Aspirin or rivaroxaban for VTE prophylaxis after hip or knee arthroplasty. N Engl J Med. 2018;378:699-707.",
   "Bainey KR, et al. 2023 Canadian Cardiovascular Society and Canadian Association of Interventional Cardiology focused update of the guidelines for the use of antiplatelet therapy. Can J Cardiol. 2024;40:160-181.",
   "Bowman W, et al. Effects of aspirin for primary prevention in persons with diabetes mellitus. N Engl J Med. 2018;379:1529-1539.",
@@ -24126,7 +24191,7 @@ const references = [
   "Yasuda S, et al. Antithrombotic therapy for atrial fibrillation with stable coronary disease. N Engl J Med. 2019;381:1103-1113.",
   "Yusuf S, et al. Polypill with or without aspirin in persons without cardiovascular disease. N Engl J Med. 2021;384:216-228."
 ];
-const tabs = [
+const tabs$1 = [
   ["indications", "Indications"],
   ["dosing", "Dosing"],
   ["adverse", "Adverse Effects"],
@@ -24135,7 +24200,7 @@ const tabs = [
   ["pediatrics", "Pediatrics"],
   ["references", "References"]
 ];
-function Dot({ tone: tone2 }) {
+function Dot$1({ tone: tone2 }) {
   return /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: `asa-dot ${tone2}` });
 }
 function AsaGuide() {
@@ -24176,7 +24241,7 @@ function AsaGuide() {
       ] })
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-tabs", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "asa-tabs-list", role: "tablist", "aria-label": "ASA guide sections", children: tabs.map(([id, label]) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "asa-tabs-list", role: "tablist", "aria-label": "ASA guide sections", children: tabs$1.map(([id, label]) => /* @__PURE__ */ jsxRuntimeExports.jsx(
         "button",
         {
           type: "button",
@@ -24191,7 +24256,7 @@ function AsaGuide() {
           const Icon2 = section.icon;
           return /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx(Dot, { tone: section.tone }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Dot$1, { tone: section.tone }),
               section.title
             ] }),
             section.groups.map((group) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-ind-group", children: [
@@ -24215,7 +24280,7 @@ function AsaGuide() {
       tab === "dosing" ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-tab-panel", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot, { tone: "blue" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot$1, { tone: "blue" }),
             "Dosing Summary"
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { className: "asa-dose-table", children: [
@@ -24242,7 +24307,7 @@ function AsaGuide() {
       tab === "adverse" ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-tab-panel", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot, { tone: "danger" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot$1, { tone: "danger" }),
             "Adverse Effects Profile"
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "asa-ae-grid", children: adverseEffects.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `asa-ae-card ${item.tone}`, children: [
@@ -24268,7 +24333,7 @@ function AsaGuide() {
       tab === "periprocedural" ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-tab-panel", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot, { tone: "purple" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot$1, { tone: "purple" }),
             "Peri-procedural Management"
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-alert asa-alert-info", children: [
@@ -24290,7 +24355,7 @@ function AsaGuide() {
       tab === "special" ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-tab-panel", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot, { tone: "orange" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot$1, { tone: "orange" }),
             "Concomitant Anticoagulation"
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "asa-section-copy", children: "Concomitant use of therapeutic anticoagulation and ASA is discouraged and should only be considered in carefully selected low-bleeding-risk patients." }),
@@ -24307,7 +24372,7 @@ function AsaGuide() {
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot, { tone: "danger" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot$1, { tone: "danger" }),
             "Cautions and Contraindications"
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: "asa-ind-list", children: [
@@ -24321,7 +24386,7 @@ function AsaGuide() {
       ] }) : null,
       tab === "pediatrics" ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "asa-tab-panel", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Dot, { tone: "teal" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Dot$1, { tone: "teal" }),
           "Pediatric Use"
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-alert asa-alert-teal", children: [
@@ -24333,7 +24398,7 @@ function AsaGuide() {
       tab === "references" ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-tab-panel", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot, { tone: "gray" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot$1, { tone: "gray" }),
             "Related Clinical Guides"
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "asa-related-list", children: relatedGuides.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
@@ -24343,10 +24408,10 @@ function AsaGuide() {
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot, { tone: "gray" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot$1, { tone: "gray" }),
             "References"
           ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("ol", { className: "asa-ref-list", children: references.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: item }, item)) })
+          /* @__PURE__ */ jsxRuntimeExports.jsx("ol", { className: "asa-ref-list", children: references$1.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: item }, item)) })
         ] })
       ] }) : null
     ] }),
@@ -24356,6 +24421,242 @@ function AsaGuide() {
         " | Updated 5 February 2026 | Version 105"
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "The information here is not a substitute for clinical judgement. Always seek appropriate specialist input when needed." })
+    ] })
+  ] });
+}
+const tabs = [
+  ["overview", "Overview"],
+  ["prevention", "Prevention"],
+  ["compression", "Compression"],
+  ["medication", "Medication"],
+  ["recommendations", "Recommendations"],
+  ["references", "References"]
+];
+const riskFactors = [
+  "Obesity with BMI greater than 30.",
+  "Hormonal therapy.",
+  "Known thrombophilia.",
+  "Pregnancy and the postpartum period.",
+  "Active cancer.",
+  "Recent major surgery or hospitalization.",
+  "Advanced age over 40 years.",
+  "Extremes of height over 190 cm or under 160 cm.",
+  "Prior history of venous thromboembolism.",
+  "Window seating may increase risk, especially in passengers with obesity."
+];
+const overviewStats = [
+  ["Relative risk", "Three-fold increase in VTE risk after long-distance travel compared with no travel exposure."],
+  ["Symptomatic VTE", "Approximately 1 in 4,656 person-flights after journeys longer than 4 hours."],
+  ["Pulmonary embolism", "0.39 cases per 1 million travellers immediately after air travel, increasing with flights longer than 8 hours."],
+  ["Clinical context", "Risk remains lower than several other transient provoking factors such as knee arthroscopy or lower-limb cast immobilization."]
+];
+const generalMeasures = [
+  "Get up and walk every 1 to 2 hours when possible.",
+  "Choose an aisle seat to facilitate movement.",
+  "Avoid constrictive clothing.",
+  "Minimize under-seat baggage that restricts leg room.",
+  "Maintain hydration and avoid alcohol during travel."
+];
+const compressionPoints = [
+  "Graduated compression stockings reduce leg swelling symptoms and may help prevent travel-related DVT.",
+  "Randomized trial data suggest roughly 90% reduction in asymptomatic DVT among travellers wearing compression stockings.",
+  "Passengers with additional VTE risk factors appeared to benefit most.",
+  "The clinical significance of small asymptomatic DVTs detected on screening ultrasound remains uncertain."
+];
+const recommendationRows = [
+  [
+    "Baseline risk travellers",
+    "Use frequent ambulation, calf exercises, hydration, and practical mobility measures.",
+    "Do not routinely use compression stockings, aspirin, or anticoagulants in travellers without additional risk factors."
+  ],
+  [
+    "Travellers already on anticoagulation",
+    "Continue existing prophylactic or treatment-dose anticoagulation.",
+    "No additional VTE prophylaxis is required; monitor usual medication timing around departure."
+  ],
+  [
+    "Increased-risk travellers",
+    "Recommend bilateral below-knee graduated compression stockings.",
+    "Use 20 to 30 mmHg stockings for long-distance travel over 4 hours."
+  ],
+  [
+    "Very high-risk travellers",
+    "Consider a single prophylactic anticoagulant dose shortly before travel.",
+    "Make an individualized decision after weighing thrombosis risk, bleeding risk, and patient preferences."
+  ]
+];
+const references = [
+  "Cannegieter SC, et al. Travel-related venous thrombosis: results from a large population-based case control study (MEGA Study). PLoS Med. 2006;3:1258-1265.",
+  "Cesarone MR, et al. Venous thrombosis from air travel: The LONFLIT3 study. Angiology. 2002;53:1-6.",
+  "Chandra D, et al. Meta-analysis: travel and risk for venous thromboembolism. Ann Intern Med. 2009;151:180-190.",
+  "Clarke MJ, et al. Compression stockings for preventing deep vein thrombosis in airline passengers. Cochrane Database Syst Rev. 2021;4:CD004002.",
+  "Czuprynska J, Arya R. Travel and thrombosis. Br J Haematol. 2020;188:833-843.",
+  "Karsanji DJ, et al. The risk and prevention of venous thromboembolism in the pregnant traveller. J Travel Med. 2020;27:1-8.",
+  "Koh CH. Commercial air travel for passengers with cardiovascular disease. Curr Probl Cardiol. 2021;46:100782.",
+  "Kuipers S, et al. The absolute risk of venous thromboembolism after air travel. PLoS Med. 2007;4:1508-1514.",
+  "Kuipers S, et al. The incidence of venous thromboembolism in commercial airline pilots. J Thromb Haemost. 2014;12:1260-1265.",
+  "Perez-Rodriguez E, et al. Incidence of air travel-related pulmonary embolism at Madrid-Barajas airport. Arch Intern Med. 2003;163:2766-2770.",
+  "Schunemann HJ, et al. American Society of Hematology 2018 guidelines for management of venous thromboembolism. Blood Adv. 2018;2:3198-3225.",
+  "Van Adrichem R, et al. Thromboprophylaxis after knee arthroscopy and lower-leg casting. N Engl J Med. 2017;376:515-525."
+];
+function Dot({ tone: tone2 }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: `asa-dot ${tone2}` });
+}
+function TravelThrombosisGuide() {
+  const [tab, setTab] = reactExports.useState("overview");
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "asa-guide-shell travel-guide-shell", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-guide-header", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-guide-header-top", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-guide-header-copy", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-badge-row", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "asa-badge asa-badge-blue", children: "Clinical Guide" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "asa-badge asa-badge-teal", children: "Travel Medicine" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "asa-badge asa-badge-green", children: "VTE Prevention" })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "asa-guide-title", children: "Air Travel-related Thrombosis" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-guide-meta", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Calendar, { size: 13 }),
+              " Updated 6 February 2026"
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(FileText, { size: 13 }),
+              " Long-distance travel risk reduction guide"
+            ] })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "asa-guide-icon travel-guide-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Plane, { size: 24 }) })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-objective-strip", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Objective:" }),
+        " To summarize the available literature on venous thromboembolism risk during air travel and provide preventive recommendations for long-distance journeys."
+      ] })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-mechanism-card travel-mechanism-card", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "asa-mechanism-icon travel-mechanism-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Waves, { size: 18 }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: "Clinical Background" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Travel-related thrombosis is likely multifactorial, with contributions from immobility and venous stasis, cabin hypobaric conditions, dehydration, and passenger-specific thrombotic risk factors." })
+      ] })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-tabs", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "asa-tabs-list", role: "tablist", "aria-label": "Air travel thrombosis guide sections", children: tabs.map(([id, label]) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          type: "button",
+          className: tab === id ? "asa-tab-btn active" : "asa-tab-btn",
+          onClick: () => setTab(id),
+          children: label
+        },
+        id
+      )) }),
+      tab === "overview" ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-tab-panel", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot, { tone: "blue" }),
+            "Risk Overview"
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { className: "asa-dose-table", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("thead", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Measure" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Clinical meaning" })
+            ] }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("tbody", { children: overviewStats.map((row) => /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "dose-highlight", children: row[0] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: row[1] })
+            ] }, row[0])) })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot, { tone: "green" }),
+            "Key Risk Factors"
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "asa-ind-list", children: riskFactors.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: item }, item)) })
+        ] })
+      ] }) : null,
+      tab === "prevention" ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-tab-panel", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot, { tone: "teal" }),
+            "General Preventive Measures"
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "travel-card-grid", children: generalMeasures.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "travel-tip-card", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "travel-tip-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsx(CircleCheck, { size: 16 }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: item })
+          ] }, item)) })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-alert asa-alert-info", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Info, { size: 16 }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "General preventive measures are widely accepted despite limited direct interventional trial evidence." })
+        ] })
+      ] }) : null,
+      tab === "compression" ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-tab-panel", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot, { tone: "purple" }),
+            "Compression Stockings"
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "asa-ind-list", children: compressionPoints.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: item }, item)) })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-alert asa-alert-teal", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ShieldCheck, { size: 16 }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "For long-distance travellers at increased VTE risk, bilateral below-knee graduated compression stockings of 20 to 30 mmHg are recommended." })
+        ] })
+      ] }) : null,
+      tab === "medication" ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "asa-tab-panel", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Dot, { tone: "orange" }),
+          "Aspirin and Anticoagulants"
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "asa-section-copy", children: "Routine use of aspirin or anticoagulants for travel-related prophylaxis is not recommended for most travellers. Evidence is limited, and the clinical significance of prevented asymptomatic DVT remains uncertain." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-alert asa-alert-warn", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(CircleAlert, { size: 16 }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "A short course of prophylactic anticoagulation may be considered only in very high-risk travellers after individualized assessment. DOAC prophylaxis for this setting has not been adequately studied." })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-alert asa-alert-danger", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Luggage, { size: 16 }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "DOACs should not be used for short-term travel prophylaxis in pregnant or breastfeeding patients." })
+        ] })
+      ] }) }) : null,
+      tab === "recommendations" ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-tab-panel", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot, { tone: "green" }),
+            "Practical Recommendations"
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { className: "asa-dose-table", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("thead", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Traveller profile" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Recommended approach" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Notes" })
+            ] }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("tbody", { children: recommendationRows.map((row) => /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "dose-highlight", children: row[0] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: row[1] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: row[2] })
+            ] }, row[0])) })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-alert asa-alert-teal", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Users, { size: 16 }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "For travellers already receiving prophylactic or treatment-dose anticoagulation for another indication, no extra travel prophylaxis is required beyond usual dosing discipline." })
+        ] })
+      ] }) : null,
+      tab === "references" ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "asa-tab-panel", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Dot, { tone: "gray" }),
+          "References"
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("ol", { className: "asa-ref-list", children: references.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: item }, item)) })
+      ] }) }) : null
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-guide-footer", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Air Travel-related Thrombosis" }),
+        " | Updated 6 February 2026"
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Use these recommendations with clinical judgement and tailor advice to thrombosis risk, bleeding risk, and journey duration." })
     ] })
   ] });
 }
@@ -27523,7 +27824,7 @@ function AppLayout() {
               /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: activeGuide.content.tabs.find((tab) => tab.id === "references")?.cards.length ?? 0 })
             ] })
           ] }),
-          activeGuide.title === "Acetylsalicylic Acid (ASA)" ? /* @__PURE__ */ jsxRuntimeExports.jsx(AsaGuide, {}) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+          activeGuide.title === "Acetylsalicylic Acid (ASA)" ? /* @__PURE__ */ jsxRuntimeExports.jsx(AsaGuide, {}) : activeGuide.title === "Air Travel-related Thrombosis" ? /* @__PURE__ */ jsxRuntimeExports.jsx(TravelThrombosisGuide, {}) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "guide-summary-grid", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 ContentSummaryCard,
