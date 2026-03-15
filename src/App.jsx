@@ -781,8 +781,10 @@ function AppLayout() {
                     <div className="tool-notes-grid">
                       {activeTool.notes.map((note) => (
                         <div key={note} className="note-chip">
-                          <Pill size={15} />
-                          <span>{note}</span>
+                          <span className="note-chip-icon">
+                            <Pill size={14} />
+                          </span>
+                          <p>{note}</p>
                         </div>
                       ))}
                     </div>

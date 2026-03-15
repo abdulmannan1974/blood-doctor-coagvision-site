@@ -24207,8 +24207,8 @@ function AppLayout() {
               /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "tag-row", children: activeTool.tags.map((tag) => /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "tag", children: tag }, tag)) })
             ] }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "tool-notes-grid", children: activeTool.notes.map((note) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "note-chip", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx(Pill, { size: 15 }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: note })
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "note-chip-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Pill, { size: 14 }) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: note })
             ] }, note)) }),
             /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "form-grid", children: activeTool.inputs.filter((input) => input.type !== "hidden").map((input) => /* @__PURE__ */ jsxRuntimeExports.jsx(
               FieldRenderer,
