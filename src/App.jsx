@@ -27,6 +27,7 @@ import { clinicalContentByToolId } from "./data/markdownContent";
 import { guideLibrary, pdfLibrary, resolveMarkdownTarget, vaultLibrary } from "./data/library";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarProvider, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
+import { AsaGuide } from "@/components/asa-guide";
 import acuteGuidanceHtmlRaw from "../Thrombosis_Canada_Acute_Management_App (2).html?raw";
 
 const siteName = "Blood🩸Doctor CoagVision";
@@ -1992,40 +1993,46 @@ function AppLayout() {
                     </div>
                   </div>
 
-                  <div className="guide-summary-grid">
-                    <ContentSummaryCard
-                      eyebrow="Guide synopsis"
-                      title="Overview"
-                      description={activeGuideOverview}
-                    />
-                    <ContentListPreview
-                      eyebrow="Clinical application"
-                      title="Practice points"
-                      items={activeGuideApplicationList}
-                      emptyLabel="Structured application points will appear here when listed in the guide."
-                    />
-                    <ContentOutlinePreview
-                      eyebrow="Guide structure"
-                      title="Key sections"
-                      items={activeGuide.headings.slice(0, 8)}
-                    />
-                    <ContentListPreview
-                      eyebrow="Reference preview"
-                      title="Key bibliography"
-                      items={activeGuideReferenceItems}
-                      ordered
-                      emptyLabel="Reference entries will appear here when available."
-                    />
-                  </div>
+                  {activeGuide.title === "Acetylsalicylic Acid (ASA)" ? (
+                    <AsaGuide />
+                  ) : (
+                    <>
+                      <div className="guide-summary-grid">
+                        <ContentSummaryCard
+                          eyebrow="Guide synopsis"
+                          title="Overview"
+                          description={activeGuideOverview}
+                        />
+                        <ContentListPreview
+                          eyebrow="Clinical application"
+                          title="Practice points"
+                          items={activeGuideApplicationList}
+                          emptyLabel="Structured application points will appear here when listed in the guide."
+                        />
+                        <ContentOutlinePreview
+                          eyebrow="Guide structure"
+                          title="Key sections"
+                          items={activeGuide.headings.slice(0, 8)}
+                        />
+                        <ContentListPreview
+                          eyebrow="Reference preview"
+                          title="Key bibliography"
+                          items={activeGuideReferenceItems}
+                          ordered
+                          emptyLabel="Reference entries will appear here when available."
+                        />
+                      </div>
 
-                  <ClinicalReference
-                    eyebrow="Guide dossier"
-                    title={activeGuide.title}
-                    content={activeGuide.content}
-                    activeTab={activeGuideTab}
-                    onTabChange={setActiveGuideTab}
-                    emptyMessage="No guide sections are available for this entry yet."
-                  />
+                      <ClinicalReference
+                        eyebrow="Guide dossier"
+                        title={activeGuide.title}
+                        content={activeGuide.content}
+                        activeTab={activeGuideTab}
+                        onTabChange={setActiveGuideTab}
+                        emptyMessage="No guide sections are available for this entry yet."
+                      />
+                    </>
+                  )}
 
                   {activeGuide.linkedGuideIds.length || activeGuide.linkedToolIds.length ? (
                     <div className="related-panel">

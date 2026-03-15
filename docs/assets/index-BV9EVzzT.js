@@ -12559,7 +12559,7 @@ const createLucideIcon = (iconName, iconNode) => {
   Component.displayName = toPascalCase(iconName);
   return Component;
 };
-const __iconNode$n = [
+const __iconNode$u = [
   [
     "path",
     {
@@ -12568,13 +12568,13 @@ const __iconNode$n = [
     }
   ]
 ];
-const Activity = createLucideIcon("activity", __iconNode$n);
-const __iconNode$m = [
+const Activity = createLucideIcon("activity", __iconNode$u);
+const __iconNode$t = [
   ["path", { d: "M7 7h10v10", key: "1tivn9" }],
   ["path", { d: "M7 17 17 7", key: "1vkiza" }]
 ];
-const ArrowUpRight = createLucideIcon("arrow-up-right", __iconNode$m);
-const __iconNode$l = [
+const ArrowUpRight = createLucideIcon("arrow-up-right", __iconNode$t);
+const __iconNode$s = [
   [
     "path",
     {
@@ -12584,8 +12584,8 @@ const __iconNode$l = [
   ],
   ["path", { d: "m9 12 2 2 4-4", key: "dzmm74" }]
 ];
-const BadgeCheck = createLucideIcon("badge-check", __iconNode$l);
-const __iconNode$k = [
+const BadgeCheck = createLucideIcon("badge-check", __iconNode$s);
+const __iconNode$r = [
   ["path", { d: "M12 7v14", key: "1akyts" }],
   ["path", { d: "M16 12h2", key: "7q9ll5" }],
   ["path", { d: "M16 8h2", key: "msurwy" }],
@@ -12599,8 +12599,8 @@ const __iconNode$k = [
   ["path", { d: "M6 12h2", key: "32wvfc" }],
   ["path", { d: "M6 8h2", key: "30oboj" }]
 ];
-const BookOpenText = createLucideIcon("book-open-text", __iconNode$k);
-const __iconNode$j = [
+const BookOpenText = createLucideIcon("book-open-text", __iconNode$r);
+const __iconNode$q = [
   [
     "path",
     {
@@ -12621,8 +12621,8 @@ const __iconNode$j = [
   ["circle", { cx: "20", cy: "21", r: ".5", key: "yhc1fs" }],
   ["circle", { cx: "20", cy: "8", r: ".5", key: "1e43v0" }]
 ];
-const BrainCircuit = createLucideIcon("brain-circuit", __iconNode$j);
-const __iconNode$i = [
+const BrainCircuit = createLucideIcon("brain-circuit", __iconNode$q);
+const __iconNode$p = [
   ["rect", { width: "16", height: "20", x: "4", y: "2", rx: "2", key: "1nb95v" }],
   ["line", { x1: "8", x2: "16", y1: "6", y2: "6", key: "x4nwl0" }],
   ["line", { x1: "16", x2: "16", y1: "14", y2: "18", key: "wjye3r" }],
@@ -12634,23 +12634,35 @@ const __iconNode$i = [
   ["path", { d: "M12 18h.01", key: "mhygvu" }],
   ["path", { d: "M8 18h.01", key: "lrp35t" }]
 ];
-const Calculator = createLucideIcon("calculator", __iconNode$i);
-const __iconNode$h = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
-const ChevronDown = createLucideIcon("chevron-down", __iconNode$h);
-const __iconNode$g = [["path", { d: "m9 18 6-6-6-6", key: "mthhwq" }]];
-const ChevronRight = createLucideIcon("chevron-right", __iconNode$g);
-const __iconNode$f = [
+const Calculator = createLucideIcon("calculator", __iconNode$p);
+const __iconNode$o = [
+  ["path", { d: "M8 2v4", key: "1cmpym" }],
+  ["path", { d: "M16 2v4", key: "4m81vk" }],
+  ["rect", { width: "18", height: "18", x: "3", y: "4", rx: "2", key: "1hopcy" }],
+  ["path", { d: "M3 10h18", key: "8toen8" }]
+];
+const Calendar = createLucideIcon("calendar", __iconNode$o);
+const __iconNode$n = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
+const ChevronDown = createLucideIcon("chevron-down", __iconNode$n);
+const __iconNode$m = [["path", { d: "m9 18 6-6-6-6", key: "mthhwq" }]];
+const ChevronRight = createLucideIcon("chevron-right", __iconNode$m);
+const __iconNode$l = [
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
   ["line", { x1: "12", x2: "12", y1: "8", y2: "12", key: "1pkeuh" }],
   ["line", { x1: "12", x2: "12.01", y1: "16", y2: "16", key: "4dfq90" }]
 ];
-const CircleAlert = createLucideIcon("circle-alert", __iconNode$f);
-const __iconNode$e = [
+const CircleAlert = createLucideIcon("circle-alert", __iconNode$l);
+const __iconNode$k = [
   ["path", { d: "M21.801 10A10 10 0 1 1 17 3.335", key: "yps3ct" }],
   ["path", { d: "m9 11 3 3L22 4", key: "1pflzl" }]
 ];
-const CircleCheckBig = createLucideIcon("circle-check-big", __iconNode$e);
-const __iconNode$d = [
+const CircleCheckBig = createLucideIcon("circle-check-big", __iconNode$k);
+const __iconNode$j = [
+  ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
+  ["path", { d: "m9 12 2 2 4-4", key: "dzmm74" }]
+];
+const CircleCheck = createLucideIcon("circle-check", __iconNode$j);
+const __iconNode$i = [
   ["rect", { width: "8", height: "4", x: "8", y: "2", rx: "1", ry: "1", key: "tgr4d6" }],
   [
     "path",
@@ -12664,8 +12676,8 @@ const __iconNode$d = [
   ["path", { d: "M8 11h.01", key: "1dfujw" }],
   ["path", { d: "M8 16h.01", key: "18s6g9" }]
 ];
-const ClipboardList = createLucideIcon("clipboard-list", __iconNode$d);
-const __iconNode$c = [
+const ClipboardList = createLucideIcon("clipboard-list", __iconNode$i);
+const __iconNode$h = [
   [
     "path",
     {
@@ -12681,8 +12693,8 @@ const __iconNode$c = [
     }
   ]
 ];
-const Droplets = createLucideIcon("droplets", __iconNode$c);
-const __iconNode$b = [
+const Droplets = createLucideIcon("droplets", __iconNode$h);
+const __iconNode$g = [
   [
     "path",
     {
@@ -12694,8 +12706,8 @@ const __iconNode$b = [
   ["circle", { cx: "11.5", cy: "14.5", r: "2.5", key: "1bq0ko" }],
   ["path", { d: "M13.3 16.3 15 18", key: "2quom7" }]
 ];
-const FileSearch = createLucideIcon("file-search", __iconNode$b);
-const __iconNode$a = [
+const FileSearch = createLucideIcon("file-search", __iconNode$g);
+const __iconNode$f = [
   [
     "path",
     {
@@ -12708,8 +12720,8 @@ const __iconNode$a = [
   ["path", { d: "M16 13H8", key: "t4e002" }],
   ["path", { d: "M16 17H8", key: "z1uh3a" }]
 ];
-const FileText = createLucideIcon("file-text", __iconNode$a);
-const __iconNode$9 = [
+const FileText = createLucideIcon("file-text", __iconNode$f);
+const __iconNode$e = [
   [
     "path",
     {
@@ -12718,8 +12730,8 @@ const __iconNode$9 = [
     }
   ]
 ];
-const FolderOpen = createLucideIcon("folder-open", __iconNode$9);
-const __iconNode$8 = [
+const FolderOpen = createLucideIcon("folder-open", __iconNode$e);
+const __iconNode$d = [
   [
     "path",
     {
@@ -12729,15 +12741,37 @@ const __iconNode$8 = [
   ],
   ["path", { d: "M3.22 13H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27", key: "auskq0" }]
 ];
-const HeartPulse = createLucideIcon("heart-pulse", __iconNode$8);
-const __iconNode$7 = [
+const HeartPulse = createLucideIcon("heart-pulse", __iconNode$d);
+const __iconNode$c = [
+  [
+    "path",
+    {
+      d: "M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5",
+      key: "mvr1a0"
+    }
+  ]
+];
+const Heart = createLucideIcon("heart", __iconNode$c);
+const __iconNode$b = [
+  ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
+  ["path", { d: "M12 16v-4", key: "1dtifu" }],
+  ["path", { d: "M12 8h.01", key: "e9boi3" }]
+];
+const Info = createLucideIcon("info", __iconNode$b);
+const __iconNode$a = [
   ["rect", { width: "7", height: "9", x: "3", y: "3", rx: "1", key: "10lvy0" }],
   ["rect", { width: "7", height: "5", x: "14", y: "3", rx: "1", key: "16une8" }],
   ["rect", { width: "7", height: "9", x: "14", y: "12", rx: "1", key: "1hutg5" }],
   ["rect", { width: "7", height: "5", x: "3", y: "16", rx: "1", key: "ldoo1y" }]
 ];
-const LayoutDashboard = createLucideIcon("layout-dashboard", __iconNode$7);
-const __iconNode$6 = [
+const LayoutDashboard = createLucideIcon("layout-dashboard", __iconNode$a);
+const __iconNode$9 = [
+  ["path", { d: "M9 17H7A5 5 0 0 1 7 7h2", key: "8i5ue5" }],
+  ["path", { d: "M15 7h2a5 5 0 1 1 0 10h-2", key: "1b9ql8" }],
+  ["line", { x1: "8", x2: "16", y1: "12", y2: "12", key: "1jonct" }]
+];
+const Link2 = createLucideIcon("link-2", __iconNode$9);
+const __iconNode$8 = [
   ["path", { d: "M6 18h8", key: "1borvv" }],
   ["path", { d: "M3 22h18", key: "8prr45" }],
   ["path", { d: "M14 22a7 7 0 1 0 0-14h-1", key: "1jwaiy" }],
@@ -12745,21 +12779,21 @@ const __iconNode$6 = [
   ["path", { d: "M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z", key: "1bmzmy" }],
   ["path", { d: "M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3", key: "1drr47" }]
 ];
-const Microscope = createLucideIcon("microscope", __iconNode$6);
-const __iconNode$5 = [
+const Microscope = createLucideIcon("microscope", __iconNode$8);
+const __iconNode$7 = [
   ["rect", { width: "18", height: "18", x: "3", y: "3", rx: "2", key: "afitv7" }],
   ["path", { d: "M9 3v18", key: "fh3hqa" }]
 ];
-const PanelLeft = createLucideIcon("panel-left", __iconNode$5);
-const __iconNode$4 = [
+const PanelLeft = createLucideIcon("panel-left", __iconNode$7);
+const __iconNode$6 = [
   [
     "path",
     { d: "m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z", key: "wa1lgi" }
   ],
   ["path", { d: "m8.5 8.5 7 7", key: "rvfmvr" }]
 ];
-const Pill = createLucideIcon("pill", __iconNode$4);
-const __iconNode$3 = [
+const Pill = createLucideIcon("pill", __iconNode$6);
+const __iconNode$5 = [
   [
     "path",
     {
@@ -12770,13 +12804,13 @@ const __iconNode$3 = [
   ["path", { d: "M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6", key: "1itne7" }],
   ["rect", { x: "6", y: "14", width: "12", height: "8", rx: "1", key: "1ue0tg" }]
 ];
-const Printer = createLucideIcon("printer", __iconNode$3);
-const __iconNode$2 = [
+const Printer = createLucideIcon("printer", __iconNode$5);
+const __iconNode$4 = [
   ["path", { d: "m21 21-4.34-4.34", key: "14j7rj" }],
   ["circle", { cx: "11", cy: "11", r: "8", key: "4ej97u" }]
 ];
-const Search = createLucideIcon("search", __iconNode$2);
-const __iconNode$1 = [
+const Search = createLucideIcon("search", __iconNode$4);
+const __iconNode$3 = [
   [
     "path",
     {
@@ -12787,8 +12821,8 @@ const __iconNode$1 = [
   ["path", { d: "M12 8v4", key: "1got3b" }],
   ["path", { d: "M12 16h.01", key: "1drbdi" }]
 ];
-const ShieldAlert = createLucideIcon("shield-alert", __iconNode$1);
-const __iconNode = [
+const ShieldAlert = createLucideIcon("shield-alert", __iconNode$3);
+const __iconNode$2 = [
   [
     "path",
     {
@@ -12800,7 +12834,23 @@ const __iconNode = [
   ["path", { d: "M22 4h-4", key: "gwowj6" }],
   ["circle", { cx: "4", cy: "20", r: "2", key: "6kqj1y" }]
 ];
-const Sparkles = createLucideIcon("sparkles", __iconNode);
+const Sparkles = createLucideIcon("sparkles", __iconNode$2);
+const __iconNode$1 = [
+  ["path", { d: "m18 2 4 4", key: "22kx64" }],
+  ["path", { d: "m17 7 3-3", key: "1w1zoj" }],
+  ["path", { d: "M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5", key: "1exhtz" }],
+  ["path", { d: "m9 11 4 4", key: "rovt3i" }],
+  ["path", { d: "m5 19-3 3", key: "59f2uf" }],
+  ["path", { d: "m14 4 6 6", key: "yqp9t2" }]
+];
+const Syringe = createLucideIcon("syringe", __iconNode$1);
+const __iconNode = [
+  ["path", { d: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2", key: "1yyitq" }],
+  ["path", { d: "M16 3.128a4 4 0 0 1 0 7.744", key: "16gr8j" }],
+  ["path", { d: "M22 21v-2a4 4 0 0 0-3-3.87", key: "kshegd" }],
+  ["circle", { cx: "9", cy: "7", r: "4", key: "nufk8" }]
+];
+const Users = createLucideIcon("users", __iconNode);
 const tone = {
   success: "success",
   warning: "warning",
@@ -23032,12 +23082,12 @@ const parseReferenceItems = (content) => content.split(/\n\s*\n|\n/).map(
 );
 const parseBlocks = (content, sectionTitle = "") => {
   if (/reference/i.test(sectionTitle)) {
-    const references = parseReferenceItems(content);
-    if (references.length) {
+    const references2 = parseReferenceItems(content);
+    if (references2.length) {
       return [
         {
           type: "reference-list",
-          items: references
+          items: references2
         }
       ];
     }
@@ -23942,6 +23992,371 @@ function AppSidebar({
         ] }, page.id);
       }) }) })
     ] }) })
+  ] });
+}
+const indicationSections = [
+  {
+    title: "Cardiac Indications",
+    tone: "cardiac",
+    icon: Heart,
+    groups: [
+      {
+        title: "Coronary Artery Disease (CAD)",
+        items: [
+          "History of acute coronary syndrome (ACS) with and without ST-segment elevation.",
+          "Chronic stable angina.",
+          "Following percutaneous coronary intervention (PCI) or coronary artery bypass graft (CABG)."
+        ],
+        subitems: [
+          "Use with clopidogrel for elective PCI, or with prasugrel/ticagrelor after ACS-PCI, usually for one year.",
+          "Use triple therapy with ASA, clopidogrel, and oral anticoagulation only for the shortest possible duration in patients who also need anticoagulation.",
+          "ASA may be considered with rivaroxaban 2.5 mg twice daily in selected CAD or PAD patients to reduce stroke, myocardial infarction, cardiovascular death, and acute limb ischaemia."
+        ]
+      },
+      {
+        title: "Prosthetic Heart Valves",
+        items: [
+          "ASA 81 mg daily is recommended in addition to VKA in selected high-risk patients with a mechanical valve prosthesis.",
+          "ASA 81 mg daily is reasonable in patients with a bioprosthetic aortic or mitral valve who are not taking oral anticoagulation."
+        ]
+      }
+    ]
+  },
+  {
+    title: "Cerebrovascular Indications",
+    tone: "stroke",
+    icon: ShieldAlert,
+    groups: [
+      {
+        title: "Stroke and TIA prevention",
+        items: [
+          "History of non-cardioembolic ischaemic stroke or transient ischaemic attack.",
+          "Following carotid endarterectomy."
+        ]
+      }
+    ]
+  },
+  {
+    title: "Peripheral Arterial Disease",
+    tone: "pad",
+    icon: Link2,
+    groups: [
+      {
+        title: "PAD",
+        items: [
+          "Symptomatic peripheral arterial disease with or without prior vascular intervention."
+        ]
+      }
+    ]
+  },
+  {
+    title: "Other Recognised Indications",
+    tone: "other",
+    icon: CircleCheck,
+    groups: [
+      {
+        title: "Secondary prevention of recurrent VTE",
+        items: [
+          "Consider ASA only when the patient remains at high risk of recurrence after at least 3 to 6 months of anticoagulation and extended anticoagulant therapy is not acceptable."
+        ]
+      },
+      {
+        title: "Thromboprophylaxis after joint arthroplasty",
+        items: [
+          "Low VTE risk total knee arthroplasty: rivaroxaban 10 mg daily until day 5, then ASA 81 mg daily for another 9 days.",
+          "Low VTE risk total hip arthroplasty: rivaroxaban 10 mg daily until day 5, then ASA 81 mg daily to complete 30 days."
+        ]
+      },
+      {
+        title: "Prevention of preeclampsia in pregnancy",
+        items: [
+          "Moderate- to high-risk patients, started between 12 and 16 weeks gestation and stopped at 36 weeks."
+        ]
+      }
+    ]
+  }
+];
+const dosingRows = [
+  ["Standard antiplatelet dose", "81 mg daily", "Higher doses do not improve efficacy and increase bleeding risk."],
+  ["Acute coronary syndrome loading", "162 mg chewed or crushed once", "Then continue 81 mg daily indefinitely."],
+  ["Before angioplasty if not already on ASA", "325 mg chewed or crushed once", "Pre-procedure loading dose."],
+  ["TIA or non-cardioembolic ischaemic stroke", "81 mg once daily", "Start promptly once appropriate."],
+  ["Secondary VTE prevention", "81 mg once daily", "Only if long-term anticoagulation is declined."],
+  ["Post-arthroplasty prophylaxis", "81 mg once daily", "After initial rivaroxaban phase."],
+  ["Preeclampsia prevention", "81 mg once daily", "Use from 12 to 16 weeks until 36 weeks gestation."]
+];
+const adverseEffects = [
+  { tone: "default", label: "Very common", text: "Bruising and minor bleeding" },
+  { tone: "default", label: "Common", text: "Dyspepsia and gastrointestinal upset" },
+  { tone: "serious", label: "Serious", text: "Gastrointestinal bleeding" },
+  { tone: "serious", label: "Serious", text: "Intracranial bleeding" },
+  { tone: "moderate", label: "Hypersensitivity", text: "Allergic reactions" },
+  { tone: "moderate", label: "Respiratory", text: "Aspirin-induced asthma, which may be severe" }
+];
+const timelineSteps = [
+  ["4 to 7 days before procedure", "If interruption is clinically appropriate, stop ASA 4 to 7 days before the procedure. Do not routinely stop in patients at high thrombotic risk.", "blue"],
+  ["Day of procedure", "Proceed with the procedure and confirm the bleeding control plan.", "gray"],
+  ["Within 48 hours after procedure", "Restart ASA as soon as haemostasis is secure and there is no significant bleeding.", "green"]
+];
+const relatedGuides = [
+  "Mechanical and Bioprosthetic Heart Valves: Anticoagulant Therapy",
+  "Perioperative Management of Antiplatelet Therapy",
+  "Peripheral Arterial Disease",
+  "Stroke: Secondary Prevention",
+  "Thromboprophylaxis: Orthopedic Surgery",
+  "Venous Thromboembolism: Duration of Treatment",
+  "Duration of Dual Antiplatelet Therapy in Coronary Artery Disease"
+];
+const references = [
+  "Anderson D, et al. Aspirin or rivaroxaban for VTE prophylaxis after hip or knee arthroplasty. N Engl J Med. 2018;378:699-707.",
+  "Bainey KR, et al. 2023 Canadian Cardiovascular Society and Canadian Association of Interventional Cardiology focused update of the guidelines for the use of antiplatelet therapy. Can J Cardiol. 2024;40:160-181.",
+  "Bowman W, et al. Effects of aspirin for primary prevention in persons with diabetes mellitus. N Engl J Med. 2018;379:1529-1539.",
+  "Duley L, et al. Antiplatelet agents for preventing pre-eclampsia and its complications. Cochrane Database Syst Rev. 2019;10.",
+  "Douketis JD, et al. Perioperative management of antithrombotic therapy. CHEST. 2022;126:e207-e243.",
+  "Eikelboom JW, et al. Antiplatelet drugs: antithrombotic therapy and prevention of thrombosis, 9th edition. Chest. 2012;141:e89S-e119S.",
+  "Eikelboom JW, et al. Rivaroxaban with or without aspirin in stable cardiovascular disease. N Engl J Med. 2017;377:1319-1330.",
+  "Gaziano JM, et al. Use of aspirin to reduce risk of initial vascular events in patients at moderate risk of cardiovascular disease. Lancet. 2018;392:1036-1046.",
+  "Lopes RD, et al. Antithrombotic therapy after acute coronary syndrome or PCI in atrial fibrillation. N Engl J Med. 2019;380:1509-1524.",
+  "Mehta SR, et al. 2018 Canadian Cardiovascular Society and Canadian Association of Interventional Cardiology focused update of the guidelines for the use of antiplatelet therapy. Can J Cardiol. 2018;34:214-233.",
+  "Monagle P, et al. Antithrombotic therapy in neonates and children: antithrombotic therapy and prevention of thrombosis, 9th edition. Chest. 2012;141:e737S-e801S.",
+  "Nishimura R, et al. 2017 AHA and ACC focused update of the valvular heart disease guideline. Circulation. 2017;135:e1159-e1195.",
+  "Rolnik DL, et al. Aspirin versus placebo in pregnancies at high risk for preterm preeclampsia. N Engl J Med. 2017;377:613-622.",
+  "Wein T, et al. Canadian Stroke Best Practice Recommendations, seventh edition: Acetylsalicylic acid for prevention of vascular events. CMAJ. 2020;192:E302-E311.",
+  "Weitz JI, et al. Rivaroxaban or aspirin for extended treatment of venous thromboembolism. N Engl J Med. 2017;376:1211-1222.",
+  "Yasuda S, et al. Antithrombotic therapy for atrial fibrillation with stable coronary disease. N Engl J Med. 2019;381:1103-1113.",
+  "Yusuf S, et al. Polypill with or without aspirin in persons without cardiovascular disease. N Engl J Med. 2021;384:216-228."
+];
+const tabs = [
+  ["indications", "Indications"],
+  ["dosing", "Dosing"],
+  ["adverse", "Adverse Effects"],
+  ["periprocedural", "Peri-procedural"],
+  ["special", "Special Considerations"],
+  ["pediatrics", "Pediatrics"],
+  ["references", "References"]
+];
+function Dot({ tone: tone2 }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: `asa-dot ${tone2}` });
+}
+function AsaGuide() {
+  const [tab, setTab] = reactExports.useState("indications");
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "asa-guide-shell", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-guide-header", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-guide-header-top", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-guide-header-copy", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-badge-row", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "asa-badge asa-badge-blue", children: "Clinical Guide" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "asa-badge asa-badge-teal", children: "Antiplatelet Therapy" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "asa-badge asa-badge-gray", children: "v105" })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "asa-guide-title", children: "Acetylsalicylic Acid (ASA)" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-guide-meta", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Calendar, { size: 13 }),
+              " Updated 5 February 2026"
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(FileText, { size: 13 }),
+              " Enteric-coated ASA unless otherwise stated"
+            ] })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "asa-guide-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Heart, { size: 24 }) })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-objective-strip", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Objective:" }),
+        " To provide information on the use of acetylsalicylic acid in the prevention of vascular thromboembolic events."
+      ] })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-mechanism-card", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "asa-mechanism-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Syringe, { size: 18 }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: "Mechanism of Action" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "ASA irreversibly inhibits platelet aggregation by inhibiting thromboxane A2 synthesis through cyclooxygenase inhibition. The antiplatelet effect lasts for the lifetime of the platelet." })
+      ] })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-tabs", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "asa-tabs-list", role: "tablist", "aria-label": "ASA guide sections", children: tabs.map(([id, label]) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          type: "button",
+          className: tab === id ? "asa-tab-btn active" : "asa-tab-btn",
+          onClick: () => setTab(id),
+          children: label
+        },
+        id
+      )) }),
+      tab === "indications" ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-tab-panel", children: [
+        indicationSections.map((section) => {
+          const Icon2 = section.icon;
+          return /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Dot, { tone: section.tone }),
+              section.title
+            ] }),
+            section.groups.map((group) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-ind-group", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-ind-group-label", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: `asa-ind-icon ${section.tone}`, children: /* @__PURE__ */ jsxRuntimeExports.jsx(Icon2, { size: 14 }) }),
+                group.title
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "asa-ind-list", children: group.items.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: item }, item)) }),
+              group.subitems?.length ? /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "asa-ind-list asa-sub-list", children: group.subitems.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: item }, item)) }) : null
+            ] }, group.title))
+          ] }, section.title);
+        }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-alert asa-alert-warn", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(CircleAlert, { size: 16 }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Primary prevention:" }),
+            " ASA is not routinely recommended for primary prevention of a first vascular event, whether or not vascular risk factors are present. The net benefit in asymptomatic atherosclerosis remains uncertain."
+          ] })
+        ] })
+      ] }) : null,
+      tab === "dosing" ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-tab-panel", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot, { tone: "blue" }),
+            "Dosing Summary"
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { className: "asa-dose-table", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("thead", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Indication or situation" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Dose and route" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Notes" })
+            ] }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("tbody", { children: dosingRows.map((row) => /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: row[0] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "dose-highlight", children: row[1] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: row[2] })
+            ] }, row[0])) })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-alert asa-alert-warn", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(CircleAlert, { size: 16 }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "GI bleeding risk:" }),
+            " For patients with prior or high-risk gastrointestinal bleeding, consider a proton pump inhibitor, an H2 antagonist, or an alternative antiplatelet agent such as clopidogrel."
+          ] })
+        ] })
+      ] }) : null,
+      tab === "adverse" ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-tab-panel", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot, { tone: "danger" }),
+            "Adverse Effects Profile"
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "asa-ae-grid", children: adverseEffects.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `asa-ae-card ${item.tone}`, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "asa-ae-card-label", children: item.label }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "asa-ae-card-text", children: item.text })
+          ] }, `${item.label}-${item.text}`)) })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-alert asa-alert-danger", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ShieldAlert, { size: 16 }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Avoid or use with caution in:" }),
+            " asthma or nasal polyps, high bleeding risk, recent major bleeding, severe thrombocytopenia, and familial or acquired bleeding disorders."
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-alert asa-alert-warn", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(CircleAlert, { size: 16 }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "NSAID interaction:" }),
+            " Patients taking ASA for vascular protection should avoid traditional NSAIDs. If an anti-inflammatory is required, a COX-2 inhibitor is preferred."
+          ] })
+        ] })
+      ] }) : null,
+      tab === "periprocedural" ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-tab-panel", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot, { tone: "purple" }),
+            "Peri-procedural Management"
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-alert asa-alert-info", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Info, { size: 16 }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "Balance thrombotic risk and bleeding risk for every procedure. Specialist input is advised for higher-risk patients, especially those on dual antiplatelet therapy." })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "asa-section-copy", children: "In general, ASA should be continued, especially in high thrombotic risk patients or when the procedure carries low bleeding risk. Interrupt only when bleeding risk is high and thrombotic risk is low." }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "asa-timeline", children: timelineSteps.map((step) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-timeline-step", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `asa-timeline-dot ${step[2]}` }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "asa-timeline-label", children: step[0] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "asa-timeline-desc", children: step[1] })
+          ] }, step[0])) })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-alert asa-alert-teal", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(CircleCheck, { size: 16 }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "Use the perioperative antiplatelet guide for detailed interruption, dual antiplatelet therapy, and restart decisions." })
+        ] })
+      ] }) : null,
+      tab === "special" ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-tab-panel", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot, { tone: "orange" }),
+            "Concomitant Anticoagulation"
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "asa-section-copy", children: "Concomitant use of therapeutic anticoagulation and ASA is discouraged and should only be considered in carefully selected low-bleeding-risk patients." }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: "asa-ind-list", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Very recent ACS or PCI with a coronary stent, for the shortest possible duration." }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "High-risk prosthetic heart valve scenarios." }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Proven TIA or ischaemic stroke while on therapeutic anticoagulation alone." }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "High-risk thrombophilia with breakthrough thrombosis despite therapeutic anticoagulation." })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-alert asa-alert-danger", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(ShieldAlert, { size: 16 }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "In most other patients, stop ASA once anticoagulation is started. Discuss combined therapy with thrombosis or cardiology specialists first." })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot, { tone: "danger" }),
+            "Cautions and Contraindications"
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: "asa-ind-list", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Asthma or nasal polyps." }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "High bleeding risk or recent major bleeding." }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Severe thrombocytopenia." }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Familial or acquired bleeding disorders." }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Concomitant traditional NSAID use." })
+          ] })
+        ] })
+      ] }) : null,
+      tab === "pediatrics" ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "asa-tab-panel", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Dot, { tone: "teal" }),
+          "Pediatric Use"
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-alert asa-alert-teal", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Users, { size: 16 }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "When possible, involve a paediatrician with expertise in thromboembolism when considering ASA for antiplatelet therapy in children." })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "asa-section-copy", children: "If a specialist paediatric thrombosis clinician is not available, combine local neonatology or paediatric care with adult haematology support and remote input from an experienced paediatric haematologist." })
+      ] }) }) : null,
+      tab === "references" ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-tab-panel", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot, { tone: "gray" }),
+            "Related Clinical Guides"
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "asa-related-list", children: relatedGuides.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Link2, { size: 14 }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: item })
+          ] }, item)) })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "asa-section-card", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Dot, { tone: "gray" }),
+            "References"
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("ol", { className: "asa-ref-list", children: references.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: item }, item)) })
+        ] })
+      ] }) : null
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "asa-guide-footer", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Acetylsalicylic Acid (ASA)" }),
+        " | Updated 5 February 2026 | Version 105"
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "The information here is not a substitute for clinical judgement. Always seek appropriate specialist input when needed." })
+    ] })
   ] });
 }
 const acuteGuidanceHtmlRaw = `<html lang="en"><head>
@@ -26611,7 +27026,7 @@ function AppLayout() {
   const activeTool = visibleTools.find((tool) => tool.id === activeToolId) ?? searchableTools.find((tool) => tool.id === activeToolId) ?? tools.find((tool) => tool.id === activeToolId) ?? tools[0];
   const activeValues = activeTool ? toolValues[activeTool.id] ?? {} : {};
   const result = activeTool ? activeTool.calculate(activeValues) : null;
-  const relatedGuides = activeTool ? getRelatedGuides(activeTool) : [];
+  const relatedGuides2 = activeTool ? getRelatedGuides(activeTool) : [];
   const activeGuide = filteredGuides.find((guide) => guide.id === activeGuideId) ?? guideLibrary.find((guide) => guide.id === activeGuideId) ?? filteredGuides[0] ?? null;
   const activeVaultEntry = filteredVaultEntries.find((guide) => guide.pdfId === activePdfId) ?? vaultLibrary.find((guide) => guide.pdfId === activePdfId) ?? filteredVaultEntries[0] ?? null;
   activeVaultEntry ? pdfLibrary.find((pdf) => pdf.id === activeVaultEntry.pdfId) ?? null : null;
@@ -26969,7 +27384,7 @@ function AppLayout() {
                 {
                   icon: BrainCircuit,
                   label: "Matched resources",
-                  value: relatedGuides.length,
+                  value: relatedGuides2.length,
                   meta: "Guide recommendations linked to the current calculator"
                 }
               )
@@ -27108,54 +27523,56 @@ function AppLayout() {
               /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: activeGuide.content.tabs.find((tab) => tab.id === "references")?.cards.length ?? 0 })
             ] })
           ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "guide-summary-grid", children: [
+          activeGuide.title === "Acetylsalicylic Acid (ASA)" ? /* @__PURE__ */ jsxRuntimeExports.jsx(AsaGuide, {}) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "guide-summary-grid", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                ContentSummaryCard,
+                {
+                  eyebrow: "Guide synopsis",
+                  title: "Overview",
+                  description: activeGuideOverview
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                ContentListPreview,
+                {
+                  eyebrow: "Clinical application",
+                  title: "Practice points",
+                  items: activeGuideApplicationList,
+                  emptyLabel: "Structured application points will appear here when listed in the guide."
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                ContentOutlinePreview,
+                {
+                  eyebrow: "Guide structure",
+                  title: "Key sections",
+                  items: activeGuide.headings.slice(0, 8)
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                ContentListPreview,
+                {
+                  eyebrow: "Reference preview",
+                  title: "Key bibliography",
+                  items: activeGuideReferenceItems,
+                  ordered: true,
+                  emptyLabel: "Reference entries will appear here when available."
+                }
+              )
+            ] }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(
-              ContentSummaryCard,
+              ClinicalReference,
               {
-                eyebrow: "Guide synopsis",
-                title: "Overview",
-                description: activeGuideOverview
-              }
-            ),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              ContentListPreview,
-              {
-                eyebrow: "Clinical application",
-                title: "Practice points",
-                items: activeGuideApplicationList,
-                emptyLabel: "Structured application points will appear here when listed in the guide."
-              }
-            ),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              ContentOutlinePreview,
-              {
-                eyebrow: "Guide structure",
-                title: "Key sections",
-                items: activeGuide.headings.slice(0, 8)
-              }
-            ),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              ContentListPreview,
-              {
-                eyebrow: "Reference preview",
-                title: "Key bibliography",
-                items: activeGuideReferenceItems,
-                ordered: true,
-                emptyLabel: "Reference entries will appear here when available."
+                eyebrow: "Guide dossier",
+                title: activeGuide.title,
+                content: activeGuide.content,
+                activeTab: activeGuideTab,
+                onTabChange: setActiveGuideTab,
+                emptyMessage: "No guide sections are available for this entry yet."
               }
             )
           ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            ClinicalReference,
-            {
-              eyebrow: "Guide dossier",
-              title: activeGuide.title,
-              content: activeGuide.content,
-              activeTab: activeGuideTab,
-              onTabChange: setActiveGuideTab,
-              emptyMessage: "No guide sections are available for this entry yet."
-            }
-          ),
           activeGuide.linkedGuideIds.length || activeGuide.linkedToolIds.length ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "related-panel", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "section-card-header slim", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Connected navigation" }),
