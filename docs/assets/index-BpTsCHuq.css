@@ -111,7 +111,7 @@ a {
 
 .sidebar-group {
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: 18px;
   background: rgba(255, 255, 255, 0.92);
   box-shadow: var(--shadow-sm);
 }
