@@ -12559,7 +12559,7 @@ const createLucideIcon = (iconName, iconNode) => {
   Component.displayName = toPascalCase(iconName);
   return Component;
 };
-const __iconNode$k = [
+const __iconNode$n = [
   [
     "path",
     {
@@ -12568,13 +12568,13 @@ const __iconNode$k = [
     }
   ]
 ];
-const Activity = createLucideIcon("activity", __iconNode$k);
-const __iconNode$j = [
+const Activity = createLucideIcon("activity", __iconNode$n);
+const __iconNode$m = [
   ["path", { d: "M7 7h10v10", key: "1tivn9" }],
   ["path", { d: "M7 17 17 7", key: "1vkiza" }]
 ];
-const ArrowUpRight = createLucideIcon("arrow-up-right", __iconNode$j);
-const __iconNode$i = [
+const ArrowUpRight = createLucideIcon("arrow-up-right", __iconNode$m);
+const __iconNode$l = [
   [
     "path",
     {
@@ -12584,8 +12584,8 @@ const __iconNode$i = [
   ],
   ["path", { d: "m9 12 2 2 4-4", key: "dzmm74" }]
 ];
-const BadgeCheck = createLucideIcon("badge-check", __iconNode$i);
-const __iconNode$h = [
+const BadgeCheck = createLucideIcon("badge-check", __iconNode$l);
+const __iconNode$k = [
   ["path", { d: "M12 7v14", key: "1akyts" }],
   ["path", { d: "M16 12h2", key: "7q9ll5" }],
   ["path", { d: "M16 8h2", key: "msurwy" }],
@@ -12599,8 +12599,8 @@ const __iconNode$h = [
   ["path", { d: "M6 12h2", key: "32wvfc" }],
   ["path", { d: "M6 8h2", key: "30oboj" }]
 ];
-const BookOpenText = createLucideIcon("book-open-text", __iconNode$h);
-const __iconNode$g = [
+const BookOpenText = createLucideIcon("book-open-text", __iconNode$k);
+const __iconNode$j = [
   [
     "path",
     {
@@ -12621,8 +12621,8 @@ const __iconNode$g = [
   ["circle", { cx: "20", cy: "21", r: ".5", key: "yhc1fs" }],
   ["circle", { cx: "20", cy: "8", r: ".5", key: "1e43v0" }]
 ];
-const BrainCircuit = createLucideIcon("brain-circuit", __iconNode$g);
-const __iconNode$f = [
+const BrainCircuit = createLucideIcon("brain-circuit", __iconNode$j);
+const __iconNode$i = [
   ["rect", { width: "16", height: "20", x: "4", y: "2", rx: "2", key: "1nb95v" }],
   ["line", { x1: "8", x2: "16", y1: "6", y2: "6", key: "x4nwl0" }],
   ["line", { x1: "16", x2: "16", y1: "14", y2: "18", key: "wjye3r" }],
@@ -12634,23 +12634,38 @@ const __iconNode$f = [
   ["path", { d: "M12 18h.01", key: "mhygvu" }],
   ["path", { d: "M8 18h.01", key: "lrp35t" }]
 ];
-const Calculator = createLucideIcon("calculator", __iconNode$f);
-const __iconNode$e = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
-const ChevronDown = createLucideIcon("chevron-down", __iconNode$e);
-const __iconNode$d = [["path", { d: "m9 18 6-6-6-6", key: "mthhwq" }]];
-const ChevronRight = createLucideIcon("chevron-right", __iconNode$d);
-const __iconNode$c = [
+const Calculator = createLucideIcon("calculator", __iconNode$i);
+const __iconNode$h = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
+const ChevronDown = createLucideIcon("chevron-down", __iconNode$h);
+const __iconNode$g = [["path", { d: "m9 18 6-6-6-6", key: "mthhwq" }]];
+const ChevronRight = createLucideIcon("chevron-right", __iconNode$g);
+const __iconNode$f = [
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
   ["line", { x1: "12", x2: "12", y1: "8", y2: "12", key: "1pkeuh" }],
   ["line", { x1: "12", x2: "12.01", y1: "16", y2: "16", key: "4dfq90" }]
 ];
-const CircleAlert = createLucideIcon("circle-alert", __iconNode$c);
-const __iconNode$b = [
+const CircleAlert = createLucideIcon("circle-alert", __iconNode$f);
+const __iconNode$e = [
   ["path", { d: "M21.801 10A10 10 0 1 1 17 3.335", key: "yps3ct" }],
   ["path", { d: "m9 11 3 3L22 4", key: "1pflzl" }]
 ];
-const CircleCheckBig = createLucideIcon("circle-check-big", __iconNode$b);
-const __iconNode$a = [
+const CircleCheckBig = createLucideIcon("circle-check-big", __iconNode$e);
+const __iconNode$d = [
+  ["rect", { width: "8", height: "4", x: "8", y: "2", rx: "1", ry: "1", key: "tgr4d6" }],
+  [
+    "path",
+    {
+      d: "M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2",
+      key: "116196"
+    }
+  ],
+  ["path", { d: "M12 11h4", key: "1jrz19" }],
+  ["path", { d: "M12 16h4", key: "n85exb" }],
+  ["path", { d: "M8 11h.01", key: "1dfujw" }],
+  ["path", { d: "M8 16h.01", key: "18s6g9" }]
+];
+const ClipboardList = createLucideIcon("clipboard-list", __iconNode$d);
+const __iconNode$c = [
   [
     "path",
     {
@@ -12666,8 +12681,8 @@ const __iconNode$a = [
     }
   ]
 ];
-const Droplets = createLucideIcon("droplets", __iconNode$a);
-const __iconNode$9 = [
+const Droplets = createLucideIcon("droplets", __iconNode$c);
+const __iconNode$b = [
   [
     "path",
     {
@@ -12679,8 +12694,22 @@ const __iconNode$9 = [
   ["circle", { cx: "11.5", cy: "14.5", r: "2.5", key: "1bq0ko" }],
   ["path", { d: "M13.3 16.3 15 18", key: "2quom7" }]
 ];
-const FileSearch = createLucideIcon("file-search", __iconNode$9);
-const __iconNode$8 = [
+const FileSearch = createLucideIcon("file-search", __iconNode$b);
+const __iconNode$a = [
+  [
+    "path",
+    {
+      d: "M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z",
+      key: "1oefj6"
+    }
+  ],
+  ["path", { d: "M14 2v5a1 1 0 0 0 1 1h5", key: "wfsgrz" }],
+  ["path", { d: "M10 9H8", key: "b1mrlr" }],
+  ["path", { d: "M16 13H8", key: "t4e002" }],
+  ["path", { d: "M16 17H8", key: "z1uh3a" }]
+];
+const FileText = createLucideIcon("file-text", __iconNode$a);
+const __iconNode$9 = [
   [
     "path",
     {
@@ -12689,8 +12718,8 @@ const __iconNode$8 = [
     }
   ]
 ];
-const FolderOpen = createLucideIcon("folder-open", __iconNode$8);
-const __iconNode$7 = [
+const FolderOpen = createLucideIcon("folder-open", __iconNode$9);
+const __iconNode$8 = [
   [
     "path",
     {
@@ -12700,15 +12729,15 @@ const __iconNode$7 = [
   ],
   ["path", { d: "M3.22 13H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27", key: "auskq0" }]
 ];
-const HeartPulse = createLucideIcon("heart-pulse", __iconNode$7);
-const __iconNode$6 = [
+const HeartPulse = createLucideIcon("heart-pulse", __iconNode$8);
+const __iconNode$7 = [
   ["rect", { width: "7", height: "9", x: "3", y: "3", rx: "1", key: "10lvy0" }],
   ["rect", { width: "7", height: "5", x: "14", y: "3", rx: "1", key: "16une8" }],
   ["rect", { width: "7", height: "9", x: "14", y: "12", rx: "1", key: "1hutg5" }],
   ["rect", { width: "7", height: "5", x: "3", y: "16", rx: "1", key: "ldoo1y" }]
 ];
-const LayoutDashboard = createLucideIcon("layout-dashboard", __iconNode$6);
-const __iconNode$5 = [
+const LayoutDashboard = createLucideIcon("layout-dashboard", __iconNode$7);
+const __iconNode$6 = [
   ["path", { d: "M6 18h8", key: "1borvv" }],
   ["path", { d: "M3 22h18", key: "8prr45" }],
   ["path", { d: "M14 22a7 7 0 1 0 0-14h-1", key: "1jwaiy" }],
@@ -12716,20 +12745,32 @@ const __iconNode$5 = [
   ["path", { d: "M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z", key: "1bmzmy" }],
   ["path", { d: "M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3", key: "1drr47" }]
 ];
-const Microscope = createLucideIcon("microscope", __iconNode$5);
-const __iconNode$4 = [
+const Microscope = createLucideIcon("microscope", __iconNode$6);
+const __iconNode$5 = [
   ["rect", { width: "18", height: "18", x: "3", y: "3", rx: "2", key: "afitv7" }],
   ["path", { d: "M9 3v18", key: "fh3hqa" }]
 ];
-const PanelLeft = createLucideIcon("panel-left", __iconNode$4);
-const __iconNode$3 = [
+const PanelLeft = createLucideIcon("panel-left", __iconNode$5);
+const __iconNode$4 = [
   [
     "path",
     { d: "m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z", key: "wa1lgi" }
   ],
   ["path", { d: "m8.5 8.5 7 7", key: "rvfmvr" }]
 ];
-const Pill = createLucideIcon("pill", __iconNode$3);
+const Pill = createLucideIcon("pill", __iconNode$4);
+const __iconNode$3 = [
+  [
+    "path",
+    {
+      d: "M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2",
+      key: "143wyd"
+    }
+  ],
+  ["path", { d: "M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6", key: "1itne7" }],
+  ["rect", { x: "6", y: "14", width: "12", height: "8", rx: "1", key: "1ue0tg" }]
+];
+const Printer = createLucideIcon("printer", __iconNode$3);
 const __iconNode$2 = [
   ["path", { d: "m21 21-4.34-4.34", key: "14j7rj" }],
   ["circle", { cx: "11", cy: "11", r: "8", key: "4ej97u" }]
@@ -23442,6 +23483,7 @@ const pageIconById = {
   dashboard: LayoutDashboard,
   algorithms: BrainCircuit,
   acute: HeartPulse,
+  followup: FileText,
   scores: Calculator,
   guides: BookOpenText,
   pdfs: FolderOpen
@@ -23455,6 +23497,9 @@ const pageMetaById = {
   },
   acute: {
     subtitle: "Urgent bedside pathways and escalation prompts"
+  },
+  followup: {
+    subtitle: "Printable DOAC review checklist and documentation"
   },
   scores: {
     subtitle: "Risk scores and renal dosing tools"
@@ -23479,6 +23524,7 @@ function AppSidebar({
   onSelectGuide,
   onSelectVault,
   onSelectAcute,
+  onSelectFollowup,
   activeToolId,
   activeAcuteId,
   activeGuideId,
@@ -23546,6 +23592,17 @@ function AppSidebar({
             active: activeAcuteId === item.id && currentPage === "acute"
           }))
         })),
+        followup: [
+          {
+            id: "followup-doac-checklist",
+            label: "Follow-up checklist",
+            action: () => {
+              onSelectFollowup();
+              setOpen(false);
+            },
+            active: currentPage === "followup"
+          }
+        ],
         scores: Object.entries(scoreBuckets).filter(([, toolsInBucket]) => toolsInBucket.length).map(([label, toolsInBucket]) => ({
           id: toNodeId("scores", label),
           label,
@@ -23597,6 +23654,7 @@ function AppSidebar({
       currentPage,
       guideItems,
       onSelectAcute,
+      onSelectFollowup,
       onSelectGuide,
       onSelectTool,
       onSelectVault,
@@ -23680,6 +23738,7 @@ function AppSidebar({
         { id: "dashboard", label: "Dashboard" },
         { id: "algorithms", label: "Interactive Algorithms" },
         { id: "acute", label: "Acute Management" },
+        { id: "followup", label: "DOAC Follow-up" },
         { id: "scores", label: "Scoring Calculators" },
         { id: "guides", label: "Clinical Guides" },
         { id: "pdfs", label: "Clinical Vault" }
@@ -23747,6 +23806,7 @@ const pageDefinitions = [
   { id: "dashboard", label: "Dashboard", shortLabel: "Dashboard", icon: LayoutDashboard },
   { id: "algorithms", label: "Interactive Algorithms", shortLabel: "Algorithms", icon: BrainCircuit },
   { id: "acute", label: "Acute Management", shortLabel: "Acute", icon: HeartPulse },
+  { id: "followup", label: "DOAC Follow-up", shortLabel: "DOAC Follow-up", icon: ClipboardList },
   { id: "scores", label: "Scoring Calculators", shortLabel: "Scores", icon: Calculator },
   { id: "guides", label: "Clinical Guides", shortLabel: "Guides", icon: BookOpenText },
   { id: "pdfs", label: "Clinical Vault", shortLabel: "Vault", icon: FolderOpen }
@@ -23809,6 +23869,249 @@ const acuteManagementItems = [
     action: "Use this section to separate unstable or deteriorating PE from lower-risk presentations and highlight when reperfusion discussions become urgent."
   }
 ];
+const doacFollowupInitialState = {
+  patientName: "",
+  patientAge: "",
+  weightKg: "",
+  weightLb: "",
+  sex: "",
+  doac: "",
+  chads2: "",
+  healthRelevantProblems: false,
+  healthEmbolicEvents: false,
+  healthNone: false,
+  healthComments: "",
+  missedDoses: "",
+  timingIssues: "",
+  adherenceComments: "",
+  hasBled: "",
+  bleedGi: false,
+  bleedOther: false,
+  bleedHemoglobin: false,
+  bleedHypotension: false,
+  bleedNone: false,
+  egfrDate: "",
+  egfrResult: "",
+  dehydratingIllness: "",
+  renalComments: "",
+  drugAsa: false,
+  drugNsaid: false,
+  drugOther: false,
+  drugNone: false,
+  bpSystolic: "",
+  bpDiastolic: "",
+  bpStatus: "",
+  gaitReferral: "",
+  stableContinue: "",
+  doseVerified: "",
+  therapyChanges: "",
+  counselRationale: "",
+  counselBleeding: "",
+  counselAdherence: "",
+  counselInteractions: "",
+  nextFollowupDate: "",
+  nextBloodworkDate: "",
+  finalComments: ""
+};
+const escapeHtml = (value) => String(value ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+const buildYesNoLabel = (value) => {
+  if (value === "yes") {
+    return "Yes";
+  }
+  if (value === "no") {
+    return "No";
+  }
+  return "Not recorded";
+};
+const getCheckedFollowupItems = (entries) => entries.filter((entry) => entry.checked).map((entry) => entry.label);
+const getDoacFollowupSummaryRows = (form) => {
+  const healthItems = getCheckedFollowupItems([
+    { label: "Relevant medical problems or hospital visits", checked: form.healthRelevantProblems },
+    { label: "Embolic events", checked: form.healthEmbolicEvents },
+    { label: "No interval health issues reported", checked: form.healthNone }
+  ]);
+  const bleedItems = getCheckedFollowupItems([
+    { label: "GI bleeding symptoms", checked: form.bleedGi },
+    { label: "Other bleeding symptoms", checked: form.bleedOther },
+    { label: "Drop in hemoglobin or new anemia", checked: form.bleedHemoglobin },
+    { label: "Hypotension with syncope or falls", checked: form.bleedHypotension },
+    { label: "No bleeding concerns identified", checked: form.bleedNone }
+  ]);
+  const interactionItems = getCheckedFollowupItems([
+    { label: "ASA or other antiplatelets", checked: form.drugAsa },
+    { label: "NSAID exposure", checked: form.drugNsaid },
+    { label: "Other interacting drugs", checked: form.drugOther },
+    { label: "No interaction concerns recorded", checked: form.drugNone }
+  ]);
+  return [
+    ["Patient name", form.patientName || "Not recorded"],
+    ["Age", form.patientAge || "Not recorded"],
+    ["Weight", form.weightKg ? `${form.weightKg} kg` : form.weightLb ? `${form.weightLb} lb` : "Not recorded"],
+    ["Sex", form.sex || "Not recorded"],
+    ["DOAC", form.doac || "Not recorded"],
+    ["CHADS2", form.chads2 || "Not recorded"],
+    ["Health status since last assessment", healthItems.length ? healthItems.join("; ") : "No items selected"],
+    ["Missed doses in an average week", form.missedDoses || "Not recorded"],
+    ["Issues with DOAC timing or administration", buildYesNoLabel(form.timingIssues)],
+    ["HAS-BLED", form.hasBled || "Not recorded"],
+    ["Bleeding review", bleedItems.length ? bleedItems.join("; ") : "No items selected"],
+    ["Renal function", form.egfrResult ? `${form.egfrResult} (${form.egfrDate || "date not entered"})` : "Not recorded"],
+    ["Recent dehydrating illness or medication change", buildYesNoLabel(form.dehydratingIllness)],
+    ["Drug interactions", interactionItems.length ? interactionItems.join("; ") : "No items selected"],
+    ["Blood pressure", form.bpSystolic || form.bpDiastolic ? `${form.bpSystolic || "?"}/${form.bpDiastolic || "?"}` : "Not recorded"],
+    ["Blood pressure status", form.bpStatus || "Not recorded"],
+    ["Falls-prevention referral needed", buildYesNoLabel(form.gaitReferral)],
+    ["Overall stable to continue therapy", buildYesNoLabel(form.stableContinue)],
+    ["Dose verified", buildYesNoLabel(form.doseVerified)],
+    ["Therapy changes needed", buildYesNoLabel(form.therapyChanges)],
+    ["Counselling: rationale", buildYesNoLabel(form.counselRationale)],
+    ["Counselling: bleeding", buildYesNoLabel(form.counselBleeding)],
+    ["Counselling: adherence", buildYesNoLabel(form.counselAdherence)],
+    ["Counselling: interactions", buildYesNoLabel(form.counselInteractions)],
+    ["Next follow-up date", form.nextFollowupDate || "Not recorded"],
+    ["Next bloodwork", form.nextBloodworkDate || "Not recorded"],
+    ["Additional comments", form.finalComments || form.healthComments || form.renalComments || form.adherenceComments || "None entered"]
+  ];
+};
+const buildDoacFollowupDocument = (form) => {
+  const dateLabel = new Intl.DateTimeFormat("en-GB", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric"
+  }).format(/* @__PURE__ */ new Date());
+  const rows = getDoacFollowupSummaryRows(form).map(
+    ([label, value]) => `
+        <tr>
+          <th>${escapeHtml(label)}</th>
+          <td>${escapeHtml(value)}</td>
+        </tr>`
+  ).join("");
+  const renderList = (items) => items?.length ? `<ul>${items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>` : "<p>None recorded.</p>";
+  const renderParagraph = (value) => value ? `<p>${escapeHtml(value)}</p>` : "<p>None recorded.</p>";
+  const healthItems = getCheckedFollowupItems([
+    { label: "Relevant medical problems, ED visits, or hospitalizations", checked: form.healthRelevantProblems },
+    { label: "Embolic events", checked: form.healthEmbolicEvents },
+    { label: "None of the above", checked: form.healthNone }
+  ]);
+  const bleedItems = getCheckedFollowupItems([
+    { label: "Signs or symptoms of GI bleeding", checked: form.bleedGi },
+    { label: "Signs or symptoms of other bleeding", checked: form.bleedOther },
+    { label: "Drop in hemoglobin or new anemia", checked: form.bleedHemoglobin },
+    { label: "Hypotension with syncope or falls", checked: form.bleedHypotension },
+    { label: "None of the above", checked: form.bleedNone }
+  ]);
+  const interactionItems = getCheckedFollowupItems([
+    { label: "ASA or other antiplatelets", checked: form.drugAsa },
+    { label: "NSAID", checked: form.drugNsaid },
+    { label: "Other drug interactions", checked: form.drugOther },
+    { label: "None of the above", checked: form.drugNone }
+  ]);
+  const counsellingRows = [
+    ["Rationale for continued DOAC therapy", buildYesNoLabel(form.counselRationale)],
+    ["Bleeding discussion completed", buildYesNoLabel(form.counselBleeding)],
+    ["Dosing and missed-dose counselling completed", buildYesNoLabel(form.counselAdherence)],
+    ["OTC ASA, NSAIDs, and alcohol advice completed", buildYesNoLabel(form.counselInteractions)]
+  ].map(
+    ([label, value]) => `
+        <tr>
+          <th>${escapeHtml(label)}</th>
+          <td>${escapeHtml(value)}</td>
+        </tr>`
+  ).join("");
+  return `<!DOCTYPE html>
+  <html>
+    <head>
+      <meta charset="utf-8" />
+      <title>DOAC Follow-up Checklist</title>
+      <style>
+        body { font-family: Arial, Helvetica, sans-serif; margin: 32px; color: #111827; background: #fff; }
+        .sheet { border: 2px solid #23376b; }
+        .sheet-header { background: #23376b; color: #fff; padding: 18px 24px; }
+        .sheet-header h1 { margin: 0; font-size: 30px; }
+        .sheet-date { padding: 18px 24px; border-top: 2px solid #23376b; font-size: 16px; }
+        .sheet-section-title { padding: 16px 24px; border-top: 2px solid #23376b; font-size: 18px; font-weight: 700; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border-top: 1px solid #cbd5e1; padding: 14px 24px; vertical-align: top; text-align: left; }
+        th { width: 34%; font-weight: 700; background: #f8fafc; }
+        .content-section { padding: 0 24px 18px; border-top: 1px solid #cbd5e1; }
+        .content-section h2 { font-size: 16px; margin: 18px 0 10px; color: #c2410c; text-transform: uppercase; letter-spacing: 0.04em; }
+        .content-section p, .content-section li { line-height: 1.6; font-size: 15px; }
+        .content-section ul { margin: 10px 0 0 20px; padding: 0; }
+        .disclaimer { padding: 20px 24px; border-top: 2px solid #23376b; font-style: italic; line-height: 1.6; }
+      </style>
+    </head>
+    <body>
+      <div class="sheet">
+        <div class="sheet-header">
+          <h1>Direct Oral Anticoagulant (DOAC) Follow-up Checklist</h1>
+        </div>
+        <div class="sheet-date">Date: ${escapeHtml(dateLabel)}</div>
+        <div class="sheet-section-title">Summary of Patient Profile</div>
+        <table>
+          <tbody>
+            ${rows}
+          </tbody>
+        </table>
+        <div class="content-section">
+          <h2>Health status since last assessment</h2>
+          ${renderList(healthItems)}
+          ${renderParagraph(form.healthComments)}
+        </div>
+        <div class="content-section">
+          <h2>Adherence with DOAC therapy</h2>
+          <p>Missed doses in an average week: ${escapeHtml(form.missedDoses || "Not recorded")}</p>
+          <p>Issues with timing or administration: ${escapeHtml(buildYesNoLabel(form.timingIssues))}</p>
+          ${renderParagraph(form.adherenceComments)}
+        </div>
+        <div class="content-section">
+          <h2>Bleeding risk assessment</h2>
+          <p>HAS-BLED: ${escapeHtml(form.hasBled || "Not recorded")}</p>
+          ${renderList(bleedItems)}
+        </div>
+        <div class="content-section">
+          <h2>Renal function</h2>
+          <p>Latest eGFR: ${escapeHtml(form.egfrResult || "Not recorded")}</p>
+          <p>Date measured: ${escapeHtml(form.egfrDate || "Not recorded")}</p>
+          <p>Recent dehydrating illness or medication changes: ${escapeHtml(buildYesNoLabel(form.dehydratingIllness))}</p>
+          ${renderParagraph(form.renalComments)}
+        </div>
+        <div class="content-section">
+          <h2>Drug interactions and examination</h2>
+          ${renderList(interactionItems)}
+          <p>Blood pressure: ${escapeHtml(form.bpSystolic || "?")}/${escapeHtml(form.bpDiastolic || "?")} mmHg</p>
+          <p>Blood pressure status: ${escapeHtml(form.bpStatus || "Not recorded")}</p>
+          <p>Falls-prevention referral needed: ${escapeHtml(buildYesNoLabel(form.gaitReferral))}</p>
+        </div>
+        <div class="content-section">
+          <h2>Final assessment and counselling</h2>
+          <table>
+            <tbody>
+              <tr>
+                <th>Overall stable to continue current therapy</th>
+                <td>${escapeHtml(buildYesNoLabel(form.stableContinue))}</td>
+              </tr>
+              <tr>
+                <th>Dose verified as appropriate</th>
+                <td>${escapeHtml(buildYesNoLabel(form.doseVerified))}</td>
+              </tr>
+              <tr>
+                <th>Changes to therapy required</th>
+                <td>${escapeHtml(buildYesNoLabel(form.therapyChanges))}</td>
+              </tr>
+              ${counsellingRows}
+            </tbody>
+          </table>
+          <p>Next follow-up date: ${escapeHtml(form.nextFollowupDate || "Not recorded")}</p>
+          <p>Next bloodwork: ${escapeHtml(form.nextBloodworkDate || "Not recorded")}</p>
+          ${renderParagraph(form.finalComments)}
+        </div>
+        <div class="disclaimer">
+          These general recommendations do not replace clinical judgement. Physicians must consider relative risks and benefits for each individual patient.
+        </div>
+      </div>
+    </body>
+  </html>`;
+};
 const referenceTabIconById = {
   overview: BookOpenText,
   criteria: Microscope,
@@ -23878,6 +24181,7 @@ function AppLayout() {
   const [currentPage, setCurrentPage] = reactExports.useState(getPageFromHash);
   const [activeToolId, setActiveToolId] = reactExports.useState(tools[0]?.id ?? "");
   const [activeAcuteId, setActiveAcuteId] = reactExports.useState(acuteManagementItems[0]?.id ?? "");
+  const [doacFollowup, setDoacFollowup] = reactExports.useState(doacFollowupInitialState);
   const [toolValues, setToolValues] = reactExports.useState(toolStateDefaults);
   const [activeGuideId, setActiveGuideId] = reactExports.useState(guideLibrary[0]?.id ?? "");
   const [activeGuideTab, setActiveGuideTab] = reactExports.useState("overview");
@@ -23899,6 +24203,7 @@ function AppLayout() {
     const pdfParam = params.get("pdf");
     const guideParam = params.get("guide");
     const searchParam = params.get("search");
+    const checklistParam = params.get("checklist");
     if (toolParam) {
       const matchedTool = tools.find((tool) => tool.id === toolParam);
       if (matchedTool) {
@@ -23926,6 +24231,9 @@ function AppLayout() {
         }
         setCurrentPage("pdfs");
       }
+    }
+    if (checklistParam === "doac-followup") {
+      setCurrentPage("followup");
     }
     if (searchParam) {
       setSearchTerm(searchParam.replace(/\+/g, " "));
@@ -24086,7 +24394,19 @@ function AppLayout() {
       payloadId: item.id,
       label: "Acute"
     }));
-    return [...toolResults, ...acuteResults, ...guideResults, ...pdfResults].slice(0, 10);
+    const followupResults = toolSearch.includes("doac") || toolSearch.includes("follow") || toolSearch.includes("checklist") ? [
+      {
+        id: "followup-doac",
+        kind: "followup",
+        title: "DOAC Follow-up",
+        subtitle: "Checklist and printable review page",
+        pageId: "followup",
+        pageLabel: "DOAC Follow-up",
+        payloadId: "doac-followup",
+        label: "Checklist"
+      }
+    ] : [];
+    return [...toolResults, ...acuteResults, ...followupResults, ...guideResults, ...pdfResults].slice(0, 10);
   }, [filteredAcuteItems, filteredGuides, filteredVaultEntries, searchableTools, toolSearch]);
   const handleSearchSelection = (resultItem) => {
     if (resultItem.kind === "tool") {
@@ -24109,6 +24429,9 @@ function AppLayout() {
     if (resultItem.kind === "acute") {
       setActiveAcuteId(resultItem.payloadId);
     }
+    if (resultItem.kind === "followup") {
+      setCurrentPage("followup");
+    }
     setSearchTerm("");
     navigateToPage(resultItem.pageId);
   };
@@ -24120,6 +24443,37 @@ function AppLayout() {
         [inputId]: value
       }
     }));
+  };
+  const updateDoacFollowup = (field, value) => {
+    setDoacFollowup((current) => ({
+      ...current,
+      [field]: value
+    }));
+  };
+  const resetDoacFollowup = () => setDoacFollowup(doacFollowupInitialState);
+  const handlePrintDoacFollowup = () => {
+    const html = buildDoacFollowupDocument(doacFollowup);
+    const popup = window.open("", "_blank", "width=980,height=860");
+    if (!popup) {
+      return;
+    }
+    popup.document.open();
+    popup.document.write(html);
+    popup.document.close();
+    popup.focus();
+    popup.print();
+  };
+  const handleWordDoacFollowup = () => {
+    const html = buildDoacFollowupDocument(doacFollowup);
+    const blob = new Blob([html], { type: "application/msword" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "doac-followup-checklist.doc";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
   };
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bd-shell", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "bd-background bd-background-a" }),
@@ -24160,6 +24514,9 @@ function AppLayout() {
         onSelectAcute: (acuteId) => {
           setActiveAcuteId(acuteId);
           navigateToPage("acute");
+        },
+        onSelectFollowup: () => {
+          navigateToPage("followup");
         },
         activeToolId,
         activeAcuteId,
@@ -24440,6 +24797,16 @@ function AppLayout() {
           /* @__PURE__ */ jsxRuntimeExports.jsx(CircleAlert, { size: 24 }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: "No acute-management items matched the current search." })
         ] }) }, `acute-panel-${activeAcuteItem?.id ?? "empty"}`) }) }) : null,
+        currentPage === "followup" ? /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+          DoacFollowupPage,
+          {
+            form: doacFollowup,
+            onChange: updateDoacFollowup,
+            onReset: resetDoacFollowup,
+            onPrint: handlePrintDoacFollowup,
+            onDownloadWord: handleWordDoacFollowup
+          }
+        ) }) : null,
         currentPage === "guides" ? /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "focus-layout", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "panel guide-detail-panel spotlight-panel", children: activeGuide ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "section-card-header", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Selected guide" }),
@@ -24644,6 +25011,466 @@ function AppLayout() {
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("footer", { className: "footer", children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Dr Abdul Mannan FRCPath FCPS I Blood🩸Doctor I blooddoctor.co@gmail.com" }) })
     ] })
+  ] });
+}
+function DoacFollowupPage({ form, onChange, onReset, onPrint, onDownloadWord }) {
+  const summaryRows = getDoacFollowupSummaryRows(form);
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "focus-layout", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "panel doac-followup-panel spotlight-panel", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "doac-followup-hero", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "doac-followup-hero-bar", children: /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: "DOAC Follow-up" }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "doac-followup-toolbar", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Checklist workspace" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Structured review template for outpatient DOAC follow-up, documentation, and counselling." })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "button-cluster", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "button", className: "ghost-button", onClick: onReset, children: "Reset" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { type: "button", className: "ghost-button", onClick: onPrint, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Printer, { size: 16 }),
+            "Print / Save PDF"
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { type: "button", className: "primary-button", onClick: onDownloadWord, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(FileText, { size: 16 }),
+            "Download Word"
+          ] })
+        ] })
+      ] })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "doac-followup-body", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "doac-section-card", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "doac-field-grid", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          DoacTextField,
+          {
+            label: "Patient name",
+            value: form.patientName,
+            onChange: (value) => onChange("patientName", value)
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          DoacTextField,
+          {
+            label: "Patient age",
+            value: form.patientAge,
+            inputMode: "numeric",
+            onChange: (value) => onChange("patientAge", value)
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          DoacTextField,
+          {
+            label: "Weight (kg)",
+            value: form.weightKg,
+            inputMode: "decimal",
+            onChange: (value) => onChange("weightKg", value)
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          DoacTextField,
+          {
+            label: "Weight (lb)",
+            value: form.weightLb,
+            inputMode: "decimal",
+            onChange: (value) => onChange("weightLb", value)
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          DoacRadioGroup,
+          {
+            label: "Sex",
+            value: form.sex,
+            onChange: (value) => onChange("sex", value),
+            options: [
+              { value: "Male", label: "Male" },
+              { value: "Female", label: "Female" }
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          DoacRadioGroup,
+          {
+            label: "DOAC",
+            value: form.doac,
+            onChange: (value) => onChange("doac", value),
+            options: [
+              { value: "Apixaban", label: "Apixaban" },
+              { value: "Dabigatran", label: "Dabigatran" },
+              { value: "Edoxaban", label: "Edoxaban" },
+              { value: "Rivaroxaban", label: "Rivaroxaban" }
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          DoacSelectField,
+          {
+            label: "CHADS2",
+            value: form.chads2,
+            onChange: (value) => onChange("chads2", value),
+            options: ["", "0", "1", "2", "3", "4", "5", "6"]
+          }
+        )
+      ] }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(DoacSectionTitle, { title: "Health status since last assessment" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "doac-section-card", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "doac-section-lead", children: "Please check all that apply to the patient:" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          DoacCheckboxList,
+          {
+            items: [
+              ["healthRelevantProblems", "Relevant medical problems, ED visits, or hospitalizations"],
+              ["healthEmbolicEvents", "Embolic events"],
+              ["healthNone", "None of the above"]
+            ],
+            form,
+            onChange
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          DoacTextArea,
+          {
+            label: "Other comments",
+            value: form.healthComments,
+            onChange: (value) => onChange("healthComments", value)
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(DoacSectionTitle, { title: "Adherence with DOAC therapy" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "doac-section-card", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          DoacRadioGroup,
+          {
+            label: "How many doses has the patient missed in an average week?",
+            value: form.missedDoses,
+            onChange: (value) => onChange("missedDoses", value),
+            options: [
+              { value: "0", label: "0" },
+              { value: "1 - 2", label: "1 – 2" },
+              { value: "≥ 3", label: "≥ 3" }
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          DoacRadioGroup,
+          {
+            label: "Any issues with taking the DOAC properly, including food or timing?",
+            value: form.timingIssues,
+            onChange: (value) => onChange("timingIssues", value),
+            options: [
+              { value: "yes", label: "Yes" },
+              { value: "no", label: "No" }
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          DoacTextArea,
+          {
+            label: "Adherence comments",
+            value: form.adherenceComments,
+            onChange: (value) => onChange("adherenceComments", value)
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(DoacSectionTitle, { title: "Bleeding risk assessment" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "doac-section-card", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          DoacSelectField,
+          {
+            label: "HAS-BLED",
+            value: form.hasBled,
+            onChange: (value) => onChange("hasBled", value),
+            options: ["", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "doac-section-lead", children: "Please check all that apply. A positive response prompts individualized review and does not by itself mean the DOAC should be stopped." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          DoacCheckboxList,
+          {
+            items: [
+              ["bleedGi", "Signs or symptoms of GI bleeding"],
+              ["bleedOther", "Signs or symptoms of other bleeding"],
+              ["bleedHemoglobin", "Drop in hemoglobin or new anemia"],
+              ["bleedHypotension", "Hypotension with syncope or falls"],
+              ["bleedNone", "None of the above"]
+            ],
+            form,
+            onChange
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(DoacSectionTitle, { title: "Creatinine clearance / renal function" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "doac-section-card", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "doac-field-grid", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            DoacDateField,
+            {
+              label: "When was eGFR last measured?",
+              value: form.egfrDate,
+              onChange: (value) => onChange("egfrDate", value)
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            DoacTextField,
+            {
+              label: "eGFR result",
+              value: form.egfrResult,
+              onChange: (value) => onChange("egfrResult", value)
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          DoacRadioGroup,
+          {
+            label: "Any recent dehydrating illness or medications added or changed?",
+            value: form.dehydratingIllness,
+            onChange: (value) => onChange("dehydratingIllness", value),
+            options: [
+              { value: "yes", label: "Yes" },
+              { value: "no", label: "No" }
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          DoacTextArea,
+          {
+            label: "Other comments",
+            value: form.renalComments,
+            onChange: (value) => onChange("renalComments", value)
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(DoacSectionTitle, { title: "Drug interactions (review all concomitant medications)" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "doac-section-card", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "doac-section-lead", children: "Please check all that apply:" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          DoacCheckboxList,
+          {
+            items: [
+              ["drugAsa", "ASA or other antiplatelets"],
+              ["drugNsaid", "NSAID"],
+              ["drugOther", "Other drug interactions"],
+              ["drugNone", "None of the above"]
+            ],
+            form,
+            onChange
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(DoacSectionTitle, { title: "Examination" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "doac-section-card", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "doac-field-grid", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            DoacTextField,
+            {
+              label: "Actual BP systolic",
+              value: form.bpSystolic,
+              inputMode: "numeric",
+              onChange: (value) => onChange("bpSystolic", value)
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            DoacTextField,
+            {
+              label: "Actual BP diastolic",
+              value: form.bpDiastolic,
+              inputMode: "numeric",
+              onChange: (value) => onChange("bpDiastolic", value)
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          DoacRadioGroup,
+          {
+            label: "Patient's blood pressure is",
+            value: form.bpStatus,
+            onChange: (value) => onChange("bpStatus", value),
+            options: [
+              { value: "Within target", label: "Within target" },
+              { value: "High", label: "High" },
+              { value: "Low", label: "Low" }
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          DoacRadioGroup,
+          {
+            label: "Does the patient need referral for gait assessment or walking aids for falls prevention?",
+            value: form.gaitReferral,
+            onChange: (value) => onChange("gaitReferral", value),
+            options: [
+              { value: "yes", label: "Yes" },
+              { value: "no", label: "No" }
+            ]
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(DoacSectionTitle, { title: "Final assessment and recommendations" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "doac-section-card", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        DoacBinaryMatrix,
+        {
+          rows: [
+            [
+              "Overall patient appears stable from the anticoagulant standpoint; benefits of continued anticoagulant therapy outweigh risks; recommend continuation.",
+              form.stableContinue,
+              (value) => onChange("stableContinue", value)
+            ],
+            [
+              "Dose verified and appropriate for age, weight, renal function, and current health status.",
+              form.doseVerified,
+              (value) => onChange("doseVerified", value)
+            ],
+            [
+              "Any changes to current therapy are needed.",
+              form.therapyChanges,
+              (value) => onChange("therapyChanges", value)
+            ]
+          ]
+        }
+      ) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(DoacSectionTitle, { title: "Patient education and counselling" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "doac-section-card", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          DoacBinaryMatrix,
+          {
+            rows: [
+              [
+                "The rationale for continued DOAC therapy was discussed.",
+                form.counselRationale,
+                (value) => onChange("counselRationale", value)
+              ],
+              [
+                "The potential for minor, major, or life-threatening bleeding was discussed.",
+                form.counselBleeding,
+                (value) => onChange("counselBleeding", value)
+              ],
+              [
+                "Dosing instructions, adherence, and handling of missed doses were reviewed.",
+                form.counselAdherence,
+                (value) => onChange("counselAdherence", value)
+              ],
+              [
+                "Avoiding OTC ASA and NSAIDs and minimizing alcohol intake were discussed.",
+                form.counselInteractions,
+                (value) => onChange("counselInteractions", value)
+              ]
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "doac-field-grid", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            DoacDateField,
+            {
+              label: "Next follow-up date",
+              value: form.nextFollowupDate,
+              onChange: (value) => onChange("nextFollowupDate", value)
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            DoacDateField,
+            {
+              label: "Next bloodwork",
+              value: form.nextBloodworkDate,
+              onChange: (value) => onChange("nextBloodworkDate", value)
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          DoacTextArea,
+          {
+            label: "Final comments",
+            value: form.finalComments,
+            onChange: (value) => onChange("finalComments", value)
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "doac-summary-sheet", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "doac-summary-header", children: /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: "Direct Oral Anticoagulant (DOAC) Follow-up Checklist" }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "doac-summary-date", children: [
+          "Date: ",
+          new Intl.DateTimeFormat("en-GB", { day: "2-digit", month: "long", year: "numeric" }).format(/* @__PURE__ */ new Date())
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "doac-summary-title", children: "Summary of patient profile" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "doac-summary-table", children: summaryRows.map(([label, value]) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "doac-summary-row", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: label }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: value })
+        ] }, label)) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "doac-summary-disclaimer", children: "These general recommendations do not replace clinical judgement. Physicians must consider relative risks and benefits in each patient." })
+      ] })
+    ] })
+  ] }) });
+}
+function DoacSectionTitle({ title }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "doac-section-title", children: /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: title }) });
+}
+function DoacTextField({ label, value, onChange, inputMode = "text" }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "doac-input", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: label }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("input", { value, inputMode, onChange: (event) => onChange(event.target.value) })
+  ] });
+}
+function DoacDateField({ label, value, onChange }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "doac-input", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: label }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "date", value, onChange: (event) => onChange(event.target.value) })
+  ] });
+}
+function DoacTextArea({ label, value, onChange }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "doac-input doac-input-wide", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: label }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("textarea", { value, onChange: (event) => onChange(event.target.value) })
+  ] });
+}
+function DoacSelectField({ label, value, onChange, options }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "doac-input", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: label }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("select", { value, onChange: (event) => onChange(event.target.value), children: options.map((option) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: option, children: option || "Select" }, option || "empty")) })
+  ] });
+}
+function DoacRadioGroup({ label, value, onChange, options }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "doac-input doac-input-wide", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: label }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "doac-radio-list", children: options.map((option) => /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: value === option.value ? "doac-choice active" : "doac-choice", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "input",
+        {
+          type: "radio",
+          checked: value === option.value,
+          onChange: () => onChange(option.value)
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: option.label })
+    ] }, option.value)) })
+  ] });
+}
+function DoacCheckboxList({ items, form, onChange }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "doac-checkbox-list", children: items.map(([field, label]) => /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: form[field] ? "doac-choice checkbox active" : "doac-choice checkbox", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "input",
+      {
+        type: "checkbox",
+        checked: Boolean(form[field]),
+        onChange: (event) => onChange(field, event.target.checked)
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: label })
+  ] }, field)) });
+}
+function DoacBinaryMatrix({ rows }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "doac-matrix", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "doac-matrix-head", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("span", {}),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Yes" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "No" })
+    ] }),
+    rows.map(([label, value, onChange]) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "doac-matrix-row", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "doac-matrix-label", children: label }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: value === "yes" ? "doac-matrix-choice active" : "doac-matrix-choice", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "radio", checked: value === "yes", onChange: () => onChange("yes") }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", {})
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: value === "no" ? "doac-matrix-choice active" : "doac-matrix-choice", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "radio", checked: value === "no", onChange: () => onChange("no") }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", {})
+      ] })
+    ] }, label))
   ] });
 }
 function MetricCard({ icon: Icon2, label, value, meta }) {

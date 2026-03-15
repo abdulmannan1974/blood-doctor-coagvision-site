@@ -8,14 +8,17 @@ import {
   Calculator,
   ChevronDown,
   ChevronRight,
+  ClipboardList,
   CircleAlert,
   CircleCheckBig,
   FileSearch,
+  FileText,
   FolderOpen,
   HeartPulse,
   LayoutDashboard,
   Microscope,
   Pill,
+  Printer,
   Search,
   ShieldAlert,
 } from "lucide-react";
@@ -62,6 +65,7 @@ const pageDefinitions = [
   { id: "dashboard", label: "Dashboard", shortLabel: "Dashboard", icon: LayoutDashboard },
   { id: "algorithms", label: "Interactive Algorithms", shortLabel: "Algorithms", icon: BrainCircuit },
   { id: "acute", label: "Acute Management", shortLabel: "Acute", icon: HeartPulse },
+  { id: "followup", label: "DOAC Follow-up", shortLabel: "DOAC Follow-up", icon: ClipboardList },
   { id: "scores", label: "Scoring Calculators", shortLabel: "Scores", icon: Calculator },
   { id: "guides", label: "Clinical Guides", shortLabel: "Guides", icon: BookOpenText },
   { id: "pdfs", label: "Clinical Vault", shortLabel: "Vault", icon: FolderOpen },
@@ -83,6 +87,12 @@ const pageCopy = {
     title: "Acute management",
     description:
       "Rapid-access pathways for urgent rhythm, bleeding, DVT, and pulmonary embolism decisions, organized from the local acute-management reference file without carrying over source-site branding.",
+  },
+  followup: {
+    eyebrow: "Clinical checklist",
+    title: "DOAC follow-up",
+    description:
+      "Structured outpatient review checklist for direct oral anticoagulant therapy, with printable export for PDF and Word documentation.",
   },
   scores: {
     eyebrow: "Clinical tools index",
@@ -165,6 +175,299 @@ const acuteManagementItems = [
       "Use this section to separate unstable or deteriorating PE from lower-risk presentations and highlight when reperfusion discussions become urgent.",
   },
 ];
+
+const doacFollowupInitialState = {
+  patientName: "",
+  patientAge: "",
+  weightKg: "",
+  weightLb: "",
+  sex: "",
+  doac: "",
+  chads2: "",
+  healthRelevantProblems: false,
+  healthEmbolicEvents: false,
+  healthNone: false,
+  healthComments: "",
+  missedDoses: "",
+  timingIssues: "",
+  adherenceComments: "",
+  hasBled: "",
+  bleedGi: false,
+  bleedOther: false,
+  bleedHemoglobin: false,
+  bleedHypotension: false,
+  bleedNone: false,
+  egfrDate: "",
+  egfrResult: "",
+  dehydratingIllness: "",
+  renalComments: "",
+  drugAsa: false,
+  drugNsaid: false,
+  drugOther: false,
+  drugNone: false,
+  bpSystolic: "",
+  bpDiastolic: "",
+  bpStatus: "",
+  gaitReferral: "",
+  stableContinue: "",
+  doseVerified: "",
+  therapyChanges: "",
+  counselRationale: "",
+  counselBleeding: "",
+  counselAdherence: "",
+  counselInteractions: "",
+  nextFollowupDate: "",
+  nextBloodworkDate: "",
+  finalComments: "",
+};
+
+const escapeHtml = (value) =>
+  String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+
+const formatFollowupChoice = (value) => {
+  if (value === true) {
+    return "Yes";
+  }
+
+  if (value === false) {
+    return "No";
+  }
+
+  if (value === "" || value === null || value === undefined) {
+    return "Not recorded";
+  }
+
+  return String(value);
+};
+
+const buildYesNoLabel = (value) => {
+  if (value === "yes") {
+    return "Yes";
+  }
+
+  if (value === "no") {
+    return "No";
+  }
+
+  return "Not recorded";
+};
+
+const getCheckedFollowupItems = (entries) =>
+  entries.filter((entry) => entry.checked).map((entry) => entry.label);
+
+const getDoacFollowupSummaryRows = (form) => {
+  const healthItems = getCheckedFollowupItems([
+    { label: "Relevant medical problems or hospital visits", checked: form.healthRelevantProblems },
+    { label: "Embolic events", checked: form.healthEmbolicEvents },
+    { label: "No interval health issues reported", checked: form.healthNone },
+  ]);
+
+  const bleedItems = getCheckedFollowupItems([
+    { label: "GI bleeding symptoms", checked: form.bleedGi },
+    { label: "Other bleeding symptoms", checked: form.bleedOther },
+    { label: "Drop in hemoglobin or new anemia", checked: form.bleedHemoglobin },
+    { label: "Hypotension with syncope or falls", checked: form.bleedHypotension },
+    { label: "No bleeding concerns identified", checked: form.bleedNone },
+  ]);
+
+  const interactionItems = getCheckedFollowupItems([
+    { label: "ASA or other antiplatelets", checked: form.drugAsa },
+    { label: "NSAID exposure", checked: form.drugNsaid },
+    { label: "Other interacting drugs", checked: form.drugOther },
+    { label: "No interaction concerns recorded", checked: form.drugNone },
+  ]);
+
+  return [
+    ["Patient name", form.patientName || "Not recorded"],
+    ["Age", form.patientAge || "Not recorded"],
+    ["Weight", form.weightKg ? `${form.weightKg} kg` : form.weightLb ? `${form.weightLb} lb` : "Not recorded"],
+    ["Sex", form.sex || "Not recorded"],
+    ["DOAC", form.doac || "Not recorded"],
+    ["CHADS2", form.chads2 || "Not recorded"],
+    ["Health status since last assessment", healthItems.length ? healthItems.join("; ") : "No items selected"],
+    ["Missed doses in an average week", form.missedDoses || "Not recorded"],
+    ["Issues with DOAC timing or administration", buildYesNoLabel(form.timingIssues)],
+    ["HAS-BLED", form.hasBled || "Not recorded"],
+    ["Bleeding review", bleedItems.length ? bleedItems.join("; ") : "No items selected"],
+    ["Renal function", form.egfrResult ? `${form.egfrResult} (${form.egfrDate || "date not entered"})` : "Not recorded"],
+    ["Recent dehydrating illness or medication change", buildYesNoLabel(form.dehydratingIllness)],
+    ["Drug interactions", interactionItems.length ? interactionItems.join("; ") : "No items selected"],
+    ["Blood pressure", form.bpSystolic || form.bpDiastolic ? `${form.bpSystolic || "?"}/${form.bpDiastolic || "?"}` : "Not recorded"],
+    ["Blood pressure status", form.bpStatus || "Not recorded"],
+    ["Falls-prevention referral needed", buildYesNoLabel(form.gaitReferral)],
+    ["Overall stable to continue therapy", buildYesNoLabel(form.stableContinue)],
+    ["Dose verified", buildYesNoLabel(form.doseVerified)],
+    ["Therapy changes needed", buildYesNoLabel(form.therapyChanges)],
+    ["Counselling: rationale", buildYesNoLabel(form.counselRationale)],
+    ["Counselling: bleeding", buildYesNoLabel(form.counselBleeding)],
+    ["Counselling: adherence", buildYesNoLabel(form.counselAdherence)],
+    ["Counselling: interactions", buildYesNoLabel(form.counselInteractions)],
+    ["Next follow-up date", form.nextFollowupDate || "Not recorded"],
+    ["Next bloodwork", form.nextBloodworkDate || "Not recorded"],
+    ["Additional comments", form.finalComments || form.healthComments || form.renalComments || form.adherenceComments || "None entered"],
+  ];
+};
+
+const buildDoacFollowupDocument = (form) => {
+  const dateLabel = new Intl.DateTimeFormat("en-GB", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  }).format(new Date());
+
+  const rows = getDoacFollowupSummaryRows(form)
+    .map(
+      ([label, value]) => `
+        <tr>
+          <th>${escapeHtml(label)}</th>
+          <td>${escapeHtml(value)}</td>
+        </tr>`
+    )
+    .join("");
+
+  const renderList = (items) =>
+    items?.length
+      ? `<ul>${items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`
+      : "<p>None recorded.</p>";
+
+  const renderParagraph = (value) =>
+    value ? `<p>${escapeHtml(value)}</p>` : "<p>None recorded.</p>";
+
+  const healthItems = getCheckedFollowupItems([
+    { label: "Relevant medical problems, ED visits, or hospitalizations", checked: form.healthRelevantProblems },
+    { label: "Embolic events", checked: form.healthEmbolicEvents },
+    { label: "None of the above", checked: form.healthNone },
+  ]);
+
+  const bleedItems = getCheckedFollowupItems([
+    { label: "Signs or symptoms of GI bleeding", checked: form.bleedGi },
+    { label: "Signs or symptoms of other bleeding", checked: form.bleedOther },
+    { label: "Drop in hemoglobin or new anemia", checked: form.bleedHemoglobin },
+    { label: "Hypotension with syncope or falls", checked: form.bleedHypotension },
+    { label: "None of the above", checked: form.bleedNone },
+  ]);
+
+  const interactionItems = getCheckedFollowupItems([
+    { label: "ASA or other antiplatelets", checked: form.drugAsa },
+    { label: "NSAID", checked: form.drugNsaid },
+    { label: "Other drug interactions", checked: form.drugOther },
+    { label: "None of the above", checked: form.drugNone },
+  ]);
+
+  const counsellingRows = [
+    ["Rationale for continued DOAC therapy", buildYesNoLabel(form.counselRationale)],
+    ["Bleeding discussion completed", buildYesNoLabel(form.counselBleeding)],
+    ["Dosing and missed-dose counselling completed", buildYesNoLabel(form.counselAdherence)],
+    ["OTC ASA, NSAIDs, and alcohol advice completed", buildYesNoLabel(form.counselInteractions)],
+  ]
+    .map(
+      ([label, value]) => `
+        <tr>
+          <th>${escapeHtml(label)}</th>
+          <td>${escapeHtml(value)}</td>
+        </tr>`
+    )
+    .join("");
+
+  return `<!DOCTYPE html>
+  <html>
+    <head>
+      <meta charset="utf-8" />
+      <title>DOAC Follow-up Checklist</title>
+      <style>
+        body { font-family: Arial, Helvetica, sans-serif; margin: 32px; color: #111827; background: #fff; }
+        .sheet { border: 2px solid #23376b; }
+        .sheet-header { background: #23376b; color: #fff; padding: 18px 24px; }
+        .sheet-header h1 { margin: 0; font-size: 30px; }
+        .sheet-date { padding: 18px 24px; border-top: 2px solid #23376b; font-size: 16px; }
+        .sheet-section-title { padding: 16px 24px; border-top: 2px solid #23376b; font-size: 18px; font-weight: 700; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border-top: 1px solid #cbd5e1; padding: 14px 24px; vertical-align: top; text-align: left; }
+        th { width: 34%; font-weight: 700; background: #f8fafc; }
+        .content-section { padding: 0 24px 18px; border-top: 1px solid #cbd5e1; }
+        .content-section h2 { font-size: 16px; margin: 18px 0 10px; color: #c2410c; text-transform: uppercase; letter-spacing: 0.04em; }
+        .content-section p, .content-section li { line-height: 1.6; font-size: 15px; }
+        .content-section ul { margin: 10px 0 0 20px; padding: 0; }
+        .disclaimer { padding: 20px 24px; border-top: 2px solid #23376b; font-style: italic; line-height: 1.6; }
+      </style>
+    </head>
+    <body>
+      <div class="sheet">
+        <div class="sheet-header">
+          <h1>Direct Oral Anticoagulant (DOAC) Follow-up Checklist</h1>
+        </div>
+        <div class="sheet-date">Date: ${escapeHtml(dateLabel)}</div>
+        <div class="sheet-section-title">Summary of Patient Profile</div>
+        <table>
+          <tbody>
+            ${rows}
+          </tbody>
+        </table>
+        <div class="content-section">
+          <h2>Health status since last assessment</h2>
+          ${renderList(healthItems)}
+          ${renderParagraph(form.healthComments)}
+        </div>
+        <div class="content-section">
+          <h2>Adherence with DOAC therapy</h2>
+          <p>Missed doses in an average week: ${escapeHtml(form.missedDoses || "Not recorded")}</p>
+          <p>Issues with timing or administration: ${escapeHtml(buildYesNoLabel(form.timingIssues))}</p>
+          ${renderParagraph(form.adherenceComments)}
+        </div>
+        <div class="content-section">
+          <h2>Bleeding risk assessment</h2>
+          <p>HAS-BLED: ${escapeHtml(form.hasBled || "Not recorded")}</p>
+          ${renderList(bleedItems)}
+        </div>
+        <div class="content-section">
+          <h2>Renal function</h2>
+          <p>Latest eGFR: ${escapeHtml(form.egfrResult || "Not recorded")}</p>
+          <p>Date measured: ${escapeHtml(form.egfrDate || "Not recorded")}</p>
+          <p>Recent dehydrating illness or medication changes: ${escapeHtml(buildYesNoLabel(form.dehydratingIllness))}</p>
+          ${renderParagraph(form.renalComments)}
+        </div>
+        <div class="content-section">
+          <h2>Drug interactions and examination</h2>
+          ${renderList(interactionItems)}
+          <p>Blood pressure: ${escapeHtml(form.bpSystolic || "?")}/${escapeHtml(form.bpDiastolic || "?")} mmHg</p>
+          <p>Blood pressure status: ${escapeHtml(form.bpStatus || "Not recorded")}</p>
+          <p>Falls-prevention referral needed: ${escapeHtml(buildYesNoLabel(form.gaitReferral))}</p>
+        </div>
+        <div class="content-section">
+          <h2>Final assessment and counselling</h2>
+          <table>
+            <tbody>
+              <tr>
+                <th>Overall stable to continue current therapy</th>
+                <td>${escapeHtml(buildYesNoLabel(form.stableContinue))}</td>
+              </tr>
+              <tr>
+                <th>Dose verified as appropriate</th>
+                <td>${escapeHtml(buildYesNoLabel(form.doseVerified))}</td>
+              </tr>
+              <tr>
+                <th>Changes to therapy required</th>
+                <td>${escapeHtml(buildYesNoLabel(form.therapyChanges))}</td>
+              </tr>
+              ${counsellingRows}
+            </tbody>
+          </table>
+          <p>Next follow-up date: ${escapeHtml(form.nextFollowupDate || "Not recorded")}</p>
+          <p>Next bloodwork: ${escapeHtml(form.nextBloodworkDate || "Not recorded")}</p>
+          ${renderParagraph(form.finalComments)}
+        </div>
+        <div class="disclaimer">
+          These general recommendations do not replace clinical judgement. Physicians must consider relative risks and benefits for each individual patient.
+        </div>
+      </div>
+    </body>
+  </html>`;
+};
 
 const referenceTabIconById = {
   overview: BookOpenText,
@@ -286,6 +589,7 @@ function AppLayout() {
   const [currentPage, setCurrentPage] = useState(getPageFromHash);
   const [activeToolId, setActiveToolId] = useState(tools[0]?.id ?? "");
   const [activeAcuteId, setActiveAcuteId] = useState(acuteManagementItems[0]?.id ?? "");
+  const [doacFollowup, setDoacFollowup] = useState(doacFollowupInitialState);
   const [toolValues, setToolValues] = useState(toolStateDefaults);
   const [activeGuideId, setActiveGuideId] = useState(guideLibrary[0]?.id ?? "");
   const [activeGuideTab, setActiveGuideTab] = useState("overview");
@@ -312,6 +616,7 @@ function AppLayout() {
     const pdfParam = params.get("pdf");
     const guideParam = params.get("guide");
     const searchParam = params.get("search");
+    const checklistParam = params.get("checklist");
 
     if (toolParam) {
       const matchedTool = tools.find((tool) => tool.id === toolParam);
@@ -342,6 +647,10 @@ function AppLayout() {
         }
         setCurrentPage("pdfs");
       }
+    }
+
+    if (checklistParam === "doac-followup") {
+      setCurrentPage("followup");
     }
 
     if (searchParam) {
@@ -569,7 +878,22 @@ function AppLayout() {
       label: "Acute",
     }));
 
-    return [...toolResults, ...acuteResults, ...guideResults, ...pdfResults].slice(0, 10);
+    const followupResults = toolSearch.includes("doac") || toolSearch.includes("follow") || toolSearch.includes("checklist")
+      ? [
+          {
+            id: "followup-doac",
+            kind: "followup",
+            title: "DOAC Follow-up",
+            subtitle: "Checklist and printable review page",
+            pageId: "followup",
+            pageLabel: "DOAC Follow-up",
+            payloadId: "doac-followup",
+            label: "Checklist",
+          },
+        ]
+      : [];
+
+    return [...toolResults, ...acuteResults, ...followupResults, ...guideResults, ...pdfResults].slice(0, 10);
   }, [filteredAcuteItems, filteredGuides, filteredVaultEntries, searchableTools, toolSearch]);
 
   const handleSearchSelection = (resultItem) => {
@@ -597,6 +921,10 @@ function AppLayout() {
       setActiveAcuteId(resultItem.payloadId);
     }
 
+    if (resultItem.kind === "followup") {
+      setCurrentPage("followup");
+    }
+
     setSearchTerm("");
     navigateToPage(resultItem.pageId);
   };
@@ -609,6 +937,41 @@ function AppLayout() {
         [inputId]: value,
       },
     }));
+  };
+
+  const updateDoacFollowup = (field, value) => {
+    setDoacFollowup((current) => ({
+      ...current,
+      [field]: value,
+    }));
+  };
+
+  const resetDoacFollowup = () => setDoacFollowup(doacFollowupInitialState);
+
+  const handlePrintDoacFollowup = () => {
+    const html = buildDoacFollowupDocument(doacFollowup);
+    const popup = window.open("", "_blank", "width=980,height=860");
+    if (!popup) {
+      return;
+    }
+    popup.document.open();
+    popup.document.write(html);
+    popup.document.close();
+    popup.focus();
+    popup.print();
+  };
+
+  const handleWordDoacFollowup = () => {
+    const html = buildDoacFollowupDocument(doacFollowup);
+    const blob = new Blob([html], { type: "application/msword" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "doac-followup-checklist.doc";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
   };
 
   return (
@@ -648,6 +1011,9 @@ function AppLayout() {
         onSelectAcute={(acuteId) => {
           setActiveAcuteId(acuteId);
           navigateToPage("acute");
+        }}
+        onSelectFollowup={() => {
+          navigateToPage("followup");
         }}
         activeToolId={activeToolId}
         activeAcuteId={activeAcuteId}
@@ -1007,6 +1373,18 @@ function AppLayout() {
           </>
           ) : null}
 
+          {currentPage === "followup" ? (
+          <>
+          <DoacFollowupPage
+            form={doacFollowup}
+            onChange={updateDoacFollowup}
+            onReset={resetDoacFollowup}
+            onPrint={handlePrintDoacFollowup}
+            onDownloadWord={handleWordDoacFollowup}
+          />
+          </>
+          ) : null}
+
           {currentPage === "guides" ? (
           <>
           <section className="focus-layout">
@@ -1226,6 +1604,449 @@ function AppLayout() {
           <p>Dr Abdul Mannan FRCPath FCPS I Blood🩸Doctor I blooddoctor.co@gmail.com</p>
         </footer>
       </div>
+    </div>
+  );
+}
+
+function DoacFollowupPage({ form, onChange, onReset, onPrint, onDownloadWord }) {
+  const summaryRows = getDoacFollowupSummaryRows(form);
+
+  return (
+    <section className="focus-layout">
+      <div className="panel doac-followup-panel spotlight-panel">
+        <div className="doac-followup-hero">
+          <div className="doac-followup-hero-bar">
+            <h3>DOAC Follow-up</h3>
+          </div>
+          <div className="doac-followup-toolbar">
+            <div>
+              <span className="eyebrow">Checklist workspace</span>
+              <p>Structured review template for outpatient DOAC follow-up, documentation, and counselling.</p>
+            </div>
+            <div className="button-cluster">
+              <button type="button" className="ghost-button" onClick={onReset}>
+                Reset
+              </button>
+              <button type="button" className="ghost-button" onClick={onPrint}>
+                <Printer size={16} />
+                Print / Save PDF
+              </button>
+              <button type="button" className="primary-button" onClick={onDownloadWord}>
+                <FileText size={16} />
+                Download Word
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="doac-followup-body">
+          <section className="doac-section-card">
+            <div className="doac-field-grid">
+              <DoacTextField
+                label="Patient name"
+                value={form.patientName}
+                onChange={(value) => onChange("patientName", value)}
+              />
+              <DoacTextField
+                label="Patient age"
+                value={form.patientAge}
+                inputMode="numeric"
+                onChange={(value) => onChange("patientAge", value)}
+              />
+              <DoacTextField
+                label="Weight (kg)"
+                value={form.weightKg}
+                inputMode="decimal"
+                onChange={(value) => onChange("weightKg", value)}
+              />
+              <DoacTextField
+                label="Weight (lb)"
+                value={form.weightLb}
+                inputMode="decimal"
+                onChange={(value) => onChange("weightLb", value)}
+              />
+              <DoacRadioGroup
+                label="Sex"
+                value={form.sex}
+                onChange={(value) => onChange("sex", value)}
+                options={[
+                  { value: "Male", label: "Male" },
+                  { value: "Female", label: "Female" },
+                ]}
+              />
+              <DoacRadioGroup
+                label="DOAC"
+                value={form.doac}
+                onChange={(value) => onChange("doac", value)}
+                options={[
+                  { value: "Apixaban", label: "Apixaban" },
+                  { value: "Dabigatran", label: "Dabigatran" },
+                  { value: "Edoxaban", label: "Edoxaban" },
+                  { value: "Rivaroxaban", label: "Rivaroxaban" },
+                ]}
+              />
+              <DoacSelectField
+                label="CHADS2"
+                value={form.chads2}
+                onChange={(value) => onChange("chads2", value)}
+                options={["", "0", "1", "2", "3", "4", "5", "6"]}
+              />
+            </div>
+          </section>
+
+          <DoacSectionTitle title="Health status since last assessment" />
+          <section className="doac-section-card">
+            <p className="doac-section-lead">Please check all that apply to the patient:</p>
+            <DoacCheckboxList
+              items={[
+                ["healthRelevantProblems", "Relevant medical problems, ED visits, or hospitalizations"],
+                ["healthEmbolicEvents", "Embolic events"],
+                ["healthNone", "None of the above"],
+              ]}
+              form={form}
+              onChange={onChange}
+            />
+            <DoacTextArea
+              label="Other comments"
+              value={form.healthComments}
+              onChange={(value) => onChange("healthComments", value)}
+            />
+          </section>
+
+          <DoacSectionTitle title="Adherence with DOAC therapy" />
+          <section className="doac-section-card">
+            <DoacRadioGroup
+              label="How many doses has the patient missed in an average week?"
+              value={form.missedDoses}
+              onChange={(value) => onChange("missedDoses", value)}
+              options={[
+                { value: "0", label: "0" },
+                { value: "1 - 2", label: "1 – 2" },
+                { value: "≥ 3", label: "≥ 3" },
+              ]}
+            />
+            <DoacRadioGroup
+              label="Any issues with taking the DOAC properly, including food or timing?"
+              value={form.timingIssues}
+              onChange={(value) => onChange("timingIssues", value)}
+              options={[
+                { value: "yes", label: "Yes" },
+                { value: "no", label: "No" },
+              ]}
+            />
+            <DoacTextArea
+              label="Adherence comments"
+              value={form.adherenceComments}
+              onChange={(value) => onChange("adherenceComments", value)}
+            />
+          </section>
+
+          <DoacSectionTitle title="Bleeding risk assessment" />
+          <section className="doac-section-card">
+            <DoacSelectField
+              label="HAS-BLED"
+              value={form.hasBled}
+              onChange={(value) => onChange("hasBled", value)}
+              options={["", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]}
+            />
+            <p className="doac-section-lead">Please check all that apply. A positive response prompts individualized review and does not by itself mean the DOAC should be stopped.</p>
+            <DoacCheckboxList
+              items={[
+                ["bleedGi", "Signs or symptoms of GI bleeding"],
+                ["bleedOther", "Signs or symptoms of other bleeding"],
+                ["bleedHemoglobin", "Drop in hemoglobin or new anemia"],
+                ["bleedHypotension", "Hypotension with syncope or falls"],
+                ["bleedNone", "None of the above"],
+              ]}
+              form={form}
+              onChange={onChange}
+            />
+          </section>
+
+          <DoacSectionTitle title="Creatinine clearance / renal function" />
+          <section className="doac-section-card">
+            <div className="doac-field-grid">
+              <DoacDateField
+                label="When was eGFR last measured?"
+                value={form.egfrDate}
+                onChange={(value) => onChange("egfrDate", value)}
+              />
+              <DoacTextField
+                label="eGFR result"
+                value={form.egfrResult}
+                onChange={(value) => onChange("egfrResult", value)}
+              />
+            </div>
+            <DoacRadioGroup
+              label="Any recent dehydrating illness or medications added or changed?"
+              value={form.dehydratingIllness}
+              onChange={(value) => onChange("dehydratingIllness", value)}
+              options={[
+                { value: "yes", label: "Yes" },
+                { value: "no", label: "No" },
+              ]}
+            />
+            <DoacTextArea
+              label="Other comments"
+              value={form.renalComments}
+              onChange={(value) => onChange("renalComments", value)}
+            />
+          </section>
+
+          <DoacSectionTitle title="Drug interactions (review all concomitant medications)" />
+          <section className="doac-section-card">
+            <p className="doac-section-lead">Please check all that apply:</p>
+            <DoacCheckboxList
+              items={[
+                ["drugAsa", "ASA or other antiplatelets"],
+                ["drugNsaid", "NSAID"],
+                ["drugOther", "Other drug interactions"],
+                ["drugNone", "None of the above"],
+              ]}
+              form={form}
+              onChange={onChange}
+            />
+          </section>
+
+          <DoacSectionTitle title="Examination" />
+          <section className="doac-section-card">
+            <div className="doac-field-grid">
+              <DoacTextField
+                label="Actual BP systolic"
+                value={form.bpSystolic}
+                inputMode="numeric"
+                onChange={(value) => onChange("bpSystolic", value)}
+              />
+              <DoacTextField
+                label="Actual BP diastolic"
+                value={form.bpDiastolic}
+                inputMode="numeric"
+                onChange={(value) => onChange("bpDiastolic", value)}
+              />
+            </div>
+            <DoacRadioGroup
+              label="Patient's blood pressure is"
+              value={form.bpStatus}
+              onChange={(value) => onChange("bpStatus", value)}
+              options={[
+                { value: "Within target", label: "Within target" },
+                { value: "High", label: "High" },
+                { value: "Low", label: "Low" },
+              ]}
+            />
+            <DoacRadioGroup
+              label="Does the patient need referral for gait assessment or walking aids for falls prevention?"
+              value={form.gaitReferral}
+              onChange={(value) => onChange("gaitReferral", value)}
+              options={[
+                { value: "yes", label: "Yes" },
+                { value: "no", label: "No" },
+              ]}
+            />
+          </section>
+
+          <DoacSectionTitle title="Final assessment and recommendations" />
+          <section className="doac-section-card">
+            <DoacBinaryMatrix
+              rows={[
+                [
+                  "Overall patient appears stable from the anticoagulant standpoint; benefits of continued anticoagulant therapy outweigh risks; recommend continuation.",
+                  form.stableContinue,
+                  (value) => onChange("stableContinue", value),
+                ],
+                [
+                  "Dose verified and appropriate for age, weight, renal function, and current health status.",
+                  form.doseVerified,
+                  (value) => onChange("doseVerified", value),
+                ],
+                [
+                  "Any changes to current therapy are needed.",
+                  form.therapyChanges,
+                  (value) => onChange("therapyChanges", value),
+                ],
+              ]}
+            />
+          </section>
+
+          <DoacSectionTitle title="Patient education and counselling" />
+          <section className="doac-section-card">
+            <DoacBinaryMatrix
+              rows={[
+                [
+                  "The rationale for continued DOAC therapy was discussed.",
+                  form.counselRationale,
+                  (value) => onChange("counselRationale", value),
+                ],
+                [
+                  "The potential for minor, major, or life-threatening bleeding was discussed.",
+                  form.counselBleeding,
+                  (value) => onChange("counselBleeding", value),
+                ],
+                [
+                  "Dosing instructions, adherence, and handling of missed doses were reviewed.",
+                  form.counselAdherence,
+                  (value) => onChange("counselAdherence", value),
+                ],
+                [
+                  "Avoiding OTC ASA and NSAIDs and minimizing alcohol intake were discussed.",
+                  form.counselInteractions,
+                  (value) => onChange("counselInteractions", value),
+                ],
+              ]}
+            />
+            <div className="doac-field-grid">
+              <DoacDateField
+                label="Next follow-up date"
+                value={form.nextFollowupDate}
+                onChange={(value) => onChange("nextFollowupDate", value)}
+              />
+              <DoacDateField
+                label="Next bloodwork"
+                value={form.nextBloodworkDate}
+                onChange={(value) => onChange("nextBloodworkDate", value)}
+              />
+            </div>
+            <DoacTextArea
+              label="Final comments"
+              value={form.finalComments}
+              onChange={(value) => onChange("finalComments", value)}
+            />
+          </section>
+
+          <section className="doac-summary-sheet">
+            <div className="doac-summary-header">
+              <h4>Direct Oral Anticoagulant (DOAC) Follow-up Checklist</h4>
+            </div>
+            <div className="doac-summary-date">
+              Date: {new Intl.DateTimeFormat("en-GB", { day: "2-digit", month: "long", year: "numeric" }).format(new Date())}
+            </div>
+            <div className="doac-summary-title">Summary of patient profile</div>
+            <div className="doac-summary-table">
+              {summaryRows.map(([label, value]) => (
+                <div key={label} className="doac-summary-row">
+                  <strong>{label}</strong>
+                  <span>{value}</span>
+                </div>
+              ))}
+            </div>
+            <div className="doac-summary-disclaimer">
+              These general recommendations do not replace clinical judgement. Physicians must consider relative risks and benefits in each patient.
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function DoacSectionTitle({ title }) {
+  return (
+    <div className="doac-section-title">
+      <h4>{title}</h4>
+    </div>
+  );
+}
+
+function DoacTextField({ label, value, onChange, inputMode = "text" }) {
+  return (
+    <label className="doac-input">
+      <span>{label}</span>
+      <input value={value} inputMode={inputMode} onChange={(event) => onChange(event.target.value)} />
+    </label>
+  );
+}
+
+function DoacDateField({ label, value, onChange }) {
+  return (
+    <label className="doac-input">
+      <span>{label}</span>
+      <input type="date" value={value} onChange={(event) => onChange(event.target.value)} />
+    </label>
+  );
+}
+
+function DoacTextArea({ label, value, onChange }) {
+  return (
+    <label className="doac-input doac-input-wide">
+      <span>{label}</span>
+      <textarea value={value} onChange={(event) => onChange(event.target.value)} />
+    </label>
+  );
+}
+
+function DoacSelectField({ label, value, onChange, options }) {
+  return (
+    <label className="doac-input">
+      <span>{label}</span>
+      <select value={value} onChange={(event) => onChange(event.target.value)}>
+        {options.map((option) => (
+          <option key={option || "empty"} value={option}>
+            {option || "Select"}
+          </option>
+        ))}
+      </select>
+    </label>
+  );
+}
+
+function DoacRadioGroup({ label, value, onChange, options }) {
+  return (
+    <div className="doac-input doac-input-wide">
+      <span>{label}</span>
+      <div className="doac-radio-list">
+        {options.map((option) => (
+          <label key={option.value} className={value === option.value ? "doac-choice active" : "doac-choice"}>
+            <input
+              type="radio"
+              checked={value === option.value}
+              onChange={() => onChange(option.value)}
+            />
+            <span>{option.label}</span>
+          </label>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function DoacCheckboxList({ items, form, onChange }) {
+  return (
+    <div className="doac-checkbox-list">
+      {items.map(([field, label]) => (
+        <label key={field} className={form[field] ? "doac-choice checkbox active" : "doac-choice checkbox"}>
+          <input
+            type="checkbox"
+            checked={Boolean(form[field])}
+            onChange={(event) => onChange(field, event.target.checked)}
+          />
+          <span>{label}</span>
+        </label>
+      ))}
+    </div>
+  );
+}
+
+function DoacBinaryMatrix({ rows }) {
+  return (
+    <div className="doac-matrix">
+      <div className="doac-matrix-head">
+        <span />
+        <strong>Yes</strong>
+        <strong>No</strong>
+      </div>
+      {rows.map(([label, value, onChange]) => (
+        <div key={label} className="doac-matrix-row">
+          <div className="doac-matrix-label">{label}</div>
+          <label className={value === "yes" ? "doac-matrix-choice active" : "doac-matrix-choice"}>
+            <input type="radio" checked={value === "yes"} onChange={() => onChange("yes")} />
+            <span />
+          </label>
+          <label className={value === "no" ? "doac-matrix-choice active" : "doac-matrix-choice"}>
+            <input type="radio" checked={value === "no"} onChange={() => onChange("no")} />
+            <span />
+          </label>
+        </div>
+      ))}
     </div>
   );
 }

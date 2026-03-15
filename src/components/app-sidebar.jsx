@@ -6,6 +6,7 @@ import {
   ChevronDown,
   ChevronRight,
   Droplets,
+  FileText,
   FolderOpen,
   HeartPulse,
   LayoutDashboard,
@@ -49,6 +50,7 @@ const pageIconById = {
   dashboard: LayoutDashboard,
   algorithms: BrainCircuit,
   acute: HeartPulse,
+  followup: FileText,
   scores: Calculator,
   guides: BookOpenText,
   pdfs: FolderOpen,
@@ -63,6 +65,9 @@ const pageMetaById = {
   },
   acute: {
     subtitle: "Urgent bedside pathways and escalation prompts",
+  },
+  followup: {
+    subtitle: "Printable DOAC review checklist and documentation",
   },
   scores: {
     subtitle: "Risk scores and renal dosing tools",
@@ -91,6 +96,7 @@ export function AppSidebar({
   onSelectGuide,
   onSelectVault,
   onSelectAcute,
+  onSelectFollowup,
   activeToolId,
   activeAcuteId,
   activeGuideId,
@@ -162,6 +168,17 @@ export function AppSidebar({
           active: activeAcuteId === item.id && currentPage === "acute",
         })),
       })),
+      followup: [
+        {
+          id: "followup-doac-checklist",
+          label: "Follow-up checklist",
+          action: () => {
+            onSelectFollowup();
+            setOpen(false);
+          },
+          active: currentPage === "followup",
+        },
+      ],
       scores: Object.entries(scoreBuckets)
         .filter(([, toolsInBucket]) => toolsInBucket.length)
         .map(([label, toolsInBucket]) => ({
@@ -215,6 +232,7 @@ export function AppSidebar({
       currentPage,
       guideItems,
       onSelectAcute,
+      onSelectFollowup,
       onSelectGuide,
       onSelectTool,
       onSelectVault,
@@ -317,6 +335,7 @@ export function AppSidebar({
                   { id: "dashboard", label: "Dashboard" },
                   { id: "algorithms", label: "Interactive Algorithms" },
                   { id: "acute", label: "Acute Management" },
+                  { id: "followup", label: "DOAC Follow-up" },
                   { id: "scores", label: "Scoring Calculators" },
                   { id: "guides", label: "Clinical Guides" },
                   { id: "pdfs", label: "Clinical Vault" },
