@@ -1089,12 +1089,11 @@ a {
 
 .tool-hero {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 200px;
-  gap: 0.85rem;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.75rem;
   align-items: start;
 }
 
-.progress-card,
 .guide-story-card,
 .action-card,
 .reference-intro,
@@ -1103,25 +1102,6 @@ a {
   border-radius: 12px;
   background: var(--card-muted);
   padding: 0.95rem;
-}
-
-.progress-card strong {
-  display: block;
-  margin: 0.2rem 0 0.45rem;
-  font-size: 1.75rem;
-}
-
-.progress-bar {
-  height: 0.55rem;
-  border-radius: 999px;
-  background: var(--accent);
-  overflow: hidden;
-}
-
-.progress-bar span {
-  display: block;
-  height: 100%;
-  background: var(--foreground);
 }
 
 .note-chip {
@@ -1241,6 +1221,17 @@ a {
 }
 
 .result-list {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.result-table-stack {
+  display: grid;
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+.result-table-card {
   display: grid;
   gap: 0.7rem;
 }
