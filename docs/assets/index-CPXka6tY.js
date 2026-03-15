@@ -51677,18 +51677,7 @@ function ClinicalReference({
       /* @__PURE__ */ jsxRuntimeExports.jsx(BookOpenText, { size: 17 })
     ] }),
     content.tabs.length ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "tab-row", role: "tablist", "aria-label": "Clinical reference sections", children: content.tabs.map((tab) => /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "button",
-        {
-          type: "button",
-          role: "tab",
-          "aria-selected": visibleTab?.id === tab.id,
-          className: visibleTab?.id === tab.id ? "tab-button active" : "tab-button",
-          onClick: () => onTabChange(tab.id),
-          children: tab.label
-        },
-        tab.id
-      )) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "tab-row", role: "tablist", "aria-label": "Clinical reference sections", children: content.tabs.map((tab) => /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "button", role: "tab", "aria-selected": visibleTab?.id === tab.id, className: visibleTab?.id === tab.id ? "tab-button active" : "tab-button", onClick: () => onTabChange(tab.id), children: tab.label }, tab.id)) }),
       visibleTab ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "reference-panel-body", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "reference-overview-card", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Section focus" }),
@@ -51700,54 +51689,29 @@ function ClinicalReference({
         /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "section-jump-grid", children: visibleTab.cards.map((card) => {
           const cardId = `${visibleTab.id}-${card.title}`;
           const isActive = openCardId === cardId;
-          return /* @__PURE__ */ jsxRuntimeExports.jsxs(
-            "button",
-            {
-              type: "button",
-              className: isActive ? "section-jump-button active" : "section-jump-button",
-              onClick: () => setOpenCardId(isActive ? "" : cardId),
-              children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx(TabIcon, { size: 15 }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: card.title })
-              ]
-            },
-            cardId
-          );
-        } }),
+          return /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { type: "button", className: isActive ? "section-jump-button active" : "section-jump-button", onClick: () => setOpenCardId(isActive ? "" : cardId), children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(TabIcon, { size: 15 }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: card.title })
+          ] }, cardId);
+        }) }),
         /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "accordion-list", children: visibleTab.cards.map((card) => {
           const cardId = `${visibleTab.id}-${card.title}`;
           const isOpen = openCardId === cardId;
-          return /* @__PURE__ */ jsxRuntimeExports.jsxs(
-            "article",
-            {
-              className: isOpen ? "accordion-card open" : "accordion-card",
-              children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsxs(
-                  "button",
-                  {
-                    type: "button",
-                    className: "accordion-toggle",
-                    onClick: () => setOpenCardId(isOpen ? "" : cardId),
-                    "aria-expanded": isOpen,
-                    children: [
-                      /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "accordion-toggle-copy", children: [
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "accordion-toggle-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsx(TabIcon, { size: 16 }) }),
-                        /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
-                          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "badge soft", children: visibleTab.label }),
-                          /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: card.title }),
-                          card.summary ? /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: card.summary }) : null
-                        ] })
-                      ] }),
-                      isOpen ? /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronDown, { size: 16 }) : /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronRight, { size: 16 })
-                    ]
-                  }
-                ),
-                isOpen ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "accordion-content", children: card.blocks.map((block, index) => /* @__PURE__ */ jsxRuntimeExports.jsx(ContentBlock, { block }, `${card.title}-${block.type}-${index}`)) }) : null
-              ]
-            },
-            cardId
-          );
-        } })
+          return /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: isOpen ? "accordion-card open" : "accordion-card", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { type: "button", className: "accordion-toggle", onClick: () => setOpenCardId(isOpen ? "" : cardId), "aria-expanded": isOpen, children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "accordion-toggle-copy", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "accordion-toggle-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsx(TabIcon, { size: 16 }) }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "badge soft", children: visibleTab.label }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: card.title }),
+                  card.summary ? /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: card.summary }) : null
+                ] })
+              ] }),
+              isOpen ? /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronDown, { size: 16 }) : /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronRight, { size: 16 })
+            ] }),
+            isOpen ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "accordion-content", children: card.blocks.map((block, index) => /* @__PURE__ */ jsxRuntimeExports.jsx(ContentBlock, { block }, `${card.title}-${block.type}-${index}`)) }) : null
+          ] }, cardId);
+        }) })
       ] }) : null
     ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "empty-state left-aligned", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(CircleAlert, { size: 24 }),
