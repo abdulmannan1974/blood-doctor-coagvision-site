@@ -22144,7 +22144,10 @@ const genericSourcePatterns = [
   /bilingual/i,
   /ongoing expert review and regular updates ensure/i,
   /your support helps protect the quality and continuity/i,
-  /donate-2/i
+  /donate-2/i,
+  /help sustain trusted thrombosis guidance/i,
+  /please note that the information contained herein/i,
+  /date of version/i
 ];
 const tabMeta = {
   overview: {
@@ -22169,7 +22172,22 @@ const tabMeta = {
   }
 };
 const collapseWhitespace = (value) => value.replace(/\s+/g, " ").trim();
-const normalizeMarkdownStructure = (markdown) => markdown.replace(/\r/g, "").replace(/([^\n])\s+---\s+(#{1,4}\s+)/g, "$1\n\n$2").replace(/([^\n])\s+(#{1,4}\s+)/g, "$1\n\n$2").replace(/^(#{1,4})\s+\*\*([^*]+?)\*\*:\s*(.+)$/gm, "$1 $2\n\n$3").replace(/^(#{1,4})\s+([^:\n]+):\s*(.+)$/gm, "$1 $2\n\n$3").replace(/^(#{1,4})\s+\*\*([^*]+?)\*\*:?\s*$/gm, "$1 $2").replace(/^(#{1,4})\s+(.+?):\s*$/gm, "$1 $2").replace(/^\*\*\*([^*]+?)\*\*\*:\s*(.+)$/gm, "### $1\n\n$2").replace(/^\*\*([^*]+)\*\*:\s*(.+)$/gm, "### $1\n\n$2").replace(/^\*\*([^*]+)\*\*:\s*$/gm, "### $1").replace(/^\*\*\*([^*]+?)\*\*\*$/gm, "### $1").replace(/^\*\*([^*]+?)\*\*$/gm, "### $1").replace(/^([A-Z][A-Za-z /()-]{2,}):\s*$/gm, "### $1").replace(/^([A-Z][A-Za-z /()-]{2,}):\s+(.+)$/gm, "### $1\n\n$2").replace(/\n{2,}(#{1,4}\s+[^\n]+)\n+\1\n+/g, "\n\n$1\n\n").replace(/\n{3,}/g, "\n\n");
+const splitCollapsedPipeRows = (markdown) => markdown.split("\n").flatMap((line) => {
+  const trimmed = line.trim();
+  if (!trimmed.includes("|") || !trimmed.startsWith("|")) {
+    return [line];
+  }
+  return trimmed.replace(/\|\s+\|(?=\s*(?:\*\*[^*]+\*\*|[^|\n]{2,}\|))/g, "|\n|").split("\n");
+}).join("\n");
+const splitHeadingTableJoins = (markdown) => markdown.replace(
+  /^(#{1,4}\s+[^|\n]+?)\s+(\|[^|\n].*)$/gm,
+  "$1\n\n$2"
+);
+const normalizeMarkdownStructure = (markdown) => splitCollapsedPipeRows(
+  splitHeadingTableJoins(
+    markdown.replace(/\r/g, "").replace(/([^\n])\s+---\s+(#{1,4}\s+)/g, "$1\n\n$2").replace(/([^\n])\s+(#{1,4}\s+)/g, "$1\n\n$2").replace(/^(#{1,4})\s+\*\*([^*]+?)\*\*:\s*(.+)$/gm, "$1 $2\n\n$3").replace(/^(#{1,4})\s+([^:\n]+):\s*(.+)$/gm, "$1 $2\n\n$3").replace(/^(#{1,4})\s+\*\*([^*]+?)\*\*:?\s*$/gm, "$1 $2").replace(/^(#{1,4})\s+(.+?):\s*$/gm, "$1 $2").replace(/^\*\*\*([^*]+?)\*\*\*:\s*(.+)$/gm, "### $1\n\n$2").replace(/^\*\*([^*]+)\*\*:\s*(.+)$/gm, "### $1\n\n$2").replace(/^\*\*([^*]+)\*\*:\s*$/gm, "### $1").replace(/^\*\*\*([^*]+?)\*\*\*$/gm, "### $1").replace(/^\*\*([^*]+?)\*\*$/gm, "### $1").replace(/^\*\*(\d+\.\s*[^*]+)\*\*$/gm, "### $1").replace(/^([A-Z][A-Za-z /()-]{2,}):\s*$/gm, "### $1").replace(/^([A-Z][A-Za-z /()-]{2,}):\s+(.+)$/gm, "### $1\n\n$2").replace(/^###\s*$/gm, "").replace(/\n{2,}(#{1,4}\s+[^\n]+)\n+\1\n+/g, "\n\n$1\n\n").replace(/\n{3,}/g, "\n\n")
+  )
+);
 const stripMarkdown$1 = (value) => collapseWhitespace(
   value.replace(/`([^`]+)`/g, "$1").replace(/\*\*([^*]+)\*\*/g, "$1").replace(/\*([^*]+)\*/g, "$1").replace(/\[([^\]]+)\]\(([^)]+)\)/g, "$1")
 );
@@ -22192,7 +22210,7 @@ const sanitizeMarkdown = (markdown) => normalizeMarkdownStructure(markdown).spli
     return false;
   }
   return true;
-}).join("\n").replace(/##\s+Access URLs[\s\S]*$/i, "").replace(/```\s*```/g, "").replace(/\n{3,}/g, "\n\n").replace(/\n+\*Source:[^\n]*$/gim, "").replace(/\n+source:[^\n]*$/gim, "").replace(/\n+\*Scraped from[^\n]*$/gim, "").replace(/\n{3,}/g, "\n\n").trim();
+}).join("\n").replace(/##\s+Access URLs[\s\S]*$/i, "").replace(/```\s*```/g, "").replace(/\n{3,}/g, "\n\n").replace(/\n+###\s+Help sustain trusted thrombosis guidance[\s\S]*$/i, "").replace(/\n+\*Please note that the information contained herein[\s\S]*$/i, "").replace(/\n+\*\*Date of Version\**:?[^\n]*$/gim, "").replace(/\n+\*Source:[^\n]*$/gim, "").replace(/\n+source:[^\n]*$/gim, "").replace(/\n+\*Scraped from[^\n]*$/gim, "").replace(/\n{3,}/g, "\n\n").trim();
 const buildClinicalContent = (markdown) => {
   const cleaned = debrandContent(sanitizeMarkdown(markdown)).replace(/\n{3,}/g, "\n\n").trim();
   const sections = splitSections(cleaned);
@@ -22288,7 +22306,12 @@ const parseTable = (lines, startIndex) => {
   }
   const parseCells = (row) => row.replace(/^\|/, "").replace(/\|$/, "").split("|").map((cell) => collapseWhitespace(cell));
   const headers = parseCells(rows[0]);
-  const bodyRows = rows.slice(2).map(parseCells);
+  const bodyRows = rows.slice(2).map(parseCells).map((row) => {
+    if (row.length >= headers.length) {
+      return row.slice(0, headers.length);
+    }
+    return [...row, ...Array.from({ length: headers.length - row.length }, () => "")];
+  }).filter((row) => row.some((cell) => cell));
   return {
     nextIndex: cursor,
     block: {
@@ -22357,8 +22380,12 @@ const parseFact = (line) => {
     value
   };
 };
-const parseReferenceItems = (content) => content.split("\n").map((line) => collapseWhitespace(line)).filter(
-  (line) => line && !/^date of version/i.test(line) && !/^please note that/i.test(line) && !/^source:/i.test(line)
+const parseReferenceItems = (content) => content.split(/\n\s*\n|\n/).map(
+  (line) => collapseWhitespace(
+    line.replace(/^[-*]\s+/, "").replace(/^\d+\.\s+/, "").replace(/^•\s+/, "").replace(/^References?:?\s*/i, "")
+  )
+).filter(
+  (line) => line && !/^date of version/i.test(line) && !/^please note that/i.test(line) && !/^source:/i.test(line) && !/^help sustain/i.test(line)
 );
 const parseBlocks = (content, sectionTitle = "") => {
   if (/reference/i.test(sectionTitle)) {
@@ -23310,6 +23337,26 @@ const getCompletion = (tool, values) => {
   };
 };
 const getToneClass = (tone2) => tone2 ?? "neutral";
+const getTab = (content, id) => content?.tabs?.find((tab) => tab.id === id) ?? null;
+const getCards = (content, id) => getTab(content, id)?.cards ?? [];
+const getBlocks = (content, id) => getCards(content, id).flatMap((card) => card.blocks ?? []);
+const getFirstBlock = (content, id, type) => getBlocks(content, id).find((block) => block.type === type) ?? null;
+const getFirstParagraphText = (content, id) => getFirstBlock(content, id, "paragraph")?.text ?? "";
+const getFirstTable = (content, id) => getFirstBlock(content, id, "table");
+const getFirstList = (content, id) => {
+  const block = getBlocks(content, id).find(
+    (item) => item.type === "bullet-list" || item.type === "ordered-list"
+  );
+  return block?.items ?? [];
+};
+const getReferenceItems = (content) => getBlocks(content, "references").filter((block) => block.type === "reference-list").flatMap((block) => block.items ?? []);
+const trimSentence = (value, maxLength = 220) => {
+  const safe = sanitizeDisplayText(value);
+  if (safe.length <= maxLength) {
+    return safe;
+  }
+  return `${safe.slice(0, maxLength).trim()}...`;
+};
 const getToolKeywords = (tool) => normalizeValue([tool.title, tool.shortTitle, tool.blurb, ...tool.tags ?? []].join(" ")).split(" ").filter((token) => token.length > 2);
 const getRelatedGuides = (tool) => {
   const tokens = new Set(getToolKeywords(tool));
@@ -23456,6 +23503,16 @@ function AppLayout() {
   const activeGuide = filteredGuides.find((guide) => guide.id === activeGuideId) ?? guideLibrary.find((guide) => guide.id === activeGuideId) ?? filteredGuides[0] ?? null;
   const activeVaultEntry = filteredVaultEntries.find((guide) => guide.pdfId === activePdfId) ?? vaultLibrary.find((guide) => guide.pdfId === activePdfId) ?? filteredVaultEntries[0] ?? null;
   activeVaultEntry ? pdfLibrary.find((pdf) => pdf.id === activeVaultEntry.pdfId) ?? null : null;
+  const activeToolOverview = trimSentence(getFirstParagraphText(activeClinicalContent, "overview") || activeTool?.blurb || "");
+  const activeToolCriteriaTable = getFirstTable(activeClinicalContent, "criteria");
+  const activeToolInterpretationTable = getFirstTable(activeClinicalContent, "interpretation");
+  const activeToolApplicationList = getFirstList(activeClinicalContent, "application").slice(0, 4);
+  const activeGuideOverview = trimSentence(getFirstParagraphText(activeGuide?.content, "overview") || activeGuide?.objective || activeGuide?.excerpt || "");
+  const activeGuideApplicationList = getFirstList(activeGuide?.content, "application").slice(0, 4);
+  const activeGuideReferenceItems = getReferenceItems(activeGuide?.content).slice(0, 4);
+  const activeVaultOverview = trimSentence(getFirstParagraphText(activeVaultEntry?.content, "overview") || activeVaultEntry?.objective || activeVaultEntry?.excerpt || "");
+  const activeVaultApplicationList = getFirstList(activeVaultEntry?.content, "application").slice(0, 4);
+  const activeVaultReferenceItems = getReferenceItems(activeVaultEntry?.content).slice(0, 5);
   reactExports.useEffect(() => {
     const firstTabId = activeClinicalContent.tabs[0]?.id ?? "overview";
     setActiveClinicalTab(firstTabId);
@@ -23816,6 +23873,41 @@ function AppLayout() {
             /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: "No tools matched the current search." })
           ] }) }, `tool-panel-${activeTool?.id ?? "empty"}`),
           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "insight-grid", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ResultPanel, { result }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "content-dossier-grid", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              ContentSummaryCard,
+              {
+                eyebrow: "Calculator overview",
+                title: "Clinical purpose",
+                description: activeToolOverview || activeTool?.blurb
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              ContentTablePreview,
+              {
+                eyebrow: "Scoring structure",
+                title: "Criteria table",
+                table: activeToolCriteriaTable
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              ContentTablePreview,
+              {
+                eyebrow: "Risk interpretation",
+                title: "Decision bands",
+                table: activeToolInterpretationTable
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              ContentListPreview,
+              {
+                eyebrow: "Clinical use",
+                title: "Practical steps",
+                items: activeToolApplicationList,
+                emptyLabel: "Application guidance will appear here once structured steps are available."
+              }
+            )
+          ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             ClinicalReference,
             {
@@ -23846,23 +23938,41 @@ function AppLayout() {
             ] })
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "guide-summary-grid", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "guide-story-card", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "section-card-header slim", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Clinical summary" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: "Overview" })
-              ] }) }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: activeGuide.objective || activeGuide.excerpt })
-            ] }),
-            activeGuide.headings.length ? /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "guide-story-card", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "section-card-header slim", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Guide structure" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: "Key sections" })
-              ] }) }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "guide-outline-list", children: activeGuide.headings.slice(0, 8).map((heading) => /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowUpRight, { size: 14 }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: heading })
-              ] }, heading)) })
-            ] }) : null
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              ContentSummaryCard,
+              {
+                eyebrow: "Guide synopsis",
+                title: "Overview",
+                description: activeGuideOverview
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              ContentListPreview,
+              {
+                eyebrow: "Clinical application",
+                title: "Practice points",
+                items: activeGuideApplicationList,
+                emptyLabel: "Structured application points will appear here when listed in the guide."
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              ContentOutlinePreview,
+              {
+                eyebrow: "Guide structure",
+                title: "Key sections",
+                items: activeGuide.headings.slice(0, 8)
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              ContentListPreview,
+              {
+                eyebrow: "Reference preview",
+                title: "Key bibliography",
+                items: activeGuideReferenceItems,
+                ordered: true,
+                emptyLabel: "Reference entries will appear here when available."
+              }
+            )
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             ClinicalReference,
@@ -23958,23 +24068,41 @@ function AppLayout() {
             ] })
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "guide-summary-grid", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "guide-story-card", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "section-card-header slim", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Vault summary" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: "Overview" })
-              ] }) }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: activeVaultEntry.objective || activeVaultEntry.excerpt })
-            ] }),
-            activeVaultEntry.headings.length ? /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "guide-story-card", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "section-card-header slim", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Vault structure" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: "Key sections" })
-              ] }) }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "guide-outline-list", children: activeVaultEntry.headings.slice(0, 8).map((heading) => /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowUpRight, { size: 14 }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: heading })
-              ] }, heading)) })
-            ] }) : null
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              ContentSummaryCard,
+              {
+                eyebrow: "Vault synopsis",
+                title: "Overview",
+                description: activeVaultOverview
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              ContentListPreview,
+              {
+                eyebrow: "Clinical application",
+                title: "Practice points",
+                items: activeVaultApplicationList,
+                emptyLabel: "Structured clinical points will appear here when listed in the vault summary."
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              ContentOutlinePreview,
+              {
+                eyebrow: "Vault structure",
+                title: "Key sections",
+                items: activeVaultEntry.headings.slice(0, 8)
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              ContentListPreview,
+              {
+                eyebrow: "Reference preview",
+                title: "Bibliography",
+                items: activeVaultReferenceItems,
+                ordered: true,
+                emptyLabel: "Reference entries will appear here when available."
+              }
+            )
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             ClinicalReference,
@@ -24002,6 +24130,49 @@ function MetricCard({ icon: Icon2, label, value, meta }) {
     /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: label }),
     /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: value }),
     /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: meta })
+  ] });
+}
+function ContentSummaryCard({ eyebrow, title, description }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "guide-story-card", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "section-card-header slim", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: eyebrow }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: title })
+    ] }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "guide-story-copy", children: description || "No structured summary is available yet." })
+  ] });
+}
+function ContentOutlinePreview({ eyebrow, title, items }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "guide-story-card", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "section-card-header slim", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: eyebrow }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: title })
+    ] }) }),
+    items?.length ? /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "guide-outline-list", children: items.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowUpRight, { size: 14 }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: sanitizeDisplayText(item) })
+    ] }, item)) }) : /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "guide-story-copy", children: "Section headings will appear here when available." })
+  ] });
+}
+function ContentListPreview({ eyebrow, title, items, ordered = false, emptyLabel }) {
+  const ListTag = ordered ? "ol" : "ul";
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "guide-story-card", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "section-card-header slim", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: eyebrow }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: title })
+    ] }) }),
+    items?.length ? /* @__PURE__ */ jsxRuntimeExports.jsx(ListTag, { className: ordered ? "content-list compact ordered" : "content-list compact", children: items.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: renderInlineContent(item) }, item)) }) : /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "guide-story-copy", children: emptyLabel })
+  ] });
+}
+function ContentTablePreview({ eyebrow, title, table }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "guide-story-card wide", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "section-card-header slim", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: eyebrow }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: title })
+    ] }) }),
+    table?.headers?.length && table?.rows?.length ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "content-table-shell compact", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { className: "content-table compact", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("thead", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { children: table.headers.map((header) => /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: renderInlineContent(header) }, header)) }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("tbody", { children: table.rows.slice(0, 5).map((row, rowIndex) => /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { children: row.map((cell, cellIndex) => /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: renderInlineContent(cell) }, `${cell}-${cellIndex}`)) }, `${row.join("-")}-${rowIndex}`)) })
+    ] }) }) : /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "guide-story-copy", children: "A structured comparison table will appear here when available." })
   ] });
 }
 function FieldRenderer({ input, value, onChange }) {
@@ -24151,30 +24322,13 @@ function ClinicalReference({
         tab.id
       )) }),
       visibleTab ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "reference-panel-body", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "reference-overview-card", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "eyebrow", children: "Section focus" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "reference-overview-copy", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "reference-overview-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsx(TabIcon, { size: 16 }) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: visibleTab.descriptor })
-          ] })
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "reference-section-intro", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "reference-section-chip", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(TabIcon, { size: 15 }),
+            visibleTab.label
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: visibleTab.descriptor })
         ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "section-jump-grid", children: visibleTab.cards.map((card) => {
-          const cardId = `${visibleTab.id}-${card.title}`;
-          const isActive = openCardId === cardId;
-          return /* @__PURE__ */ jsxRuntimeExports.jsxs(
-            "button",
-            {
-              type: "button",
-              className: isActive ? "section-jump-button active" : "section-jump-button",
-              onClick: () => setOpenCardId(isActive ? "" : cardId),
-              children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx(TabIcon, { size: 15 }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: card.title })
-              ]
-            },
-            cardId
-          );
-        }) }),
         /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "accordion-list", children: visibleTab.cards.map((card) => {
           const cardId = `${visibleTab.id}-${card.title}`;
           const isOpen = openCardId === cardId;
