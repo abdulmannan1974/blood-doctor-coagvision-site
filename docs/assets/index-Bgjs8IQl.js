@@ -12816,6 +12816,15 @@ const formatMetricValue = (value, suffix = "") => {
 };
 const sentenceCase = (value) => value.replace(/_/g, " ").replace(/\b\w/g, (character) => character.toUpperCase());
 const buildTable = (title, headers, rows) => ({ title, headers, rows });
+const formatBleedingRiskLabel = (value) => {
+  const labels = {
+    low_non_dental: "Low non-dental",
+    low_dental: "Low dental",
+    moderate: "Moderate",
+    high: "High"
+  };
+  return labels[value] ?? sentenceCase(value ?? "");
+};
 const getDoacRestartWindow = (bleedingRisk) => {
   if (bleedingRisk === "low_dental") {
     return "Resume later the same day or the following morning once local hemostasis is secure.";
@@ -13046,26 +13055,26 @@ const toolCategories = [
 const tools = [
   {
     id: "perioperative",
-    title: "Perioperative Anticoagulant Planner",
+    title: "Perioperative Anticoagulant Management Algorithm",
     shortTitle: "Perioperative",
     type: "algorithm",
     category: "algorithm",
     badge: "Pathway",
-    blurb: "Plan hold timing, reversal strategy, and restart advice for surgery or invasive procedures.",
+    blurb: "Multi-step perioperative anticoagulant interruption, reversal, bridging, and restart planning.",
     tags: ["DOAC", "warfarin", "surgery", "bleeding"],
     notes: [
-      "Use with local anesthesia, reversal stock, and perioperative policy.",
-      "This version focuses on interruption timing, reversal, bridging, and restart planning rather than scraped reference fragments."
+      "Use with local reversal policy, anesthesia guidance, and procedure-specific hemostatic planning.",
+      "Outputs are organized as a structured perioperative decision summary with stepwise day-by-day instructions."
     ],
     inputs: [
       {
         id: "surgeryType",
-        label: "Procedure urgency",
+        label: "Surgery type",
         type: "radio",
         options: [
-          { value: "elective", label: "Elective / planned" },
-          { value: "urgent", label: "Urgent within 12 to 24 hours" },
-          { value: "emergency", label: "Emergency within 12 hours" }
+          { value: "elective", label: "Elective" },
+          { value: "urgent", label: "Urgent surgery or procedure within 12 to 24 hours" },
+          { value: "emergency", label: "Emergency surgery or procedure within 12 hours" }
         ],
         defaultValue: "elective"
       },
@@ -13083,7 +13092,7 @@ const tools = [
       },
       {
         id: "anticoagulant",
-        label: "Current anticoagulant",
+        label: "Anticoagulant used",
         type: "select",
         options: [
           { value: "apixaban", label: "Apixaban" },
@@ -13094,10 +13103,10 @@ const tools = [
         ],
         defaultValue: "apixaban"
       },
-      { id: "inr", label: "INR", type: "number", min: 0.8, step: 0.1 },
+      { id: "inr", label: "INR value", type: "number", min: 0.8, step: 0.1 },
       {
         id: "drugLevelStatus",
-        label: "Drug level assay",
+        label: "Drug level availability",
         type: "radio",
         options: [
           { value: "available", label: "Drug level available" },
@@ -13200,10 +13209,17 @@ const tools = [
       const bleedingRisk = values.bleedingRisk ?? "low_non_dental";
       const inr = asNumber(values.inr);
       const drugLevel = asNumber(values.drugLevel);
-      const crcl = drug === "warfarin" ? null : calculateCrCl(values);
+      const crcl = calculateCrCl(values);
       const thromboembolicRisk = getPerioperativeRiskProfile(values);
       const bridgingNeeded = drug === "warfarin" && thromboembolicRisk.level === "High";
       const doacRestart = getDoacRestartWindow(bleedingRisk);
+      const summaryRows = [
+        ["Bleeding risk", formatBleedingRiskLabel(bleedingRisk)],
+        ["Anticoagulant", sentenceCase(drug)],
+        ["Creatinine clearance", formatMetricValue(crcl, " mL/min")],
+        ["Indication for antithrombotic", sentenceCase(values.indication ?? "atrial_fibrillation")],
+        ["Thromboembolic risk", thromboembolicRisk.level]
+      ];
       if (surgeryType !== "elective") {
         const immediateActions = [
           "Refer urgently for procedural or surgical intervention.",
@@ -13216,29 +13232,30 @@ const tools = [
           const needsPcc = values.immediateReversal || Number.isFinite(inr) && inr > 1.5;
           return {
             tone: tone.danger,
-            headline: `${sentenceCase(surgeryType)} surgery on warfarin`,
-            summary: "Stabilize the patient, stop warfarin, and move rapidly through INR-guided reversal before surgery whenever time allows.",
-            action: "Give vitamin K 10 mg IV and repeat the INR. If the INR remains above 1.5 or immediate reversal is needed, use 4-factor PCC unless contraindicated.",
+            headline: "Urgent or emergency warfarin reversal",
+            summary: "Stabilize the patient, discontinue warfarin, and use INR-guided reversal before surgery whenever time allows.",
+            action: "Give vitamin K 10 mg IV and repeat the INR. If the INR remains above 1.5, or if immediate reversal is required, proceed to PCC unless contraindicated.",
             metrics: buildMetrics([
-              { label: "Urgency", value: sentenceCase(surgeryType) },
+              { label: "Surgery type", value: sentenceCase(surgeryType) },
               { label: "Anticoagulant", value: "Warfarin" },
               { label: "INR", value: Number.isFinite(inr) ? formatScore(inr) : "Enter INR" },
-              { label: "Thromboembolic risk", value: thromboembolicRisk.level }
+              { label: "Creatinine clearance", value: formatMetricValue(crcl, " mL/min") }
             ]),
             recommendations: [
               { label: "Immediate hold", value: "Stop warfarin now." },
               { label: "Vitamin K", value: "10 mg IV; repeat INR before surgery." },
               {
                 label: "PCC strategy",
-                value: needsPcc ? "Use 4-factor PCC based on INR and weight. If INR or weight is unknown, give PCC 2000 units IV." : "No PCC is needed if INR is already 1.5 or lower."
+                value: needsPcc ? "Use 4-factor PCC based on INR and weight. If INR or weight is unknown and PCC cannot be delayed, give PCC 2000 units IV." : "No PCC is needed if INR is already 1.5 or lower."
               },
               {
                 label: "Fallback",
                 value: "If PCC is unavailable or contraindicated, use FFP 10 to 15 mL/kg, about 3 to 4 units."
               },
-              { label: "Post-op restart", value: "Restart warfarin the evening of surgery if hemostasis is secure." }
+              { label: "Target", value: "Repeat INR 15 minutes after PCC infusion and aim for INR 1.5 or lower." }
             ],
             tables: [
+              buildTable("Summary", ["Item", "Value"], summaryRows),
               buildTable("Immediate management", ["Step", "Recommendation"], immediateActions.map((item, index) => [`${index + 1}`, item])),
               buildTable("Warfarin reversal", ["Decision point", "Recommendation"], [
                 ["INR 1.5 or lower after vitamin K", "No further reversal is required; proceed to surgery."],
@@ -13257,8 +13274,8 @@ const tools = [
           const significantLevel = values.drugLevelStatus === "available" && Number.isFinite(drugLevel) && drugLevel >= 30;
           return {
             tone: tone.danger,
-            headline: `${sentenceCase(surgeryType)} surgery on dabigatran`,
-            summary: "Use a dilute thrombin time or Hemoclot assay if available. Significant dabigatran effect should be actively reversed before surgery whenever possible.",
+            headline: "Urgent or emergency dabigatran reversal",
+            summary: "Use a dilute thrombin time or Hemoclot assay if available. Reverse clinically significant dabigatran effect before surgery whenever possible.",
             action: significantLevel || values.drugLevelStatus === "not_available" ? "Give idarucizumab 2.5 g IV bolus, then repeat 2.5 g IV within 15 minutes for a total of 5 g." : "No reversal is needed if the dabigatran level is below 30 to 50 ng/mL and the clinical picture is reassuring.",
             metrics: buildMetrics([
               { label: "Urgency", value: sentenceCase(surgeryType) },
@@ -13277,6 +13294,7 @@ const tools = [
               { label: "Post-op restart", value: doacRestart }
             ],
             tables: [
+              buildTable("Summary", ["Item", "Value"], summaryRows),
               buildTable("Immediate management", ["Step", "Recommendation"], immediateActions.map((item, index) => [`${index + 1}`, item])),
               buildTable("Dabigatran reversal", ["Situation", "Recommendation"], [
                 ["Level below 30 to 50 ng/mL", "No reversal is usually required."],
@@ -13289,7 +13307,7 @@ const tools = [
         }
         return {
           tone: tone.danger,
-          headline: `${sentenceCase(surgeryType)} surgery on factor Xa inhibitor`,
+          headline: "Urgent or emergency factor Xa inhibitor reversal",
           summary: "Use a calibrated anti-Xa assay if available. If clinically significant apixaban, rivaroxaban, or edoxaban exposure is suspected, proceed with non-specific reversal.",
           action: "Stop the anticoagulant now. If clinically significant residual drug is suspected, use PCC 50 units/kg up to a maximum of 3000 units.",
           metrics: buildMetrics([
@@ -13305,6 +13323,7 @@ const tools = [
             { label: "Post-op restart", value: doacRestart }
           ],
           tables: [
+            buildTable("Summary", ["Item", "Value"], summaryRows),
             buildTable("Immediate management", ["Step", "Recommendation"], immediateActions.map((item, index) => [`${index + 1}`, item])),
             buildTable("Factor Xa inhibitor reversal", ["Situation", "Recommendation"], [
               ["Assay available", "Use the calibrated anti-Xa result to estimate residual drug effect."],
@@ -13327,42 +13346,49 @@ const tools = [
         });
         return {
           tone: bleedingRisk === "high" || bridgingNeeded ? tone.warning : tone.success,
-          headline: "Elective warfarin interruption plan",
-          summary: bleedingRisk === "high" ? "Use a full preoperative interruption plan and confirm INR is 1.5 or lower before surgery." : "Stop warfarin 5 days before surgery and check INR before the procedure.",
-          action: bridgingNeeded ? "Use LMWH bridging because thromboembolic risk is high." : "Bridging is not routinely needed.",
+          headline: "Elective perioperative warfarin plan",
+          summary: bleedingRisk === "high" ? "Use a full preoperative interruption plan and confirm INR is 1.5 or lower before surgery." : "Stop warfarin 5 to 6 days before surgery and check the INR before the procedure.",
+          action: bridgingNeeded ? "Bridging anticoagulation is warranted because thromboembolic risk is high." : "Bridging is not routinely required for this warfarin interruption plan.",
           metrics: buildMetrics([
             { label: "Anticoagulant", value: "Warfarin" },
-            { label: "Bleeding risk", value: sentenceCase(bleedingRisk) },
+            { label: "Bleeding risk", value: formatBleedingRiskLabel(bleedingRisk) },
             { label: "Thromboembolic risk", value: thromboembolicRisk.level },
-            { label: "INR", value: Number.isFinite(inr) ? formatScore(inr) : "Enter INR" }
+            { label: "INR", value: Number.isFinite(inr) ? formatScore(inr) : "Enter INR" },
+            { label: "Creatinine clearance", value: formatMetricValue(crcl, " mL/min") }
           ]),
           recommendations: [
-            { label: "Pre-op hold", value: "Stop warfarin 5 days before surgery." },
+            { label: "Pre-op hold", value: "Stop warfarin 5 to 6 days before surgery." },
             {
               label: "Bridging",
-              value: bridgingNeeded ? "Therapeutic LMWH bridging is recommended." : "No LMWH bridging is recommended."
+              value: bridgingNeeded ? "Therapeutic LMWH bridging is recommended for high thromboembolic risk." : "No LMWH bridging is routinely recommended."
             },
             {
               label: "INR checkpoint",
-              value: inrTargetMet ? "INR is already 1.5 or lower." : "Repeat INR before surgery; if it remains above 1.5, use local reversal policy."
+              value: inrTargetMet ? "INR is already 1.5 or lower and no additional reversal is usually required." : "Check INR the day before surgery. If INR remains above 1.4 to 1.5, administer vitamin K according to the perioperative protocol."
             },
-            { label: "Post-op restart", value: "Restart warfarin the evening of surgery if hemostasis is secure." }
+            { label: "Post-op restart", value: "Restart warfarin as soon as the patient is drinking fluids and if further operative intervention is not anticipated." }
           ],
-          tables: [buildTable("Perioperative schedule", ["Day", "Instructions"], schedule)],
-          supporting: [thromboembolicRisk.rationale]
+          tables: [
+            buildTable("Summary", ["Item", "Value"], summaryRows),
+            buildTable("Day-by-day perioperative schedule", ["Day", "Instructions"], schedule)
+          ],
+          supporting: [
+            thromboembolicRisk.rationale,
+            bridgingNeeded ? "Resume therapeutic-dose LMWH 24 to 48 hours after surgery when hemostasis is secure, and discontinue LMWH once the INR is therapeutic." : "Resume the anticoagulant the following day after low-risk procedures if hemostasis is secure."
+          ]
         };
       }
       const holdPlan = getElectiveDoacHoldPlan(drug, bleedingRisk, crcl);
       const restartWindow = getDoacRestartWindow(bleedingRisk);
       return {
         tone: bleedingRisk === "high" ? tone.warning : tone.success,
-        headline: "Elective DOAC interruption plan",
+        headline: "Elective perioperative DOAC plan",
         summary: holdPlan.rationale,
-        action: restartWindow,
+        action: `Hold ${sentenceCase(drug)} according to bleeding risk and renal function, then ${restartWindow.toLowerCase()}`,
         metrics: buildMetrics([
           { label: "Anticoagulant", value: sentenceCase(drug) },
           { label: "CrCl", value: formatMetricValue(crcl, " mL/min") },
-          { label: "Bleeding risk", value: sentenceCase(bleedingRisk) },
+          { label: "Bleeding risk", value: formatBleedingRiskLabel(bleedingRisk) },
           { label: "Thromboembolic risk", value: thromboembolicRisk.level }
         ]),
         recommendations: [
@@ -13370,9 +13396,13 @@ const tools = [
           { label: "Bridging", value: "LMWH bridging is not routinely recommended for DOAC interruption." },
           { label: "Post-op restart", value: restartWindow }
         ],
-        tables: [buildTable("Perioperative schedule", ["Day", "Instructions"], buildDoacSchedule({ holdPlan, restartWindow, surgeryType }))],
+        tables: [
+          buildTable("Summary", ["Item", "Value"], summaryRows),
+          buildTable("Day-by-day perioperative schedule", ["Day", "Instructions"], buildDoacSchedule({ holdPlan, restartWindow, surgeryType }))
+        ],
         supporting: [
           "If assay data are unavailable, estimate residual DOAC effect from dosing schedule, timing of the last dose, and creatinine clearance.",
+          "Stop DOAC on the day of intervention and restart the following day only for lower bleeding risk procedures with secure hemostasis.",
           thromboembolicRisk.rationale
         ]
       };
@@ -13380,7 +13410,7 @@ const tools = [
   },
   {
     id: "af-dosing",
-    title: "AF Anticoagulant Dosing Guide",
+    title: "Anticoagulant Dosing in Atrial Fibrillation",
     shortTitle: "AF Dosing",
     type: "algorithm",
     category: "algorithm",
@@ -13506,9 +13536,9 @@ const tools = [
         summary: strokeInterpretation,
         action: warfarinOnly ? "Prescribe warfarin rather than a DOAC unless a specialist pathway says otherwise." : "Review all applicable anticoagulant options below, then balance stroke prevention against bleeding risk and patient preference.",
         metrics: buildMetrics([
-          { label: "CrCl", value: formatMetricValue(crcl, " mL/min") },
+          { label: "Creatinine clearance", value: formatMetricValue(crcl, " mL/min") },
           { label: "CHA2DS2-VASc", value: `${cha2ds2Vasc}` },
-          { label: "CHADS2", value: `${chads2}` },
+          { label: "CHADS Score", value: `${chads2}` },
           { label: "Preferred route", value: warfarinOnly ? "Warfarin" : "DOAC or warfarin" }
         ]),
         recommendations: [
@@ -13532,14 +13562,18 @@ const tools = [
           "If another warfarin indication exists, DOACs are generally not recommended in this tool.",
           "Concomitant use of potent P-gp or specific CYP inhibitors or inducers may impact anticoagulant levels. Consult the product monograph for specific recommendations.",
           "Including but not limited to carvedilol, clarithromycin, cyclosporin, erythromycin, itraconazole, ketoconazole, dronedarone, lapatinib, lopinavir, propafenone, quinidine, ranolazine, ritonavir, saquinavir, telaprevir, and tipranavir.",
-          "Dose reduction of edoxaban is not required with concomitant use of verapamil or amiodarone."
+          "Dose reduction of edoxaban is not required with concomitant use of verapamil or amiodarone.",
+          "CHA2DS2-VASc may be relatively insensitive or unspecific to predict stroke risk.",
+          "If age is the only risk factor, there is a graded increase in stroke risk from age 65 to 75.",
+          "Females may not have a higher risk of stroke independent of other risk factors.",
+          "The risk stratification does not incorporate the severity of risk factors such as poorly controlled versus well controlled hypertension."
         ]
       };
     }
   },
   {
     id: "thrombophilia",
-    title: "Thrombophilia Testing Triage",
+    title: "Thrombophilia Testing Algorithm",
     shortTitle: "Thrombophilia",
     type: "algorithm",
     category: "algorithm",
@@ -13628,17 +13662,23 @@ const tools = [
         ["DOAC", "Interrupt for at least 2 days; use 4 days for dabigatran if CrCl is below 50 mL/min."],
         ["UFH or LMWH", "Interrupt for at least 24 hours before clot-based testing."]
       ];
+      const patientSummaryRows = [
+        ["Is this the patient's first VTE?", values.firstVte === "yes" ? "Yes" : "No"],
+        ["Where is the VTE?", values.vteSite === "unusual" ? "Unusual site" : "Usual site"],
+        ["Is the VTE provoked or unprovoked?", sentenceCase(values.provocation ?? "unprovoked")]
+      ];
       if (!values.managementWouldChange) {
         return {
           tone: tone.success,
-          headline: "Do not test routinely",
-          summary: "Only consider thrombophilia testing if the result will change management, counseling, or future pregnancy planning.",
+          headline: "Thrombophilia testing is not required for most patients",
+          summary: "Only consider thrombophilia testing if the result will change management, counseling, family planning, or future pregnancy planning.",
           action: "Avoid ordering broad panels when the result would not change treatment decisions.",
           metrics: buildMetrics([
             { label: "Specialist triggers", value: `${triggerCount}` },
             { label: "On anticoagulation", value: values.onAnticoagulation ? "Yes" : "No" }
           ]),
           tables: [
+            buildTable("Patient summary", ["Question", "Answer"], patientSummaryRows),
             buildTable("Tests that can be done during anticoagulation", ["Test", "Comment"], [
               ["Factor V Leiden mutation", "DNA-based test; anticoagulants do not interfere."],
               ["Prothrombin gene mutation", "DNA-based test; anticoagulants do not interfere."],
@@ -13647,13 +13687,17 @@ const tools = [
             ]),
             buildTable("Anticoagulant interruption rules", ["Anticoagulant", "Interruption"], interruptionRows)
           ],
-          supporting: ["This recommendation is designed to reduce low-value testing."]
+          supporting: [
+            "Consider testing if one or more of the following are present: concomitant arterial disease, age under 50 years, strong family history, CBC abnormalities, or autoimmune disease.",
+            "Consider APS testing especially in arterial or recurrent events or recurrent pregnancy loss; if abnormal, repeat at 12 weeks and refer.",
+            "Anticoagulants can interfere with many thrombophilia tests, so timing matters."
+          ]
         };
       }
       return {
         tone: tone.warning,
-        headline: triggerCount > 0 ? "Testing can be considered with specialist input" : "Use selective thrombophilia testing",
-        summary: triggerCount > 0 ? "At least one specialist trigger is present. Test selectively and focus on results that could alter management." : "The history is not strongly suggestive, so any testing should be tightly targeted to the clinical question.",
+        headline: "Thrombophilia testing is not required for most patients",
+        summary: triggerCount > 0 ? "At least one specialist trigger is present. Consider thrombophilia testing with specialist input and focus on results that could alter management." : "The history is not strongly suggestive, so any testing should be tightly targeted to the clinical question.",
         action: values.onAnticoagulation && values.anticoagulantClass !== "none" ? `Pause clot-based testing until ${values.anticoagulantClass === "warfarin" ? "warfarin has been stopped for at least 1 week" : values.anticoagulantClass === "doac" ? "the DOAC has been stopped for at least 2 days" : "UFH or LMWH has been stopped for at least 24 hours"}.` : "Proceed only with tests that will change anticoagulant duration, counseling, pregnancy planning, or workup for an acquired thrombophilia.",
         metrics: buildMetrics([
           { label: "Specialist triggers", value: `${triggerCount}` },
@@ -13662,13 +13706,14 @@ const tools = [
           { label: "Provocation", value: sentenceCase(values.provocation) }
         ]),
         recommendations: [
-          { label: "Testing stance", value: "Test only if management will change." },
+          { label: "Testing stance", value: "Only consider thrombophilia testing if the results will change management." },
           { label: "APS testing", value: apsSuggested ? "Suggested" : "Not specifically triggered" },
           { label: "MPN testing", value: mpnSuggested ? "Suggested" : "Not specifically triggered" },
           { label: "PNH testing", value: pnhSuggested ? "Suggested" : "Not specifically triggered" },
           { label: "HIT testing", value: hitSuggested ? "Suggested" : "Not specifically triggered" }
         ],
         tables: [
+          buildTable("Patient summary", ["Question", "Answer"], patientSummaryRows),
           buildTable("Tests that can be done during anticoagulation", ["Test", "Comment"], [
             ["Factor V Leiden mutation", "DNA-based test; anticoagulants do not interfere."],
             ["Prothrombin gene mutation", "DNA-based test; anticoagulants do not interfere."],
@@ -13685,14 +13730,15 @@ const tools = [
         ],
         supporting: [
           "Interpret clot-based assays only after the relevant anticoagulant interruption interval has been observed.",
-          "Acquired thrombophilia pathways often matter more than inherited thrombophilia panels in atypical presentations."
+          "Acquired thrombophilia pathways often matter more than inherited thrombophilia panels in atypical presentations.",
+          values.firstVte === "no" ? "For recurrent VTE or PE management, follow the acute management algorithms as well as the testing pathway." : "This pathway is most useful when deciding whether a first VTE warrants further thrombophilia evaluation."
         ]
       };
     }
   },
   {
     id: "vitt",
-    title: "VITT Clinical Screen",
+    title: "Diagnosing, Ruling Out and Managing VITT",
     shortTitle: "VITT",
     type: "algorithm",
     category: "algorithm",
@@ -13700,17 +13746,17 @@ const tools = [
     blurb: "Rapidly classify possible vaccine-induced immune thrombotic thrombocytopenia and highlight immediate management priorities.",
     tags: ["VITT", "platelets", "PF4", "emergency"],
     notes: [
-      "This section has been rebuilt as a structured acute-care workup rather than a generic screen.",
-      "Because the supplied VITT prompt was truncated, the symptom list is completed using the standard high-risk presentations used in practice."
+      "Use this only for suspected vaccine-induced immune thrombotic thrombocytopenia within the recognized post-vaccination window.",
+      "The output emphasizes presumptive diagnosis, urgent hematology review, and non-heparin anticoagulation."
     ],
     inputs: [
       { id: "daysSinceVaccination", label: "Days since vaccination", type: "number", min: 0, step: 1 },
       { id: "severeHeadache", label: "Persistent and severe headache", type: "checkbox" },
       { id: "focalNeurology", label: "Focal neurological symptoms, seizures, or blurred or double vision", type: "checkbox" },
-      { id: "abdominalPain", label: "Severe abdominal pain", type: "checkbox" },
-      { id: "chestPainDyspnea", label: "Chest pain or shortness of breath", type: "checkbox" },
-      { id: "legPainSwelling", label: "Leg pain or unilateral leg swelling", type: "checkbox" },
-      { id: "bleedingOrPetechiae", label: "Petechiae, easy bruising, or bleeding away from the injection site", type: "checkbox" },
+      { id: "chestPainDyspnea", label: "Shortness of breath or chest pain", type: "checkbox" },
+      { id: "abdominalPain", label: "Abdominal pain", type: "checkbox" },
+      { id: "legPainSwelling", label: "Swelling and redness in a limb", type: "checkbox" },
+      { id: "limbIschemia", label: "Pallor and coldness in a limb", type: "checkbox" },
       { id: "plateletCount", label: "Platelet count (x10^9/L)", type: "number", min: 1, step: 1 },
       { id: "dDimerMarked", label: "D-dimer markedly elevated", type: "checkbox" },
       { id: "fibrinogenLow", label: "Fibrinogen low or falling", type: "checkbox" },
@@ -13733,29 +13779,29 @@ const tools = [
       const symptomCount = [
         values.severeHeadache,
         values.focalNeurology,
-        values.abdominalPain,
         values.chestPainDyspnea,
+        values.abdominalPain,
         values.legPainSwelling,
-        values.bleedingOrPetechiae
+        values.limbIschemia
       ].filter(Boolean).length;
-      const inWindow = Number.isFinite(days) && days >= 4 && days <= 42;
+      const inWindow = Number.isFinite(days) && days >= 4 && days <= 28;
       const thrombocytopenia = Number.isFinite(platelets) && platelets < 150;
       const probable = inWindow && symptomCount > 0 && thrombocytopenia && (values.thrombosisConfirmed || values.dDimerMarked || values.fibrinogenLow);
       const definite = probable && values.pf4Elisa === "positive";
       if (symptomCount === 0) {
         return {
           tone: tone.success,
-          headline: "VITT is not suggested by the current symptom profile",
+          headline: "No VITT work-up needed",
           summary: "No high-risk symptom cluster has been selected.",
-          action: "Reassess if severe headache, neurological change, abdominal pain, dyspnea, limb symptoms, or unusual bruising develops after vaccination.",
+          action: "Reassess promptly if severe headache, focal neurological symptoms, chest pain, dyspnea, abdominal pain, or limb ischemic symptoms develop after vaccination.",
           metrics: buildMetrics([{ label: "Symptoms selected", value: "0" }])
         };
       }
       if (!inWindow) {
         return {
           tone: tone.success,
-          headline: "Timing is not typical for VITT",
-          summary: "VITT usually presents 4 to 42 days after vaccination.",
+          headline: "VITT unlikely",
+          summary: "The timing is outside the typical 4 to 28 day window after vaccination.",
           action: "Investigate alternative explanations for thrombosis, thrombocytopenia, or systemic symptoms.",
           metrics: buildMetrics([
             { label: "Timing", value: Number.isFinite(days) ? `${days} days` : "Not entered" },
@@ -13766,8 +13812,8 @@ const tools = [
       if (!thrombocytopenia) {
         return {
           tone: tone.warning,
-          headline: "Symptoms are concerning but thrombocytopenia is not yet shown",
-          summary: "VITT usually includes a platelet count below 150 x10^9/L, so repeat blood work promptly if symptoms remain concerning.",
+          headline: "VITT less likely",
+          summary: "The symptom pattern is concerning, but thrombocytopenia below 150 x10^9/L has not yet been shown.",
           action: "Order CBC, D-dimer, fibrinogen, and targeted imaging based on symptoms. Repeat the CBC if symptoms continue to evolve.",
           metrics: buildMetrics([
             { label: "Timing", value: `${days} days` },
@@ -13786,9 +13832,9 @@ const tools = [
       }
       return {
         tone: definite ? tone.danger : tone.warning,
-        headline: definite ? "Definite or near-definite VITT pattern" : probable ? "Probable VITT: treat while confirming" : "Possible VITT: urgent work-up needed",
-        summary: definite ? "Timing, thrombocytopenia, thrombosis, coagulation abnormalities, and PF4 positivity align strongly with VITT." : probable ? "The syndrome is plausible even before PF4 confirmation because symptoms, thrombocytopenia, and coagulation abnormalities are already present." : "There is enough concern to complete a VITT work-up urgently, but the syndrome is not yet fully established.",
-        action: probable || definite ? "Start non-heparin anticoagulation if safe, give IVIG 1 g/kg daily for 2 days, and involve hematology urgently." : "Order CBC, D-dimer, fibrinogen, PF4 ELISA, and symptom-directed imaging urgently.",
+        headline: definite ? "Presumptive or confirmed VITT" : probable ? "Presumptive diagnosis of VITT" : "Possible VITT: urgent work-up needed",
+        summary: definite ? "Timing, thrombocytopenia, thrombosis, coagulation abnormalities, and PF4 positivity align strongly with VITT." : probable ? "Proceed to hematology for HIT-style PF4 testing and treat presumptive VITT without waiting for confirmatory results." : "There is enough concern to complete a VITT work-up urgently, but the syndrome is not yet fully established.",
+        action: probable || definite ? "Avoid heparin, avoid platelet transfusion, start a direct oral anti-Xa inhibitor if safe, give IVIG 1 g/kg daily for at least 2 days, and involve hematology urgently." : "Order CBC, D-dimer, fibrinogen, PF4 ELISA, and symptom-directed imaging urgently.",
         metrics: buildMetrics([
           { label: "Timing", value: `${days} days` },
           { label: "Platelets", value: `${platelets}` },
@@ -13799,8 +13845,9 @@ const tools = [
         ]),
         recommendations: [
           { label: "PF4 ELISA", value: values.pf4Elisa === "positive" ? "Positive" : values.pf4Elisa === "negative" ? "Negative" : "Pending" },
-          { label: "Heparin", value: probable || definite ? "Avoid heparin products." : "Do not use heparin until VITT is excluded if suspicion is meaningful." },
-          { label: "Platelet transfusion", value: "Avoid unless bleeding is life-threatening." }
+          { label: "Heparin", value: probable || definite ? "Do not use heparin." : "Avoid heparin until VITT is reasonably excluded." },
+          { label: "Platelet transfusion", value: "Do not give platelet transfusion unless bleeding is life-threatening." },
+          { label: "First-line anticoagulants", value: "Direct oral anti-Xa inhibitors such as rivaroxaban, apixaban, or edoxaban." }
         ],
         tables: [
           buildTable("Urgent work-up", ["Investigation", "Purpose"], [
@@ -13811,15 +13858,16 @@ const tools = [
             ["PF4 ELISA", "Preferred confirmatory assay; do not rely on rapid HIT tests."]
           ]),
           buildTable("Immediate treatment steps", ["Step", "Recommendation"], [
-            ["Anticoagulation", "Use a non-heparin anticoagulant if bleeding risk allows."],
-            ["Immune therapy", "Give IVIG 1 g/kg daily for 2 days if probable or definite VITT."],
+            ["Anticoagulation", "Use a non-heparin anticoagulant if bleeding risk allows; direct oral anti-Xa inhibitors are first line in this protocol."],
+            ["Immune therapy", "Give IVIG 1 g/kg daily for at least 2 days, especially for severe or life-threatening thrombosis."],
             ["Transfusion", "Avoid platelet transfusion unless bleeding is life-threatening."],
             ["Specialist review", "Discuss urgently with hematology and the relevant acute specialty."]
           ])
         ],
         supporting: [
-          "This tool assumes the standard high-risk VITT symptom cluster because the supplied prompt ended mid-list.",
-          "Use PF4 ELISA rather than a rapid HIT assay when testing is available."
+          "Send PF4 ELISA testing before treatment if possible, but do not delay treatment while waiting for results.",
+          "All suspected adverse events following immunization, including presumptive and confirmed VITT, should be reported through the provincial AEFI pathway.",
+          "Pai M, Grill A, Ivers N, et al. Vaccine-induced prothrombotic immune thrombocytopenia VIPIT following AstraZeneca COVID-19 vaccination. Science Briefs of the Ontario COVID-19 Science Advisory Table. 2021;1(17)."
         ]
       };
     }
@@ -23605,25 +23653,25 @@ function AppSidebar({
 const siteName = "Blood🩸Doctor CoagVision";
 const toneMeta = {
   success: {
-    label: "Low-friction",
+    label: "Ready to use",
     icon: CircleCheckBig
   },
   warning: {
-    label: "Clinical caution",
+    label: "Review carefully",
     icon: CircleAlert
   },
   danger: {
-    label: "High-risk output",
+    label: "Urgent attention",
     icon: ShieldAlert
   },
   neutral: {
-    label: "Decision support",
+    label: "Clinical support",
     icon: BadgeCheck
   }
 };
 const globalToolDisclaimer = {
   text: "These general recommendations do not replace clinical judgement. Physicians must consider relative risks and benefits for each individual patient and consult with appropriate specialists.",
-  source: "Clinical tools suite | Version 22"
+  source: "Version 22"
 };
 const normalizeValue = (value) => value.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
 const getPageForToolId = (toolId) => tools.find((tool) => tool.id === toolId)?.category === "algorithm" ? "algorithms" : "scores";

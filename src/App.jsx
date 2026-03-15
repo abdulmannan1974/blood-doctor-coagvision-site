@@ -29,19 +29,19 @@ const siteName = "Blood🩸Doctor CoagVision";
 
 const toneMeta = {
   success: {
-    label: "Low-friction",
+    label: "Ready to use",
     icon: CircleCheckBig,
   },
   warning: {
-    label: "Clinical caution",
+    label: "Review carefully",
     icon: CircleAlert,
   },
   danger: {
-    label: "High-risk output",
+    label: "Urgent attention",
     icon: ShieldAlert,
   },
   neutral: {
-    label: "Decision support",
+    label: "Clinical support",
     icon: BadgeCheck,
   },
 };
@@ -49,7 +49,7 @@ const toneMeta = {
 const globalToolDisclaimer = {
   text:
     "These general recommendations do not replace clinical judgement. Physicians must consider relative risks and benefits for each individual patient and consult with appropriate specialists.",
-  source: "Clinical tools suite | Version 22",
+  source: "Version 22",
 };
 
 const normalizeValue = (value) => value.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
@@ -1346,7 +1346,7 @@ function ResultPanel({ result }) {
       <div className="tool-disclaimer">
         <span className="eyebrow">Clinical disclaimer</span>
         <p>{globalToolDisclaimer.text}</p>
-        <small>{globalToolDisclaimer.source}</small>
+        {globalToolDisclaimer.source ? <small>{globalToolDisclaimer.source}</small> : null}
       </div>
     </section>
   );
