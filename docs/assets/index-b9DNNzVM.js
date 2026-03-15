@@ -22675,7 +22675,14 @@ const metaPrefixes = [
   "**Total Tools**:"
 ];
 const sectionTitleBlacklist = [
-  "access urls"
+  "access urls",
+  "related clinical guides",
+  "other relevant clinical guides",
+  "other relevant clinical tool",
+  "related clinical tool",
+  "help sustain trusted thrombosis guidance",
+  "clinical guide collection",
+  "source"
 ];
 const genericSourcePatterns = [
   /clinical guide/i,
@@ -22686,7 +22693,13 @@ const genericSourcePatterns = [
   /bilingual/i,
   /ongoing expert review and regular updates ensure/i,
   /your support helps protect the quality and continuity/i,
-  /donate-2/i
+  /donate-2/i,
+  /help sustain trusted thrombosis guidance/i,
+  /please note that the information contained herein/i,
+  /date of version/i,
+  /^\*?source:/i,
+  /^\*?scraped/i,
+  /^title:/i
 ];
 const tabMeta = {
   overview: {
@@ -22711,10 +22724,38 @@ const tabMeta = {
   }
 };
 const collapseWhitespace = (value) => value.replace(/\s+/g, " ").trim();
-const normalizeMarkdownStructure = (markdown) => markdown.replace(/\r/g, "").replace(/([^\n])\s+---\s+(#{1,4}\s+)/g, "$1\n\n$2").replace(/([^\n])\s+(#{1,4}\s+)/g, "$1\n\n$2").replace(/^(#{1,4})\s+\*\*([^*]+?)\*\*:?\s*$/gm, "$1 $2").replace(/^(#{1,4})\s+(.+?):\s*$/gm, "$1 $2").replace(/\n{3,}/g, "\n\n");
+const splitCollapsedPipeRows = (markdown) => markdown.split("\n").flatMap((line) => {
+  const trimmed = line.trim();
+  if (!trimmed.includes("|") || !trimmed.startsWith("|")) {
+    return [line];
+  }
+  return trimmed.replace(/\|\s+\|(?=\s*(?:\*\*[^*]+\*\*|[^|\n]{2,}\|))/g, "|\n|").split("\n");
+}).join("\n");
+const splitHeadingTableJoins = (markdown) => markdown.replace(
+  /^(#{1,4}\s+[^|\n]+?)\s+(\|[^|\n].*)$/gm,
+  "$1\n\n$2"
+);
+const normalizeMarkdownStructure = (markdown) => splitCollapsedPipeRows(
+  splitHeadingTableJoins(
+    markdown.replace(/\r/g, "").replace(/([^\n])\s+---\s+(#{1,4}\s+)/g, "$1\n\n$2").replace(/([^\n])\s+(#{1,4}\s+)/g, "$1\n\n$2").replace(/^(#{1,4})\s+\*\*([^*]+?)\*\*:\s*(.+)$/gm, "$1 $2\n\n$3").replace(/^(#{1,4})\s+([^:\n]+):\s*(.+)$/gm, "$1 $2\n\n$3").replace(/^(#{1,4})\s+\*\*([^*]+?)\*\*:?\s*$/gm, "$1 $2").replace(/^(#{1,4})\s+(.+?):\s*$/gm, "$1 $2").replace(/^\*\*\*([^*]+?)\*\*\*:\s*(.+)$/gm, "### $1\n\n$2").replace(/^\*\*([^*]+)\*\*:\s*(.+)$/gm, "### $1\n\n$2").replace(/^\*\*([^*]+)\*\*:\s*$/gm, "### $1").replace(/^\*\*\*([^*]+?)\*\*\*$/gm, "### $1").replace(/^\*\*([^*]+?)\*\*$/gm, "### $1").replace(/^\*\*(\d+\.\s*[^*]+)\*\*$/gm, "### $1").replace(/^([A-Z][A-Za-z /()-]{2,}):\s*$/gm, "### $1").replace(/^([A-Z][A-Za-z /()-]{2,}):\s+(.+)$/gm, "### $1\n\n$2").replace(/^###\s*$/gm, "").replace(/\n{2,}(#{1,4}\s+[^\n]+)\n+\1\n+/g, "\n\n$1\n\n").replace(/\n{3,}/g, "\n\n")
+  )
+);
 const stripMarkdown$1 = (value) => collapseWhitespace(
   value.replace(/`([^`]+)`/g, "$1").replace(/\*\*([^*]+)\*\*/g, "$1").replace(/\*([^*]+)\*/g, "$1").replace(/\[([^\]]+)\]\(([^)]+)\)/g, "$1")
 );
+const isDiscardableLine = (value) => {
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return true;
+  }
+  if (/^!\[[^\]]*\]\([^)]+\)$/.test(trimmed) || genericSourcePatterns.some((pattern) => pattern.test(trimmed))) {
+    return true;
+  }
+  if (/^(\[https?:\/\/[^\]]+\]\([^)]+\)|https?:\/\/\S+)$/i.test(trimmed) || /^(\*+)?source:/i.test(trimmed) || /^(\*+)?scraped/i.test(trimmed) || /^(\*+)?date of version/i.test(trimmed)) {
+    return true;
+  }
+  return false;
+};
 const debrandContent = (markdown) => markdown.replace(/Other Relevant Thrombosis Canada Clinical Guides/gi, "Related Clinical Guides").replace(/Relevant Thrombosis Canada Clinical Tool/gi, "Related Clinical Tool").replace(/Thrombosis Canada Clinical Guides/gi, "Clinical Guide Collection").replace(/Thrombosis Canada Clinical Guide/gi, "Clinical Guide").replace(/Thrombosis Canada website/gi, "clinical workspace").replace(/Thrombosis Canada Perioperative Management Clinical Guides/gi, "perioperative management clinical guides").replace(/Thrombosis Canada/gi, "").replace(/\s{2,}/g, " ");
 const sanitizeMarkdown = (markdown) => normalizeMarkdownStructure(markdown).split("\n").filter((line) => {
   const trimmed = line.trim();
@@ -22727,20 +22768,99 @@ const sanitizeMarkdown = (markdown) => normalizeMarkdownStructure(markdown).spli
   if (metaPrefixes.some((prefix) => trimmed.startsWith(prefix))) {
     return false;
   }
-  if (genericSourcePatterns.some((pattern) => pattern.test(trimmed))) {
+  if (isDiscardableLine(trimmed)) {
     return false;
   }
   return true;
-}).join("\n").replace(/##\s+Access URLs[\s\S]*$/i, "").replace(/```\s*```/g, "").replace(/\n{3,}/g, "\n\n").replace(/\n+\*Source:[^\n]*$/gim, "").replace(/\n+source:[^\n]*$/gim, "").replace(/\n+\*Scraped from[^\n]*$/gim, "").replace(/\n{3,}/g, "\n\n").trim();
+}).join("\n").replace(/##\s+Access URLs[\s\S]*$/i, "").replace(/```\s*```/g, "").replace(/\n{3,}/g, "\n\n").replace(/\n+###\s+Help sustain trusted thrombosis guidance[\s\S]*$/i, "").replace(/\n+\*Please note that the information contained herein[\s\S]*$/i, "").replace(/\n+\*\*Date of Version\**:?[^\n]*$/gim, "").replace(/\n+\*Source:[^\n]*$/gim, "").replace(/\n+source:[^\n]*$/gim, "").replace(/\n+\*Scraped from[^\n]*$/gim, "").replace(/\n{3,}/g, "\n\n").trim();
+const normalizeSectionTitle = (value) => stripMarkdown$1(value).toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+const buildStructuredCard = (section, title = section.title, summary = "") => {
+  const blocks = parseBlocks(section.content, title);
+  return {
+    title: debrandContent(title).trim(),
+    summary: summary || summarizeCard(blocks),
+    blocks,
+    wide: blocks.some(
+      (block) => block.type === "table" || block.type === "code" || block.type === "reference-list" || (block.type === "bullet-list" || block.type === "ordered-list") && block.items.length > 5
+    )
+  };
+};
+function buildAsaGuideContent(markdown) {
+  const sections = splitSections(markdown);
+  const usedIndexes = /* @__PURE__ */ new Set();
+  const takeSection = (matcher) => {
+    const index = sections.findIndex((section, sectionIndex) => {
+      if (usedIndexes.has(sectionIndex)) {
+        return false;
+      }
+      const normalized = normalizeSectionTitle(section.title);
+      return typeof matcher === "function" ? matcher(normalized, section) : normalized.includes(matcher);
+    });
+    if (index === -1) {
+      return null;
+    }
+    usedIndexes.add(index);
+    return sections[index];
+  };
+  const overviewCards = [
+    takeSection((title) => title === "objective"),
+    takeSection((title) => title === "background"),
+    takeSection((title) => title.includes("mechanism of action"))
+  ].filter(Boolean).map((section) => buildStructuredCard(section));
+  const applicationCards = [
+    [takeSection((title) => title === "indications"), "Indications", "Core clinical uses and indications for ASA therapy."],
+    [takeSection((title) => title === "cardiac"), "Cardiac indications", "Symptomatic coronary disease, coronary intervention, and prosthetic valve use cases."],
+    [takeSection((title) => title.includes("cerebrovascular")), "Cerebrovascular indications", "Stroke, TIA, and carotid endarterectomy indications."],
+    [takeSection((title) => title.includes("peripheral arterial disease")), "Peripheral arterial disease", "Symptomatic PAD and vascular intervention considerations."],
+    [takeSection((title) => title.includes("primary prevention")), "Primary prevention", "When ASA should generally not be used for first-event prevention."],
+    [takeSection((title) => title.includes("secondary prevention of recurrent vte")), "Secondary prevention of recurrent VTE", "Where ASA may be considered only if extended anticoagulation is unacceptable."],
+    [takeSection((title) => title.includes("thromboprophylaxis following joint arthroplasty")), "Thromboprophylaxis after arthroplasty", "Joint arthroplasty pathways using rivaroxaban followed by ASA."],
+    [takeSection((title) => title.includes("prevention of preeclampsia")), "Pregnancy and preeclampsia prevention", "Moderate- to high-risk pregnancy prevention timing."],
+    [takeSection((title) => title === "dosing"), "Dosing", "Standard daily dosing, ACS loading, stroke dosing, and gastrointestinal protection notes."],
+    [takeSection((title) => title.includes("adverse effects")), "Adverse effects", "Common and serious adverse effects that should be reviewed with patients."],
+    [takeSection((title) => title.includes("peri procedural management")), "Peri-procedural management", "How to approach interruption and restart around procedures."],
+    [takeSection((title) => title.includes("special considerations")), "Special considerations", "Concomitant anticoagulation, NSAID avoidance, bleeding risk, and asthma cautions."],
+    [takeSection((title) => title.includes("pediatrics")), "Pediatrics", "When paediatric or haematology expertise should be involved."]
+  ].filter(([section]) => Boolean(section)).map(([section, title, summary]) => buildStructuredCard(section, title, summary));
+  const referenceCards = [
+    takeSection((title) => title === "references")
+  ].filter(Boolean).map((section) => buildStructuredCard(section, "References", "Supporting evidence and bibliography for ASA guidance."));
+  return {
+    tabs: [
+      overviewCards.length ? {
+        id: "overview",
+        label: tabMeta.overview.label,
+        descriptor: tabMeta.overview.descriptor,
+        cards: overviewCards
+      } : null,
+      applicationCards.length ? {
+        id: "application",
+        label: tabMeta.application.label,
+        descriptor: tabMeta.application.descriptor,
+        cards: applicationCards
+      } : null,
+      referenceCards.length ? {
+        id: "references",
+        label: tabMeta.references.label,
+        descriptor: tabMeta.references.descriptor,
+        cards: referenceCards
+      } : null
+    ].filter(Boolean),
+    searchIndex: [...overviewCards, ...applicationCards, ...referenceCards].map((card) => stripMarkdown$1(card.title)).join(" • ")
+  };
+}
 const buildClinicalContent = (markdown) => {
   const cleaned = debrandContent(sanitizeMarkdown(markdown)).replace(/\n{3,}/g, "\n\n").trim();
+  if (/acetylsalicylic acid \(asa\)/i.test(cleaned)) {
+    return buildAsaGuideContent(cleaned);
+  }
   const sections = splitSections(cleaned);
   const grouped = sections.reduce((accumulator, section) => {
     const group = groupForSection(section.title);
     if (!accumulator[group]) {
       accumulator[group] = [];
     }
-    const blocks = parseBlocks(section.content);
+    const blocks = parseBlocks(section.content, section.title);
     accumulator[group].push({
       title: debrandContent(section.title).trim(),
       summary: summarizeCard(blocks),
@@ -22764,13 +22884,20 @@ const splitSections = (markdown) => {
   const lines = markdown.split("\n");
   let current = null;
   let hasSeenPrimaryTitle = false;
+  let primaryTitle = "";
   for (const line of lines) {
     const headingMatch = line.match(/^(#{1,4})\s+(.+)$/);
     if (headingMatch) {
       const level = headingMatch[1].length;
       const headingTitle = headingMatch[2].trim();
+      const cleanedHeadingTitle = stripMarkdown$1(debrandContent(headingTitle));
+      const normalizedHeadingTitle = cleanedHeadingTitle.toLowerCase();
       if (level === 1 && !hasSeenPrimaryTitle) {
         hasSeenPrimaryTitle = true;
+        primaryTitle = normalizedHeadingTitle;
+        continue;
+      }
+      if (level === 1 && normalizedHeadingTitle === primaryTitle) {
         continue;
       }
       if (current) {
@@ -22780,7 +22907,7 @@ const splitSections = (markdown) => {
         });
       }
       current = {
-        title: headingTitle,
+        title: cleanedHeadingTitle,
         content: []
       };
       continue;
@@ -22800,7 +22927,7 @@ const splitSections = (markdown) => {
     });
   }
   return sections.filter((section) => {
-    const normalizedTitle = section.title.toLowerCase();
+    const normalizedTitle = stripMarkdown$1(section.title).toLowerCase();
     return section.content && !sectionTitleBlacklist.includes(normalizedTitle);
   });
 };
@@ -22822,7 +22949,12 @@ const parseTable = (lines, startIndex) => {
   }
   const parseCells = (row) => row.replace(/^\|/, "").replace(/\|$/, "").split("|").map((cell) => collapseWhitespace(cell));
   const headers = parseCells(rows[0]);
-  const bodyRows = rows.slice(2).map(parseCells);
+  const bodyRows = rows.slice(2).map(parseCells).map((row) => {
+    if (row.length >= headers.length) {
+      return row.slice(0, headers.length);
+    }
+    return [...row, ...Array.from({ length: headers.length - row.length }, () => "")];
+  }).filter((row) => row.some((cell) => cell));
   return {
     nextIndex: cursor,
     block: {
@@ -22870,12 +23002,12 @@ const parseList = (lines, startIndex, kind) => {
   };
 };
 const parseFact = (line) => {
-  const match = line.match(/^\*\*([^*]+)\*\*:\s*(.+)$/);
+  const match = line.match(/^(?:\*\*([^*]+)\*\*|([A-Z][A-Za-z /()-]{2,})):\s*(.+)$/);
   if (!match) {
     return null;
   }
-  const label = collapseWhitespace(match[1]);
-  const value = collapseWhitespace(match[2]);
+  const label = collapseWhitespace(match[1] ?? match[2]);
+  const value = collapseWhitespace(match[3]);
   const calloutLabel = label.toLowerCase();
   if (["note", "important", "warning", "caution", "clinical pearl", "key point"].includes(calloutLabel)) {
     return {
@@ -22891,14 +23023,50 @@ const parseFact = (line) => {
     value
   };
 };
-const parseBlocks = (content) => {
+const parseReferenceItems = (content) => content.split(/\n\s*\n|\n/).map(
+  (line) => collapseWhitespace(
+    line.replace(/^[-*]\s+/, "").replace(/^\d+\.\s+/, "").replace(/^•\s+/, "").replace(/^References?:?\s*/i, "")
+  )
+).filter(
+  (line) => line && !/^date of version/i.test(line) && !/^please note that/i.test(line) && !/^source:/i.test(line) && !/^help sustain/i.test(line)
+);
+const parseBlocks = (content, sectionTitle = "") => {
+  if (/reference/i.test(sectionTitle)) {
+    const references = parseReferenceItems(content);
+    if (references.length) {
+      return [
+        {
+          type: "reference-list",
+          items: references
+        }
+      ];
+    }
+  }
   const lines = content.split("\n");
   const blocks = [];
   let index = 0;
   while (index < lines.length) {
     const rawLine = lines[index];
     const line = rawLine.trim();
-    if (!line || line === "---") {
+    if (!line || line === "---" || isDiscardableLine(line)) {
+      index += 1;
+      continue;
+    }
+    if (line.startsWith("# ")) {
+      blocks.push({
+        type: "subheading",
+        level: 1,
+        text: line.replace(/^#\s+/, "").trim()
+      });
+      index += 1;
+      continue;
+    }
+    if (line.startsWith("## ")) {
+      blocks.push({
+        type: "subheading",
+        level: 2,
+        text: line.replace(/^##\s+/, "").trim()
+      });
       index += 1;
       continue;
     }
@@ -22954,7 +23122,7 @@ const parseBlocks = (content) => {
     index += 1;
     while (index < lines.length) {
       const next = lines[index].trim();
-      if (!next || next === "---" || next.startsWith("### ") || next.startsWith("#### ") || next.startsWith("```") || /^[-*]\s+/.test(next) || /^\d+\.\s+/.test(next) || parseFact(next) || parseTable(lines, index)) {
+      if (!next || next === "---" || isDiscardableLine(next) || next.startsWith("# ") || next.startsWith("## ") || next.startsWith("### ") || next.startsWith("#### ") || next.startsWith("```") || /^[-*]\s+/.test(next) || /^\d+\.\s+/.test(next) || parseFact(next) || parseTable(lines, index)) {
         break;
       }
       paragraph.push(next);
@@ -22968,20 +23136,20 @@ const parseBlocks = (content) => {
   return blocks;
 };
 const groupForSection = (title) => {
-  const normalized = title.toLowerCase();
-  if (normalized === "overview") {
+  const normalized = stripMarkdown$1(title).toLowerCase();
+  if (normalized === "overview" || normalized.includes("objective") || normalized.includes("background") || normalized.includes("anatomy")) {
     return "overview";
   }
   if (normalized.includes("reference")) {
     return "references";
   }
-  if (normalized.includes("interpretation") || normalized.includes("risk class") || normalized.includes("risk category") || normalized.includes("mortality") || normalized.includes("diagnostic criteria")) {
+  if (normalized.includes("interpretation") || normalized.includes("risk class") || normalized.includes("risk category") || normalized.includes("mortality") || normalized.includes("diagnostic criteria") || normalized.includes("score interpretation")) {
     return "interpretation";
   }
-  if (normalized.includes("criteria") || normalized.includes("step") || normalized.includes("formula") || normalized.includes("required inputs") || normalized.includes("panel") || normalized.includes("threshold") || normalized.includes("interaction") || normalized.includes("selection") || normalized.includes("protocol")) {
+  if (normalized.includes("criteria") || normalized.includes("diagnosis") || normalized.includes("diagnostic strategy") || normalized.includes("step") || normalized.includes("formula") || normalized.includes("required inputs") || normalized.includes("panel") || normalized.includes("threshold") || normalized.includes("interaction") || normalized.includes("selection") || normalized.includes("protocol") || normalized.includes("algorithm") || normalized.includes("figure") || normalized.includes("table ")) {
     return "criteria";
   }
-  if (normalized.includes("clinical application") || normalized.includes("management") || normalized.includes("when to test") || normalized.includes("when not to test") || normalized.includes("consideration") || normalized.includes("important note") || normalized.includes("limitations") || normalized.includes("restart") || normalized.includes("surgery")) {
+  if (normalized.includes("clinical application") || normalized.includes("recommendation") || normalized.includes("preventative") || normalized.includes("management") || normalized.includes("when to test") || normalized.includes("when not to test") || normalized.includes("consideration") || normalized.includes("important note") || normalized.includes("limitations") || normalized.includes("restart") || normalized.includes("surgery")) {
     return "application";
   }
   return "application";
